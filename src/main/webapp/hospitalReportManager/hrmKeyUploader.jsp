@@ -1,0 +1,144 @@
+<%--
+
+    Copyright (c) 2001-2002. Department of Family Medicine, McMaster University. All Rights Reserved.
+    This software is published under the GPL GNU General Public License.
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+    This software was written for the
+    Department of Family Medicine
+    McMaster University
+    Hamilton
+    Ontario, Canada
+
+--%>
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<% 
+if(session.getValue("user") == null) response.sendRedirect("../../logout.jsp");
+%>
+
+<%@page contentType="text/html"%>
+<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean"%>
+<%@ taglib uri="/WEB-INF/oscar-tag.tld" prefix="oscar"%>
+
+<%
+String outcome = (String) request.getAttribute("outcome");
+String filePath = (String) request.getAttribute("filePath");
+String type = (String) request.getAttribute("type");
+if(outcome != null){
+    if(outcome.equals("success")){
+%><script type="text/javascript">alert("Key uploaded successfully");opener.updateLink(<%=filePath%>,<%=type%>);</script>
+<%
+    }else if(outcome.equals("exception")){
+%><script type="text/javascript">alert("Exception uploading the Key");</script>
+<%
+    }else{
+%><script type="text/javascript">alert("Failed to upload Key");</script>
+<%
+    }
+}
+%>
+
+
+<html>
+<head>
+<script type="text/javascript" src="<%= request.getContextPath() %>/js/global.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>HRM Key Uploader</title>
+<link rel="stylesheet" type="text/css"
+	href="../../../share/css/OscarStandardLayout.css">
+<link rel="stylesheet" type="text/css"
+	href="../share/css/OscarStandardLayout.css">
+<script type="text/javascript" src="../../../share/javascript/Oscar.js"></script>
+<script type="text/javascript" src="../share/javascript/Oscar.js"></script>
+<script type="text/javascript">
+            function selectOther(){                
+                if (document.UPLOAD.type.value == "PRIVATEKEY")
+                    document.getElementById('PRIVATEKEY').style.visibility = "visible";
+                else
+                    document.getElementById('PRIVATEKEY').style.visibility = "hidden";                
+            }
+            function checkInput(){
+                if (document.UPLOAD.lab.value ==""){
+                    alert("Please select a file to upload");
+                    return false;
+                }else if (document.UPLOAD.type.value == "PRIVATEKEY" && document.UPLOAD.otherType.value == ""){
+                    alert("Please specify the other message type");
+                    return false;
+                }else{
+                    var lab = document.UPLOAD.lab.value;
+                    var ext = lab.substring((lab.length - 3), lab.length);
+                  //  if (ext != 'hl7' && ext != 'xml'){
+                  //      alert("Error: The lab must be either a .xml or .hl7 file");
+                  //      return false;
+                  //  }
+                }
+                return true;
+            }
+        </script>
+</head>
+
+<body>
+<form method='POST' name="UPLOAD" enctype="multipart/form-data"
+	action='<%=request.getContextPath()%>/hospitalReportManager/hrmKeyUploader.do'>
+<table align="center" class="MainTable">
+	<tr class="MainTableTopRow">
+		<td class="MainTableTopRowLeftColumn" width="175"><bean:message
+			key="demographic.demographiceditdemographic.msgPatientDetailRecord" />
+		</td>
+		<td class="MainTableTopRowRightColumn">
+		<table class="TopStatusBar">
+			<tr>
+				<td>Upload <!--i18n--></td>
+				<td>&nbsp;</td>
+				<td style="text-align: right"><a
+					href="javascript:popupStart(300,400,'Help.jsp')"><bean:message
+					key="global.help" /></a> | <a
+					href="javascript:popupStart(300,400,'About.jsp')"><bean:message
+					key="global.about" /></a> | <a
+					href="javascript:popupStart(300,400,'License.jsp')"><bean:message
+					key="global.license" /></a></td>
+			</tr>
+		</table>
+		</td>
+	</tr>
+	<tr>
+		<td><input type="submit" value="Upload the KEY"> </td>
+<!-- 			onclick="return checkInput()"> -->
+		<td>
+		<table>
+			<tr>
+				<td>Please select the key file:</td>
+				<td><input type="file" name="importFile"></td>
+			</tr>
+			<tr>
+				<td>Key type:</td>
+				<td><select name="type" onClick="selectOther()">
+					<option value="PRIVATEKEY">PRIVATE KEY</option>
+					<option value="DECRYPTIONKEY">DECRYPTION KEY</option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><input type='hidden' name="filePath" value="filePath"></td>
+			<tr>
+		</table>
+		</td>
+	</tr>
+</table>
+</form>
+
+</body>
+</html>

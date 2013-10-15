@@ -1,0 +1,71 @@
+<%@ page import="oscar.oscarRx.data.*,oscar.oscarProvider.data.ProviderMyOscarIdData,oscar.oscarDemographic.data.DemographicData,oscar.OscarProperties,oscar.log.*"%>
+<%@ taglib uri="/WEB-INF/oscar-tag.tld" prefix="oscar" %>
+<%/*
+ * Copyright (c) 2001-2002. Department of Family Medicine, McMaster University. All Rights Reserved. *
+ * This software is published under the GPL GNU General Public License. 
+ * This program is free software; you can redistribute it and/or 
+ * modify it under the terms of the GNU General Public License 
+ * as published by the Free Software Foundation; either version 2 
+ * of the License, or (at your option) any later version. * 
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. * * You should have received a copy of the GNU General Public License 
+ * along with this program; if not, write to the Free Software 
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. * 
+ * 
+ * <OSCAR TEAM>
+ * 
+ * This software was written for the 
+ * Department of Family Medicine 
+ * McMaster University 
+ * Hamilton 
+ * Ontario, Canada 
+ */%> 
+<script language="javascript" type="text/javascript">
+
+function newWindow(url) {
+	newwindow=window.open(url,'name','height=700,width=1000');
+	if (window.focus) {newwindow.focus()}
+	return false;
+}
+
+
+</script>
+
+<tr>
+	<td width="10%" height="37" bgcolor="#000000"><span class="ScreenTitle" >oscarRx</span></td>
+        <td width="100%" valign="bottom"  bgcolor="#000000" style="border-left: 2px solid #A9A9A9; padding-left: 5" height="0%" colspan="2">
+            <table width="100%" border="0" height="100%">
+                <tr>
+                    <td valign="bottom" style="color:white;" >     
+			
+<% 
+if (rx_enhance!=null && rx_enhance.equals("true")) { %>
+	<span class="ScreenTitle" >oscarRx</span>
+                   --<b><bean:message key="SearchDrug.nameText" /></b> <jsp:getProperty name="patient" property="firstName" /> <jsp:getProperty name="patient" property="surname" /> &nbsp;
+		     <b><bean:message key="SearchDrug.ageText" /></b> <jsp:getProperty name="patient" property="age" />
+                     <b>
+                     <oscar:phrverification styleId="verificationLink" demographicNo="<%=Integer.toString(demoNo)%>"><bean:message key="phr.verification.link"/></oscar:phrverification> &nbsp;
+                     <a style="color:white; "href="SelectPharmacy2.jsp" onclick="return newWindow('SelectPharmacy2.jsp')"><bean:message key="SearchDrug.PreferedPharmacy"/></a>:</b> <a  style="color:white;" href="javascript: function myFunction() {return false; }" onClick="showpic('Layer1');" id="Calcs" ><%=prefPharmacy%></a>
+<%}else {%>					
+					<b><bean:message key="SearchDrug.nameText" /></b> <jsp:getProperty name="patient" property="firstName" /> <jsp:getProperty name="patient" property="surname" />
+		     		<b><bean:message key="SearchDrug.ageText" /></b> <jsp:getProperty name="patient" property="age" />
+                    <b><a style="color:white; "href="SelectPharmacy2.jsp"><bean:message key="SearchDrug.PreferedPharmacy"/></a>:</b> <a  style="color:white;" href="javascript: function myFunction() {return false; }" onClick="showpic('Layer1');" id="Calcs" ><%=prefPharmacy%></a>
+<%} %>
+                  
+                    </td>
+                    <td valign="top" align="right">
+                        <span class="HelpAboutLogout" style="color:white;">
+							<a style="color:white;" href="javascript: popupFocusPage(200,700,'./drugrefInfo.jsp','Drugref Info');" >Drugref Info</a> |
+							<oscar:help keywords="2.2.4" key="app.top1" style="color:white;"/> |
+                            <a style="color:white;" href="<%=request.getContextPath()%>/oscarEncounter/About.jsp" target="_new">About</a>
+                            <!-- is this needed? 
+                            <a style="color:white;" href="Disclaimer.htm">Disclaimer</a> 
+                            -->
+                        </span>
+                    </td>
+                </tr>
+            </table>
+	</td>
+</tr>                            
