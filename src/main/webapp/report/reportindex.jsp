@@ -348,14 +348,14 @@ String today = now.get(Calendar.YEAR)+"-"+(now.get(Calendar.MONTH)+1)+"-"+now.ge
 			VALUE="<%=today%>" size=10></td>
 		<td><select name="sTime">
 			<%
-              for(int i=0; i<24; i++) {
+              for(int i=0; i<=24; i++) {
                 String timeString = i<12&&i>=0? (i+" am") : ((i==12?i:i-12)+ " pm") ;
             %>
 			<option value="<%=""+i%>" <%=i==8?"selected":""%>><%=timeString%></option>
 			<% } %>
 		</select> - <select name="eTime">
 			<%
-              for(int i=0; i<24; i++) {
+              for(int i=0; i<=24; i++) {
                 String timeString = i<12&&i>=0? (i+" am") : ((i==12?i:i-12)+ " pm") ;
             %>
 			<option value="<%=""+i%>" <%=i==20?"selected":""%>><%=timeString%></option>
