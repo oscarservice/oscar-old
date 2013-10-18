@@ -49,9 +49,11 @@ else if (orderByRequest.equals("file_name")) orderBy = EFormUtil.FILE_NAME;
 %>
 <%
 int count = 0; 
+int formsNum=0;
 Boolean isEformPortalEnable = OscarProperties.getInstance().getBooleanProperty("eformPortal_enable", "true");
 if (isEformPortalEnable) {
 	count = GetNewEformCount.getCount();
+	formsNum = GetNewEformCount.getFormsNum();
 	SetTime.inquiryTime();
 }
 %>
@@ -147,7 +149,7 @@ if (isEformPortalEnable) {
                                 <td class="eformInputHeading" onclick="openImport()" id="importHeading">&nbsp; Import eForm</td>
                                 <td class="eformInputHeading" onclick="openCreate()" id="createHeading">&nbsp; Create In Editor</td>
 								<% if (isEformPortalEnable) {%>
-                                <td class="eformInputHeading"  id="createHeading">&nbsp; <a href="../eform/connectportal.do">OscarForge eForm<span style="color:red">(<%=count %>)</span></a></td>
+                                <td class="eformInputHeading"  id="createHeading">&nbsp; <a href="../eform/connectportal.do">OscarForge eForm<span style="color:red">(<%=count %>/<%=formsNum%>)</span></a></td>
                                 <%} %>                                <td class="eformInputHeading" onclick="openDownload()" id="createHeading">&nbsp; Download eForms</td>
                                <!-- call eform generator-->
                                 <td class="eformInputHeading" onClick ="popupPage(400,960,'eformGenerator.jsp');return false;"id="createHeading"> &nbsp; eForm Generator</td>
