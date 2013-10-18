@@ -17,9 +17,6 @@ public class GetNewEformCount {
 		factory.setAddress(wsAddress+"ws/portal");
 		IOscarService service = (IOscarService)factory.create();
 		ConfigHttpConduit.config(service);
-		factory.getAddress();
-		factory.isLoadHandlers();
-		factory.getServiceClass();
 		String sql = "select * from eform_inquiry";
 		int count = 0 ;
 		ResultSet rs;
@@ -32,5 +29,17 @@ public class GetNewEformCount {
 			MiscUtils.getLogger().debug(e.toString());
 		}
 		return count;
+	}
+	
+	public static int getFormsNum(){
+		JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
+		factory.setServiceClass(IOscarService.class);
+		String wsAddress = OscarProperties.getInstance().getProperty("eformPortal_ws_url");
+		factory.setAddress(wsAddress+"ws/portal");
+		IOscarService service = (IOscarService)factory.create();
+		ConfigHttpConduit.config(service);
+		int formsNum =0 ;
+		formsNum=service.getEformsNum();
+		return formsNum;
 	}
 }

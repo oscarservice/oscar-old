@@ -36,5 +36,6 @@ public interface IOscarService {
 	@WebMethod
 	public int getNewEform(Date time);
 	
-
+	@WebMethod
+	public int getEformsNum();
 }
