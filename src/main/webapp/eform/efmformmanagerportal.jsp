@@ -126,7 +126,7 @@ $(function() {
 			<td>
 				<form action="../eform/searchfromportal.do" method="get" id="form1">
 				<div style="display:inline-block">
-					<img src="/oscar-eformportal/oscarEncounter/graphics/edit-find.png" alt="find">
+					<img src="<%=request.getContextPath()%>/oscarEncounter/graphics/edit-find.png" alt="find">
 					<select style="width:140px" id="select1">
 						<option value="All">All</option>
 						<option value="ByName">By Name</option>
