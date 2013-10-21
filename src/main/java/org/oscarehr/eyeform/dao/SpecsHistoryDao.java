@@ -52,6 +52,20 @@ public class SpecsHistoryDao extends AbstractDao<EyeformSpecsHistory> {
 	    return(results);	  
 	}
 	
+	public List<EyeformSpecsHistory> getRecentRecord(int demographicNo,
+			int appointmentNo, String type) {
+		String sql = "select x from "
+				+ modelClass.getSimpleName()
+				+ " x where x.demographicNo = ? and x.appointmentNo=? and x.type=? order by x.updateTime DESC";
+		Query query = entityManager.createQuery(sql);
+		query.setParameter(1, demographicNo);
+		query.setParameter(2, appointmentNo);
+		query.setParameter(3, type);
+
+		@SuppressWarnings("unchecked")
+		List<EyeformSpecsHistory> results = query.getResultList();
+		return (results);
+	}
 	public List<EyeformSpecsHistory> getByDateRange(int demographicNo,Date startDate, Date endDate) {
 		String sql="select x from "+modelClass.getSimpleName()+" x where x.demographicNo=? and x.date >= ? and x.date <=?";
 		Query query = entityManager.createQuery(sql);
@@ -113,5 +127,49 @@ public class SpecsHistoryDao extends AbstractDao<EyeformSpecsHistory> {
 	    List<EyeformSpecsHistory> results=query.getResultList();
 	    return(results);		
 	}
-	
+
+	public int getById(int demographicNo, int appointmentNo ,String type) {
+		String sql = "select x.id from "
+				+ modelClass.getSimpleName()
+				+ " x where x.demographicNo = ? and x.appointmentNo=? and x.type=? order by x.updateTime DESC";
+		Query query = entityManager.createQuery(sql);
+		query.setParameter(1, demographicNo);
+		query.setParameter(2, appointmentNo);
+		query.setParameter(3, type);
+
+		
+		//List<EyeformSpecsHistory> results = query.getResultList();
+		if (query.getResultList().isEmpty() ==false) {
+			String str = query.getResultList().get(0).toString();
+			int re = Integer.parseInt(str);
+			return (re);
+		} else {
+			return 0;
+		}
+
+	}
+
+	public String getByNote(int demographicNo, int appointmentNo, String type) {
+		String sql = "select x.note from "
+				+ modelClass.getSimpleName()
+				+ " x where x.demographicNo = ? and x.appointmentNo=? and x.type=? order by x.updateTime DESC";
+		Query query = entityManager.createQuery(sql);
+		query.setParameter(1, demographicNo);
+		query.setParameter(2, appointmentNo);
+		query.setParameter(3, type);
+
+		if (query.getResultList().isEmpty() == false) {
+			if (query.getResultList().get(0) == null) {
+				return null;
+			} else {
+			String str = query.getResultList().get(0).toString();
+
+			return (str);
+			}
+		} else {
+			return null;
+		}
+
+	}
+
 }
