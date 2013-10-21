@@ -1353,7 +1353,13 @@ public class EyeformAction extends DispatchAction {
             EyeformConsultationReport cp = (EyeformConsultationReport) crForm.get("cp");
             EyeformConsultationReport consultReport = null;
             
-            Integer id=cp.getId();				
+            //Integer id=cp.getId();
+        	Integer id = null;
+			if(request.getParameter("cp.id")!=null && request.getParameter("cp.id").trim().length()>0)
+				id = Integer.parseInt(request.getParameter("cp.id").trim());
+			else
+				id=cp.getId();
+			
 			if(id != null && id.intValue()>0 ) {
 				consultReport = dao.find(id);
 			} else {
@@ -1442,6 +1448,7 @@ public class EyeformAction extends DispatchAction {
 			
 			if(id != null && id.intValue()>0 ) {
 				consultReport = dao.find(id);
+				cp.setDate(consultReport.getDate());
 			} else {
 				consultReport = new EyeformConsultationReport();
 				
@@ -1479,7 +1486,10 @@ public class EyeformAction extends DispatchAction {
 			cp.setPlan(divy(wrap(cp.getPlan(),80)));
 
 			SimpleDateFormat sf = new SimpleDateFormat("MM/dd/yyyy");
-			request.setAttribute("date", sf.format(new Date()));
+			if(cp.getDate()!=null)
+				request.setAttribute("date", sf.format(cp.getDate()));
+			else
+				request.setAttribute("date", sf.format(new Date()));
 
 //			Billingreferral ref = billingreferralDao.getByReferralNo(String.valueOf(cp.getReferralId()));
 			request.setAttribute("refer", professionalSpecialist);
