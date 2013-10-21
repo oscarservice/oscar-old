@@ -31,7 +31,7 @@
             background-color: white;
         }
   </style>
-<script type="text/javascript" language="javascript" src="<%=request.getContextPath()%>/js/jquery-1.3.2.js"></script>
+<script type="text/javascript" language="javascript" src="<%=request.getContextPath()%>/js/jquery-1.3.2.min.js"></script>
 <script type="text/javascript">
 function newWindow(url, id) {
 	Popup = window.open(url,id,'toolbar=no,location=no,status=yes,menubar=no, scrollbars=yes,resizable=yes,width=700,height=600,left=200,top=0');
