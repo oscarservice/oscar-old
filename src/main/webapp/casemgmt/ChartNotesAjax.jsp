@@ -100,6 +100,8 @@ ArrayList<Integer> unEditableNotes = new ArrayList<Integer>();
 
 @SuppressWarnings("unchecked")
 ArrayList<NoteDisplay> notesToDisplay = (ArrayList<NoteDisplay>)request.getAttribute("notesToDisplay");
+ArrayList<NoteDisplay> notesToDisplay1 = (ArrayList<NoteDisplay>)request.getAttribute("notesToDisplay1");
+session.setAttribute("notesToDisplay1", notesToDisplay1);
 int noteSize = notesToDisplay.size();
 
 SimpleDateFormat jsfmt = new SimpleDateFormat("MMM dd, yyyy");
@@ -128,8 +130,9 @@ int maxId = 0;
 		//if we're editing a note, display it
 		//else check for last unsigned note and use it if present
 		if (cform.getCaseNote().getId() != null)
-		{
+		{	
 			savedId = cform.getCaseNote().getId();
+			session.setAttribute("savedId",savedId);
 		}
 
 		//Check user property for stale date and show appropriately
@@ -246,6 +249,8 @@ int maxId = 0;
 		
 		int currentNcId = 0;
 		String strCurrentNcId = null;
+		List<NoteDisplay> noteDisplays = new ArrayList<NoteDisplay>();
+		List<NoteDisplay> noteDisplays1 = new ArrayList<NoteDisplay>();
 		for (idx = 0; idx < noteSize; ++idx)
 		{
 
@@ -363,7 +368,8 @@ int maxId = 0;
 			<%
 				//display last saved note for editing
 				if (note.getNoteId()!=null && !"".equals(note.getNoteId()) && note.getNoteId().intValue() == savedId )
-				{
+				{	
+					
 					found = true;
 					%>
 						<script>

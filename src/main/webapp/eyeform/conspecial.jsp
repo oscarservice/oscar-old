@@ -26,10 +26,13 @@
 
 <%@ include file="/taglibs.jsp"%>
 <%@page import="org.oscarehr.eyeform.web.EyeformAction"%>
+<%@ page import="oscar.OscarProperties"%>
 <%
 	request.setAttribute("sections",EyeformAction.getMeasurementSections());
 	request.setAttribute("headers",EyeformAction.getMeasurementHeaders());
 	request.setAttribute("providers",EyeformAction.getActiveProviders());
+	oscar.OscarProperties props1 = oscar.OscarProperties.getInstance();
+	String eyeform = props1.getProperty("cme_js");
 %>
 <tr>	
             <td colspan=2 class="tite4">
@@ -66,15 +69,23 @@
                 <table>
                 	<tr>
                 		<td>
+						<%if(eyeform.equals("eyeform3")){%>
+							<select name="fromlist1" multiple="multiple" size="9" ondblclick="addSection1(document.EctConsultationFormRequestForm.elements['fromlist1'],document.EctConsultationFormRequestForm.elements['fromlist2']);">   
+						<%}else{%>
                 			<select name="fromlist1" multiple="multiple" size="9" ondblclick="addSection(document.EctConsultationFormRequestForm.elements['fromlist1'],document.EctConsultationFormRequestForm.elements['fromlist2']);">                				
-                				<c:forEach var="item" items="${sections}">
+                		<%}%>
+								<c:forEach var="item" items="${sections}">
                 					<option value="<c:out value="${item.value}"/>"><c:out value="${item.label}"/></option>
                 				</c:forEach>
                 			</select>
                 		</td>
                 		<td valign="middle">
+						<%if(eyeform.equals("eyeform3")){%>	
+							<input type="button" value=">>" onclick="addSection1(document.EctConsultationFormRequestForm.elements['fromlist1'],document.EctConsultationFormRequestForm.elements['fromlist2']);"/>
+						<%}else{%>
                 			<input type="button" value=">>" onclick="addSection(document.EctConsultationFormRequestForm.elements['fromlist1'],document.EctConsultationFormRequestForm.elements['fromlist2']);"/>
-                		</td>
+                		<%}%>
+						</td>
                 		<td>
                 			<select id="fromlist2" name="fromlist2" multiple="multiple" size="9" ondblclick="addExam(ctx,'fromlist2',document.EctConsultationFormRequestForm.elements['ext_specialProblem'],appointmentNo);">
                 				<c:forEach var="item" items="${headers}">

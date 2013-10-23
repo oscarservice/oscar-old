@@ -8629,6 +8629,7 @@ CREATE TABLE `EyeformSpecsHistory` (
   `updateTime` datetime ,
   `status` varchar(2) ,
   `appointmentNo` int(11) ,
+   `note` varchar(254),
   PRIMARY KEY (`id`)
 );
 
