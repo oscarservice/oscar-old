@@ -42,119 +42,20 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html"%>
 <%@ taglib uri="/WEB-INF/oscar-tag.tld" prefix="oscar"%>
 <%@ taglib uri="/WEB-INF/rewrite-tag.tld" prefix="rewrite"%>
+  <%@ page import="org.oscarehr.util.*"%>
+<%@ page import="org.oscarehr.eyeform.dao.*"%>
+<%@page import="org.oscarehr.eyeform.model.EyeformSpecsHistory"%>
 
 <%
-        
-    String attrib_name = request.getParameter("atbname");
-    String special=request.getParameter("drugSpecial");
-    if (attrib_name==null) attrib_name="";
-
-    String demo = request.getParameter("demo");
-    String display = request.getParameter("display");
-    boolean saved = Boolean.valueOf(request.getParameter("saved"));
-
-    String tid = request.getParameter("table_id");
-    Long tableId = 0L;
-    if (filled(tid)) tableId = Long.valueOf(tid);
-    else tid = "";
-    
-    String oid = request.getParameter("other_id");
-    if(oid==null) {oid="";}
-
-    HttpSession se = request.getSession();
-    String user_no = (String) se.getAttribute("user");
-
-    WebApplicationContext  ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(se.getServletContext());
-    CaseManagementManager cmm = (CaseManagementManager) ctx.getBean("caseManagementManager");
-
-    Integer tableName = cmm.getTableNameByDisplay(display);
-    String note = "";
-    String dump = "";
-    List<CaseManagementNoteLink> cmll = null;
-    CaseManagementNoteLink cml = null;
-    if(oid!=null && oid.length()>0) {
-    	cmll = cmm.getLinkByTableIdDesc(tableName, tableId, oid);
-    } else {
-    	cmll = cmm.getLinkByTableIdDesc(tableName, tableId);
-    }
-    CaseManagementNote p_cmn = null;
-    CaseManagementNote p_cmn_dump = null;
-    
-    for (CaseManagementNoteLink link : cmll) {
-
-        CaseManagementNote cmnote = cmm.getNote(link.getNoteId().toString());
-        if (cmnote.getNote().startsWith("imported.cms4.2011.06")) {
-            if (p_cmn_dump==null) p_cmn_dump = cmm.getNote(link.getNoteId().toString());
-        } else {
-            if (p_cmn==null) {
-                p_cmn = cmm.getNote(link.getNoteId().toString());
-                cml = link;
-            }
-        }
-        if (p_cmn_dump!=null && p_cmn!=null) break;
-    }
-
-    //get the most recent previous note from uuid.
-    if (p_cmn!=null) p_cmn=cmm.getMostRecentNote(p_cmn.getUuid());
-
-    String uuid = "";
-    //if get provider no is -1 , it's a document note.
-    if (p_cmn!=null && !p_cmn.getProviderNo().equals("-1") ) uuid = p_cmn.getUuid();
-    else p_cmn=null;//don't use document note as annotation.
-    //get note from attribute
-    CaseManagementNote a_cmn = (CaseManagementNote)se.getAttribute(attrib_name);
-    CaseManagementNote historyNote=new CaseManagementNote();
-    if (a_cmn!=null) {
-        historyNote=a_cmn;
-	note = a_cmn.getNote();
-    } else if (p_cmn!=null){
-	//get note from database
-	 //previous annotation exists
-            historyNote=p_cmn;
-            note = p_cmn.getNote();
-    }
-    if (p_cmn_dump!=null) {
-        dump = p_cmn_dump.getNote().substring("imported.cms4.2011.06".length());
-    }
-    if (saved) {
-	String prog_no = new EctProgram(se).getProgram(user_no);
-        //create a note with demo, user_no, prog_no
-	CaseManagementNote cmn = createCMNote(historyNote,request.getParameter("note"), demo, user_no, prog_no);
-	if (cmn!=null) {
-	    if (p_cmn!=null) {  //previous annotation exists
-//            if (p_cmn!=null && note !="") { //previous annotation exists
-		cmn.setUuid(uuid); //assign same UUID to new annotation
-	    }
-	    if (tableName.equals(cml.CASEMGMTNOTE) || tableId.equals(0L)) {
-                //new casemgmt_note may be saved AFTER annotation
-		if (!attrib_name.equals("")) se.setAttribute(attrib_name, cmn);
-            }
-	    if (!tableId.equals(0L)) {
-                    cmm.saveNoteSimple(cmn);
-                    cml = new CaseManagementNoteLink();
-                    cml.setTableName(tableName);
-                    cml.setTableId(tableId);
-                    cml.setNoteId(cmn.getId());
-                    cml.setOtherId(oid);                    
-                    cmm.saveNoteLink(cml);
-                    LogAction.addLog(user_no,LogConst.ANNOTATE, display, String.valueOf(tableId), request.getRemoteAddr(), demo, cmn.getNote());                
-	    }
-	}
-	response.sendRedirect("../close.html");
-    }
-
-    //Display revision history
-    Integer rev = 0;
-    if (p_cmn!=null) {
-	List l = cmm.getNotesByUUID(uuid);
-	rev = l.size();
-    }
-
-    
-    CaseManagementNote lastCmn=null;
-    if(uuid.length()>0){
-        lastCmn=cmm.getMostRecentNote(uuid);
-    }
+    SpecsHistoryDao dao = (SpecsHistoryDao) SpringUtils.getBean("SpecsHistoryDAO");
+   String demographicNo = request.getParameter("demographic_no");
+   String appointmentNo = request.getParameter("appointment_no");
+   String type1 = request.getParameter("type");
+   String note = "";
+   String specs = dao.getByNote(Integer.parseInt(demographicNo), Integer.parseInt(appointmentNo), type1);
+   if(specs == null){
+	specs = "";
+   }
     Boolean isMobileOptimized = session.getAttribute("mobileOptimized") != null;
 %>
 
@@ -180,7 +81,7 @@
    <form action="/oscar-SNAPSHOT/eyeform/hxHistory.do" method="post" name="specsHistoryForm">
        <div class="panel">
             Notes
-            <textarea name="specs.note" rows="10"><%=note%></textarea>
+            <textarea name="specs.note" rows="10"><%=specs%></textarea>
             <input type="submit" value="Save" onclick="this.form.method.value='save'; return validate(this);"/> &nbsp;
             <input type="button" class="leftButton top" value="Cancel" onclick="window.close();"/>          
         </div>

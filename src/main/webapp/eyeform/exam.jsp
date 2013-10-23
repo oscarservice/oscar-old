@@ -57,13 +57,252 @@
 	
 	String demo = request.getParameter("demographic_no");
 	String appo = request.getParameter("appointment_no");
-	String type1="distance";
+	String type11="distance";
+	String type22="bifocal";
+	String type33="invisible bifocal";
+	String type44="reading";
     SpecsHistoryDao dao = (SpecsHistoryDao) SpringUtils.getBean("SpecsHistoryDAO");
-    List<EyeformSpecsHistory> specs = dao.getRecentRecord(Integer.parseInt(demo),Integer.parseInt(appo),type1);
+    List<EyeformSpecsHistory> specs = dao.getRecentRecord(Integer.parseInt(demo),type11);
+	List<EyeformSpecsHistory> specs1 = dao.getRecentRecord(Integer.parseInt(demo),type22);
+	List<EyeformSpecsHistory> specs2 = dao.getRecentRecord(Integer.parseInt(demo),type33);
+	List<EyeformSpecsHistory> specs3 = dao.getRecentRecord(Integer.parseInt(demo),type44);
+	String value1 = "";
+	String value2 = "";
+	String value3 = "";
+	String value4 = "";
+	String value5 = "";
+	String value6 = "";
+	String value7 = "";
+	String value8 = "";
+	String value9 = "";
+	String value10 = "";
+	String value11 = "";
+	String value12 = "";
+	String value13 = "";
+	String value14 = "";
+	String value15 = "";
+	String value16 = "";
+	String value17 = "";
+	String value18 = "";
+	String value19 = "";
+	String value20 = "";
+	String value21 = "";
+	String value22 = "";
+	String value23 = "";
+	String value24 = "";
+	String value25 = "";
+	String value26 = "";
+	String value27 = "";
+	String value28 = "";
+	String value29 = "";
+	String value30 = "";
+	String value31 = "";
+	String value32 = "";
+	String value33 = "";
+	String value34 = "";
+	String value35 = "";
+	String value36 = "";
+	String value37 = "";
+	String value38 = "";
+	String value39 = "";
+	String value40 = "";
+	String value41 = "";
+	String value42 = "";
+	String value43 = "";
+	String value44 = "";
+	String note1= "";
+	String note2= "";
+	String note3= "";
+	String note4= "";
+	if(specs.size() > 0){
+		value1 = specs.get(0).getDateStr();
+		value2 = specs.get(0).getOdSph();
+		value3 = specs.get(0).getOdCyl();
+		value4 = specs.get(0).getOdAxis();
+		value5 = specs.get(0).getOdAdd();
+		value6 = specs.get(0).getOdPrism();
+		value7 = specs.get(0).getOsSph();
+		value8 = specs.get(0).getOsCyl();
+		value9 = specs.get(0).getOsAxis();
+		value10 = specs.get(0).getOsAdd();
+		value11 = specs.get(0).getOsPrism();
+		note1 = specs.get(0).getNote();
+	}
+	if(specs1.size() > 0){
+		value12 = specs1.get(0).getDateStr();
+		value13 = specs1.get(0).getOdSph();
+		value14 = specs1.get(0).getOdCyl();
+		value15 = specs1.get(0).getOdAxis();
+		value16 = specs1.get(0).getOdAdd();
+		value17 = specs1.get(0).getOdPrism();
+		value18 = specs1.get(0).getOsSph();
+		value19 = specs1.get(0).getOsCyl();
+		value20 = specs1.get(0).getOsAxis();
+		value21 = specs1.get(0).getOsAdd();
+		value22 = specs1.get(0).getOsPrism();
+		note2 = specs1.get(0).getNote();
+	}
+	if(specs2.size() > 0){
+		value23 = specs2.get(0).getDateStr();
+		value24 = specs2.get(0).getOdSph();
+		value25 = specs2.get(0).getOdCyl();
+		value26 = specs2.get(0).getOdAxis();
+		value27 = specs2.get(0).getOdAdd();
+		value28 = specs2.get(0).getOdPrism();
+		value29 = specs2.get(0).getOsSph();
+		value30 = specs2.get(0).getOsCyl();
+		value31 = specs2.get(0).getOsAxis();
+		value32 = specs2.get(0).getOsAdd();
+		value33 = specs2.get(0).getOsPrism();
+		note3 = specs2.get(0).getNote();
+	}
+	if(specs3.size() > 0){
+		value34 = specs3.get(0).getDateStr();
+		value35 = specs3.get(0).getOdSph();
+		value36 = specs3.get(0).getOdCyl();
+		value37 = specs3.get(0).getOdAxis();
+		value38 = specs3.get(0).getOdAdd();
+		value39 = specs3.get(0).getOdPrism();
+		value40 = specs3.get(0).getOsSph();
+		value41 = specs3.get(0).getOsCyl();
+		value42 = specs3.get(0).getOsAxis();
+		value43 = specs3.get(0).getOsAdd();
+		value44 = specs3.get(0).getOsPrism();
+		note4 = specs3.get(0).getNote();
+	}
 %>
 
 <script>
 //if have value under slidy block set the color to brown
+var note_str = document.getElementById("note1").value;
+function demo() {
+var type001=document.getElementById("type001").value;
+var gl_date=document.getElementById("gl_date").value;
+var odSph=document.getElementById("odSph").value;
+var odCyl=document.getElementById("odCyl").value;
+var odAxis=document.getElementById("odAxis").value;
+var odAdd=document.getElementById("odAdd").value;
+var odPrism=document.getElementById("odPrism").value;
+var osSph=document.getElementById("osSph").value;
+var osCyl=document.getElementById("osCyl").value;
+var osAxis=document.getElementById("osAxis").value;
+var osAdd=document.getElementById("osAdd").value;
+var osPrism=document.getElementById("osPrism").value;
+
+var gl_date5=document.getElementById("gl_date5").value;
+var odSph5=document.getElementById("odSph5").value;
+var odCyl5=document.getElementById("odCyl5").value;
+var odAxis5=document.getElementById("odAxis5").value;
+var odAdd5=document.getElementById("odAdd5").value;
+var odPrism5=document.getElementById("odPrism5").value;
+var osSph5=document.getElementById("osSph5").value;
+var osCyl5=document.getElementById("osCyl5").value;
+var osAxis5=document.getElementById("osAxis5").value;
+var osAdd5=document.getElementById("osAdd5").value;
+var osPrism5=document.getElementById("osPrism5").value;
+
+var gl_date6=document.getElementById("gl_date6").value;
+var odSph6=document.getElementById("odSph6").value;
+var odCyl6=document.getElementById("odCyl6").value;
+var odAxis6=document.getElementById("odAxis6").value;
+var odAdd6=document.getElementById("odAdd6").value;
+var odPrism6=document.getElementById("odPrism6").value;
+var osSph6=document.getElementById("osSph6").value;
+var osCyl6=document.getElementById("osCyl6").value;
+var osAxis6=document.getElementById("osAxis6").value;
+var osAdd6=document.getElementById("osAdd6").value;
+var osPrism6=document.getElementById("osPrism6").value;
+
+var gl_date7=document.getElementById("gl_date7").value;
+var odSph7=document.getElementById("odSph7").value;
+var odCyl7=document.getElementById("odCyl7").value;
+var odAxis7=document.getElementById("odAxis7").value;
+var odAdd7=document.getElementById("odAdd7").value;
+var odPrism7=document.getElementById("odPrism7").value;
+var osSph7=document.getElementById("osSph7").value;
+var osCyl7=document.getElementById("osCyl7").value;
+var osAxis7=document.getElementById("osAxis7").value;
+var osAdd7=document.getElementById("osAdd7").value;
+var osPrism7=document.getElementById("osPrism7").value;
+
+var gl_date8=document.getElementById("gl_date8").value;
+var odSph8=document.getElementById("odSph8").value;
+var odCyl8=document.getElementById("odCyl8").value;
+var odAxis8=document.getElementById("odAxis8").value;
+var odAdd8=document.getElementById("odAdd8").value;
+var odPrism8=document.getElementById("odPrism8").value;
+var osSph8=document.getElementById("osSph8").value;
+var osCyl8=document.getElementById("osCyl8").value;
+var osAxis8=document.getElementById("osAxis8").value;
+var osAdd8=document.getElementById("osAdd8").value;
+var osPrism8=document.getElementById("osPrism8").value;
+
+if(type001=="distance"){
+
+document.getElementById("gl_date").value=gl_date8;
+
+document.getElementById("odSph").value=odSph8;
+document.getElementById("odCyl").value=odCyl8;
+document.getElementById("odAxis").value=odAxis8;
+document.getElementById("odAdd").value=odAdd8;
+document.getElementById("odPrism").value=odPrism8;
+document.getElementById("osSph").value=osSph8;
+document.getElementById("osCyl").value=osCyl8;
+document.getElementById("osAxis").value=osAxis8;
+document.getElementById("osAdd").value=osAdd8;
+document.getElementById("osPrism").value=osPrism8;
+
+note_str = document.getElementById("note1").value;
+}else if(type001=="bifocal"){
+
+document.getElementById("gl_date").value=gl_date5;
+document.getElementById("odSph").value=odSph5;
+document.getElementById("odCyl").value=odCyl5;
+document.getElementById("odAxis").value=odAxis5;
+document.getElementById("odAdd").value=odAdd5;
+document.getElementById("odPrism").value=odPrism5;
+document.getElementById("osSph").value=osSph5;
+document.getElementById("osCyl").value=osCyl5;
+document.getElementById("osAxis").value=osAxis5;
+document.getElementById("osAdd").value=osAdd5;
+document.getElementById("osPrism").value=osPrism5;
+
+note_str = document.getElementById("note2").value;
+}else if(type001=="invisible bifocal"){
+
+document.getElementById("gl_date").value=gl_date6;
+document.getElementById("odSph").value=odSph6;
+document.getElementById("odCyl").value=odCyl6;
+document.getElementById("odAxis").value=odAxis6;
+document.getElementById("odAdd").value=odAdd6;
+document.getElementById("odPrism").value=odPrism6;
+document.getElementById("osSph").value=osSph6;
+document.getElementById("osCyl").value=osCyl6;
+document.getElementById("osAxis").value=osAxis6;
+document.getElementById("osAdd").value=osAdd6;
+document.getElementById("osPrism").value=osPrism6;
+
+note_str = document.getElementById("note3").value;
+}
+else if(type001=="reading"){
+
+document.getElementById("gl_date").value=gl_date7;
+document.getElementById("odSph").value=odSph7;
+document.getElementById("odCyl").value=odCyl7;
+document.getElementById("odAxis").value=odAxis7;
+document.getElementById("odAdd").value=odAdd7;
+document.getElementById("odPrism").value=odPrism7;
+document.getElementById("osSph").value=osSph7;
+document.getElementById("osCyl").value=osCyl7;
+document.getElementById("osAxis").value=osAxis7;
+document.getElementById("osAdd").value=osAdd7;
+document.getElementById("osPrism").value=osPrism7;
+
+note_str = document.getElementById("note4").value;
+}
+
+
+}
 function touchColor() {
 		var divs = document.getElementsByClassName(document, "div", "slidey");
         for (var i=0; i<divs.length; i++) {
@@ -617,7 +856,7 @@ rowID=rowID+1;
 function hxOpen()
 {
         var id=document.getElementById("specs.id").value;
-        var type=document.getElementById("type").value;  	
+        var type=document.getElementById("type001").value;  	
 		var date=document.getElementById("gl_date").value;
 		
 		var odSph=document.getElementById("odSph").value;
@@ -845,7 +1084,62 @@ span.ge{
 			  <a href="javascript:void(0)"  onclick="document.getElementById('hxForm').submit();" style="display:none">[save]</a>
 	</div>
 	
-	
+<div style="display:none">	 
+	 <input type="hidden" name="specs.dateStr5"  id="gl_date5"  value="<%=value12%>"/>
+	 <input type="hidden" name="specs.odSph5" id="odSph5"  value="<%=value13%>"/>
+	 <input type="hidden" name="specs.odCyl5" id="odCyl5"  value="<%=value14%>"/>
+	 <input type="hidden" name="specs.odAxis5" id="odAxis5"  value="<%=value15%>"/>
+	 <input type="hidden" name="specs.odAdd5" id="odAdd5"  value="<%=value16%>"/>
+	 <input type="hidden" name="specs.odPrism5" id="odPrism5"  value="<%=value17%>"/>		 
+	 <input type="hidden" name="specs.osSph5" id="osSph5"  value="<%=value18%>"/>
+	 <input type="hidden" name="specs.osCyl5" id="osCyl5"  value="<%=value19%>"/>
+	 <input type="hidden" name="specs.osAxis5"id="osAxis5"  value="<%=value20%>"/>
+	 <input type="hidden" name="specs.osAdd5" id="osAdd5"  value="<%=value21%>"/>
+	 <input type="hidden" name="specs.osPrism5" id="osPrism5"  value="<%=value22%>"/>
+
+
+	 <input type="hidden" name="specs.dateStr6"  id="gl_date6"  value="<%=value23%>"/>	
+	 <input type="hidden" name="specs.odSph6" id="odSph6"  value="<%=value24%>"/>
+	 <input type="hidden"  name="specs.odCyl6" id="odCyl6"  value="<%=value25%>"/>
+	 <input type="hidden" name="specs.odAxis6" id="odAxis6"  value="<%=value26%>"/>
+	 <input type="hidden" name="specs.odAdd6" id="odAdd6"  value="<%=value27%>"/>
+	 <input type="hidden" name="specs.odPrism6" id="odPrism6"  value="<%=value28%>"/>		
+	 <input type="hidden" name="specs.osSph6" id="osSph6"  value="<%=value29%>"/>
+	 <input type="hidden" name="specs.osCyl6" id="osCyl6"  value="<%=value30%>"/>
+	 <input type="hidden" name="specs.osAxis6"id="osAxis6"  value="<%=value31%>"/>
+	 <input type="hidden" name="specs.osAdd6" id="osAdd6"  value="<%=value32%>"/>
+	 <input type="hidden" name="specs.osPrism6" id="osPrism6"  value="<%=value33%>"/>
+	 
+	 
+	 <input type="hidden" name="specs.dateStr7"  id="gl_date7"  value="<%=value34%>"/>			
+	 <input type="hidden" name="specs.odSph7" id="odSph7"  value="<%=value35%>"/>
+	 <input type="hidden" name="specs.odCyl7" id="odCyl7"  value="<%=value36%>"/>
+	 <input type="hidden" name="specs.odAxis7" id="odAxis7"  value="<%=value37%>"/>
+	 <input type="hidden" name="specs.odAdd7" id="odAdd7"  value="<%=value38%>"/>
+	 <input type="hidden" name="specs.odPrism7" id="odPrism7"  value="<%=value39%>"/>		
+	 <input type="hidden" name="specs.osSph7" id="osSph7"  value="<%=value40%>"/>
+	 <input type="hidden" name="specs.osCyl7" id="osCyl7"  value="<%=value41%>"/>
+	 <input type="hidden" name="specs.osAxis7"id="osAxis7"  value="<%=value42%>"/>
+	 <input type="hidden" name="specs.osAdd7" id="osAdd7"  value="<%=value43%>"/>
+	 <input type="hidden" name="specs.osPrism7" id="osPrism7"  value="<%=value44%>"/>
+
+	 <input type="hidden" name="specs.dateStr8"  id="gl_date8" value="<%=value1%>"/>			
+	 <input type="hidden" name="specs.odSph8" id="odSph8"  value="<%=value2%>"/>
+	 <input type="hidden" name="specs.odCyl8" id="odCyl8"  value="<%=value3%>"/>
+	 <input type="hidden" name="specs.odAxis8" id="odAxis8"  value="<%=value4%>"/>
+	 <input type="hidden" name="specs.odAdd8" id="odAdd8"  value="<%=value5%>"/>
+	 <input type="hidden" name="specs.odPrism8" id="odPrism8"  value="<%=value6%>"/>	
+	 <input type="hidden" name="specs.osSph8" id="osSph8"  value="<%=value7%>"/>
+	 <input type="hidden" name="specs.osCyl8" id="osCyl8"  value="<%=value8%>"/>
+	 <input type="hidden" name="specs.osAxis8"id="osAxis8"  value="<%=value9%>"/>
+	 <input type="hidden" name="specs.osAdd8" id="osAdd8"  value="<%=value10%>"/>
+	 <input type="hidden" name="specs.osPrism8" id="osPrism8"  value="<%=value11%>"/>
+	 
+	 <input type="hidden" id="note1" value="<%=note1%>" />
+	 <input type="hidden" id="note2" value="<%=note2%>" />
+	 <input type="hidden" id="note3" value="<%=note3%>" />
+	 <input type="hidden" id="note4" value="<%=note4%>" />
+</div>	
 			
 	
 	<div id="s_21" class="slideblock">
@@ -853,7 +1147,7 @@ span.ge{
 		<table class="exam" width="100%" id="myTable">
 		 
 		<tr>
-			<td width="10%><a href="javascript:void(0)" tabindex="258" onclick="copyglasses();return false;">[copy]</a></td>
+			<td width="10%"><a href="javascript:void(0)" tabindex="258" onclick="copyglasses();return false;">[copy]</a></td>
 			<td width="8%"></td>
 			<td width="1%"></td>
 			<td colspan="5" width="36%">OD</td>
@@ -879,53 +1173,39 @@ span.ge{
 			<td>X</td>
 			<td>Add</td>
 			<td>prism</td>
-		</tr>
-		<%  
-                                   
-        String type2 = (String) specs.get(0).getType(); 
-		String date2 = specs.get(0).getDateStr();
-		String odSph = specs.get(0).getOdSph();
-		String odCyl = specs.get(0).getOdCyl();
-		String odAxis = specs.get(0).getOdAxis();
-		String odAdd = specs.get(0).getOdAdd();
-		String odPrism = specs.get(0).getOdPrism();
-		String osSph = specs.get(0).getOsSph();
-		String osCyl = specs.get(0).getOsCyl();
-		String osAxis = specs.get(0).getOsAxis();
-		String osAdd = specs.get(0).getOsAdd();
-		String osPrism = specs.get(0).getOsPrism();
-                                %>
-								
+		</tr>					
 		<tr>
 			  <td>
-	             <select name="specs.type" style="width:100px;" id="type" value="<%=type2%>">
+	             <select name="specs.type" style="width:100px;" id="type001"  onchange="demo()">
 	   	            <option value="distance">distance</option>
 	            	<option value="bifocal">bifocal</option>
 	            	<option value="invisible bifocal">invisible bifocal</option>
 	                <option value="reading">reading</option>
 	            </select>
 	         </td>
-             <td><input name="specs.dateStr"  type="text" tabindex="33" class="examfieldgrey" size="10"  id="gl_date" onfocus="whiteField(this);" value="<%=date2%>"/>
-			 </td>
-
+             <td><input name="specs.dateStr"  type="text" tabindex="33" class="examfieldgrey" size="10"  id="gl_date" onfocus="whiteField(this);" value="<%=value1%>"/>
+			 </td>			 
 			 <td width="8%"><img src="<%=request.getContextPath()%>/images/cal.gif" id="pdate_cal"></td>
-			 <td><input name="specs.odSph" id="odSph" type="text" tabindex="34" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=odSph%>"/></td>
-			 <td><input name="specs.odCyl" id="odCyl" type="text" tabindex="35" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=odCyl%>"/></td>
-			 <td><input name="specs.odAxis" id="odAxis" type="text" tabindex="36" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=odAxis%>"/></td>
-			 <td><input name="specs.odAdd" id="odAdd" type="text" tabindex="37" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=odAdd%>"/></td>
-			 <td><input name="specs.odPrism" id="odPrism" type="text" tabindex="38" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=odPrism%>"/></td>
+			 <td><input name="specs.odSph" id="odSph" type="text" tabindex="34" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value2%>"/></td>
+			 <td><input name="specs.odCyl" id="odCyl" type="text" tabindex="35" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value3%>"/></td>
+			 <td><input name="specs.odAxis" id="odAxis" type="text" tabindex="36" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value4%>"/></td>
+			 <td><input name="specs.odAdd" id="odAdd" type="text" tabindex="37" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value5%>"/></td>
+			 <td><input name="specs.odPrism" id="odPrism" type="text" tabindex="38" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value6%>"/></td>		
 			 <td width="8%"></td>
-			 <td><input name="specs.osSph" id="osSph" type="text" tabindex="39" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=osSph%>"/></td>
-			 <td><input name="specs.osCyl" id="osCyl" type="text" tabindex="40" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=osCyl%>"/></td>
-			 <td><input name="specs.osAxis"id="osAxis" type="text" tabindex="41" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=osAxis%>"/></td>
-			 <td><input name="specs.osAdd" id="osAdd" type="text" tabindex="42" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=osAdd%>"/></td>
-			 <td><input name="specs.osPrism" id="osPrism" type="text" tabindex="43" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=osPrism%>"/></td>
+			 <td><input name="specs.osSph" id="osSph" type="text" tabindex="39" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value7%>"/></td>
+			 <td><input name="specs.osCyl" id="osCyl" type="text" tabindex="40" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value8%>"/></td>
+			 <td><input name="specs.osAxis"id="osAxis" type="text" tabindex="41" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value9%>"/></td>
+			 <td><input name="specs.osAdd" id="osAdd" type="text" tabindex="42" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value10%>"/></td>
+			 <td><input name="specs.osPrism" id="osPrism" type="text" tabindex="43" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value11%>"/></td>
+			 
 			 <td><a href="javascript:void(0)" onclick="hxOpen();"><img src="../images/notes.gif"  /> </a></td>
+			 
 			 <td><input type="hidden" value="save" name="method"></td>
              <td><input type="hidden" value="<%=request.getParameter("demographic_no")%>" name="specs.demographicNo" id="demographic_no"></td>
              <td><input type="hidden" value="<%= request.getParameter("appointment_no")%>" name="specs.appointmentNo" id="appointment_no"></td>
-             <td><input type="hidden" value="" name="specs.id" id="specs.id"></td>
+             <td><input type="hidden" value="" name="specs.id" id="specs.id"></td>		 
 		</tr>
+		
 		</table>
 		
 	</div>

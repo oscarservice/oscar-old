@@ -52,15 +52,13 @@ public class SpecsHistoryDao extends AbstractDao<EyeformSpecsHistory> {
 	    return(results);	  
 	}
 	
-	public List<EyeformSpecsHistory> getRecentRecord(int demographicNo,
-			int appointmentNo, String type) {
+	public List<EyeformSpecsHistory> getRecentRecord(int demographicNo, String type) {
 		String sql = "select x from "
 				+ modelClass.getSimpleName()
-				+ " x where x.demographicNo = ? and x.appointmentNo=? and x.type=? order by x.updateTime DESC";
+				+ " x where x.demographicNo = ? and x.type=? order by x.updateTime DESC";
 		Query query = entityManager.createQuery(sql);
 		query.setParameter(1, demographicNo);
-		query.setParameter(2, appointmentNo);
-		query.setParameter(3, type);
+		query.setParameter(2, type);
 
 		@SuppressWarnings("unchecked")
 		List<EyeformSpecsHistory> results = query.getResultList();

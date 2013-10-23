@@ -119,6 +119,12 @@ public class SpecsNoteAction extends DispatchAction {
     	String osAxis=request.getParameter("osAxis");
     	String osAdd=request.getParameter("osAdd");
     	String osPrism=request.getParameter("osPrism");
+    	
+    	int demographicNo = Integer.parseInt(request
+				.getParameter("specs.demographicNo"));
+		int appointmentNo = Integer.parseInt(request
+				.getParameter("specs.appointmentNo"));
+		
     	EyeformSpecsHistory specs = (EyeformSpecsHistory)f.get("specs");
     	if(specs.getId()!=null && specs.getId()==0) {
     		specs.setId(null);
@@ -149,13 +155,15 @@ public class SpecsNoteAction extends DispatchAction {
     	
     	specs.setType(type);
     	specs.setDateStr(date);
-     
-    	if(specs.getId() == null) {
-    		dao.persist(specs);
-    	} else {
-    		
-    		dao.merge(specs);
-    	}
+    	specs.setId(dao.getById(demographicNo, appointmentNo, type));
+    	if (specs.getId() == null||specs.getId().equals(0)) {
+			specs.setId(null);
+			dao.persist(specs);
+		} else {
+
+			dao.merge(specs);
+
+		}
 
 
 		if (request.getParameter("json") != null && request.getParameter("json").equalsIgnoreCase("true")) {
