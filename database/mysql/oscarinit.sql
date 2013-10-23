@@ -11964,3 +11964,37 @@ CREATE TABLE  `form_audiology_rpt` (
 `l125v120` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=MyISAM;
+
+CREATE TABLE `billing_on_transaction` (
+  `id` INT(12) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `ch1_id` INT(12) NOT NULL,
+  `payment_id` INT(12) NOT NULL,
+  `billing_on_item_id` INT(12) NOT NULL,
+  `demographic_no` INT(10) NOT NULL DEFAULT 0,
+  `update_provider_no` VARCHAR(6) NOT NULL,
+  `update_datetime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `payment_date` DATE,
+  `ref_num` VARCHAR(6) DEFAULT NULL,
+  `province` CHAR(2) DEFAULT 'ON',
+  `man_review` CHAR(1) DEFAULT NULL,
+  `billing_date` DATE DEFAULT NULL,
+  `status` CHAR(1) DEFAULT NULL,
+  `pay_program` CHAR(3) DEFAULT 'HCP',
+  `paymentType` CHAR(1) DEFAULT 'P',
+  `facility_num` CHAR(4),
+  `clinic` VARCHAR(30),
+  `provider_no` VARCHAR(6),
+  `creator` VARCHAR(30),
+  `visittype` CHAR(2),
+  `admission_date` CHAR(10),
+  `sli_code` VARCHAR(10),
+  `admission_date1` VARCHAR(10) DEFAULT NULL,
+  `service_code` VARCHAR(10) DEFAULT NULL,
+  `service_code_num` CHAR(2) DEFAULT '01',
+  `service_code_invoice_no` VARCHAR(64),
+  `service_code_paid` DOUBLE,
+  `service_code_refund` DOUBLE,
+  `service_code_discount` DOUBLE,
+  `dx_code` VARCHAR(2) DEFAULT NULL,
+  `billing_notes` VARCHAR(255) DEFAULT NULL
+);
