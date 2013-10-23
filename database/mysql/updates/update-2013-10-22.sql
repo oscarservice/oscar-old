@@ -1,0 +1,1 @@
+ALTER TABLE `EyeformSpecsHistory` ADD COLUMN `note` VARCHAR(254) AFTER `appointmentNo`;
