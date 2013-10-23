@@ -449,22 +449,24 @@ public class EFormUtil {
 		// gets the values for each column name in the sql (used by DatabaseAP)
 		ResultSet rs = getSQL(sql);
 		ArrayList<String> values = new ArrayList<String>();
-		try {
-			while (rs.next()) {
-				values = new ArrayList<String>();
-				for (int i = 0; i < names.size(); i++) {
-					try {
-						values.add(oscar.Misc.getString(rs, names.get(i)));
-						logger.debug("VALUE ====" + rs.getObject(names.get(i)) + "|");
-					} catch (Exception sqe) {
-						values.add("<(" + names.get(i) + ")NotFound>");
-						logger.error("Error", sqe);
+		if(rs!=null) {
+			try {
+				while (rs.next()) {
+					values = new ArrayList<String>();
+					for (int i = 0; i < names.size(); i++) {
+						try {
+							values.add(oscar.Misc.getString(rs, names.get(i)));
+							logger.debug("VALUE ====" + rs.getObject(names.get(i)) + "|");
+						} catch (Exception sqe) {
+							values.add("<(" + names.get(i) + ")NotFound>");
+							logger.error("Error", sqe);
+						}
 					}
 				}
+				rs.close();
+			} catch (SQLException sqe) {
+				logger.error("Error", sqe);
 			}
-			rs.close();
-		} catch (SQLException sqe) {
-			logger.error("Error", sqe);
 		}
 		return (values);
 	}
