@@ -204,11 +204,11 @@
        removeNavDiv('OMeds');
 	   removeNavDiv('episode');
 	   
-	   addRightNavDiv("specshistory");
-       popColumn(ctx + "/oscarEncounter/displaySpecsHistory.do?hC=009999&appointment_no="+appointmentNo,"specshistory","specshistory", "rightNavBar", this);
+//	   addRightNavDiv("specshistory");
+//       popColumn(ctx + "/oscarEncounter/displaySpecsHistory.do?hC=009999&appointment_no="+appointmentNo,"specshistory","specshistory", "rightNavBar", this);
       
        reorderNavBarElements('allergies','FamHistory');
-       reorderNavBarElements('allergies','specshistory'); 
+//       reorderNavBarElements('allergies','specshistory'); 
        
        
 	   var ocularMedsLabel = "oscarEncounter.NavBar.OcularMeds";
