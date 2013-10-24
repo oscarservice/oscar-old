@@ -951,10 +951,6 @@ function hxOpen4()
 }
 </script>
 
-<script type="text/javascript">
-	Calendar.setup({ inputField : "gl_date", ifFormat : "%Y-%m-%d", showsTime :false, button : "pdate_cal", singleClick : true, step : 1 });
-</script>
-
 <style type="text/css">
 .exam
 {
@@ -1183,9 +1179,12 @@ span.ge{
 	                <option value="reading">reading</option>
 	            </select>
 	         </td>
-             <td><input name="specs.dateStr"  type="text" tabindex="33" class="examfieldgrey" size="10"  id="gl_date" onfocus="whiteField(this);" value="<%=value1%>"/>
-			 </td>			 
-			 <td width="8%"><img src="<%=request.getContextPath()%>/images/cal.gif" id="pdate_cal"></td>
+             <td><input name="specs.dateStr"  type="text" tabindex="33" class="examfieldgrey" size="10"  id="gl_date" onfocus="whiteField(this);" value="<%=value1%>"/>		 </td>			 
+			 <td width="8%"><img src="<%=request.getContextPath()%>/images/cal.gif" id="pdate_cal">
+			 <script type="text/javascript">
+				Calendar.setup({ inputField : "gl_date", ifFormat : "%Y-%m-%d", showsTime :false, button : "pdate_cal", singleClick : true, step : 1 });
+			</script>
+			 </td>
 			 <td><input name="specs.odSph" id="odSph" type="text" tabindex="34" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value2%>"/></td>
 			 <td><input name="specs.odCyl" id="odCyl" type="text" tabindex="35" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value3%>"/></td>
 			 <td><input name="specs.odAxis" id="odAxis" type="text" tabindex="36" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value4%>"/></td>
