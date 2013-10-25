@@ -11988,13 +11988,12 @@ CREATE TABLE `billing_on_transaction` (
   `visittype` CHAR(2),
   `admission_date` CHAR(10),
   `sli_code` VARCHAR(10),
-  `admission_date1` VARCHAR(10) DEFAULT NULL,
   `service_code` VARCHAR(10) DEFAULT NULL,
   `service_code_num` CHAR(2) DEFAULT '01',
   `service_code_invoice_no` VARCHAR(64),
-  `service_code_paid` DOUBLE,
-  `service_code_refund` DOUBLE,
-  `service_code_discount` DOUBLE,
+  `service_code_paid` DECIMAL(10,2),
+  `service_code_refund` DECIMAL(10,2),
+  `service_code_discount` DECIMAL(10,2),
   `dx_code` VARCHAR(2) DEFAULT NULL,
   `billing_notes` VARCHAR(255) DEFAULT NULL
 );

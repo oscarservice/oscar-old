@@ -2446,9 +2446,13 @@
        </action>
 
 
-        <action input="/billing/CA/ON/endYearStatement.jsp" name="PatientEndYearStatementForm" path="/billing/CA/ON/endYearStatement" scope="request" type="oscar.oscarBilling.ca.on.pageUtil.PatientEndYearStatementAction" validate="false">
+        <action input="/billing/CA/ON/endYearStatement.jsp" path="/billing/CA/ON/endYearStatement" parameter="method" scope="request" type="oscar.oscarBilling.ca.on.pageUtil.PatientEndYearStatementAction" validate="false">
             <forward name="success" path="/billing/CA/ON/endYearStatement.jsp"/>
             <forward name="failure" path="/billing/CA/ON/endYearStatement.jsp"/>
+        </action>
+        
+        <action path="/billing/CA/ON/managePaymentType" scope="request" type="org.springframework.web.struts.DelegatingActionProxy" validate="false">
+            <forward name="success" path="/billing/CA/ON/manageBillingPaymentType.jsp"/>
         </action>
 
 		<action name="AppointmentTypeForm" path="/appointment/appointmentTypeAction" scope="request" type="oscar.appt.web.AppointmentTypeAction" validate="false">

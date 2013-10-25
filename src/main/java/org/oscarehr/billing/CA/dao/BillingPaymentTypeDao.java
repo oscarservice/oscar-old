@@ -40,10 +40,16 @@ public class BillingPaymentTypeDao extends AbstractDao<BillingPaymentType>{
 		super(BillingPaymentType.class);
 	}
 	
-    public List<BillingPaymentType> list(){
+    @SuppressWarnings("unchecked")
+	public List<BillingPaymentType> list(){
         Query query = entityManager.createQuery("select bpt from BillingPaymentType bpt");
         List<BillingPaymentType> types = query.getResultList();
         return types;
+    }
+    
+    public BillingPaymentType getPaymentTypeByName(String typeName) {
+    	Query query = entityManager.createQuery("select bpt from BillingPaymentType bpt where bpt.paymentType = ?1");
+    	return (BillingPaymentType) query.getSingleResult();
     }
 	
 }

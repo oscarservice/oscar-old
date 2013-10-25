@@ -274,6 +274,10 @@
 	<bean name="/billing/CA/ON/BatchBill" class="org.oscarehr.billing.CA.ON.web.BatchBillAction" singleton="false">
 		<property name="billClaimDAO" ref="billingClaimDAO" />
 	</bean>
+	
+	<bean name="/billing/CA/ON/managePaymentType" class="oscar.oscarBilling.ca.on.pageUtil.PaymentTypeAction" singleton="false">
+		<property name="billingPaymentTypeDao" ref="billingPaymentTypeDao" />
+	</bean>
 
 	<bean name="/PMmodule/Admin/MigrateCaisiRoles" class="org.oscarehr.PMmodule.web.admin.MigrateCaisiRolesAction" singleton="false" autowire="byName" />
 
