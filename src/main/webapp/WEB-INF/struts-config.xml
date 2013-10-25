@@ -2451,7 +2451,7 @@
             <forward name="failure" path="/billing/CA/ON/endYearStatement.jsp"/>
         </action>
         
-        <action path="/billing/CA/ON/managePaymentType" scope="request" type="org.springframework.web.struts.DelegatingActionProxy" validate="false">
+        <action path="/billing/CA/ON/managePaymentType" scope="request" parameter="method" type="org.springframework.web.struts.DelegatingActionProxy" validate="false">
             <forward name="success" path="/billing/CA/ON/manageBillingPaymentType.jsp"/>
         </action>
 

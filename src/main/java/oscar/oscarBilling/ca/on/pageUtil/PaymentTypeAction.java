@@ -46,23 +46,30 @@ public class PaymentTypeAction extends DispatchAction {
             HttpServletRequest request, HttpServletResponse servletResponse) {
 		
 		String paymentType = (String) request.getParameter("paymentType");
-		if (null != paymentType && paymentType.isEmpty()) {
-			BillingPaymentType billingPaymentType = billingPaymentTypeDao.getPaymentTypeByName(paymentType);
+		if (null != paymentType && !paymentType.isEmpty()) {
+			BillingPaymentType billingPaymentType = null;
 			Map<String, String> retMap = new HashMap<String, String>();
 			JSONObject json = null;
-			if (billingPaymentType != null) {
+			try {
+				billingPaymentType = billingPaymentTypeDao.getPaymentTypeByName(paymentType);
+			
+				if (billingPaymentType != null) {
+					retMap.put("ret", "1");
+					retMap.put("reason", "Payment type: " + paymentType + " already exists!");
+				} else {
+					billingPaymentType = new BillingPaymentType();
+					billingPaymentType.setPaymentType(paymentType);
+					billingPaymentTypeDao.persist(billingPaymentType);
+					retMap.put("ret", "0");
+					//return actionMapping.findForward("success");
+				}
+			} catch (Exception e) {
 				retMap.put("ret", "1");
-				retMap.put("reason", "Payment type: " + billingPaymentType + " already exists!");
-				json = JSONObject.fromObject(retMap);
-			} else {
-				billingPaymentType = new BillingPaymentType();
-				billingPaymentType.setPaymentType(paymentType);
-				billingPaymentTypeDao.persist(billingPaymentType);
-				retMap.put("ret", "0");
-				json = JSONObject.fromObject(retMap);
+				retMap.put("reason", e.toString());
 			}
 			
 			try {
+				json = JSONObject.fromObject(retMap);
 				servletResponse.getWriter().write(json.toString());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -78,32 +85,37 @@ public class PaymentTypeAction extends DispatchAction {
 		String oldPaymentType = (String) request.getParameter("oldPaymentType");
 		String paymentType = (String) request.getParameter("paymentType");
 		if (oldPaymentType != null && !oldPaymentType.isEmpty() && null != paymentType && !paymentType.isEmpty()) {
-			BillingPaymentType old = billingPaymentTypeDao.getPaymentTypeByName(oldPaymentType);
+			BillingPaymentType old = null;
 			Map<String, String> retMap = new HashMap<String, String>();
 			JSONObject json = null;
-			if (old == null) {
-				retMap.put("ret", "1");
-				retMap.put("reason", "Old payment type: " + oldPaymentType + " doesn't exist!");
-				json = JSONObject.fromObject(retMap);
-			} else {
-				BillingPaymentType newType = billingPaymentTypeDao.getPaymentTypeByName(paymentType);
-				if (newType != null) {
+			try {
+				old = billingPaymentTypeDao.getPaymentTypeByName(oldPaymentType);
+				if (old == null) {
 					retMap.put("ret", "1");
-					retMap.put("reason", "Payment type: " + paymentType + " already exists!");
-					json = JSONObject.fromObject(retMap);
+					retMap.put("reason", "Old payment type: " + oldPaymentType + " doesn't exist!");
 				} else {
-					old.setPaymentType(paymentType);
-					billingPaymentTypeDao.merge(old);
-					retMap.put("ret", "0");
-					json = JSONObject.fromObject(retMap);
+					BillingPaymentType newType = billingPaymentTypeDao.getPaymentTypeByName(paymentType);
+					if (newType != null) {
+						retMap.put("ret", "1");
+						retMap.put("reason", "Payment type: " + paymentType + " already exists!");
+					} else {
+						old.setPaymentType(paymentType);
+						billingPaymentTypeDao.merge(old);
+						retMap.put("ret", "0");
+						//return actionMapping.findForward("success");
+					}
 				}
-				
-				try {
-					servletResponse.getWriter().write(json.toString());
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					MiscUtils.getLogger().info(e.toString());
-				}
+			} catch (Exception e) {
+				retMap.put("ret", "1");
+				retMap.put("reason", e.toString());
+			}
+			
+			try {
+				json = JSONObject.fromObject(retMap);
+				servletResponse.getWriter().write(json.toString());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				MiscUtils.getLogger().info(e.toString());
 			}
 		}
 		
