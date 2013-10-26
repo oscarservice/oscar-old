@@ -378,10 +378,10 @@ function popupEChart(vheight,vwidth,varpage) { //open a new popup window
 
 <%
 if(OscarProperties.getInstance().getProperty("SUNNY_BROOK_DEMOGRAPHIC_IMPORT", "no").equalsIgnoreCase("yes"))
-{
-	%><%@include file="./importNewDemo.jsp" %><%
-}
-%>
+{%>
+	<iframe src="../demographic/importNewDemo.jsp" style="width: 700px; height: 30px; margin-top: 10px;" frameborder="0" scrolling="no">
+	</iframe>
+<%}%>
 
 <div id="legend">
 <sup>*</sup><bean:message key="demographic.demographicsearchresults.msgSortDemographic"/>  <br>

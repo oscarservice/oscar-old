@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.log4j.Logger;
 import org.oscarehr.PMmodule.dao.AdmissionDao;
 import org.oscarehr.PMmodule.dao.ProgramDao;
@@ -142,6 +144,26 @@ public class SunnyBrookImportDemoUtil
 		return in;
 	}
 
+	public void updateDemo(Demographic demoFromFile, Demographic demoFromDB) throws Exception
+	{
+		class NullAwareBeanUtilsBean extends BeanUtilsBean
+		{
+
+			@Override
+			public void copyProperty(Object bean, String name, Object value) throws IllegalAccessException, InvocationTargetException
+			{
+				if(value==null || value.toString().trim().length()==0)
+					return;
+				super.copyProperty(bean, name, value);
+			}
+			
+		}
+		new NullAwareBeanUtilsBean().copyProperties(demoFromDB, demoFromFile);
+		
+		DemographicDao demographicDao = (DemographicDao) SpringUtils.getBean("demographicDao");
+		demographicDao.save(demoFromDB);
+	}
+	
 	public Map<String, Object> importFile(File file) throws Exception
 	{
 		Map<String, Map<String, String>> dtlMap = parseFile(file);
@@ -166,6 +188,7 @@ public class SunnyBrookImportDemoUtil
 				{
 					resultMap.put("DEMO_EXISTS", "true");
 					resultMap.put("DEMO", existingDemographic);
+					resultMap.put("DEMO_TO_BE_IMPORTED", demographic);
 
 					return resultMap;
 				}

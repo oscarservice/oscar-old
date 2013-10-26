@@ -3,6 +3,7 @@ package oscar.oscarDemographic;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -24,34 +25,79 @@ public class ImportDemoAction extends Action
 {
 	private Logger logger = Logger.getLogger(ImportDemoAction.class);
 	
+	private static Map<String, Map<String, Object>> demoTobeUpdated = new HashMap<String, Map<String,Object>>();
+	private static int demoUpdatecnt = 1;
+	
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 		logger.info("in ImportDemoAction : execute");
 		
+		SunnyBrookImportDemoUtil demoUtil = new SunnyBrookImportDemoUtil();
+		
 		try
 		{
-			ImportDemoForm frm = (ImportDemoForm) form;
-			logger.info("frm = "+frm);
+			String actionVal = request.getParameter("actionVal");
+			Map<String,Object> resultMap = null;
 			
-			FormFile formFile = frm.getFile1();
-			logger.info("formFile = "+formFile);
-			
-			//Thread.sleep(5000);
-			SunnyBrookImportDemoUtil demoUtil = new SunnyBrookImportDemoUtil();
-			File ioFile = getIOFile(formFile); 
-			Map<String,Object> resultMap = demoUtil.importFile(ioFile);
+			if(actionVal!=null && actionVal.equalsIgnoreCase("update"))
+			{
+				String key = request.getParameter("DEMO_UPDATE_KEY");
+				resultMap = demoTobeUpdated.get(key);
+			}
+			else if(actionVal!=null && actionVal.equalsIgnoreCase("cancel_update"))
+			{
+				String key = request.getParameter("DEMO_UPDATE_KEY");
+				demoTobeUpdated.remove(key);
+				
+				return mapping.findForward("import");
+			}
+			else
+			{
+				ImportDemoForm frm = (ImportDemoForm) form;
+				logger.info("frm = "+frm);
+				
+				FormFile formFile = frm.getFile1();
+				logger.info("formFile = "+formFile);
+				
+				File ioFile = getIOFile(formFile); 
+				resultMap = demoUtil.importFile(ioFile);
+			}
 			
 			String statusMsg = "";
 			if(resultMap!=null)
 			{
-				Demographic demographic = null;
+				Demographic demoFromDB = null;
 				if(resultMap.get("DEMO")!=null)
-					demographic = (Demographic) resultMap.get("DEMO");
+					demoFromDB = (Demographic) resultMap.get("DEMO");
 				
-				String patientName = getPatientName(demographic);
+				String patientName = getPatientName(demoFromDB);
 				if(resultMap.get("DEMO_EXISTS")!=null && resultMap.get("DEMO_EXISTS").toString().equalsIgnoreCase("true"))
 				{
-					statusMsg = "Patient '"+patientName+"' already exists";
+					Demographic demoFromFile = (Demographic) resultMap.get("DEMO_TO_BE_IMPORTED");
+					patientName = getPatientName(demoFromFile);
+					
+					if(actionVal!=null && actionVal.equalsIgnoreCase("update"))
+					{
+						//update
+						if(demoFromFile!=null)
+						{
+							demoUtil.updateDemo(demoFromFile, demoFromDB);
+							statusMsg = "Patient '"+patientName+"' has been updated successfully";
+							
+							request.setAttribute("status", "DEMO_UPDATED");
+						}
+					}
+					else
+					{
+						//prompt to update
+						String key = "DEMO_UPDATE_KEY_"+demoUpdatecnt++;
+						
+						request.setAttribute("status", "DEMO_EXISTS");
+						request.setAttribute("DEMO_UPDATE_KEY", key);
+						
+						statusMsg = "Patient '"+patientName+"' already exists";
+						demoTobeUpdated.put(key, resultMap);						
+					}
 				}
 				else
 				{
