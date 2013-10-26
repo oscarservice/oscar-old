@@ -2575,7 +2575,7 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
 
 		// we now have the slice we want to return
 		ArrayList<NoteDisplay> notesToDisplay = new ArrayList<NoteDisplay>();
-
+		ArrayList<NoteDisplay> notesToDisplay1 = new ArrayList<NoteDisplay>();
 		if (slice.size() > 0) {
 			// figure out what we need to retrieve
 			List<Long> localNoteIds = new ArrayList<Long>();
@@ -2655,11 +2655,96 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
 					notesToDisplay.add(disp);
 				}
 			}
+		}
+		if (entries.size() > 0) {
+			// figure out what we need to retrieve
+			List<Long> localNoteIds = new ArrayList<Long>();
+			List<CachedDemographicNoteCompositePk> remoteNoteIds = new ArrayList<CachedDemographicNoteCompositePk>();
+			List<Long> groupNoteIds = new ArrayList<Long>();
+			List<Integer> invoiceIds = new ArrayList<Integer>();
+
+			for (EChartNoteEntry entry : entries) {
+				if (entry.getType().equals("local_note")) {
+					localNoteIds.add((Long) entry.getId());
+				} else if (entry.getType().equals("remote_note")) {
+					remoteNoteIds.add((CachedDemographicNoteCompositePk) entry
+							.getId());
+				} else if (entry.getType().equals("invoice")) {
+					invoiceIds.add((Integer) entry.getId());
+				} else if (entry.getType().equals("group_note")) {
+					groupNoteIds.add(((Integer) entry.getId()).longValue());
+				}
+			}
+
+			List<CaseManagementNote> localNotes = caseManagementNoteDao
+					.getNotes(localNoteIds);
+
+			logger.info("FETCHED " + localNotes.size() + " NOTES IN "
+					+ (System.currentTimeMillis() - intTime) + "ms");
+			intTime = System.currentTimeMillis();
+
+			List<CachedDemographicNote> remoteNotes = new ArrayList<CachedDemographicNote>();
+			if (remoteNoteIds != null && remoteNoteIds.size() > 0)
+				remoteNotes = CaisiIntegratorManager
+						.getLinkedNotes(remoteNoteIds);
+
+			logger.info("FETCHED " + remoteNotes.size() + " REMOTE NOTES IN "
+					+ (System.currentTimeMillis() - intTime) + "ms");
+			intTime = System.currentTimeMillis();
+
+			List<CaseManagementNote> groupNotes = caseManagementNoteDao
+					.getNotes(groupNoteIds);
+
+			logger.info("FETCHED " + groupNotes.size() + " GROUP NOTES IN "
+					+ (System.currentTimeMillis() - intTime) + "ms");
+			intTime = System.currentTimeMillis();
+
+			List<BillingClaimHeader1> invoices = billingClaimDao
+					.getInvoicesByIds(invoiceIds);
+
+			logger.info("FETCHED " + invoices.size() + " INVOICES IN "
+					+ (System.currentTimeMillis() - intTime) + "ms");
+			intTime = System.currentTimeMillis();
+
+			this.caseManagementMgr.getEditors(localNotes);
+			
+			for (EChartNoteEntry entry : entries) {
+				if (entry.getType().equals("local_note")) {
+					notesToDisplay1.add(new NoteDisplayLocal(findNote(
+							(Long) entry.getId(), localNotes)));
+				} else if (entry.getType().equals("remote_note")) {
+					notesToDisplay1.add(new NoteDisplayIntegrator(
+							findRemoteNote(
+									(CachedDemographicNoteCompositePk) entry
+											.getId(), remoteNotes)));
+				} else if (entry.getType().equals("eform")) {
+					notesToDisplay1.add(new NoteDisplayNonNote(findEform(
+							(String) entry.getId(), eForms)));
+				} else if (entry.getType().equals("encounter_form")) {
+					notesToDisplay1.add(new NoteDisplayNonNote(findPatientForm(
+							(String[]) entry.getId(), allPatientForms)));
+				} else if (entry.getType().equals("invoice")) {
+					notesToDisplay1.add(new NoteDisplayNonNote(findInvoice(
+							(Integer) entry.getId(), invoices)));
+				} else if (entry.getType().equals("group_note")) {
+					CaseManagementNote note = findNote(
+							((Integer) entry.getId()).longValue(), groupNotes);
+					NoteDisplayLocal disp = new NoteDisplayLocal(note);
+					disp.setReadOnly(true);
+					disp.setGroupNote(true);
+					disp.setLocation(String.valueOf(note.getDemographic_no()));
+					notesToDisplay1.add(disp);
+				}
+			}
+
+		
 
 		}
+		
 		logger.info("Total Time to load the notes="
 				+ (System.currentTimeMillis() - startTime) + "ms.");
 		request.setAttribute("notesToDisplay", notesToDisplay);
+		request.setAttribute("notesToDisplay1", notesToDisplay1);
 	}
 
 	public CaseManagementNote findNote(Long id, List<CaseManagementNote> notes) {

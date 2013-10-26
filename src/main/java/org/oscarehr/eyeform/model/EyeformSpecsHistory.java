@@ -64,6 +64,15 @@ public class EyeformSpecsHistory extends AbstractModel<Integer>{
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date updateTime;
 	private int appointmentNo;
+	private String note;
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
 
 	public EyeformSpecsHistory() {
 		status="A";

@@ -31,7 +31,7 @@
             background-color: white;
         }
   </style>
-<script type="text/javascript" language="javascript" src="<%=request.getContextPath()%>/js/jquery-1.3.2.js"></script>
+<script type="text/javascript" language="javascript" src="<%=request.getContextPath()%>/js/jquery-1.3.2.min.js"></script>
 <script type="text/javascript">
 function newWindow(url, id) {
 	Popup = window.open(url,id,'toolbar=no,location=no,status=yes,menubar=no, scrollbars=yes,resizable=yes,width=700,height=600,left=200,top=0');
@@ -126,7 +126,7 @@ $(function() {
 			<td>
 				<form action="../eform/searchfromportal.do" method="get" id="form1">
 				<div style="display:inline-block">
-					<img src="/oscar-eformportal/oscarEncounter/graphics/edit-find.png" alt="find">
+					<img src="<%=request.getContextPath()%>/oscarEncounter/graphics/edit-find.png" alt="find">
 					<select style="width:140px" id="select1">
 						<option value="All">All</option>
 						<option value="ByName">By Name</option>

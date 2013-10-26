@@ -2170,6 +2170,12 @@
 		<action path="/eyeform/SpecsHistory" type="org.oscarehr.eyeform.web.SpecsHistoryAction" parameter="method" scope="request" validate="false" input="/eyeform/specs_history.jsp" name="specsHistoryForm">
 			<forward name="form" path="/eyeform/specs_history.jsp" />
 			<forward name="list" path="/eyeform/specs_history_list.jsp" />
+			<forward name="success" path="/eyeform/hxsuccess.jsp" />
+		</action>
+		
+		
+		<action path="/eyeform/hxHistory" type="org.oscarehr.eyeform.web.SpecsNoteAction" parameter="method" scope="request" validate="false" input="/eyeform/specs_history.jsp" name="specsHistoryForm">
+			
 			<forward name="success" path="/eyeform/success.jsp" />
 		</action>
 
