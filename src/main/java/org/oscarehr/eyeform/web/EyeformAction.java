@@ -1749,175 +1749,83 @@ public class EyeformAction extends DispatchAction {
 
 		public static List<LabelValueBean> getMeasurementSections() {
 	           List<LabelValueBean> sections = new ArrayList<LabelValueBean>();
-	           oscar.OscarProperties props1 = oscar.OscarProperties.getInstance();
-	           String eyeform = props1.getProperty("cme_js");
-	           if(eyeform.equals("eyeform3")){
-	        	   sections.add(new LabelValueBean("GLASSES HISTORY","GLASSES HISTORY"));
-		           sections.add(new LabelValueBean("VISION ASSESSMENT","VISION ASSESSMENT"));
-		           sections.add(new LabelValueBean("VISION MEASUREMENT","VISION MEASUREMENT"));
-		           sections.add(new LabelValueBean("STEREO VISION","STEREO VISION"));
-		           sections.add(new LabelValueBean("INTRAOCULAR PRESSURE","INTRAOCULAR PRESSURE"));
-		           sections.add(new LabelValueBean("REFRACTIVE","REFRACTIVE"));
-		           sections.add(new LabelValueBean("OTHER EXAM","OTHER EXAM"));
-		           sections.add(new LabelValueBean("DUCTION/DIPLOPIA TESTING","DUCTION/DIPLOPIA TESTING"));
-		           sections.add(new LabelValueBean("DEVIATION MEASUREMENT","DEVIATION MEASUREMENT"));
-		           sections.add(new LabelValueBean("EXTERNAL/ORBIT","EXTERNAL/ORBIT"));
-		           sections.add(new LabelValueBean("EYELID/NASOLACRIMAL DUCT","EYELID/NASOLACRIMAL DUCT"));
-		           sections.add(new LabelValueBean("EYELID MEASUREMENT","EYELID MEASUREMENT"));
-		           sections.add(new LabelValueBean("ANTERIOR SEGMENT","ANTERIOR SEGMENT"));
-		           sections.add(new LabelValueBean("POSTERIOR SEGMENT","POSTERIOR SEGMENT"));
-	           }else{
-		           sections.add(new LabelValueBean("VISION ASSESSMENT","VISION ASSESSMENT"));
-		           sections.add(new LabelValueBean("MANIFEST VISION","MANIFEST VISION"));
-		           sections.add(new LabelValueBean("INTRAOCULAR PRESSURE","INTRAOCULAR PRESSURE"));
-		           sections.add(new LabelValueBean("OTHER EXAM","OTHER EXAM"));
-		           sections.add(new LabelValueBean("EOM/STEREO","EOM/STEREO"));
-		           sections.add(new LabelValueBean("ANTERIOR SEGMENT","ANTERIOR SEGMENT"));
-		           sections.add(new LabelValueBean("POSTERIOR SEGMENT","POSTERIOR SEGMENT"));
-		           sections.add(new LabelValueBean("EXTERNAL/ORBIT","EXTERNAL/ORBIT"));
-		           sections.add(new LabelValueBean("NASOLACRIMAL DUCT","NASOLACRIMAL DUCT"));
-		           sections.add(new LabelValueBean("EYELID MEASUREMENT","EYELID MEASUREMENT"));
-	           }
+	           sections.add(new LabelValueBean("VISION ASSESSMENT","VISION ASSESSMENT"));
+	           sections.add(new LabelValueBean("MANIFEST VISION","MANIFEST VISION"));
+	           sections.add(new LabelValueBean("INTRAOCULAR PRESSURE","INTRAOCULAR PRESSURE"));
+	           sections.add(new LabelValueBean("OTHER EXAM","OTHER EXAM"));
+	           sections.add(new LabelValueBean("EOM/STEREO","EOM/STEREO"));
+	           sections.add(new LabelValueBean("ANTERIOR SEGMENT","ANTERIOR SEGMENT"));
+	           sections.add(new LabelValueBean("POSTERIOR SEGMENT","POSTERIOR SEGMENT"));
+	           sections.add(new LabelValueBean("EXTERNAL/ORBIT","EXTERNAL/ORBIT"));
+	           sections.add(new LabelValueBean("NASOLACRIMAL DUCT","NASOLACRIMAL DUCT"));
+	           sections.add(new LabelValueBean("EYELID MEASUREMENT","EYELID MEASUREMENT"));
 	           return sections;
 		}
 
 		public static List<LabelValueBean> getMeasurementHeaders() {
 	           List<LabelValueBean> sections = new ArrayList<LabelValueBean>();
-	           oscar.OscarProperties props1 = oscar.OscarProperties.getInstance();
-	           String eyeform = props1.getProperty("cme_js");
-	           if(eyeform.equals("eyeform3")){
-	        	   sections.add(new LabelValueBean("Glasses Rx","Glasses Rx"));
-		           sections.add(new LabelValueBean("Distance vision (sc)","Distance vision (sc)"));
-		           sections.add(new LabelValueBean("Distance vision (cc)","Distance vision (cc)"));
-		           sections.add(new LabelValueBean("Distance vision (ph)","Distance vision (ph)"));
-		           sections.add(new LabelValueBean("Intermediate vision (sc)","Intermediate vision (sc)"));
-		           sections.add(new LabelValueBean("Intermediate vision (cc)","Intermediate vision (cc)"));
-		           sections.add(new LabelValueBean("Near vision (sc)","Near vision (sc)"));
-		           sections.add(new LabelValueBean("Near vision (cc)","Near vision (cc)"));
-		           sections.add(new LabelValueBean("Fly test","Fly test"));
-		           sections.add(new LabelValueBean("Stereo-acuity","Stereo-acuity"));
-		           sections.add(new LabelValueBean("Keratometry","Keratometry"));
-		           sections.add(new LabelValueBean("Auto-refraction","Auto-refraction"));
-		           sections.add(new LabelValueBean("Manifest distance","Manifest distance"));
-		           sections.add(new LabelValueBean("Manifest near","Manifest near"));
-		           sections.add(new LabelValueBean("Cycloplegic refraction","Cycloplegic refraction"));
-		           sections.add(new LabelValueBean("NCT","NCT"));
-		           sections.add(new LabelValueBean("Applanation","Applanation"));
-		           sections.add(new LabelValueBean("Central corneal thickness","Central corneal thickness"));
-		           sections.add(new LabelValueBean("Dominance","Dominance"));
-		           sections.add(new LabelValueBean("Mesopic pupil size","Mesopic pupil size"));
-		           sections.add(new LabelValueBean("Angle Kappa","Angle Kappa"));
-		           sections.add(new LabelValueBean("Colour vision","Colour vision"));
-		           sections.add(new LabelValueBean("Pupil","Pupil"));
-		           sections.add(new LabelValueBean("Amsler grid","Amsler grid"));
-		           sections.add(new LabelValueBean("Potential acuity meter","Potential acuity meter"));
-		           sections.add(new LabelValueBean("Confrontation fields","Confrontation fields"));
-		           sections.add(new LabelValueBean("Maddox rod","Maddox rod"));
-		           sections.add(new LabelValueBean("Bagolini test","Bagolini test"));
-		           sections.add(new LabelValueBean("Worth 4 Dot (distance)","Worth 4 Dot (distance)"));
-		           sections.add(new LabelValueBean("Worth 4 Dot (near)","Worth 4 Dot (near)"));
-		           sections.add(new LabelValueBean("DUCTION/DIPLOPIA TESTING","DUCTION/DIPLOPIA TESTING"));
-		           sections.add(new LabelValueBean("Primary gaze","Primary gaze"));
-		           sections.add(new LabelValueBean("Up gaze","Up gaze"));
-		           sections.add(new LabelValueBean("Down gaze","Down gaze"));
-		           sections.add(new LabelValueBean("Right gaze","Right gaze"));
-		           sections.add(new LabelValueBean("Left gaze","Left gaze"));
-		           sections.add(new LabelValueBean("Right head tilt","Right head tilt"));
-		           sections.add(new LabelValueBean("Left head tilt","Left head tilt"));
-		           sections.add(new LabelValueBean("Near","Near"));
-		           sections.add(new LabelValueBean("Near with +3D add","Near with +3D add"));
-		           sections.add(new LabelValueBean("Far distance","Far distance"));
-		           sections.add(new LabelValueBean("Face","Face"));
-		           sections.add(new LabelValueBean("Retropulsion","Retropulsion"));
-		           sections.add(new LabelValueBean("Hertel","Hertel"));
-		           sections.add(new LabelValueBean("Upper lid","Upper lid"));
-		           sections.add(new LabelValueBean("Lower lid","Lower lid"));
-		           sections.add(new LabelValueBean("Lacrimal lake","Lacrimal lake"));
-		           sections.add(new LabelValueBean("Lacrimal irrigation","Lacrimal irrigation"));
-		           sections.add(new LabelValueBean("Punctum","Punctum"));
-		           sections.add(new LabelValueBean("Nasolacrimal duct","Nasolacrimal duct"));
-		           sections.add(new LabelValueBean("Dye disappearance","Dye disappearance"));
-		           sections.add(new LabelValueBean("Margin reflex distance","Margin reflex distance"));
-		           sections.add(new LabelValueBean("Inferior scleral show","Inferior scleral show"));
-		           sections.add(new LabelValueBean("Levator function","Levator function"));
-		           sections.add(new LabelValueBean("Lagophthalmos","Lagophthalmos"));
-		           sections.add(new LabelValueBean("Blink reflex","Blink reflex"));
-		           sections.add(new LabelValueBean("Cranial Nerve VII function","Cranial Nerve VII function"));
-		           sections.add(new LabelValueBean("Bell’s phenomenon","Bell’s phenomenon"));
-		           sections.add(new LabelValueBean("Schirmer test","Schirmer test"));
-		           sections.add(new LabelValueBean("Cornea","Cornea"));
-		           sections.add(new LabelValueBean("Conjunctiva/Sclera","Conjunctiva/Sclera"));
-		           sections.add(new LabelValueBean("Anterior chamber","Anterior chamber"));
-		           sections.add(new LabelValueBean("Angle","Angle"));
-		           sections.add(new LabelValueBean("Iris","Iris"));
-		           sections.add(new LabelValueBean("Lens","Lens"));
-		           sections.add(new LabelValueBean("Optic disc","Optic disc"));
-		           sections.add(new LabelValueBean("C/D ratio","C/D ratio"));
-		           sections.add(new LabelValueBean("Macula","Macula"));
-		           sections.add(new LabelValueBean("Vitreous","Vitreous")); 
-	           }else{
-		           sections.add(new LabelValueBean("Auto-refraction","Auto-refraction"));
-		           sections.add(new LabelValueBean("Keratometry","Keratometry"));
-		           sections.add(new LabelValueBean("Distance vision (sc)","Distance vision (sc)"));
-		           sections.add(new LabelValueBean("Distance vision (cc)","Distance vision (cc)"));
-		           sections.add(new LabelValueBean("Distance vision (ph)","Distance vision (ph)"));
-		           sections.add(new LabelValueBean("Near vision (sc)","Near vision (sc)"));
-		           sections.add(new LabelValueBean("Near vision (cc)","Near vision (cc)"));
-	
-		           sections.add(new LabelValueBean("Manifest distance","Manifest distance"));
-		           sections.add(new LabelValueBean("Manifest near","Manifest near"));
-		           sections.add(new LabelValueBean("Cycloplegic refraction","Cycloplegic refraction"));
-		          // sections.add(new LabelValueBean("Best corrected distance vision","Best corrected distance vision"));
-	
-		           sections.add(new LabelValueBean("NCT","NCT"));
-		           sections.add(new LabelValueBean("Applanation","Applanation"));
-		           sections.add(new LabelValueBean("Central corneal thickness","Central corneal thickness"));
-	
-		           sections.add(new LabelValueBean("Colour vision","Colour vision"));
-		           sections.add(new LabelValueBean("Pupil","Pupil"));
-		           sections.add(new LabelValueBean("Amsler grid","Amsler grid"));
-		           sections.add(new LabelValueBean("Potential acuity meter","Potential acuity meter"));
-		           sections.add(new LabelValueBean("Confrontation fields","Confrontation fields"));
-		           //sections.add(new LabelValueBean("Maddox rod","Maddox rod"));
-		           //sections.add(new LabelValueBean("Bagolini test","Bagolini test"));
-		           //sections.add(new LabelValueBean("Worth 4 dot (distance)","Worth 4 dot (distance)"));
-		          // sections.add(new LabelValueBean("Worth 4 dot (near)","Worth 4 dot (near)"));
-		           sections.add(new LabelValueBean("EOM","EOM"));
-	
-		           sections.add(new LabelValueBean("Cornea","Cornea"));
-		           sections.add(new LabelValueBean("Conjunctiva/Sclera","Conjunctiva/Sclera"));
-		           sections.add(new LabelValueBean("Anterior chamber","Anterior chamber"));
-		           sections.add(new LabelValueBean("Angle","Angle"));
-		           sections.add(new LabelValueBean("Iris","Iris"));
-		           sections.add(new LabelValueBean("Lens","Lens"));
-	
-		           sections.add(new LabelValueBean("Optic disc","Optic disc"));
-		           sections.add(new LabelValueBean("C/D ratio","C/D ratio"));
-		           sections.add(new LabelValueBean("Macula","Macula"));
-		           sections.add(new LabelValueBean("Retina","Retina"));
-		           sections.add(new LabelValueBean("Vitreous","Vitreous"));
-	
-		           sections.add(new LabelValueBean("Face","Face"));
-		           sections.add(new LabelValueBean("Upper lid","Upper lid"));
-		           sections.add(new LabelValueBean("Lower lid","Lower lid"));
-		           sections.add(new LabelValueBean("Punctum","Punctum"));
-		           sections.add(new LabelValueBean("Lacrimal lake","Lacrimal lake"));
-		           //sections.add(new LabelValueBean("Schirmer test","Schirmer test"));
-		           sections.add(new LabelValueBean("Retropulsion","Retropulsion"));
-		           sections.add(new LabelValueBean("Hertel","Hertel"));
-	
-		           sections.add(new LabelValueBean("Lacrimal irrigation","Lacrimal irrigation"));
-		           sections.add(new LabelValueBean("Nasolacrimal duct","Nasolacrimal duct"));
-		           sections.add(new LabelValueBean("Dye disappearance","Dye disappearance"));
-	
-		           sections.add(new LabelValueBean("Margin reflex distance","Margin reflex distance"));
-		           sections.add(new LabelValueBean("Inferior scleral show","Inferior scleral show"));
-		           sections.add(new LabelValueBean("Levator function","Levator function"));
-		           sections.add(new LabelValueBean("Lagophthalmos","Lagophthalmos"));
-		           sections.add(new LabelValueBean("Blink reflex","Blink reflex"));
-		           sections.add(new LabelValueBean("Cranial nerve VII function","Cranial nerve VII function"));
-		           sections.add(new LabelValueBean("Bell's phenomenon","Bells phenomenon"));
-	           }
+	           sections.add(new LabelValueBean("Auto-refraction","Auto-refraction"));
+	           sections.add(new LabelValueBean("Keratometry","Keratometry"));
+	           sections.add(new LabelValueBean("Distance vision (sc)","Distance vision (sc)"));
+	           sections.add(new LabelValueBean("Distance vision (cc)","Distance vision (cc)"));
+	           sections.add(new LabelValueBean("Distance vision (ph)","Distance vision (ph)"));
+	           sections.add(new LabelValueBean("Near vision (sc)","Near vision (sc)"));
+	           sections.add(new LabelValueBean("Near vision (cc)","Near vision (cc)"));
+
+	           sections.add(new LabelValueBean("Manifest distance","Manifest distance"));
+	           sections.add(new LabelValueBean("Manifest near","Manifest near"));
+	           sections.add(new LabelValueBean("Cycloplegic refraction","Cycloplegic refraction"));
+	          // sections.add(new LabelValueBean("Best corrected distance vision","Best corrected distance vision"));
+
+	           sections.add(new LabelValueBean("NCT","NCT"));
+	           sections.add(new LabelValueBean("Applanation","Applanation"));
+	           sections.add(new LabelValueBean("Central corneal thickness","Central corneal thickness"));
+
+	           sections.add(new LabelValueBean("Colour vision","Colour vision"));
+	           sections.add(new LabelValueBean("Pupil","Pupil"));
+	           sections.add(new LabelValueBean("Amsler grid","Amsler grid"));
+	           sections.add(new LabelValueBean("Potential acuity meter","Potential acuity meter"));
+	           sections.add(new LabelValueBean("Confrontation fields","Confrontation fields"));
+	           //sections.add(new LabelValueBean("Maddox rod","Maddox rod"));
+	           //sections.add(new LabelValueBean("Bagolini test","Bagolini test"));
+	           //sections.add(new LabelValueBean("Worth 4 dot (distance)","Worth 4 dot (distance)"));
+	          // sections.add(new LabelValueBean("Worth 4 dot (near)","Worth 4 dot (near)"));
+	           sections.add(new LabelValueBean("EOM","EOM"));
+
+	           sections.add(new LabelValueBean("Cornea","Cornea"));
+	           sections.add(new LabelValueBean("Conjunctiva/Sclera","Conjunctiva/Sclera"));
+	           sections.add(new LabelValueBean("Anterior chamber","Anterior chamber"));
+	           sections.add(new LabelValueBean("Angle","Angle"));
+	           sections.add(new LabelValueBean("Iris","Iris"));
+	           sections.add(new LabelValueBean("Lens","Lens"));
+
+	           sections.add(new LabelValueBean("Optic disc","Optic disc"));
+	           sections.add(new LabelValueBean("C/D ratio","C/D ratio"));
+	           sections.add(new LabelValueBean("Macula","Macula"));
+	           sections.add(new LabelValueBean("Retina","Retina"));
+	           sections.add(new LabelValueBean("Vitreous","Vitreous"));
+
+	           sections.add(new LabelValueBean("Face","Face"));
+	           sections.add(new LabelValueBean("Upper lid","Upper lid"));
+	           sections.add(new LabelValueBean("Lower lid","Lower lid"));
+	           sections.add(new LabelValueBean("Punctum","Punctum"));
+	           sections.add(new LabelValueBean("Lacrimal lake","Lacrimal lake"));
+	           //sections.add(new LabelValueBean("Schirmer test","Schirmer test"));
+	           sections.add(new LabelValueBean("Retropulsion","Retropulsion"));
+	           sections.add(new LabelValueBean("Hertel","Hertel"));
+
+	           sections.add(new LabelValueBean("Lacrimal irrigation","Lacrimal irrigation"));
+	           sections.add(new LabelValueBean("Nasolacrimal duct","Nasolacrimal duct"));
+	           sections.add(new LabelValueBean("Dye disappearance","Dye disappearance"));
+
+	           sections.add(new LabelValueBean("Margin reflex distance","Margin reflex distance"));
+	           sections.add(new LabelValueBean("Inferior scleral show","Inferior scleral show"));
+	           sections.add(new LabelValueBean("Levator function","Levator function"));
+	           sections.add(new LabelValueBean("Lagophthalmos","Lagophthalmos"));
+	           sections.add(new LabelValueBean("Blink reflex","Blink reflex"));
+	           sections.add(new LabelValueBean("Cranial nerve VII function","Cranial nerve VII function"));
+	           sections.add(new LabelValueBean("Bell's phenomenon","Bells phenomenon"));
+
 	           return sections;
 		}
 
@@ -1934,156 +1842,65 @@ public class EyeformAction extends DispatchAction {
 				List<Measurements> measurements = measurementsDao.getMeasurementsByAppointment2(Integer.parseInt(appointmentNo));
 			
 			MeasurementFormatter formatter = new MeasurementFormatter(measurements);
-			
+			exam.append(formatter.getVisionAssessment(headerMap));
 			String tmp = null;
-			oscar.OscarProperties props1 = oscar.OscarProperties.getInstance();
-			String eyeform = props1.getProperty("cme_js");
-            if(eyeform.equals("eyeform3")){
-            	tmp = formatter.getGlasseshistory(headerMap,Integer.parseInt(appointmentNo));
-
-    			exam.append(tmp);
-    			
-    			tmp = formatter.getVisionAssessment(headerMap);
-    			if(exam.length()>0 && tmp.length()>0 ){
-    				exam.append("\n\n");
-    			}
-    			exam.append(tmp);
-    			
-    			tmp = formatter.getManifestVision(headerMap);
-    			if(exam.length()>0 && tmp.length()>0 ){
-    				exam.append("\n\n");
-    			}
-    			exam.append(tmp);
-    			
-    			tmp = formatter.getStereoVision(headerMap);
-    			if(exam.length()>0 && tmp.length()>0 ){
-    				exam.append("\n\n");
-    			}
-    			exam.append(tmp);
-    					
-    			tmp = formatter.getIntraocularPressure(headerMap);
-    			if(exam.length()>0 && tmp.length()>0 ){
-    				exam.append("\n\n");
-    			}
-    			exam.append(tmp);
-    			
-    			tmp = formatter.getRactive(headerMap);
-    			if(exam.length()>0 && tmp.length()>0 ){
-    				exam.append("\n\n");
-    			}
-    			exam.append(tmp);
-    			
-    			tmp = formatter.getOtherExam(headerMap);
-    			if(exam.length()>0 && tmp.length()>0 ){
-    				exam.append("\n\n");
-    			}
-    			exam.append(tmp);
-    			
-    			tmp = formatter.getDuctionTesting(headerMap);
-    			if(exam.length()>0 && tmp.length()>0 ){
-    				exam.append("\n\n");
-    			}
-    			exam.append(tmp);
-    			
-    			tmp = formatter.getDeviationMeasurement(headerMap);
-    			if(exam.length()>0 && tmp.length()>0 ){
-    				exam.append("\n\n");
-    			}
-    			exam.append(tmp);
-    			
-    			tmp = formatter.getAnteriorSegment(headerMap);
-    			if(exam.length()>0 && tmp.length()>0 ){
-    				exam.append("\n\n");
-    			}
-    			exam.append(tmp);
-
-    			tmp = formatter.getPosteriorSegment(headerMap);
-    			if(exam.length()>0 && tmp.length()>0 ){
-    				exam.append("\n\n");
-    			}
-    			exam.append(tmp);
-
-    			tmp = formatter.getExternalOrbit(headerMap);
-    			if(exam.length()>0 && tmp.length()>0 ){
-    				exam.append("\n\n");
-    			}
-    			exam.append(tmp);
-    			
-    			tmp = formatter.getEyelidDuct(headerMap);
-    			if(exam.length()>0 && tmp.length()>0 ){
-    				exam.append("\n\n");
-    			}
-    			exam.append(tmp);
-
-    			tmp = formatter.getEyelidMeasurement(headerMap);
-    			if(exam.length()>0 && tmp.length()>0 ){
-    				exam.append("\n\n");
-    			}
-    			exam.append(tmp);
-
-    			response.getWriter().println(exam.toString());
-			
-            }
-            else{
-            	exam.append(formatter.getVisionAssessment(headerMap));
-            	
-				tmp = formatter.getManifestVision(headerMap);
-				if(exam.length()>0 && tmp.length()>0 ){
-					exam.append("\n\n");
-				}
-				exam.append(tmp);
-				tmp = formatter.getIntraocularPressure(headerMap);
-				if(exam.length()>0 && tmp.length()>0 ){
-					exam.append("\n\n");
-				}
-				exam.append(tmp);
-	
-				tmp = formatter.getOtherExam(headerMap);
-				if(exam.length()>0 && tmp.length()>0 ){
-					exam.append("\n\n");
-				}
-				exam.append(tmp);
-	
-				tmp = formatter.getEOMStereo(headerMap);
-				if(exam.length()>0 && tmp.length()>0 ){
-					exam.append("\n\n");
-				}
-				exam.append(tmp);
-	
-				tmp = formatter.getAnteriorSegment(headerMap);
-				if(exam.length()>0 && tmp.length()>0 ){
-					exam.append("\n\n");
-				}
-				exam.append(tmp);
-	
-				tmp = formatter.getPosteriorSegment(headerMap);
-				if(exam.length()>0 && tmp.length()>0 ){
-					exam.append("\n\n");
-				}
-				exam.append(tmp);
-	
-				tmp = formatter.getExternalOrbit(headerMap);
-				if(exam.length()>0 && tmp.length()>0 ){
-					exam.append("\n\n");
-				}
-				exam.append(tmp);
-	
-				tmp = formatter.getNasalacrimalDuct(headerMap);
-				if(exam.length()>0 && tmp.length()>0 ){
-					exam.append("\n\n");
-				}
-				exam.append(tmp);
-	
-				tmp = formatter.getEyelidMeasurement(headerMap);
-				if(exam.length()>0 && tmp.length()>0 ){
-					exam.append("\n\n");
-				}
-				exam.append(tmp);
-	
-				response.getWriter().println(exam.toString());
-	
-				}
+			tmp = formatter.getManifestVision(headerMap);
+			if(exam.length()>0 && tmp.length()>0 ){
+				exam.append("\n\n");
 			}
+			exam.append(tmp);
+			tmp = formatter.getIntraocularPressure(headerMap);
+			if(exam.length()>0 && tmp.length()>0 ){
+				exam.append("\n\n");
+			}
+			exam.append(tmp);
+
+			tmp = formatter.getOtherExam(headerMap);
+			if(exam.length()>0 && tmp.length()>0 ){
+				exam.append("\n\n");
+			}
+			exam.append(tmp);
+
+			tmp = formatter.getEOMStereo(headerMap);
+			if(exam.length()>0 && tmp.length()>0 ){
+				exam.append("\n\n");
+			}
+			exam.append(tmp);
+
+			tmp = formatter.getAnteriorSegment(headerMap);
+			if(exam.length()>0 && tmp.length()>0 ){
+				exam.append("\n\n");
+			}
+			exam.append(tmp);
+
+			tmp = formatter.getPosteriorSegment(headerMap);
+			if(exam.length()>0 && tmp.length()>0 ){
+				exam.append("\n\n");
+			}
+			exam.append(tmp);
+
+			tmp = formatter.getExternalOrbit(headerMap);
+			if(exam.length()>0 && tmp.length()>0 ){
+				exam.append("\n\n");
+			}
+			exam.append(tmp);
+
+			tmp = formatter.getNasalacrimalDuct(headerMap);
+			if(exam.length()>0 && tmp.length()>0 ){
+				exam.append("\n\n");
+			}
+			exam.append(tmp);
+
+			tmp = formatter.getEyelidMeasurement(headerMap);
+			if(exam.length()>0 && tmp.length()>0 ){
+				exam.append("\n\n");
+			}
+			exam.append(tmp);
+
+			response.getWriter().println(exam.toString());
+
+			}
+
 			return null;
 		}
 
