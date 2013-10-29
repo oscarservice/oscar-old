@@ -95,14 +95,9 @@ input [type=text] { border-bottom: black 1px solid; }
 				notesToDisplay.add(note);
 			}
 		}
-	//	if(notesToDisplay.size()<=notesToDisplay2.size()+notesToDisplay3.size()){
-	//	for(int i=0;i<notesToDisplay2.size();i++){
-		//	notesToDisplay.add(notesToDisplay2.get(i));
-		//}
-		//for(int i=0;i<notesToDisplay3.size();i++){
-		//	notesToDisplay.add(notesToDisplay3.get(i));
-		//}
-		//}
+
+		String issuesToHide = OscarProperties.getInstance().getProperty("encounter.hide_notes_with_issue","");
+		String[] is =issuesToHide.split(",");
 		int noteSize = notesToDisplay.size();
 		String dateFormat = "dd-MMM-yyyy H:mm";
 		int idx = 0;
@@ -110,6 +105,45 @@ input [type=text] { border-bottom: black 1px solid; }
 			for(idx = noteSize - 1; idx >= 0; --idx){
 			
 				NoteDisplay note = notesToDisplay.get(idx);
+				
+				boolean hideCppNotes = OscarProperties.getInstance().isPropertyActive("encounter.hide_cpp_notes");
+				boolean hideDocumentNotes = OscarProperties.getInstance().isPropertyActive("encounter.hide_document_notes");
+				boolean hideEformNotes = OscarProperties.getInstance().isPropertyActive("encounter.hide_eform_notes");
+				boolean hideFormNotes = OscarProperties.getInstance().isPropertyActive("encounter.hide_form_notes");
+				boolean hideBillingNotes = OscarProperties.getInstance().isPropertyActive("encounter.hide_billing_notes");
+
+				String noteDisplay = "";				
+				if(note.isCpp() && hideCppNotes) {
+					//noteDisplay="none";
+					noteDisplay="style=\"display:none\"";
+				}
+				if(note.isDocument() && hideDocumentNotes) {
+					//noteDisplay="none";
+					noteDisplay="style=\"display:none\"";
+				}
+				if(note.isEformData() && hideEformNotes) {
+					//noteDisplay="none";
+					noteDisplay="style=\"display:none\"";
+				}
+				if(note.isEncounterForm() && hideFormNotes) {
+					//noteDisplay="none";
+					noteDisplay="style=\"display:none\"";
+				}
+				if(note.isInvoice() && hideBillingNotes) {
+					//noteDisplay="none";
+					noteDisplay="style=\"display:none\"";
+				}
+
+				if(!noteDisplay.equals("none") && issuesToHide.length()>0) {
+					for(String i:is) {
+						if(note.containsIssue(i)) {
+							//noteDisplay="none";
+							noteDisplay="style=\"display:none\"";
+							break;
+						}
+					}
+				}
+								
 				String docname = "";
 				ArrayList<String> editorNames1 = note.getEditorNames();
 				Iterator<String> it1 = editorNames1.iterator();
@@ -120,7 +154,7 @@ input [type=text] { border-bottom: black 1px solid; }
 				if(docname == ""){
 				}else{
 	%>
-	<tr>
+	<tr <%=noteDisplay%>>
 		<td><%=DateUtils.getDate(note.getObservationDate(), dateFormat, request.getLocale())%></td>
 		<td>
 			<ul style="list-style: none inside none; margin: 0px;">
@@ -155,9 +189,9 @@ input [type=text] { border-bottom: black 1px solid; }
 	}else{
 	%>
 	<tr>
-		<td>null</td>
-		<td>null</td>
-		<td>null</td>
+		<td>empty</td>
+		<td>empty</td>
+		<td>empty</td>
 	</tr>
 	<%
 		}
