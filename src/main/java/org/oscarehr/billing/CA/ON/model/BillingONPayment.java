@@ -24,10 +24,13 @@ public class BillingONPayment extends AbstractModel<Integer> implements Serializ
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 
-	private BigDecimal payment;
+	private BigDecimal total_payment;
 
 	private Date paymentdate;
-
+	
+	private BigDecimal total_refund;
+	
+	private BigDecimal total_discount;
 	private static final long serialVersionUID = 1L;
 
 	@ManyToOne(optional=false)
@@ -48,14 +51,6 @@ public class BillingONPayment extends AbstractModel<Integer> implements Serializ
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public BigDecimal getPayment() {
-		return this.payment;
-	}
-
-	public void setPayment(BigDecimal payment) {
-		this.payment = payment;
 	}
 
 	public Date getPaymentDate() {
@@ -86,5 +81,30 @@ public class BillingONPayment extends AbstractModel<Integer> implements Serializ
 		this.billingPaymentType = billingPaymentType;
 	}
 
+	public BigDecimal getTotal_payment() {
+		return total_payment;
+	}
+
+	public void setTotal_payment(BigDecimal total_payment) {
+		this.total_payment = total_payment;
+	}
+
+	public BigDecimal getTotal_refund() {
+		return total_refund;
+	}
+
+	public void setTotal_refund(BigDecimal total_refund) {
+		this.total_refund = total_refund;
+	}
+
+	public BigDecimal getTotal_discount() {
+		return total_discount;
+	}
+
+	public void setTotal_discount(BigDecimal total_discount) {
+		this.total_discount = total_discount;
+	}
+	
+	
 
 }

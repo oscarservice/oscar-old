@@ -103,6 +103,12 @@ public class BillingONPaymentDao extends AbstractDao<BillingONPayment>{
         NumberFormat currency = NumberFormat.getCurrencyInstance();
         return currency.format(paymentsSum);
     }
+    
+    public int getPaymentIdByBillingNo(int billingNo){
+    	Query query = entityManager.createQuery("select bp.id from BillingONPayment bp where bp.billingONCheader1.id = :billingNo");
+    	query.setParameter("billingNo", billingNo);
+    	return (Integer) query.getSingleResult();
+    }
 /*
     private Long convertToLong(BigDecimal param) {
     	BigDecimal res = param.multiply(BigDecimal.valueOf(100));

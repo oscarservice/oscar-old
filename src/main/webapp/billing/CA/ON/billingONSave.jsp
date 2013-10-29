@@ -57,6 +57,7 @@
 				if(request.getParameter("xml_billtype").substring(0,3).matches(BillingDataHlp.BILLINGMATCHSTRING_3RDPARTY)) {
 					bObj.addPrivateBillExtRecord(request);
 				}
+				bObj.addTransaction(bObj.getBillingTransaction(request));
 				int billingNo = bObj.getBillingId();
 				
 				// update appt and close the page

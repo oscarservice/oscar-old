@@ -31,7 +31,9 @@ public class BillingItemData {
 	String dx;
 	String dx1;
 	String dx2;
-
+	String paid;
+	String refund;
+	String discount;
 	String status;
 	String timestamp;
 
@@ -59,6 +61,9 @@ public class BillingItemData {
             this.setDx(copy.getDx());
             this.setDx1(copy.getDx1());
             this.setDx2(copy.getDx2());
+            this.setPaid(copy.getPaid());
+            this.setRefund(copy.getRefund());
+            this.setDiscount(copy.getDiscount());
             this.setStatus(copy.getStatus());
             this.setTimestamp(copy.getTimestamp());
             this.setLocation(copy.getLocation());
@@ -151,5 +156,29 @@ public class BillingItemData {
     	this.location = location;
     }
 
+	public String getPaid() {
+		return paid;
+	}
+
+	public void setPaid(String paid) {
+		this.paid = paid;
+	}
+
+	public String getRefund() {
+		return refund;
+	}
+
+	public void setRefund(String refund) {
+		this.refund = refund;
+	}
+
+	public String getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(String discount) {
+		this.discount = discount;
+	}
+	
 
 }

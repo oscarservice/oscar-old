@@ -105,14 +105,14 @@ public class JdbcBillingClaimImpl {
 
 		return retval;
 	}
-
+	
 	public boolean addItemRecord(List lVal, int id) {
 		boolean retval = true;
 		for (int i = 0; i < lVal.size(); i++) {
 			BillingItemData val = (BillingItemData) lVal.get(i);
 			String sql = "insert into billing_on_item values(\\N, " + id + ", '" + val.transc_id + "', '" + val.rec_id
 					+ "', '" + val.service_code + "', '" + val.fee + "', '" + val.ser_num + "', '" + val.service_date
-					+ "', '" + val.dx + "', '" + val.dx1 + "', '" + val.dx2 + "', '" + val.status + "', \\N )";
+					+ "', '" + val.dx + "', '" + val.dx1 + "', '" + val.dx2 + "', '" + val.status+"', \\N ,'"+val.paid+"','"+val.refund+"','"+val.discount+"')";
 			retval = dbObj.updateDBRecord(sql);
 			if (!retval) {
 				_logger.error("addItemRecord(sql = " + sql + ")");
@@ -146,7 +146,7 @@ public class JdbcBillingClaimImpl {
 			}
 		}
         
-        if(paymentRefundParam != null && !paymentRefundParam.trim().startsWith("-")) paymentRefundParam = paymentRefundParam.substring(1, paymentRefundParam.length());
+        if(paymentRefundParam != null && !paymentRefundParam.trim().startsWith("-")&&!"".equals(paymentRefundParam)) paymentRefundParam = paymentRefundParam.substring(1, paymentRefundParam.length());
         
         if(paymentSumParam!=null || paymentRefundParam!=null) {
 			BillingONPaymentDao billingONPaymentDao =(BillingONPaymentDao) SpringUtils.getBean("billingONPaymentDao");
@@ -165,7 +165,8 @@ public class JdbcBillingClaimImpl {
     		BillingONPayment payment = null;
     		if(paymentSumParam != null) {
 		    	payment = new BillingONPayment();
-	    		payment.setPayment(BigDecimal.valueOf(Double.parseDouble(paymentSumParam)));
+	    		payment.setTotal_payment(BigDecimal.valueOf(Double.parseDouble(paymentSumParam)));
+	    		payment.setTotal_discount(BigDecimal.valueOf(Double.parseDouble(mVal.get("total_discount"))));
 				payment.setPaymentDate(paymentDate);
 		    	payment.setBillingOnCheader1(ch1);
 		    	payment.setBillingPaymentType(type);
@@ -177,7 +178,8 @@ public class JdbcBillingClaimImpl {
     			if(comp != 0) {
         			payment = new BillingONPayment();
     	    		if(comp < 0) refund = refund.negate();
-        			payment.setPayment(refund);
+        			payment.setTotal_refund(refund);
+    	    		payment.setTotal_discount(BigDecimal.valueOf(Double.parseDouble(mVal.get("total_discount"))));
     				payment.setPaymentDate(paymentDate);
     		    	payment.setBillingOnCheader1(ch1);
     		    	payment.setBillingPaymentType(type);
@@ -229,7 +231,22 @@ public class JdbcBillingClaimImpl {
 
 		return retval;
 	}
-
+	
+	public boolean addBillingTransaction(List lVal,int paymentId, int id){
+		boolean retval = true;
+		for (int i = 0; i < lVal.size(); i++) {
+			BillingTransactionData val = (BillingTransactionData) lVal.get(i);
+			String sql = "insert into billing_on_transaction(ch1_id,payment_id,pay_program,payment_date,service_code,service_code_num,service_code_invoice_no,service_code_paid,service_code_refund,service_code_discount) values( " + id + ", '" + paymentId + "', '" + val.pay_program
+					+ "', \\N, '" + val.service_code + "', '" + val.service_code_num + "', '" + val.service_code_invoice_no
+					+ "', '" + val.service_code_paid + "', '" + val.service_code_refund + "', '" + val.service_code_discount+"')";
+			retval = dbObj.updateDBRecord(sql);
+		if (!retval) {
+			_logger.error("addTransaction(sql = " + sql + ")");
+			return retval;
+		}
+		}
+		return retval;
+	}
 	/*
 	 * // add disk file public List addBillingDiskName(BillingDiskNameData val) {
 	 * List ret = new Vector(); int retval = 0; Vector ohipName =

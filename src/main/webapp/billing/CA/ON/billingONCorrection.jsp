@@ -494,7 +494,7 @@ function checkSettle(status) {
 		    					if(ch1 == null)  ch1 = payment.getBillingONCheader1();
             						boolean isDisplayed = true;
 							if(isDisplayed) {
-								sum = sum.add(payment.getPayment());
+								sum = sum.add(payment.getTotal_payment());
 	    						}
         					}
       					}  
