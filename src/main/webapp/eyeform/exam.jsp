@@ -29,8 +29,6 @@
 <%@ include file="/casemgmt/taglibs.jsp" %>
 
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-html" prefix="html"%>
-
-
 <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
 <link rel="stylesheet" href="<c:out value="${ctx}"/>/oscarEncounter/encounterStyles.css" type="text/css">
 
@@ -57,7 +55,7 @@ function touchColor() {
 <script>
 var effectMap = {};
 jQuery("document").ready(function() {
-	for(var x=21;x<32;x++) {
+	for(var x=21;x<34;x++) {
 		var name = 's_'+x;
 		var el = document.getElementById(name);
 		if(el) {
@@ -200,7 +198,6 @@ function clearExternal(){
 	setfieldvalue("os_punctum","");
 	setfieldvalue("od_lacrimal_lake","");
 	setfieldvalue("os_lacrimal_lake","");
-
 }
 
 function expandAll() {
@@ -275,7 +272,7 @@ function collapseAll() {
        text-decoration:none;
        letter-spacing:normal;
        word-spacing:0;
-       line-height:11px;
+       line-height:15px;
        vertical-align:baseline;
 
 
@@ -318,7 +315,7 @@ span.ge{
 </style>
 
 <span style="font-size:10px">
-	<a id="save_measurements" href="#">[Save Measurements]</a>
+	<a id="save_measurements" href="javascript:void(0)"  onclick="document.getElementById('hxForm').submit();">[Save Measurements]</a>
 </span>
 <span style="float:right;font-size:10px">
 	<a href="javascript:void(0);" onclick="expandAll();">[expand all sections]</a>&nbsp;

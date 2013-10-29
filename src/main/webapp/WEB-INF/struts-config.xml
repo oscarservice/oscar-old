@@ -2544,6 +2544,7 @@
 
 		<action input="/demographic/demographicsearchresults.jsp" name="importDemoForm" path="/demographic/importNewDemoAction" scope="request" type="oscar.oscarDemographic.ImportDemoAction">
 			<forward name="success" path="/demographic/importDemoResult.jsp" />
+			<forward name="import" path="/demographic/importNewDemo.jsp" />
 		</action>
 				
 	</action-mappings>

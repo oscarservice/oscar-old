@@ -406,12 +406,16 @@
     </databaseap>
     <databaseap>
         <ap-name>referral_phone</ap-name>
-		<ap-sql>SELECT professionalspecialists.phone FROM professionalspecialists LEFT JOIN demographic ON (professionalspecialists.referralNo = (SELECT SUBSTRING(demographic.family_doctor,INSTR(demographic.family_doctor,'&lt;rdohip&gt;') +9,INSTR(demographic.family_doctor,'&lt;&#47;rdohip&gt;') - INSTR(demographic.family_doctor,'&lt;rdohip&gt;') -9) FROM demographic WHERE demographic.demographic_no=${demographic}))</ap-sql>
+        <ap-sql>SELECT professionalSpecialists.phone
+                FROM professionalSpecialists, demographic
+                WHERE demographic.demographic_no=${demographic} AND LENGTH(professionalSpecialists.referralNo) &gt; 0 AND SUBSTRING(demographic.family_doctor,9,(LENGTH(professionalSpecialists.referralNo)))=professionalSpecialists.referralNo</ap-sql>
         <ap-output>${phone}</ap-output>
     </databaseap>
     <databaseap>
         <ap-name>referral_fax</ap-name>
-		<ap-sql>SELECT professionalspecialists.fax FROM professionalspecialists LEFT JOIN demographic ON (professionalspecialists.referralNo = (SELECT SUBSTRING(demographic.family_doctor,INSTR(demographic.family_doctor,'&lt;rdohip&gt;') +9,INSTR(demographic.family_doctor,'&lt;&#47;rdohip&gt;') - INSTR(demographic.family_doctor,'&lt;rdohip&gt;') -9) FROM demographic WHERE demographic.demographic_no=${demographic}))</ap-sql>
+        <ap-sql>SELECT professionalSpecialists.fax
+                FROM professionalSpecialists, demographic
+                WHERE demographic.demographic_no=${demographic} AND LENGTH(professionalSpecialists.referralNo) &gt; 0 AND SUBSTRING(demographic.family_doctor,9,(LENGTH(professionalSpecialists.referralNo)))=professionalSpecialists.referralNo</ap-sql>
         <ap-output>${fax}</ap-output>
     </databaseap>
     <databaseap>
@@ -589,7 +593,70 @@
        </ap-sql>
         <ap-output>${prevention_date}</ap-output>
     </databaseap>
-
+	
+	<databaseap>
+        <ap-name>td_immunization_date</ap-name>
+        <ap-sql>select prevention_date from preventions p where p.prevention_type = 'Td' and p.deleted = '0' and p.demographic_no = ${demographic} order by p.prevention_date asc limit 1
+       </ap-sql>
+        <ap-output>${prevention_date}</ap-output>
+    </databaseap>
+	
+	<databaseap>
+        <ap-name>mmr_immunization_date</ap-name>
+        <ap-sql>select prevention_date from preventions p where p.prevention_type = 'MMR' and p.deleted = '0' and p.demographic_no = ${demographic} order by p.prevention_date asc limit 1
+       </ap-sql>
+        <ap-output>${prevention_date}</ap-output>
+    </databaseap>
+	
+	<databaseap>
+        <ap-name>tdpaipv_immunization_date</ap-name>
+        <ap-sql>select prevention_date from preventions p where p.prevention_type = 'Tdap-IPV' and p.deleted = '0' and p.demographic_no = ${demographic} order by p.prevention_date asc limit 1
+       </ap-sql>
+        <ap-output>${prevention_date}</ap-output>
+    </databaseap>
+	
+	<databaseap>
+        <ap-name>vz_immunization_date</ap-name>
+        <ap-sql>select prevention_date from preventions p where p.prevention_type = 'VZ' and p.deleted = '0' and p.demographic_no = ${demographic} order by p.prevention_date asc limit 1
+       </ap-sql>
+        <ap-output>${prevention_date}</ap-output>
+    </databaseap>
+	
+	<databaseap>
+        <ap-name>tdipv_immunization_date</ap-name>
+        <ap-sql>select prevention_date from preventions p where p.prevention_type = 'Td-IPV' and p.deleted = '0' and p.demographic_no = ${demographic} order by p.prevention_date asc limit 1
+       </ap-sql>
+        <ap-output>${prevention_date}</ap-output>
+    </databaseap>
+	
+	<databaseap>
+        <ap-name>hepb_immunization_date</ap-name>
+        <ap-sql>select prevention_date from preventions p where p.prevention_type = 'HepB' and p.deleted = '0' and p.demographic_no = ${demographic} order by p.prevention_date asc limit 1
+       </ap-sql>
+        <ap-output>${prevention_date}</ap-output>
+    </databaseap>
+	
+	<databaseap>
+        <ap-name>pneumovax_immunization_date</ap-name>
+        <ap-sql>select prevention_date from preventions p where p.prevention_type = 'Pneumovax' and p.deleted = '0' and p.demographic_no = ${demographic} order by p.prevention_date asc limit 1
+       </ap-sql>
+        <ap-output>${prevention_date}</ap-output>
+    </databaseap>
+	
+	<databaseap>
+        <ap-name>hepa_immunization_date</ap-name>
+        <ap-sql>select prevention_date from preventions p where p.prevention_type = 'HepA' and p.deleted = '0' and p.demographic_no = ${demographic} order by p.prevention_date asc limit 1
+       </ap-sql>
+        <ap-output>${prevention_date}</ap-output>
+    </databaseap>
+	
+	<databaseap>
+        <ap-name>hepab_immunization_date</ap-name>
+        <ap-sql>select prevention_date from preventions p where p.prevention_type = 'HepAB' and p.deleted = '0' and p.demographic_no = ${demographic} order by p.prevention_date asc limit 1
+       </ap-sql>
+        <ap-output>${prevention_date}</ap-output>
+    </databaseap>
+	
     <databaseap>
     	<ap-name>guardian_label</ap-name>
         <ap-sql>select d.first_name, d.last_name, d.address, d.city, d.province, d.postal from relationships r, demographic d where r.relation_demographic_no = d.demographic_no and r.demographic_no = ${demographic}

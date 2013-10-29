@@ -773,7 +773,7 @@ jQuery(document).ready(function() {
 						<tr>
                		<td>
                 			<select name="fromlist1" multiple="multiple" size="9" ondblclick="addSection(document.eyeForm.elements['fromlist1'],document.eyeForm.elements['fromlist2']);">
-                				<c:forEach var="item" items="${sections}">
+								<c:forEach var="item" items="${sections}">
                 					<option value="<c:out value="${item.value}"/>"><c:out value="${item.label}"/></option>
                 				</c:forEach>
                 			</select>

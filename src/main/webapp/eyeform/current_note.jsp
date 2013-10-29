@@ -161,7 +161,8 @@ function saveFlags() {
 </style>
 
 <span note_addon="saveEyeformNoteNoGenerate"></span>
-<span><input type="button" onclick="popupPageOne('<c:out value="${ctx}"/>/eyeform/EyeformPlan.do?method=form&amp;followup.demographicNo=<%=demographicNo %>&amp;noteId=<%=noteId%>&amp;followup.appointmentNo=<%=aptNo%>','eyeFormPlan',600,1200);" value="Arrange Plan"/></span>
+<span><input type="button" onclick="popupPageOne('<c:out value="${ctx}"/>/eyeform/EyeformPlan.do?method=form&amp;followup.demographicNo=<%=demographicNo %>&amp;noteId=<%=noteId%>&amp;followup.appointmentNo=<%=aptNo%>','eyeFormPlan',600,1200);" value="Arrange Plan"/>
+</span>
 
 <table width="100%" class="plan">
 <tr>
@@ -234,7 +235,7 @@ function saveFlags() {
            <tbody><tr>
            
             <td nowrap="nowrap" width="40%">
-            
+           
            <input tabindex="251" value="Generate Note" onclick="saveEyeformNote();return false;" id="stickler0" style="color: black;" type="button">			
            &nbsp;
            <b>Send tickler to:</b>

@@ -35,6 +35,7 @@
 	String sdate = StringUtils.transformNullInEmptyString((String)request.getAttribute("sdate"));
 	String edate = StringUtils.transformNullInEmptyString((String)request.getAttribute("edate"));
 %>
+
 <html>
 	<head>
     	<title>Examination History Results</title>
@@ -72,7 +73,8 @@
 			th {white-space:nowrap}
 
 			.centered {text-align:center}
-		</style>
+			
+			</style>
 	</head>
 
 	<body>
@@ -116,7 +118,6 @@
 				</table>
 			</tr>
 	 	</table>
-
 		<h5>Simple field history:</h5>
 		<table class="display" style="width:20%">
 		<tr style="background-color: rgb(204, 204, 255);">
@@ -384,6 +385,5 @@
    </tr>
 
 		</table>
-
 	</body>
 </html>
