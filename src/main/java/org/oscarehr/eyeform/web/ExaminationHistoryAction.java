@@ -214,7 +214,13 @@ public class ExaminationHistoryAction extends DispatchAction {
 		if(eyeform.equals("eyeform3")){
 			if(fieldList.contains("Glasses Rx")){
 				List<Map<String,String>> glasses = new ArrayList<Map<String,String>>();
-				List<EyeformSpecsHistory> specs = dao.getByDateRange(Integer.parseInt(demographicNo),startDate, endDate);
+				List<EyeformSpecsHistory> specs = null;
+				String oldglasses = request.getParameter("oldglasses");
+				if((oldglasses!= null) && (oldglasses.equals("true"))){
+					specs = dao.getByDemographicNo(Integer.parseInt(demographicNo));
+				}else{
+					specs = dao.getByDateRange(Integer.parseInt(demographicNo),startDate, endDate);
+				}
 				for(EyeformSpecsHistory spec:specs){
 					Map<String,String> map = new HashMap<String,String>();
 					if(spec.getOdSph() != null){

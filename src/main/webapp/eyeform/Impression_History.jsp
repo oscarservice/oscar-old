@@ -73,7 +73,13 @@ input [type=text] { border-bottom: black 1px solid; }
 	</tr>
 	<%
 		@SuppressWarnings("unchecked")
-		long savedId = (Long)session.getAttribute("savedId");
+		long savedId;
+		if(session.getAttribute("savedId") != null ){
+			savedId = (Long)session.getAttribute("savedId");
+		}else{
+			savedId = 0;
+		}	
+		//(Long)session.getAttribute("savedId");
 		ArrayList<NoteDisplay> notesToDisplay1 = (ArrayList<NoteDisplay>)session.getAttribute("notesToDisplay1");
 		//ArrayList<NoteDisplay> notesToDisplay3 = (ArrayList<NoteDisplay>)session.getAttribute("notesToDisplay3");
 		ArrayList<NoteDisplay> notesToDisplay = new ArrayList<NoteDisplay>();
