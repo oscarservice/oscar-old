@@ -3063,7 +3063,7 @@ CREATE TABLE `billing_on_transaction` (
   `billing_on_item_id` INT(12) NOT NULL,
   `demographic_no` INT(10) NOT NULL,
   `update_provider_no` VARCHAR(6) NOT NULL,
-  `update_datetime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `update_datetime` TIMESTAMP NOT NULL,
   `payment_date` DATE,
   `ref_num` VARCHAR(6),
   `province` CHAR(2),
