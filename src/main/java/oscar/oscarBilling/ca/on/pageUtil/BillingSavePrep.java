@@ -19,6 +19,7 @@
 package oscar.oscarBilling.ca.on.pageUtil;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,11 +28,14 @@ import java.util.Vector;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
+import org.oscarehr.billing.CA.ON.dao.BillingONPaymentDao;
 import org.oscarehr.util.MiscUtils;
+import org.oscarehr.util.SpringUtils;
 
 import oscar.oscarBilling.ca.on.data.BillingClaimHeader1Data;
 import oscar.oscarBilling.ca.on.data.BillingDataHlp;
 import oscar.oscarBilling.ca.on.data.BillingItemData;
+import oscar.oscarBilling.ca.on.data.BillingTransactionData;
 import oscar.oscarBilling.ca.on.data.JdbcBillingClaimImpl;
 import oscar.oscarBilling.ca.on.data.JdbcBillingPageUtil;
 import oscar.util.UtilDateUtilities;
@@ -42,6 +46,7 @@ public class BillingSavePrep {
 	int billingId = 0;
 
 	// save a billing record
+	@SuppressWarnings("rawtypes")
 	public boolean addABillingRecord(Vector val) {
 		boolean ret = false;
 		BillingClaimHeader1Data claim1Obj = (BillingClaimHeader1Data) val.get(0);
@@ -60,8 +65,12 @@ public class BillingSavePrep {
 		return ret;
 	}
 
+	@SuppressWarnings("unchecked")
 	public boolean addPrivateBillExtRecord(HttpServletRequest requestData) {
 		boolean ret = false;
+		boolean rat = false;
+		
+		@SuppressWarnings("unused")
 		Map<String,String> val = getPrivateBillExtObj(requestData);
 		ret = dbObj.add3rdBillExt(val, billingId);
 		if (!ret)
@@ -69,7 +78,15 @@ public class BillingSavePrep {
 
 		return ret;
 	}
+	public boolean addTransaction(List<BillingTransactionData> val){
+		boolean ret = false;
+		BillingONPaymentDao paymentDao =(BillingONPaymentDao) SpringUtils.getBean("billingONPaymentDao");
+		ret = dbObj.addBillingTransaction(val,paymentDao.getPaymentIdByBillingNo(billingId), billingId);
+		if (!ret)
+			_logger.error("addPrivateBillExtRecord " + billingId);
 
+		return ret;
+	}
 	// set appt to B
 	public boolean updateApptStatus(String apptNo, String status, String userNo) {
 		boolean ret = (new JdbcBillingPageUtil()).updateApptStatus(apptNo, status, userNo);
@@ -83,6 +100,7 @@ public class BillingSavePrep {
 	}
 
 	// ret - Vector claimheader1data, itemdata
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Vector getBillingClaimObj(HttpServletRequest requestData) {
 		Vector ret = new Vector();
 		BillingClaimHeader1Data claim1Header = getClaimHeader1Obj(requestData);
@@ -96,8 +114,16 @@ public class BillingSavePrep {
 		ret.add(aL);
 		return ret;
 	}
-
+	public List<BillingTransactionData> getBillingTransaction(HttpServletRequest requestData){
+		BillingTransactionData[] transData = getTransaction(requestData);
+		List<BillingTransactionData> ret = new ArrayList<BillingTransactionData>();
+		for(int i=0;i<transData.length;i++){
+			ret.add(transData[i]);
+		}
+		return ret;
+	}
 	// ret - Vector claimheader1data, itemdata
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Vector getBillingClaimHospObj(HttpServletRequest requestData, String service_date, String total,
 			Vector vecServiceCode, Vector vecServiceCodeUnit, Vector vecServiceCodePrice) {
 		Vector ret = new Vector();
@@ -199,7 +225,6 @@ public class BillingSavePrep {
 		int itemNum = Integer.parseInt(val.getParameter("totalItem"));
 		BillingItemData[] claimItem = new BillingItemData[itemNum];
 		// _logger.info("No billing item for billing # " + itemNum);
-
 		for (int i = 0; i < itemNum; i++) {
 			claimItem[i] = new BillingItemData();
 			claimItem[i].setTransc_id(BillingDataHlp.ITEM_TRANSACTIONIDENTIFIER);
@@ -214,12 +239,30 @@ public class BillingSavePrep {
 			claimItem[i].setDx(val.getParameter("dxCode"));
 			claimItem[i].setDx1(val.getParameter("dxCode1"));
 			claimItem[i].setDx2(val.getParameter("dxCode2"));
+			claimItem[i].setPaid(val.getParameter("payment"));
+			claimItem[i].setRefund(val.getParameter("refund"));
+			claimItem[i].setDiscount(val.getParameter("discount"));
 			claimItem[i].setStatus("O");
 		}
 
 		return claimItem;
 	}
-
+	private BillingTransactionData[] getTransaction(HttpServletRequest val){
+		int itemNum = Integer.parseInt(val.getParameter("totalItem"));
+		BillingTransactionData[] transData = new BillingTransactionData[itemNum];
+		
+		for(int i = 0;i<itemNum;i++){
+			transData[i] = new BillingTransactionData();
+			transData[i].setPay_program(getPayProgram(val.getParameter("xml_billtype"), val.getParameter("hc_type")));
+			transData[i].setService_code(val.getParameter("xserviceCode_" + i));
+			transData[i].setService_code_num(getDefaultUnit(val.getParameter("xserviceUnit_" + i)));
+			transData[i].setService_code_invoice_no(val.getParameter("percCodeSubtotal_" + i));
+			transData[i].setService_code_paid(val.getParameter("payment"));
+			transData[i].setService_code_refund(val.getParameter("refund"));
+			transData[i].setService_code_discount(val.getParameter("discount"));
+		}
+		return transData;
+	}
 	private BillingClaimHeader1Data getClaimHeader1HospObj(HttpServletRequest val, String service_date, String total) {
 		BillingClaimHeader1Data claim1Header = new BillingClaimHeader1Data();
 
@@ -277,7 +320,7 @@ public class BillingSavePrep {
 		
 		return claim1Header;
 	}
-
+	
 	private BillingItemData[] getItemHospObj(HttpServletRequest val, Vector vecServiceCode, Vector vecServiceCodeUnit,
 			Vector vecServiceCodePrice, String service_date) {
 		int itemNum = vecServiceCode.size();
@@ -302,6 +345,9 @@ public class BillingSavePrep {
 			claimItem[i].setDx(getDefaultSpace(val.getParameter("dxCode")));
 			claimItem[i].setDx1(getDefaultSpace(val.getParameter("dxCode1")));
 			claimItem[i].setDx2(getDefaultSpace(val.getParameter("dxCode2")));
+			claimItem[i].setPaid(getDefaultSpace(val.getParameter("payment")));
+			claimItem[i].setRefund(getDefaultSpace(val.getParameter("refund")));
+			claimItem[i].setDiscount(getDefaultSpace(val.getParameter("discount")));
 			claimItem[i].setStatus("O");
 		}
 		return claimItem;
@@ -311,6 +357,7 @@ public class BillingSavePrep {
 		Map<String,String> valsMap = new HashMap<String,String>();
 		valsMap.put("demographic_no",val.getParameter("demographic_no"));
 		valsMap.put("billTo",val.getParameter("billto"));
+		valsMap.put("total_discount", val.getParameter("discount1"));
 		valsMap.put("remitTo",val.getParameter("remitto"));
                 valsMap.put("total",val.getParameter("gstBilledTotal"));
                 if (val.getParameter("submit").equalsIgnoreCase("Settle & Print Invoice")) {

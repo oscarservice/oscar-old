@@ -135,6 +135,7 @@ boolean dupServiceCode = false;
 			String apptProvider_no = request.getParameter("apptProvider_no");
 			String ctlBillForm = request.getParameter("billForm");
 			String assgProvider_no = request.getParameter("assgProvider_no");
+			String billType = request.getParameter("curBillForm");
 			//String            dob               = request.getParameter("dob");
 			String demoSex = request.getParameter("DemoSex");
 			GregorianCalendar now = new GregorianCalendar();
@@ -533,7 +534,11 @@ window.onload=function(){
 			<%--= msg --%>
 			<tr class="myYellow">
 				<td colspan='3'>Calculation</td>
+				<%if(!"PRI".equals(billType)){%>
 				<td>Description</td>
+				<%}else{%>
+				<td>Description&nbsp;&nbsp;&nbsp;&nbsp;Payment&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Discount</td>
+				<%}%>
 			</tr>
 <%  }
 			//Vector[] vecServiceParam = prepObj.getRequestCodeVec(request, "serviceDate", "serviceUnit", "serviceAt", 8);
@@ -587,7 +592,11 @@ window.onload=function(){
 				<input type="hidden" name="xserviceUnit_<%=i %>" value="<%=codeUnit %>" />
                     </span>
 				</td>
-				<td width='25%'><%=propCodeDesc.getProperty(codeName, "") %></td>
+				<%if(!"PRI".equals(billType)){%>
+					<td width='25%'><%=propCodeDesc.getProperty(codeName, "") %></td>
+				<%}else{%>
+				<td nowrap colspan='3' width='25%'><%=codeName%>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input style="width:25%" type="text" name="tpayment" onBlur="calculatePayment();"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input style="width:25%" type="text" name="discount" onBlur="calculateDiscount();"/></td>
+				<%}%>
 			</tr>
 			<%
                         }
@@ -850,12 +859,11 @@ if (bMultisites) {
                         GST Billed:<input type="text" id="gst" name="gst" value="<%=gstTotal%>" size="6"/><br>
                         <input type="hidden" id="gstBilledTotal" name="gstBilledTotal" value="<%=gstbilledtotal%>" size="6" />
                         Total:<input type="text" id="stotal" disabled name = "stotal" value="0.00" size="6" /><br>
-			Payments:<input type="text" name="payment" value="0.00" size="6" onDblClick="settlePayment();" /><br/>
-			Refunds:<input type="text" name="refund" value="0.00" size="6"/>
+			Payments:<input type="text"  disabled name="payment1" id="payment"value="0.00" size="6" onDblClick="settlePayment();" /><br/>
+			Discount:<input type="text" disabled name="discount2" id="discount"value="0.00" size="6"/>
 			</td>
 			</tr>
 			</table>
-
 			<td class="myGreen">
 			Payment Method:<br/>
 			<% for(int i=0; i<al.size(); i=i+2) { %>
@@ -867,6 +875,9 @@ if (bMultisites) {
 					style="width: 120px;" /><input type="submit" name="submit"
 					value="Settle & Print Invoice" onClick="document.forms['titlesearch'].btnPressed.value='Settle'; document.forms['titlesearch'].submit();javascript:popupPage(700,720,'billingON3rdInv.jsp');" style="width: 120px;" />
 				<input type="hidden"  name="btnPressed" value="">
+				<input type="hidden" name="payment" id="pay1"/>
+				<input type="hidden" name="discount1" id="dis1"/>
+				<input type="hidden" name="refund" value="0.00"/>
 				</td>
 			</tr>
 		</table>
@@ -888,7 +899,29 @@ if (bMultisites) {
 
 
 <script language="JavaScript">
-
+function calculatePayment(){
+    var obj = document.getElementsByName("tpayment");
+    var payment=0;
+    
+    for(var j=0;j<obj.length;j++){
+            if(obj[j].value!=''){
+            payment =parseFloat(payment)+parseFloat(obj[j].value);
+    }
+    }
+    document.getElementById("payment").value =payment;
+    document.getElementById("pay1").value=payment;
+}
+function calculateDiscount(){
+    var obj = document.getElementsByName("discount");
+    var discount=0;
+    for(var i=0;i<obj.length;i++){
+            if(obj[i].value!=''){
+            discount = parseFloat(discount)+parseFloat(obj[i].value);
+    }
+    }
+    document.getElementById("discount").value = discount;
+    document.getElementById("dis1").value= discount;
+}
 function addToDiseaseRegistry(){
     if ( validateItems() ) {
 	var url = "../../../oscarResearch/oscarDxResearch/dxResearch.do";

@@ -125,7 +125,7 @@ public class BillingONPaymentsAction extends DispatchAction {
 		if(paymentIdParam == null || paymentIdParam.equals("")) {
 //insert
     		payment = new BillingONPayment();
-    		payment.setPayment(paymentValue);
+    		payment.setTotal_payment(paymentValue);
     		payment.setPaymentDate(paymentDate);
     		payment.setBillingOnCheader1(ch1);
 //    		payment.setPaymentId(billingNo);
@@ -137,7 +137,7 @@ public class BillingONPaymentsAction extends DispatchAction {
 //update
     		Integer paymentId = Integer.parseInt(paymentIdParam);
     		payment = billingONPaymentDao.find(paymentId);
-    		payment.setPayment(paymentValue);
+    		payment.setTotal_payment(paymentValue);
     		payment.setPaymentDate(paymentDate);
 //    		payment.setBillingOnCheader1(ch1);
 //    		payment.setPaymentId(billingNo);
