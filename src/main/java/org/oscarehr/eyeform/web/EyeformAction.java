@@ -1925,7 +1925,4 @@ public class EyeformAction extends DispatchAction {
 			response.getWriter().println("alert('tickler sent');");
 			return null;
 		}
-
-
-
 }

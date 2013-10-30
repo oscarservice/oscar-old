@@ -116,7 +116,8 @@ public class Utilities {
         return(messages);
     }
     
-     public static ArrayList<String> separateMessages(String fileName, String labType)
+     @SuppressWarnings({ "rawtypes", "unchecked" })
+	public static ArrayList<String> separateMessages(String fileName, String labType)
     throws Exception
   {
     ArrayList messages = new ArrayList();

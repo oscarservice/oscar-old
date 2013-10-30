@@ -38,7 +38,8 @@ public class TRUENORTHHandler
   private OBX obxseg = null;
   private ORU_R01_PATIENT pat_23;
 
-  public void init(String hl7Body)
+  @SuppressWarnings({ "unchecked", "rawtypes" })
+public void init(String hl7Body)
     throws HL7Exception
   {
     Parser p = new PipeParser();
@@ -46,7 +47,7 @@ public class TRUENORTHHandler
     this.msg = ((ORU_R01)p.parse(hl7Body.replaceAll("\n", "\r\n")));
 
     p.setValidationContext(new NoValidation());
-    ArrayList labs = getMatchingHL7Labs(hl7Body);
+	ArrayList labs = getMatchingHL7Labs(hl7Body);
 
     this.headers = new ArrayList();
 
@@ -64,7 +65,8 @@ public class TRUENORTHHandler
     }
   }
 
-  private ArrayList<String> getMatchingHL7Labs(String hl7Body)
+  @SuppressWarnings({ "rawtypes", "unchecked" })
+private ArrayList<String> getMatchingHL7Labs(String hl7Body)
   {
     Base64 base64 = new Base64();
     ArrayList ret = new ArrayList();
@@ -410,7 +412,8 @@ public class TRUENORTHHandler
     return docNames;
   }
 
-  public ArrayList getDocNums()
+  @SuppressWarnings("rawtypes")
+public ArrayList getDocNums()
   {
     ArrayList nums = new ArrayList();
 
