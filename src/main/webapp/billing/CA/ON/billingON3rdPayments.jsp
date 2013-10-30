@@ -16,6 +16,8 @@
  * Yi Li
  */
 -->
+<%@page import="java.awt.ItemSelectable"%>
+<%@page import="oscar.oscarBilling.ca.on.model.BillingOnItem"%>
 <%@ taglib uri="/WEB-INF/security.tld" prefix="security"%>
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean"%>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic"%>
@@ -50,6 +52,8 @@ List<String> errors = new ArrayList<String>();
 
 	boolean isMultiSiteProvider = true;
 	List<String> mgrSites = new ArrayList<String>();
+	List<BillingONPayment> payments = (List<BillingONPayment>)request.getAttribute("paymentsList");
+	List<BillingOnItem> items = (List<BillingOnItem>)request.getAttribute("billingOnItems");
 %>
 <security:oscarSec objectName="_team_billing_only" roleName="<%= roleName$ %>" rights="r" reverse="false">
 	<% isTeamBillingOnly=true; %>
@@ -123,8 +127,20 @@ function checkInput() {
 	if(validInput) document.forms['editPayment'].submit();
 	return false;
 }
-
+function setStatus(obj){
+	  var i = obj.id;
+      var str = obj.options[obj.selectedIndex].value;
+      if(str=="refund"){
+      document.getElementById("cdis"+i).disabled=true;
+      document.getElementById("discount"+i).disabled=true;
+      }
+       if(str=="payment"){
+      document.getElementById("cdis"+i).disabled=false;
+       document.getElementById("discount"+i).disabled=false;
+}
+}
 </script>
+
 </head>
 
 <body bgcolor="ivory" text="#000000" topmargin="0" leftmargin="0"
@@ -141,31 +157,36 @@ function checkInput() {
       			<th><font face="Helvetica">ADD / EDIT PAYMENT</font></th>
     		</tr>
   	</table>
+  	<%for(int i=0;i<items.size();i++){ %>
   	<table border="0" cellpadding="0" cellspacing="0" width="100%">
   	  <tr>
   	    <td width="100%">
       	  <table BORDER="3" CELLPADDING="0" CELLSPACING="0" WIDTH="100%" height="100%" BGCOLOR="#C0C0C0">
       	    <tr BGCOLOR="#EEEEFF">
       	      <td width="30%">
-      	        <div align="right"><font face="arial">Payment:</font></div>
-      	      <td>
-      	      <td width="70%" align="left">
-      	        <input type="text" name="payment" id="payment" value="0.00" WIDTH="8" HEIGHT="20" border="0" hspace="2" maxlength="50">
+      	        <div align="right">
+      	       		 <select id="<%=i%>"onchange="setStatus(this);">
+      	       		 	<option value="payment">Payment</option>
+      	       		 	<option value="refund">Refund</option>
+      	       		 </select>
+      	        </div>
       	      </td>
+      	      <td width="70%" align="left">
+      	        <input type="text" name="payment" id="payment" value="0.00" WIDTH="8" HEIGHT="20" border="0" hspace="2" maxlength="50" />
+      	        <input type="checkbox" id="cdis<%=i%>"name="Discount" value="Discount"/>Disctount     <span id="sp<%=i%>"><input type="text" id="discount<%=i%>"name="discount"></span>
+      	        </td>
       	    </tr>
       	    <tr BGCOLOR="#EEEEFF">
       	      <td>
-      	        <div align="right"><font face="arial">Date:</font></div>
-      	      <td>
+      	      </td>
       	      <td align="left">
-      	        <input type="text" name="paymentDate" id="paymentDate" onDblClick="calToday(this)" size="10" value="">
-				<a id="btn_date"><img title="Calendar" src="../../../images/cal.gif" alt="Calendar" border="0" /></a>
+      	      Service_code:$<%=items.get(i).getService_code()%>(<%=items.get(i).getSer_num()%>)<%=items.get(i).getFee() %>  Paid:$<%=items.get(i).getPaid() %>
       	      </td>
       	    </tr>
       	    <tr BGCOLOR="#EEEEFF">
       	      <td>
       	        <div align="right"><font face="arial">Payment Type:</font></div>
-      	      <td>
+      	      </td>
       	      <td align="left">
 		<table width="100%">
 		<logic:iterate id="billingPaymentType" name="billingPaymentTypeList" indexId="ttr">
@@ -179,11 +200,13 @@ function checkInput() {
 		</table>
   	    </td>
   	  </tr>
-
 	</table>
+	<%} %>
 	<table border="0" cellpadding="0" cellspacing="0" width="100%"> 
 	  <tr bgcolor="#CCCCFF"> 
       	    <TD nowrap align="center"> 
+      	      		 <input type="text" name="paymentDate" id="paymentDate" onDblClick="calToday(this)" size="10" value="">
+				<a id="btn_date"><img title="Calendar" src="../../../images/cal.gif" alt="Calendar" border="0" /></a>
       	      <input type="submit" name="submitBtn" value="    Save  " onClick="checkInput(); return false;" /> 
       	    </TD> 
     	  </tr>
@@ -192,7 +215,7 @@ function checkInput() {
 </logic:present>
 
 <%
-List<BillingONPayment> payments = (List<BillingONPayment>)request.getAttribute("paymentsList");
+
 
 String billClinic = null;
 int count = 0;
@@ -204,7 +227,7 @@ org.oscarehr.billing.CA.ON.model.BillingClaimHeader1 ch1 = null;
 if(payments != null && payments.size()>0) {
     ch1 = payments.get(0).getBillingONCheader1();
     for(BillingONPayment payment : payments) {
-	sum = sum.add(payment.getPayment());
+	sum = sum.add(payment.getTotal_payment());
     }
     balance = new BigDecimal(ch1.getTotal().replace("$","").replace(",","").replace(" ",""));
     balance= balance.subtract(sum);
@@ -217,19 +240,20 @@ if(payments != null && payments.size()>0) {
     	</tr>
 	<br/>
 	<table width="100%" border="0">
-		<tr><th align="left">#</th><th align="left">Payment</th><th align="left">Date</th><th align="left">Type</th><th></th>
+		<tr><th align="left">#</th><th align="left">Payment</th><th align="left">Date</th><th align="left">Discount</th><th align="left">Refund</th><th align="left">Balance</th><th></th>
 <logic:present name="paymentsList" scope="request">
 		<logic:iterate id="displayPayment" name="paymentsList" indexId="ctr">
 			<tr>			    
 			    <td><%= ctr+1 %></td>
-			    <td><bean:write name="displayPayment" property="payment" /> </td>
+			    <td><bean:write name="displayPayment" property="total_payment" /> </td>
 			    <td><bean:write name="displayPayment" property="paymentDateFormatted" /> </td>
-			    <td><bean:write name="displayPayment" property="billingPaymentType.paymentType" /> </td>
+			    <td><bean:write name="displayPayment" property="total_discount" /> </td>
+			    <td><bean:write name="displayPayment" property="total_refund" /> </td>
+			     <td><%= currency.format(balance) %> </td>
 			    <td><a href="#" onClick="onEditPayment('<bean:write name="displayPayment" property="id" />',
-			    	'<bean:write name="displayPayment" property="payment" />',
+			    	'<bean:write name="displayPayment" property="total_payment" />',
 			    	'<bean:write name="displayPayment" property="paymentDateFormatted" />',
-			    	'<bean:write name="displayPayment" property="billingPaymentType.id" />')">edit</a>
-			    	&nbsp;&nbsp;&nbsp; <a href="#" onClick="onDeletePayment(<bean:write name="displayPayment" property="id" />)">delete</a>
+			    	'<bean:write name="displayPayment" property="billingPaymentType.id" />')">view</a>
 			    </td>	
 			</tr>    
 		</logic:iterate>
