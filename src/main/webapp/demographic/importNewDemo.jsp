@@ -1,6 +1,9 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html"%>
+<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean"%>
+<html>
+<head>
 
-<script src="<c:out value="${ctx}/js/jquery.js"/>"></script>
+<script src="../js/jquery.js"></script>
 <script>
 	jQuery.noConflict();
 </script>
@@ -22,8 +25,8 @@ function onClickImport()
 <style>
 .div_import_new_demo
 {
-	margin-top: 10px; 
-	margin-bottom: 10px;
+	/*margin-top: 10px; 
+	margin-bottom: 10px;*/
 }
 
 #iframe_import_demo
@@ -40,15 +43,21 @@ function onClickImport()
 }
 </style>
 
+</head>
+
+<body style="margin: 0 !important; ">
+
 <div class="div_import_new_demo">
-	<html:form action="/demographic/importNewDemoAction.do" method="POST" enctype="multipart/form-data"
-	 target="iframe_import_demo">
+	<html:form action="/demographic/importNewDemoAction.do" method="POST" enctype="multipart/form-data" >
 		<div>
 			<bean:message key="demographic.importNew" /> : <input type="file" name="file1" value="">&nbsp;<input
 				type="button" name="btn_import" value="Import" onclick="onClickImport();">
 		</div>
 	</html:form> 
-	<iframe id="iframe_import_demo" width="550px" height="23px" src="../demographic/importDemoResult.jsp?actionVal=show_importing" frameborder="0" name="iframe_import_demo" scrolling="no">
+	<!-- <iframe id="iframe_import_demo" width="550px" height="23px" src="../demographic/importDemoResult.jsp?actionVal=show_importing" frameborder="0" name="iframe_import_demo" scrolling="no">
 		<div id="div_importing">Importing Patient.. Please Wait..</div>
-	</iframe>
+	</iframe> -->
 </div>
+
+</body>
+</html>
