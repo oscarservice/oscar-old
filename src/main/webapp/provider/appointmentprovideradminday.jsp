@@ -1077,7 +1077,7 @@ java.util.Locale vLocale =(java.util.Locale)session.getAttribute(org.apache.stru
   </li>
 </security:oscarSec>
 <% if(OscarProperties.getInstance().getBooleanProperty("LAB_SETUP_ENABLE","true")){ %>
-<security:oscarSec roleName="<%=roleName$%>" objectName="admin_lab_config" rights="r">
+<security:oscarSec roleName="<%=roleName$%>" objectName="_admin.labConfig" rights="r">
    <!-- Added labportal menu   -->
   <li id="labportal">
   <a href=<%=OscarProperties.getInstance().getLabportalURL()%>><bean:message key="global.labsetup"/></a>

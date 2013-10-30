@@ -215,12 +215,14 @@ for (int i=0; i<sites.size(); i++) {
 				key="admin.provider.formType.optionMidwife" /></option>
 			<option value="admin"><bean:message
 				key="admin.provider.formType.optionAdmin" /></option>
-				<% if(OscarProperties.getInstance().getBooleanProperty("LAB_SETUP_ENABLE","true")){ %>
-			<security:oscarSec roleName="<%=roleName$%>" objectName="admin_lab_config" rights="r">
+			
+			<% if(OscarProperties.getInstance().getBooleanProperty("LAB_SETUP_ENABLE","true")){ %>
+			<security:oscarSec roleName="<%=roleName$%>" objectName="_admin.labConfig" rights="r">
 			<option value="lab"><bean:message
 				key="admin.provider.formType.optionLab" /></option>
 			</security:oscarSec>
 			<%} %>
+			
 			<caisi:isModuleLoad moduleName="survey">
 				<option value="er_clerk"><bean:message
 					key="admin.provider.formType.optionErClerk" /></option>
