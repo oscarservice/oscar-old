@@ -2,9 +2,11 @@
 CREATE TABLE `billing_on_payment` (
   `id` int(12) NOT NULL AUTO_INCREMENT,
   `ch1_id` int(12) NOT NULL,
-  `payment` decimal(10,2) NOT NULL,
+  `total_payment` decimal(10,2) NOT NULL,
   `paymentTypeId` int(12) NOT NULL,
   `paymentDate` date NOT NULL,
+  `total_refund` decimal(10,2),
+  `total_discount` decimal(10,2),
   PRIMARY KEY (`id`),
   KEY `ch1_id` (`ch1_id`),
   KEY `paymentTypeId` (`paymentTypeId`)
