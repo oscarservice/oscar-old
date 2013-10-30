@@ -103,5 +103,14 @@ public class SpecsHistoryDao extends AbstractDao<EyeformSpecsHistory> {
 	    return(results);		
 	}
 	
-	
+	public List<EyeformSpecsHistory> getAllCurrent(int demographicNo, int appointmentNo) {
+		String sql="select x from "+modelClass.getSimpleName()+" x where x.demographicNo = ? and x.appointmentNo = ?";
+		Query query = entityManager.createQuery(sql);
+		query.setParameter(1, demographicNo);	    
+		query.setParameter(2, appointmentNo);
+	    
+		@SuppressWarnings("unchecked")
+	    List<EyeformSpecsHistory> results=query.getResultList();
+	    return(results);		
+	}
 }
