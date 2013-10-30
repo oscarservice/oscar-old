@@ -192,6 +192,14 @@ for (int i=0; i<sites.size(); i++) {
 				<% if (apptMainBean.getString(rs,"provider_type").equals("admin")) { %>
 				SELECTED <%}%>><bean:message
 				key="admin.provider.formType.optionAdmin" /></option>
+			
+			<% if(OscarProperties.getInstance().getBooleanProperty("LAB_SETUP_ENABLE","true")){ %>
+			<security:oscarSec roleName="<%=roleName$%>" objectName="_admin.labConfig" rights="r">
+			<option value="lab"><bean:message
+				key="admin.provider.formType.optionLab" /></option>
+			</security:oscarSec>
+			<%} %>
+			
 			<caisi:isModuleLoad moduleName="survey">
 				<option value="er_clerk"
 					<% if (apptMainBean.getString(rs,"provider_type").equals("er_clerk")) { %>
