@@ -62,7 +62,7 @@
 
 <html:html locale="true">
 <head>
-    <title>Annotation</title>
+    <title>Edit note for glass history</title>
     <% if (isMobileOptimized) { %>
         <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width" />
         <link rel="stylesheet" type="text/css" href="../share/css/OscarStandardMobileLayout.css" />
@@ -78,7 +78,7 @@
 </head>
 
 <body bgcolor="#EEEEFF" onload="document.forms[0].note.focus();">
-   <form action="/oscar-SNAPSHOT/eyeform/hxHistory.do" method="post" name="specsHistoryForm">
+   <form action="<%=request.getContextPath()%>/eyeform/hxHistory.do" method="post" name="specsHistoryForm">
        <div class="panel">
             Notes
             <textarea name="specs.note" rows="10"><%=specs%></textarea>
