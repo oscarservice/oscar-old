@@ -33,7 +33,6 @@
  */
 
 package oscar.oscarLab.ca.all.util;
-import com.sun.pdfview.PDFFile;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -47,15 +46,17 @@ import java.io.OutputStream;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
-import java.nio.channels.FileChannel.MapMode;
 import java.util.ArrayList;
 import java.util.Date;
+
 import org.apache.log4j.Logger;
 import org.jpedal.PdfDecoder;
 import org.jpedal.fonts.FontMappings;
-import org.jpedal.io.ObjectStore;
 import org.oscarehr.util.MiscUtils;
+
 import oscar.OscarProperties;
+
+import com.sun.pdfview.PDFFile;
 
 public class Utilities {
        
@@ -66,7 +67,7 @@ public class Utilities {
     }
     
     public static ArrayList<String> separateMessages(String fileName) throws Exception{
-                
+
         ArrayList<String> messages = new ArrayList<String>();
         try{
             InputStream is = new FileInputStream(fileName);

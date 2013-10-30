@@ -1,41 +1,31 @@
 package oscar.oscarLab.ca.all.parsers;
 
-import ca.uhn.hl7v2.HL7Exception;
-import ca.uhn.hl7v2.model.v23.datatype.CE;
-import ca.uhn.hl7v2.model.v23.datatype.CX;
-import ca.uhn.hl7v2.model.v23.datatype.IS;
-import ca.uhn.hl7v2.model.v23.datatype.ST;
-import ca.uhn.hl7v2.model.v23.datatype.TS;
-import ca.uhn.hl7v2.model.v23.datatype.TSComponentOne;
-import ca.uhn.hl7v2.model.v23.datatype.XCN;
-import ca.uhn.hl7v2.model.v23.datatype.XPN;
-import ca.uhn.hl7v2.model.v23.group.ORU_R01_OBSERVATION;
-import ca.uhn.hl7v2.model.v23.group.ORU_R01_ORDER_OBSERVATION;
-import ca.uhn.hl7v2.model.v23.group.ORU_R01_PATIENT;
-import ca.uhn.hl7v2.model.v23.group.ORU_R01_RESPONSE;
-import ca.uhn.hl7v2.model.v23.group.ORU_R01_VISIT;
-import ca.uhn.hl7v2.model.v23.message.ORU_R01;
-import ca.uhn.hl7v2.model.v23.segment.MSH;
-import ca.uhn.hl7v2.model.v23.segment.OBR;
-import ca.uhn.hl7v2.model.v23.segment.OBX;
-import ca.uhn.hl7v2.model.v23.segment.PID;
-import ca.uhn.hl7v2.model.v23.segment.PV1;
-import ca.uhn.hl7v2.parser.Parser;
-import ca.uhn.hl7v2.parser.PipeParser;
-import ca.uhn.hl7v2.util.Terser;
-import ca.uhn.hl7v2.validation.impl.NoValidation;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 import org.oscarehr.common.dao.Hl7TextInfoDao;
 import org.oscarehr.common.model.Hl7TextMessageInfo;
 import org.oscarehr.util.SpringUtils;
+
 import oscar.util.UtilDateUtilities;
+import ca.uhn.hl7v2.HL7Exception;
+import ca.uhn.hl7v2.model.v23.datatype.CX;
+import ca.uhn.hl7v2.model.v23.group.ORU_R01_ORDER_OBSERVATION;
+import ca.uhn.hl7v2.model.v23.group.ORU_R01_PATIENT;
+import ca.uhn.hl7v2.model.v23.group.ORU_R01_RESPONSE;
+import ca.uhn.hl7v2.model.v23.message.ORU_R01;
+import ca.uhn.hl7v2.model.v23.segment.OBR;
+import ca.uhn.hl7v2.model.v23.segment.OBX;
+import ca.uhn.hl7v2.parser.Parser;
+import ca.uhn.hl7v2.parser.PipeParser;
+import ca.uhn.hl7v2.util.Terser;
+import ca.uhn.hl7v2.validation.impl.NoValidation;
 
 public class TRUENORTHHandler
   implements MessageHandler
