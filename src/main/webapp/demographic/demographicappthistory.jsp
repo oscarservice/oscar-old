@@ -116,7 +116,7 @@ function onClickAddAppt()
 	String curProvider_no_ = (String) session.getAttribute("user");
 	String dateStr_ = DateUtils.formatDate(new Date(), request.getLocale());
 	%>
-	var page = "../schedule/scheduleflipview.jsp?startDate=<%=dateStr_%>&provider_no=<%=curProvider_no_%>&fromPage=other";
+	var page = "../schedule/scheduleflipview.jsp?startDate=<%=dateStr_%>&provider_no=<%=curProvider_no_%>&fromPage=other&demographic_no=<%=demographic_no%>";
 	windowprops = "height=600,width=700,location=no,scrollbars=yes,menubars=no,toolbars=no,resizable=yes";
 	  var popup=window.open(page, "add_appointment", windowprops);
 	  if (popup != null) {
