@@ -101,7 +101,7 @@ public class JdbcBillingCorrection {
 		}
 		return retval;
 	}
-
+	
 	public int addRepoOneItem(BillingItemData val) {
 		int retval = 0;
 		String sql = "insert into billing_on_repo values(\\N, " + " " + val.id + " ," + "'billing_on_item'," + "'"
@@ -186,6 +186,21 @@ public class JdbcBillingCorrection {
 		    return obj;
 	}
 	
+	@SuppressWarnings("rawtypes")
+	public List getPayprogramByBillNo(String id){
+		List obj = new Vector();
+		String sql = "select pay_program from billing_on_cheader1 where id=" + id;
+		ResultSet rs = dbObj.searchDBRecord(sql);
+		try {
+			while(rs.next()){
+				obj.add(rs.getString("pay_program"));
+			}
+		} catch (SQLException e) {
+			 _logger.error("getBillingCH1NoStatusByAppt(sql = " + sql + ")");
+		       obj = null;
+		}
+		return obj;
+	}
 	// 0-cheader1 obj, 1 - item1obj, 2 - item2obj, ...
 	public List getBillingRecordObj(String id) {
 		List obj = new Vector();
@@ -371,5 +386,16 @@ public class JdbcBillingCorrection {
 			_logger.error("updateBillingPaid(sql = " + sql + ")");
 		}
 		return ret;
+	}
+	
+	public void addBillingTransaction(BillingItemData obj,String payProgram){
+		
+		
+		String sql = "insert into billing_on_transaction(ch1_id,payment_id,pay_program,payment_date,service_code,service_code_num,service_code_invoiced,service_code_paid,service_code_refund,service_code_discount,status) values( " + obj.ch1_id + ", '" + 0 + "', '" +payProgram 
+				+ "', \\N, '" + obj.service_code + "', '" + obj.ser_num + "', '" + obj.fee
+				+ "', '" + obj.paid + "', '" + obj.refund + "', '" + obj.discount+"','"+obj.status+"')";
+		dbObj.saveBillingRecord(sql);
+
+		
 	}
 }

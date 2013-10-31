@@ -36,5 +36,8 @@
                 <property name="dx2" />
                 <property name="status" />
                 <property name="timestamp" />
+                <property name="paid"/>
+                <property name="refund"/>
+                <property name="discount"/>
     </class>
 </hibernate-mapping>

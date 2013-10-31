@@ -25,6 +25,7 @@
 package oscar.oscarBilling.ca.on.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -44,6 +45,9 @@ public class BillingOnItem implements Serializable {
     private String  dx1;
     private String  dx2;
     private String  status;
+    private BigDecimal paid;
+    private BigDecimal refund;
+    private BigDecimal discount;
     private Timestamp timestamp;
 
     public Integer getId() {
@@ -145,8 +149,33 @@ public class BillingOnItem implements Serializable {
     public void setStatus(String s) {
         this.status = s;
     }
+    
+    
+    public BigDecimal getPaid() {
+		return paid;
+	}
 
-    public void setTimestamp(Timestamp t) {
+	public void setPaid(BigDecimal paid) {
+		this.paid = paid;
+	}
+
+	public BigDecimal getRefund() {
+		return refund;
+	}
+
+	public void setRefund(BigDecimal refund) {
+		this.refund = refund;
+	}
+
+	public BigDecimal getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(BigDecimal discount) {
+		this.discount = discount;
+	}
+
+	public void setTimestamp(Timestamp t) {
         this.timestamp = t;
     }
 }

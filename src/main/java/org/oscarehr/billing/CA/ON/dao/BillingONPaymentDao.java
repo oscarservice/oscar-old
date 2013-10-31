@@ -55,7 +55,7 @@ public class BillingONPaymentDao extends AbstractDao<BillingONPayment>{
     }
 
     public BigDecimal getPaymentsSumByBillingNo(Integer billingNo){
-        Query query = entityManager.createQuery("select sum(bp.payment) from BillingONPayment bp where bp.billingONCheader1.id = :billingNo and payment>0 group by bp.billingONCheader1");
+        Query query = entityManager.createQuery("select sum(bp.total_payment) from BillingONPayment bp where bp.billingONCheader1.id = :billingNo and total_payment>0 group by bp.billingONCheader1");
         query.setParameter("billingNo", billingNo);
         BigDecimal paymentsSum = null;
         try {
@@ -67,7 +67,7 @@ public class BillingONPaymentDao extends AbstractDao<BillingONPayment>{
     }
     
     public BigDecimal getPaymentsRefundByBillingNo(Integer billingNo){
-        Query query = entityManager.createQuery("select sum(bp.payment) from BillingONPayment bp where bp.billingONCheader1.id = :billingNo and payment<0 group by bp.billingONCheader1");
+        Query query = entityManager.createQuery("select sum(bp.total_payment) from BillingONPayment bp where bp.billingONCheader1.id = :billingNo and total_payment<0 group by bp.billingONCheader1");
         query.setParameter("billingNo", billingNo);
         BigDecimal paymentsSum = null;
         try {
@@ -79,7 +79,7 @@ public class BillingONPaymentDao extends AbstractDao<BillingONPayment>{
     }
     
     public String getTotalSumByBillingNoWeb(String billingNo){
-        Query query = entityManager.createQuery("select sum(bp.payment) from BillingONPayment bp where bp.billingONCheader1.id = :billingNo group by bp.billingONCheader1");
+        Query query = entityManager.createQuery("select sum(bp.total_payment) from BillingONPayment bp where bp.billingONCheader1.id = :billingNo group by bp.billingONCheader1");
         query.setParameter("billingNo", Integer.parseInt(billingNo));
         BigDecimal paymentsSum = null;
         try {
@@ -92,7 +92,7 @@ public class BillingONPaymentDao extends AbstractDao<BillingONPayment>{
     }
     
     public String getPaymentsRefundByBillingNoWeb(String billingNo){
-        Query query = entityManager.createQuery("select -sum(bp.payment) from BillingONPayment bp where bp.billingONCheader1.id = :billingNo and payment<0 group by bp.billingONCheader1");
+        Query query = entityManager.createQuery("select -sum(bp.total_payment) from BillingONPayment bp where bp.billingONCheader1.id = :billingNo and total_payment<0 group by bp.billingONCheader1");
         query.setParameter("billingNo", Integer.parseInt(billingNo));
         BigDecimal paymentsSum = null;
         try {

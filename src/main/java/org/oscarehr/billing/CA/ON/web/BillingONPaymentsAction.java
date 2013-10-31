@@ -46,13 +46,17 @@ import org.oscarehr.billing.CA.ON.model.BillingONPayment;
 import org.oscarehr.billing.CA.dao.BillingPaymentTypeDao;
 import org.oscarehr.billing.CA.model.BillingPaymentType;
 
+import oscar.oscarBilling.ca.on.dao.BillingOnItemDao;
+import oscar.oscarBilling.ca.on.model.BillingOnItem;
+
 /**
  *
  * @author rjonasz
  */
 public class BillingONPaymentsAction extends DispatchAction {
 	private static Logger logger = Logger.getLogger(BillingONPaymentsAction.class);
-
+	
+	private BillingOnItemDao billingOnItemDao;
     private BillingONPaymentDao billingONPaymentDao;
     private BillingPaymentTypeDao billingPaymentTypeDao;
     private BillingClaimDAO billingClaimDAO;
@@ -68,7 +72,8 @@ public class BillingONPaymentsAction extends DispatchAction {
 
     	List<BillingONPayment> payments = billingONPaymentDao.listPaymentsByBillingNo(billingNo);
     	request.setAttribute("paymentsList", payments);
-
+    	List<BillingOnItem> items = billingOnItemDao.getBillingItemByCh1Id(billingNo);
+    	request.setAttribute("billingOnItems", items);
     	List<BillingPaymentType> paymentTypes = billingPaymentTypeDao.list();
     	request.setAttribute("billingPaymentTypeList", paymentTypes);
 
@@ -223,6 +228,11 @@ public class BillingONPaymentsAction extends DispatchAction {
     	this.billingONExtDao = billingExtDao;
     }
 
+	public void setBillingOnItemDao(BillingOnItemDao billingOnItemDao) {
+		this.billingOnItemDao = billingOnItemDao;
+	}
+    
+    
 /*
 	public void setSiteDao(SiteDao siteDao) {
     	this.siteDao = siteDao;

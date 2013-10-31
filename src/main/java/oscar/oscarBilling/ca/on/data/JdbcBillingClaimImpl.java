@@ -195,7 +195,7 @@ public class JdbcBillingClaimImpl {
 		String sql = "insert into billing_on_item values(\\N, " + val.ch1_id + ", '" + val.transc_id + "', '"
 				+ val.rec_id + "', '" + val.service_code + "', '" + val.fee + "', '" + val.ser_num + "', '"
 				+ val.service_date + "', '" + val.dx + "', '" + val.dx1 + "', '" + val.dx2 + "', '" + val.status
-				+ "', \\N )";
+				+ "', \\N,' "+val.paid+"','"+val.refund+"','"+val.discount+"')";
 		retval = dbObj.saveBillingRecord(sql);
 		if (retval == 0) {
 			_logger.error("addOneItemRecord(sql = " + sql + ")");

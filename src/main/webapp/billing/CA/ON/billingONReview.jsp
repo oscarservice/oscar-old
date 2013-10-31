@@ -875,8 +875,8 @@ if (bMultisites) {
 					style="width: 120px;" /><input type="submit" name="submit"
 					value="Settle & Print Invoice" onClick="document.forms['titlesearch'].btnPressed.value='Settle'; document.forms['titlesearch'].submit();javascript:popupPage(700,720,'billingON3rdInv.jsp');" style="width: 120px;" />
 				<input type="hidden"  name="btnPressed" value="">
-				<input type="hidden" name="payment" id="pay1"/>
-				<input type="hidden" name="discount1" id="dis1"/>
+				<input type="hidden" name="payment" id="pay1" value="0.00"/>
+				<input type="hidden" name="discount1" id="dis1" value="0.00"/>
 				<input type="hidden" name="refund" value="0.00"/>
 				</td>
 			</tr>

@@ -198,8 +198,7 @@ public class BillingCorrectionPrep {
 				vecName.add(request.getParameter("servicecode" + i));
 				vecUnit.add(request.getParameter("billingunit" + i));
 				vecFee.add(request.getParameter("billingamount" + i));
-				vecStatus
-						.add(request.getParameter("itemStatus" + i) == null ? "O"
+				vecStatus.add(request.getParameter("itemStatus" + i) == null ? "O"
 								: "S");
 			}
 		}
@@ -364,8 +363,9 @@ public class BillingCorrectionPrep {
 				oldObj.setService_date(serviceDate);
 				oldObj.setDx(sDx);
 				oldObj.setStatus(cStatus);
-
+				List<String> payProgram = dbObj.getPayprogramByBillNo(oldObj.getCh1_id());
 				ret = dbObj.updateBillingOneItem(oldObj);
+					dbObj.addBillingTransaction(oldObj, payProgram.get(0));
 				if (!ret)
 					return ret;
 			}
@@ -373,7 +373,9 @@ public class BillingCorrectionPrep {
 			// delete the old item
 
 			oldObj.setStatus("D");
+			List<String> payProgram = dbObj.getPayprogramByBillNo(oldObj.getCh1_id());
 			ret = dbObj.updateBillingOneItem(oldObj);
+			dbObj.addBillingTransaction(oldObj, payProgram.get(0));
 		}
 
 		return ret;
@@ -404,6 +406,8 @@ public class BillingCorrectionPrep {
 			JdbcBillingClaimImpl myObj = new JdbcBillingClaimImpl();
 
 			int i = myObj.addOneItemRecord(newObj);
+			List<String> payProgram = dbObj.getPayprogramByBillNo(oldObj.getCh1_id());
+			dbObj.addBillingTransaction(newObj, payProgram.get(0));
 			if (i == 0)
 				return false;
                         lItemObj.add(newObj);
