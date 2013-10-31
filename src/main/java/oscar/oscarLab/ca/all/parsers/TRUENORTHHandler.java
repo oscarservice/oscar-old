@@ -1,25 +1,13 @@
 package oscar.oscarLab.ca.all.parsers;
 
 import ca.uhn.hl7v2.HL7Exception;
-import ca.uhn.hl7v2.model.v23.datatype.CE;
 import ca.uhn.hl7v2.model.v23.datatype.CX;
-import ca.uhn.hl7v2.model.v23.datatype.IS;
-import ca.uhn.hl7v2.model.v23.datatype.ST;
-import ca.uhn.hl7v2.model.v23.datatype.TS;
-import ca.uhn.hl7v2.model.v23.datatype.TSComponentOne;
-import ca.uhn.hl7v2.model.v23.datatype.XCN;
-import ca.uhn.hl7v2.model.v23.datatype.XPN;
-import ca.uhn.hl7v2.model.v23.group.ORU_R01_OBSERVATION;
 import ca.uhn.hl7v2.model.v23.group.ORU_R01_ORDER_OBSERVATION;
 import ca.uhn.hl7v2.model.v23.group.ORU_R01_PATIENT;
 import ca.uhn.hl7v2.model.v23.group.ORU_R01_RESPONSE;
-import ca.uhn.hl7v2.model.v23.group.ORU_R01_VISIT;
 import ca.uhn.hl7v2.model.v23.message.ORU_R01;
-import ca.uhn.hl7v2.model.v23.segment.MSH;
 import ca.uhn.hl7v2.model.v23.segment.OBR;
 import ca.uhn.hl7v2.model.v23.segment.OBX;
-import ca.uhn.hl7v2.model.v23.segment.PID;
-import ca.uhn.hl7v2.model.v23.segment.PV1;
 import ca.uhn.hl7v2.parser.Parser;
 import ca.uhn.hl7v2.parser.PipeParser;
 import ca.uhn.hl7v2.util.Terser;
@@ -58,7 +46,7 @@ public class TRUENORTHHandler
     p.setValidationContext(new NoValidation());
     ArrayList labs = getMatchingHL7Labs(hl7Body);
 
-    this.headers = new ArrayList();
+    this.headers = new ArrayList<String>();
 
     for (int i = 0; i < labs.size(); i++)
     {
@@ -77,7 +65,7 @@ public class TRUENORTHHandler
   private ArrayList<String> getMatchingHL7Labs(String hl7Body)
   {
     Base64 base64 = new Base64();
-    ArrayList ret = new ArrayList();
+    ArrayList ret = new ArrayList<String>();
     int monthsBetween = 0;
     Hl7TextInfoDao hl7TextInfoDao = (Hl7TextInfoDao)SpringUtils.getBean("hl7TextInfoDao");
     try
@@ -422,7 +410,7 @@ public class TRUENORTHHandler
 
   public ArrayList getDocNums()
   {
-    ArrayList nums = new ArrayList();
+    ArrayList nums = new ArrayList<String>();
 
     return nums;
   }

@@ -524,6 +524,13 @@
 			<version>0.12-DRAFT</version>
 		</dependency>
 
+		<!-- FOR BORN18MWBV Project - Rourke, NDDS, 18M Summary in XML format -->
+		<dependency>
+			<groupId>ca.bornontario</groupId>
+			<artifactId>x18MEWBV</artifactId>
+			<version>1.6.2</version>
+		</dependency>
+
 		 <dependency>
                         <groupId>jspellchecker</groupId>
                         <artifactId>jazzy-core</artifactId>
@@ -679,7 +686,7 @@
 		<dependency>
 			<groupId>com.jcraft</groupId>
 			<artifactId>jsch</artifactId>
-			<version>0.1.29</version>
+			<version>0.1.49</version>
 		</dependency>
 
 		<!-- OLIS -->
@@ -1084,6 +1091,7 @@
 		        <artifactId>maven-surefire-plugin</artifactId>
 		        <configuration>
 		          <skipTests>false</skipTests>
+			  <argLine>-Xms512m -Xmx512m -Xss256k -XX:MaxNewSize=64m -XX:MaxPermSize=192m</argLine>
 			  <excludes>
 		            <exclude>**/AR2005*.java</exclude>
 		            <exclude>**/OntarioMDSpec4DataTest.java</exclude>
@@ -1096,6 +1104,7 @@
 					</property>
 				</systemProperties>
 		        </configuration>
+        		<version>2.10</version>
 		      </plugin>
 
 	  <plugin>

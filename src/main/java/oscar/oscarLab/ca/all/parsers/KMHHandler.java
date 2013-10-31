@@ -2,29 +2,10 @@ package oscar.oscarLab.ca.all.parsers;
 
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.model.Segment;
-import ca.uhn.hl7v2.model.v23.datatype.CE;
-import ca.uhn.hl7v2.model.v23.datatype.CX;
-import ca.uhn.hl7v2.model.v23.datatype.EI;
-import ca.uhn.hl7v2.model.v23.datatype.HD;
-import ca.uhn.hl7v2.model.v23.datatype.ID;
-import ca.uhn.hl7v2.model.v23.datatype.IS;
-import ca.uhn.hl7v2.model.v23.datatype.ST;
-import ca.uhn.hl7v2.model.v23.datatype.TN;
-import ca.uhn.hl7v2.model.v23.datatype.TQ;
-import ca.uhn.hl7v2.model.v23.datatype.TS;
-import ca.uhn.hl7v2.model.v23.datatype.TSComponentOne;
 import ca.uhn.hl7v2.model.v23.datatype.XCN;
-import ca.uhn.hl7v2.model.v23.datatype.XPN;
-import ca.uhn.hl7v2.model.v23.datatype.XTN;
-import ca.uhn.hl7v2.model.v23.group.ORU_R01_OBSERVATION;
-import ca.uhn.hl7v2.model.v23.group.ORU_R01_ORDER_OBSERVATION;
-import ca.uhn.hl7v2.model.v23.group.ORU_R01_PATIENT;
-import ca.uhn.hl7v2.model.v23.group.ORU_R01_RESPONSE;
 import ca.uhn.hl7v2.model.v23.message.ORU_R01;
-import ca.uhn.hl7v2.model.v23.segment.MSH;
 import ca.uhn.hl7v2.model.v23.segment.OBR;
 import ca.uhn.hl7v2.model.v23.segment.OBX;
-import ca.uhn.hl7v2.model.v23.segment.PID;
 import ca.uhn.hl7v2.parser.Parser;
 import ca.uhn.hl7v2.parser.PipeParser;
 import ca.uhn.hl7v2.util.Terser;
@@ -77,10 +58,10 @@ public class KMHHandler
     this.msg = ((ORU_R01)p.parse(hl7Body));
 
     ArrayList labs = getMatchingKMHlabs(hl7Body);
-    this.headers = new ArrayList();
-    this.obrSegMap = new LinkedHashMap();
-    this.obrSegKeySet = new ArrayList();
-    this.pdfMap = new LinkedHashMap();
+    this.headers = new ArrayList<String>();
+    this.obrSegMap = new LinkedHashMap<OBR, ArrayList<OBX> >();
+    this.obrSegKeySet = new ArrayList<OBR>();
+    this.pdfMap = new LinkedHashMap<String, HashMap<String,String> >();
 
     for (int i = 0; i < labs.size(); i++) {
       this.msg = ((ORU_R01)p.parse(((String)labs.get(i)).replaceAll("\n", "\r\n")));
@@ -92,11 +73,11 @@ public class KMHHandler
         ArrayList obxSegs = (ArrayList)this.obrSegMap.get(obrSeg);
 
         if (obxSegs == null) {
-          obxSegs = new ArrayList();
+          obxSegs = new ArrayList<OBX>();
         }
         int obxCount = this.msg.getRESPONSE().getORDER_OBSERVATION(j).getOBSERVATIONReps();
         int pdfPageCount = 0;
-        this.pdfInfo = new LinkedHashMap();
+        this.pdfInfo = new LinkedHashMap<String,String>();
         this.logger.info(new StringBuilder().append("obxCount = ").append(obxCount).toString());
         for (int k = 0; k < obxCount; k++)
         {
@@ -146,7 +127,7 @@ public class KMHHandler
   private ArrayList<String> getMatchingKMHlabs(String hl7Body)
   {
     Base64 base64 = new Base64();
-    ArrayList ret = new ArrayList();
+    ArrayList ret = new ArrayList<String>();
     int monthsBetween = 0;
     Hl7TextInfoDao hl7TextInfoDao = (Hl7TextInfoDao)SpringUtils.getBean("hl7TextInfoDao");
     try {
@@ -544,7 +525,7 @@ public class KMHHandler
   public ArrayList<String> getDocNums()
   {
     String docNum = "";
-    ArrayList nums = new ArrayList();
+    ArrayList nums = new ArrayList<String>();
     try
     {
       docNum = this.msg.getRESPONSE().getORDER_OBSERVATION(0).getOBR().getOrderingProvider(0).getIDNumber().getValue();

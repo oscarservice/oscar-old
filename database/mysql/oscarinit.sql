@@ -732,7 +732,8 @@ CREATE TABLE eform (
   form_creator varchar(255) default NULL,
   status tinyint(1) NOT NULL default '1',
   form_html mediumtext,
-  patient_independent boolean,
+  showLatestFormOnly boolean NOT NULL, 
+  patient_independent boolean NOT NULL,
   roleType varchar(50) default NULL,
   PRIMARY KEY  (fid),
   UNIQUE KEY id (fid)
@@ -753,7 +754,8 @@ CREATE TABLE eform_data (
   form_time time default NULL,
   form_provider varchar(255) default NULL,
   form_data mediumtext,
-  patient_independent tinyint(1) not null,
+  showLatestFormOnly boolean NOT NULL, 
+  patient_independent boolean not null, 
   roleType varchar(50) default NULL,
   PRIMARY KEY  (fdid),
   UNIQUE KEY id (fdid),
@@ -7387,6 +7389,7 @@ CREATE TABLE demographicQueryFavourites (
   patientStatus text,
   queryName varchar(255) default NULL,
   archived char(1) default NULL,
+  demoIds text,
   PRIMARY KEY  (favId)
 );
 

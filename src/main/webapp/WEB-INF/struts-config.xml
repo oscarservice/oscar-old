@@ -546,6 +546,7 @@
 			<form-property name="episode" type="org.oscarehr.common.model.Episode"/>
 		</form-bean>
 		<form-bean name="importDemoForm" type="oscar.oscarDemographic.data.ImportDemoForm" />
+		<form-bean name="eaapsExportForm" type="org.oscarehr.research.eaaps.EaapsExportForm" />
 	</form-beans>
 
 	<global-forwards>
@@ -556,6 +557,30 @@
 	</global-forwards>
 
 	<action-mappings>
+        <!-- Notification Mappings -->
+        <action path="/notification/create"
+                type="org.oscarehr.common.web.ProviderNotificationAction"
+                scope="request">
+        </action>
+        <!-- End of Notification Mappings -->
+	
+        <!-- EAAPS Start -->
+        <action path="/eaaps/displayEctEaaps" scope="request" type="org.oscarehr.research.eaaps.EctDisplayEaapsAction" />
+        
+        <action path="/eaaps/export"
+                type="org.oscarehr.research.eaaps.EaapsExportAction"
+                name="eaapsExportForm"
+                input="/eaaps/index.jsp">
+                <forward name="status" path="/eaaps/status.jsp" />
+        </action>
+        <!-- EAAPS End -->
+        
+	<action path="/study/ManageStudy" scope="request" parameter="method" type="org.oscarehr.study.ManageStudyAction">
+		<forward name="AddedToStudy" path="/admin/addStudy.jsp"></forward>
+		<forward name="closeWindow" path="/study/closeWindow.html"></forward>
+		<forward name="create" path="/study/closeWindow.html" />
+		<forward name="update" path="/study/closeWindow.html" />
+	</action>
 	<action path="/eform/importPortal" scope="request" type="com.oscar.eformportal.ws.service.ImportPortal" >
 			<forward name="import" path="/eform/efmformmanager.jsp" redirect="true" ></forward>
 	</action>
@@ -1352,6 +1377,7 @@
 		<action input="/oscarReport/ReportDemographicReport.jsp" name="RptDemographicReportForm" path="/report/DemographicReport" scope="request" type="oscar.oscarReport.pageUtil.RptDemographicReportAction">
 			<forward name="success" path="/oscarReport/ReportDemographicReport.jsp" />
 			<forward name="failure" path="/oscar_sfhc/JAYREPORTS/DemographicReport.jsp" />
+			<forward name="addToStudy" path="/study/ManageStudy.do?method=AddToStudy" />
 		</action>
 		<action input="/oscarReport/ReportDemographicReport.jsp" name="FrmForm" path="/report/CreateDemographicSet" scope="request" type="oscar.oscarReport.pageUtil.RptCreateDemographicSetAction">
 			<forward name="success" path="/oscarReport/ReportDemographicReport.jsp" />
@@ -1702,8 +1728,13 @@
 			path="/eform/efmformprint" type="oscar.eform.actions.PrintAction">
 			<forward name="close" path="/eform/efmclosewindow.jsp" />
 		</action>
+		<action input="/eform/efmformadd_data.jsp" path="/eform/efmPrintPDF" scope="request" type="oscar.eform.actions.PrintPDFAction">
+			<forward name="printAll" path="/eform/createpdf" />
+			<forward name="graph" path="/eform/createpdf" />
+		</action>
 		<action input="/eform/efmpatientformlist.jsp" path="/eform/removeEForm" scope="request" type="oscar.eform.actions.RemEFormAction">
 			<forward name="success" path="/eform/efmpatientformlist.jsp" />
+			<forward name="single" path="/eform/efmpatientformlistsingle.jsp" />
 			<forward name="independent" path="/eform/efmmanageindependent.jsp" />
 		</action>
 		<action input="/eform/efmpatientformlistdeleted.jsp" name="unRemoveEForm" path="/eform/unRemoveEForm" scope="request" type="oscar.eform.actions.UnRemEFormAction">
