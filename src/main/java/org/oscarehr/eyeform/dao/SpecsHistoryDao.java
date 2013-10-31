@@ -104,7 +104,7 @@ public class SpecsHistoryDao extends AbstractDao<EyeformSpecsHistory> {
 	}
 
 	public List<EyeformSpecsHistory> getAllCurrent(int demographicNo, int appointmentNo) {
-		String sql="select x from "+modelClass.getSimpleName()+" x where x.demographicNo = ? and x.appointmentNo = ? order by x.date DESC";
+		String sql="select x from "+modelClass.getSimpleName()+" x where x.demographicNo = ? and x.appointmentNo = ?";
                 Query query = entityManager.createQuery(sql);
                 query.setParameter(1, demographicNo);
                 query.setParameter(2, appointmentNo);
