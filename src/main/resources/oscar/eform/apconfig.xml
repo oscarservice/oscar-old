@@ -657,6 +657,34 @@
         <ap-output>${prevention_date}</ap-output>
     </databaseap>
 	
+	<databaseap>
+        <ap-name>bmd_immunization_data</ap-name>
+        <ap-sql>select m.val from preventions n,preventionsExt m where n.demographic_no = ${demographic} and n.prevention_type = 'BMD' and n.id = m.prevention_id and m.keyval = 'result'
+       </ap-sql>
+        <ap-output>${val}</ap-output>
+    </databaseap>
+    
+	<databaseap>
+        <ap-name>mam_immunization_data</ap-name>
+        <ap-sql>select m.val from preventions n,preventionsExt m where n.demographic_no = ${demographic} and n.prevention_type = 'MAM' and n.id = m.prevention_id and m.keyval = 'result'
+       </ap-sql>
+        <ap-output>${val}</ap-output>
+    </databaseap>
+    
+	<databaseap>
+        <ap-name>fobt_immunization_data</ap-name>
+        <ap-sql>select m.val from preventions n,preventionsExt m where n.demographic_no = ${demographic} and n.prevention_type = 'FOBT' and n.id = m.prevention_id and m.keyval = 'result'
+       </ap-sql>
+        <ap-output>${val}</ap-output>
+    </databaseap>
+    
+	<databaseap>
+        <ap-name>colonoscopy_immunization_data</ap-name>
+        <ap-sql>select m.val from preventions n,preventionsExt m where n.demographic_no = ${demographic} and n.prevention_type = 'COLONOSCOPY' and n.id = m.prevention_id and m.keyval = 'result'
+       </ap-sql>
+        <ap-output>${val}</ap-output>
+    </databaseap>
+    
     <databaseap>
     	<ap-name>guardian_label</ap-name>
         <ap-sql>select d.first_name, d.last_name, d.address, d.city, d.province, d.postal from relationships r, demographic d where r.relation_demographic_no = d.demographic_no and r.demographic_no = ${demographic}
