@@ -221,7 +221,7 @@ function editControlContents(editorname) {
 	if (document.designMode) {
 		// Explorer reformats HTML during document.write() removing quotes on element ID names
 		// so we need to address Explorer elements as window[elementID]
-		if (window[editorname]) { value = window[editorname].document.body.innerHTML; } 		
+		if (window[editorname] && window[editorname].document) { value = window[editorname].document.body.innerHTML; }
 		else { value = document.getElementById(editorname).contentWindow.document.body.innerHTML; }
 	} else {
 		// play nice and at least return the value from the <textarea> if document.designMode does not exist
@@ -233,21 +233,21 @@ function editControlContents(editorname) {
 // this function sets the HTML contents of the edit control "editorname" to "value"
 function seteditControlContents(editorname, value){
 
-	// Converting image paths with template style tag to URL format using 'cfg_isrc' using imageControl library.	
+	// Converting image paths with template style tag to URL format using 'cfg_isrc' using imageControl library.
 	value = jQuery().convertImagePaths(value);
-	
+
     if (document.designMode) {
-		if (window[editorname]){
-			window[editorname].document.body.innerHTML = value; //if browser supports M$ conventions
-		    return
+		if (window[editorname] && window[editorname].document){
+		    window[editorname].document.body.innerHTML = value; //if browser supports M$ conventions
+		    return;
 		} else {
 		    document.getElementById(editorname).contentWindow.document.body.innerHTML = value;
-		    return
+		    return;
 		}
 	} else {
 		// play nice and at least set the value to the <textarea> if document.designMode does not exist
 		document.getElementById(cfg_editorname).value = value;
-		return
+		return;
 	}
 }
 
@@ -313,7 +313,7 @@ function Select(selectname){
 function existsTemplate(template) {
 	var exists = false;
 	$("#template option").each(function() { if ($(this).val() == template) { exists = true; } })
-	return exists;	
+	return exists;
 }
 
 function loadDefaultTemplate() {
@@ -322,17 +322,17 @@ function loadDefaultTemplate() {
 	if (existsTemplate(cfg_template)) {
 		var selected = cfg_template;
 		window.frames[0].location = cfg_filesrc + selected; //FF & IE ***ASSUMES 1 iframe!
-		document.getElementById('subject').value = cfg_template == 'blank.rtl' ? "" : selected.substring(0, selected.lastIndexOf("."));		
+		document.getElementById('subject').value = cfg_template == 'blank.rtl' ? "" : selected.substring(0, selected.lastIndexOf("."));
     	document.getElementById('template').selectedIndex = 0;
 		//need to ensure that the new src is loaded before we parse it FF only IE doesn't do nada
 		var obj = document.getElementById(cfg_editorname);
 		obj.onload = function() { parseTemplate(); }
 		//for IE put some delay to ensure that the new src is loaded before we parse it
-    	if (window[cfg_editorname]) { setTimeout('parseTemplate()',1000); } //if M$ like browser    	
+    	if (window[cfg_editorname]) { setTimeout('parseTemplate()',1000); } //if M$ like browser
 	} else {
 		var blankTemplate = '<html><head><title>Blank Document Template</title><meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\"><style type=\"text/css\">body {font-size: 1em; font-family:\"Times New Roman\", Times, serif; background-color: #FFFFFF;}</style><style type=\"text/css\" media=\"print\">* {color: #000000;}</style></head><body contenteditable onLoad=\"document.designMode = \'on\';\"></body></html>';
 		document.getElementById(cfg_editorname).src = "data:text/html;charset=utf-8," + escape(blankTemplate);
-	}	
+	}
 }
 
 function loadTemplate(selectname){
@@ -344,7 +344,7 @@ function loadTemplate(selectname){
     	var selected = document.getElementById(selectname).options[cursel].value;
 		//document.getElementById(cfg_editorname).src = cfg_filesrc + selected + '.html' ; //FF != IE
 		window.frames[0].location = cfg_filesrc + selected; //FF & IE ***ASSUMES 1 iframe!
-		document.getElementById('subject').value = selected == 'blank.rtl' ? "" : selected.substring(0, selected.lastIndexOf("."));		
+		document.getElementById('subject').value = selected == 'blank.rtl' ? "" : selected.substring(0, selected.lastIndexOf("."));
     	document.getElementById('template').selectedIndex = 0;
 		//need to ensure that the new src is loaded before we parse it FF only IE doesn't do nada
 		var obj = document.getElementById(cfg_editorname);
@@ -369,22 +369,22 @@ function parseTemplate(){
 				needLookup = true;
 				if (cache.getMapping(temp[x]) != null) {
 					var mapKeys = cache.getMapping(temp[x]).values;
-					var index;					
+					var index;
 					for (index = 0; index < mapKeys.length; index++) {
 						keys.push(mapKeys[index]);
-					}					
+					}
 				}
-				keys.push(temp[x]);				
+				keys.push(temp[x]);
 			}
-		}		
+		}
 	}
 	if (!needLookup) { populateTemplate(); }
 	else {
 		var templateMapping = cache.getMapping("template");
-		if (templateMapping != null) {			
+		if (templateMapping != null) {
 			templateMapping.values = keys;
-			cache.lookup("template");	
-		}		 
+			cache.lookup("template");
+		}
 	}
 }
 
@@ -395,7 +395,7 @@ function populateTemplate(){
 	temp = contents.split('##'); //parse for template place holders identified by ##value##
 	contents='';
 	var x;
-	for (x in temp) {		 
+	for (x in temp) {
 		if ((x % 2)){ //odd numbered values contain placeholders
 			if(cache.contains(temp[x]) && (cache.get(temp[x]).length>0)){
 				//known field placeholder with a value so use it
@@ -442,7 +442,7 @@ function parseText(obs) {
 
 function doHtml(value) {
 	//insert HTML of value
-	if (window[cfg_editorname]){  //if you can't support insertHtml do something else		
+	if (window[cfg_editorname] && window[cfg_editorname].document){  //if you can't support insertHtml do something else
 		var tmp=window[cfg_editorname].document.body.innerHTML;
 		tmp=tmp+value;  // for IE this means append the text
 		window[cfg_editorname].document.body.innerHTML=tmp;
@@ -515,16 +515,16 @@ function tbuttonOnClick() {
   		case "table" : doHtml(doTable()); break;
   		case "help" : window.open (cfg_filesrc+"editor_help.html","mywindow","resizable=1,width=300,height=500"); break;
   		case "insertimage":
-  			value = prompt(this.getAttribute('promptText'));  
-  			if (editControlContents(cfg_editorname).trim() == "") { seteditControlContents(cfg_editorname, "<img src='" + value + "'></img>"); }  			  			
-  			else if (window[this.name]) { window[this.name].document.execCommand(this.id, false, value); } 
+  			value = prompt(this.getAttribute('promptText'));
+  			if (editControlContents(cfg_editorname).trim() == "") { seteditControlContents(cfg_editorname, "<img src='" + value + "'></img>"); }
+  			else if (window[this.name] && window[this.name].document) { window[this.name].document.execCommand(this.id, false, value); }
   			else { document.getElementById(this.name).contentWindow.document.execCommand(this.id, false, value); }
   			html = jQuery().convertImagePaths(document.getElementById('edit').contentWindow.document.body.innerHTML);
   			document.getElementById('edit').contentWindow.document.body.innerHTML = html;
   			break;
-  		case "promptUser" : value = prompt(this.getAttribute('promptText'));	
-  		default: 
-  			if (window[this.name]) { window[this.name].document.execCommand(this.id, false, value); } 
+  		case "promptUser" : value = prompt(this.getAttribute('promptText'));
+  		default:
+  			if (window[this.name] && window[this.name].document) { window[this.name].document.execCommand(this.id, false, value); }
   			else { document.getElementById(this.name).contentWindow.document.execCommand(this.id, false, value); }
 return;
 	}
@@ -538,9 +538,9 @@ function viewsource(source) {
 		return;
 	}
 	if (source) {
-		html = document.createTextNode(jQuery().restoreImagePaths(document.getElementById('edit').contentWindow.document.body.innerHTML));		
+		html = document.createTextNode(jQuery().restoreImagePaths(document.getElementById('edit').contentWindow.document.body.innerHTML));
 		document.getElementById(cfg_editorname).contentWindow.document.body.innerHTML = "";
-		html = document.getElementById(cfg_editorname).contentWindow.document.importNode(html,false);		
+		html = document.getElementById(cfg_editorname).contentWindow.document.importNode(html,false);
 		document.getElementById(cfg_editorname).contentWindow.document.body.appendChild(html);
 		document.getElementById("control1").style.visibility="hidden";
 		document.getElementById("control2").style.visibility="hidden";
@@ -577,4 +577,6 @@ jQuery(document).ready(function(){
 	if (jQuery.fn.convertImagePaths === undefined) {
 		addJavascript("../share/javascript/eforms/imageControl.js", "head");
 	}
+
+	jQuery("#edit")[0].contentWindow.document.designMode="on"
 });
