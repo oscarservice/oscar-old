@@ -36,6 +36,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.sql.Timestamp;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.xmlbeans.XmlOptions;
@@ -56,7 +57,17 @@ public class ONAREnhancedBornConnector {
 		Connection conn = org.oscarehr.util.DbConnectionFilter.getThreadLocalDbConnection();
 		try {
 			Statement st = conn.createStatement();
-			int res = st.executeUpdate("update formONAREnhanced set sent_to_born=1 where id="+formId);
+                        ResultSet rs = st.executeQuery("select formEdited from formONAREnhanced where id="+formId);
+                        Timestamp ts = null;
+                        if(rs.next()) {
+                                ts = rs.getTimestamp("formEdited");
+                        }
+                        if(ts == null) {
+                                MiscUtils.getLogger().warn("This shouldn't happen. Unabled to update flag as sent to born.");
+                                return;
+                        }
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        int res = st.executeUpdate("update formONAREnhanced set sent_to_born=1,formEdited='"+formatter.format(ts)+"' where id="+formId);
 			st.close();
 		}finally {
 			//conn.close();
@@ -163,14 +174,13 @@ public class ONAREnhancedBornConnector {
 		File file = new File(tmpPath + File.separator + filename);
 		
 		
-		BornFtpManager ftpManager = new BornFtpManager();
 		String path = file.getPath();
 		if(path.indexOf(File.separator)!=-1)
 			path = path.substring(0,path.lastIndexOf(File.separator));
 		else
 			path="";
 		
-		ftpManager.uploadDataToRepository(path, file.getName());
+		BornFtpManager.uploadONAREnhancedDataToRepository(path, file.getName());
 
 		for(Integer formId:formIdsSent) {
 			updateToSent(formId);

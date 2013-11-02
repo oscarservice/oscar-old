@@ -25,20 +25,27 @@
 
 package oscar.dms;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.oscarehr.PMmodule.caisi_integrator.CaisiIntegratorManager;
 import org.oscarehr.PMmodule.caisi_integrator.IntegratorFallBackManager;
@@ -130,14 +137,22 @@ public final class EDocUtil extends SqlUtilBaseS {
 		return providerDao.getProvider(providerNo);
 	}
 
-	public static ArrayList<String> getDoctypes(String module) {
+	public static ArrayList<String> getDoctypesByStatus(String module, String[] statuses) {
 		ArrayList<String> doctypes = new ArrayList<String>();
-		List<CtlDocType> result = ctldoctypedao.findByStatusAndModule(new String[]{"A","H","I"}, module);
-		for(CtlDocType obj:result) {
+		List<CtlDocType> result = ctldoctypedao.findByStatusAndModule(statuses, module);
+		for (CtlDocType obj : result) {
 			doctypes.add(obj.getDocType());
 		}
 
 		return doctypes;
+	}
+	
+	public static ArrayList<String> getDoctypes(String module) {
+		return getDoctypesByStatus(module,new String[]{ "A", "H", "I" });
+	}
+
+	public static ArrayList<String> getActiveDocTypes(String module) {
+		return getDoctypesByStatus(module,new String[]{"A"});
 	}
 
 	public static String getDocStatus(String module, String doctype){
@@ -239,7 +254,12 @@ public final class EDocUtil extends SqlUtilBaseS {
 			doc.setPublic1(Integer.parseInt(newDocument.getDocPublic()));
 			if(doReview) {
 				doc.setReviewer(newDocument.getReviewerId());
-				doc.setReviewdatetime(newDocument.getReviewDateTimeDate());
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+				try {
+					doc.setReviewdatetime(sdf.parse(newDocument.getReviewDateTime()));
+				}catch(ParseException e) {
+					logger.warn("error parsing date",e);
+				}
 			} else {
 				doc.setReviewer(null);
 				doc.setReviewdatetime(null);
@@ -1036,4 +1056,82 @@ public final class EDocUtil extends SqlUtilBaseS {
 
 		documentDao.merge(doc);
 	}
+	
+    /**
+		 * Reads content of the specified file with.
+		 * 
+		 * @param fileName
+		 * 		Name of the file to use for saving the content
+		 * @param content
+		 * 		Content to be saved into the file
+		 * @return
+		 * 		Returns the content of the file
+		 * @throws IOException
+		 * 		IOException is thrown in case file can not be read  
+		 */
+     public static byte[] readContent(String fileName) throws IOException {
+ 		InputStream is = null;
+ 		try {
+ 			is = new BufferedInputStream(new FileInputStream(new File(fileName)));
+ 			return IOUtils.toByteArray(is);
+ 		} finally {
+ 			try {
+	                is.close();
+             } catch (IOException e) {
+             	logger.error("Unable to close output stream", e);
+             }
+ 		}
+     }
+     
+		/**
+		 * Saves content to the OSCAR document directory as a file with the specified name.
+		 * File with the same name will be overwritten.
+		 * 
+		 * @param fileName
+		 * 		Name of the file to use for saving the content
+		 * @param content
+		 * 		Content to be saved into the file
+		 * @throws IOException
+		 * 		IOException is thrown in case of any save errors  
+		 */
+     public static void writeDocContent(String fileName, byte[] content) throws IOException {
+     	String docDir = OscarProperties.getInstance().getProperty("DOCUMENT_DIR");
+     	File file = new File(docDir, fileName);
+     	writeContent(file.getAbsolutePath(), content);        	
+     }
+        
+        /**
+         * Resolves file name for the specified OSCAR file into the absolute path on the file system.
+         * 
+         * @param fileName
+         * 		OSCAR file name.
+         * @return
+         * 		Returns the absolute path on the file system.
+         */
+        public static String resovePath(String fileName) {
+        	String docDir = OscarProperties.getInstance().getProperty("DOCUMENT_DIR");
+        	File file = new File(docDir, fileName);
+        	return file.getAbsolutePath();
+        }
+        
+     public static void writeContent(String fileName, byte[] content) throws IOException {
+     	OutputStream os = null;
+ 		try {
+ 			File file = new File(fileName);
+ 			if (!file.exists()) {
+ 				file.createNewFile();
+ 			}
+ 			os = new BufferedOutputStream(new FileOutputStream(file));
+ 			os.write(content);
+ 			os.flush();
+ 		} finally {
+ 			if (os != null) {
+ 				try {
+ 					os.close();
+ 				} catch (IOException e) {
+ 					logger.error("Unable to close output stream", e);
+ 				}
+ 			}
+ 		}
+     }
 }
