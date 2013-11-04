@@ -595,7 +595,7 @@ window.onload=function(){
 				<%if(!"PRI".equals(billType)){%>
 					<td width='25%'><%=propCodeDesc.getProperty(codeName, "") %></td>
 				<%}else{%>
-				<td nowrap colspan='3' width='25%'><%=codeName%>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input style="width:25%" type="text" name="tpayment" onBlur="calculatePayment();"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input style="width:25%" type="text" name="discount" onBlur="calculateDiscount();"/></td>
+				<td nowrap colspan='3' width='25%'><%=codeName%>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input style="width:25%" type="text" id="paymentx<%=i%>"name="tpayment<%=i %>" value="0.00" onBlur="calculatePayment();"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input style="width:25%" type="text" id="discountx<%=i%>" name="discount<%=i %>" value="0.00"onBlur="calculateDiscount();"/></td>
 				<%}%>
 			</tr>
 			<%
@@ -900,27 +900,30 @@ if (bMultisites) {
 
 <script language="JavaScript">
 function calculatePayment(){
-    var obj = document.getElementsByName("tpayment");
     var payment=0;
-    
-    for(var j=0;j<obj.length;j++){
-            if(obj[j].value!=''){
-            payment =parseFloat(payment)+parseFloat(obj[j].value);
-    }
-    }
-    document.getElementById("payment").value =payment;
-    document.getElementById("pay1").value=payment;
+
+for(var j=0;j<10;j++){
+    var obj = document.getElementById("paymentx"+j);
+       if(obj!=null){
+           if(obj.value!=''){
+       payment =parseFloat(payment)+parseFloat(obj.value);}
+}
+}
+document.getElementById("payment").value =payment;
+document.getElementById("pay1").value=payment;
 }
 function calculateDiscount(){
-    var obj = document.getElementsByName("discount");
-    var discount=0;
-    for(var i=0;i<obj.length;i++){
-            if(obj[i].value!=''){
-            discount = parseFloat(discount)+parseFloat(obj[i].value);
-    }
-    }
-    document.getElementById("discount").value = discount;
-    document.getElementById("dis1").value= discount;
+
+var discount=0;
+for(var i=0;i<10;i++){
+    var obj = document.getElementById("discountx"+i);
+   if(obj!=null){
+       if(obj.value!=''){
+       discount = parseFloat(discount)+parseFloat(obj.value);
+}}
+}
+document.getElementById("discount").value = discount;
+document.getElementById("dis1").value= discount;
 }
 function addToDiseaseRegistry(){
     if ( validateItems() ) {

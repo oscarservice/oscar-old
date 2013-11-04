@@ -227,7 +227,7 @@ org.oscarehr.billing.CA.ON.model.BillingClaimHeader1 ch1 = null;
 if(payments != null && payments.size()>0) {
     ch1 = payments.get(0).getBillingONCheader1();
     for(BillingONPayment payment : payments) {
-	sum = sum.add(payment.getTotal_payment());
+	sum = sum.add(new BigDecimal(payment.getBillingONCheader1().getTotal()));
     }
     balance = new BigDecimal(ch1.getTotal().replace("$","").replace(",","").replace(" ",""));
     balance= balance.subtract(sum);

@@ -239,9 +239,17 @@ public class BillingSavePrep {
 			claimItem[i].setDx(val.getParameter("dxCode"));
 			claimItem[i].setDx1(val.getParameter("dxCode1"));
 			claimItem[i].setDx2(val.getParameter("dxCode2"));
-			claimItem[i].setPaid(val.getParameter("payment"));
+			if(val.getParameter("tpayment"+i)!=null){
+			claimItem[i].setPaid(val.getParameter("tpayment"+i));
+			}else{
+			claimItem[i].setPaid("0.00");	
+			}
 			claimItem[i].setRefund(val.getParameter("refund"));
-			claimItem[i].setDiscount(val.getParameter("discount"));
+			if(val.getParameter("discount"+i)!=null){
+			claimItem[i].setDiscount(val.getParameter("discount"+i));
+			}else{
+			claimItem[i].setDiscount("0.00");
+			}
 			claimItem[i].setStatus("O");
 		}
 
