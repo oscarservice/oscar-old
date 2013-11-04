@@ -72,7 +72,7 @@ public class BillingONPaymentsAction extends DispatchAction {
 
     	List<BillingONPayment> payments = billingONPaymentDao.listPaymentsByBillingNo(billingNo);
     	request.setAttribute("paymentsList", payments);
-    	List<BillingOnItem> items = billingOnItemDao.getBillingItemByCh1Id(billingNo);
+    	List<BillingOnItem> items = billingOnItemDao.getShowBillingItemByCh1Id(billingNo);
     	request.setAttribute("billingOnItems", items);
     	List<BillingPaymentType> paymentTypes = billingPaymentTypeDao.list();
     	request.setAttribute("billingPaymentTypeList", paymentTypes);

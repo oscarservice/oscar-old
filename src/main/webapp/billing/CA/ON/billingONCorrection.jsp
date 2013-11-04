@@ -497,9 +497,16 @@ function checkSettle(status) {
 								sum = sum.add(new BigDecimal(payment.getBillingONCheader1().getTotal()));
 	    						}
         					}
+	    					if(payments.get(0).getTotal_refund()!=null){
+	    					balance = new BigDecimal((payments.get(0).getTotal_payment().add(payments.get(0).getTotal_refund()).add(payments.get(0).getTotal_discount()).toString()));
+	    					}else{
+		    					balance = new BigDecimal((payments.get(0).getTotal_payment().add(payments.get(0).getTotal_discount()).toString()));
+
+	    					}
       					}  
-						if(ch1!=null && ch1.getTotal()!=null)
-    						balance = new BigDecimal(ch1.getTotal().replace("$","").replace(",","").replace(" ",""));
+						//if(ch1!=null && ch1.getTotal()!=null)
+							
+    						//balance = new BigDecimal(ch1.getTotal().replace("$","").replace(",","").replace(" ",""));
     					balance= balance.subtract(sum);
 
                                         htmlPaid = "<br/>&nbsp;&nbsp;<span style='font-size:large;font-weight:bold'>Total:</span>&nbsp;&nbsp;&nbsp;<span id='payment' style='font-size:large;font-weight:bold'>"
