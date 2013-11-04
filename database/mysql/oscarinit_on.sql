@@ -3077,7 +3077,7 @@ CREATE TABLE `billing_on_transaction` (
   `provider_no` VARCHAR(6),
   `creator` VARCHAR(30),
   `visittype` CHAR(2),
-  `admission_date` CHAR(10),
+  `admission_date` DATE,
   `sli_code` VARCHAR(10),
   `service_code` VARCHAR(10),
   `service_code_num` CHAR(2),

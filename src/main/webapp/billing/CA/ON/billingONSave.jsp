@@ -55,9 +55,12 @@
 				Vector vecObj = bObj.getBillingClaimObj(request);
 				ret = bObj.addABillingRecord(vecObj);
 				if(request.getParameter("xml_billtype").substring(0,3).matches(BillingDataHlp.BILLINGMATCHSTRING_3RDPARTY)) {
-					bObj.addPrivateBillExtRecord(request);
+					bObj.addPrivateBillExtRecord(request, vecObj);
+				} else {
+					// add transaction log here for ohip
+					bObj.addOhipInvoiceTrans(vecObj);
 				}
-				bObj.addTransaction(bObj.getBillingTransaction(request));
+				//bObj.addTransaction(bObj.getBillingTransaction(request));
 				int billingNo = bObj.getBillingId();
 				
 				// update appt and close the page

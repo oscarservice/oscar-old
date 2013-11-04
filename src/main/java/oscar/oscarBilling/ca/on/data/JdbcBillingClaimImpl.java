@@ -107,22 +107,125 @@ public class JdbcBillingClaimImpl {
 	}
 	
 	public boolean addItemRecord(List lVal, int id) {
-		boolean retval = true;
+		int retval = 0;
 		for (int i = 0; i < lVal.size(); i++) {
 			BillingItemData val = (BillingItemData) lVal.get(i);
 			String sql = "insert into billing_on_item values(\\N, " + id + ", '" + val.transc_id + "', '" + val.rec_id
 					+ "', '" + val.service_code + "', '" + val.fee + "', '" + val.ser_num + "', '" + val.service_date
 					+ "', '" + val.dx + "', '" + val.dx1 + "', '" + val.dx2 + "', '" + val.status+"', \\N ,'"+val.paid+"','"+val.refund+"','"+val.discount+"')";
-			retval = dbObj.updateDBRecord(sql);
-			if (!retval) {
+			retval = dbObj.saveBillingRecord(sql);;
+			if (0 == retval) {
 				_logger.error("addItemRecord(sql = " + sql + ")");
-				return retval;
+				return false;
 			}
+			val.setId(((Integer)retval).toString());
 		}
-		return retval;
+		return (retval != 0);
 	}
 
-	public boolean add3rdBillExt(Map<String,String>mVal, int id) {
+	private void addCreate3rdInvoiceTrans(BillingClaimHeader1Data billHeader, List<BillingItemData> billItemList, int paymentId) {
+		if (billItemList.size() < 1) {
+			return;
+		}
+		
+		StringBuffer sqlBuf = new StringBuffer();
+		sqlBuf.append("insert into billing_on_transaction values");
+
+		for (BillingItemData billItem : billItemList) {
+			sqlBuf.append("(\\N,");
+			sqlBuf.append(billHeader.getId() + ","); // cheader1_id
+			sqlBuf.append(paymentId + ","); // paymentId
+			sqlBuf.append(billItem.getId() + ","); // billing_on_item_id
+			sqlBuf.append(billHeader.getDemographic_no() + ","); // demographic_no
+			sqlBuf.append("'" + billHeader.getCreator() + "',"); // update_provider_no
+			sqlBuf.append("CURRENT_TIMESTAMP,"); // update_datetime
+			sqlBuf.append("CURRENT_DATE,"); // payment_date
+			sqlBuf.append("'" + billHeader.getRef_num() + "',"); // ref_num
+			sqlBuf.append("'" + billHeader.getProvince() + "',"); // province
+			sqlBuf.append("'" + billHeader.getMan_review() + "',"); // man_review
+			sqlBuf.append("'" + billHeader.getBilling_date() + "',"); // billing_date
+			sqlBuf.append("'" + billHeader.getStatus() + "',"); // status
+			sqlBuf.append("'" + billHeader.getPay_program() + "',"); // pay_program
+			sqlBuf.append("'" + billHeader.getPayee() + "',"); // paymentType
+			sqlBuf.append("'" + billHeader.getFacilty_num() + "',"); // facility_num
+			sqlBuf.append("'" + billHeader.getClinic() + "',"); // clinic
+			sqlBuf.append("'" + billHeader.getProviderNo() + "',"); // provider_no
+			sqlBuf.append("'" + billHeader.getCreator() + "',"); // creator
+			sqlBuf.append("'" + billHeader.getVisittype() + "',"); // visittype
+			sqlBuf.append("'" + billHeader.getAdmission_date() + "',"); // admission_date
+			sqlBuf.append("'" + billHeader.getLocation() + "',"); // sli_code
+			sqlBuf.append("'" + billItem.getService_code() + "',"); // service_code
+			sqlBuf.append("'" + billItem.getSer_num() + "',"); // service_code_num
+			sqlBuf.append("'" + billItem.getFee() + "',"); // service_code_invoiced
+			sqlBuf.append("'" + billItem.getPaid() + "',"); // service_code_paid
+			sqlBuf.append("'" + billItem.getRefund() + "',"); // service_code_refund
+			sqlBuf.append("'" + billItem.getDiscount() + "',"); // service_code_discount
+			sqlBuf.append("'" + billItem.getDx() + "',"); // dx_code
+			sqlBuf.append("'" + billHeader.getComment() + "',"); // billing_notes
+			sqlBuf.append("'" + BillingDataHlp.ACTION_TYPE.C.name() + "'"); // action_type
+			sqlBuf.append("),");
+		}
+		sqlBuf.deleteCharAt(sqlBuf.length() - 1);
+		
+		boolean retval = dbObj.updateDBRecord(sqlBuf.toString());
+		if (!retval) {
+			_logger.error("add3rdInvoiceTrans(sql = " + sqlBuf.toString());
+		}
+	}
+	
+	public void addCreateOhipInvoiceTrans(BillingClaimHeader1Data billHeader, List<BillingItemData> billItemList) {
+		if (billItemList.size() < 1) {
+			return;
+		}
+		
+		StringBuffer sqlBuf = new StringBuffer();
+		sqlBuf.append("insert into billing_on_transaction values");
+
+		SimpleDateFormat dateFt = new SimpleDateFormat("yyyy-MM-dd");
+		for (BillingItemData billItem : billItemList) {
+			sqlBuf.append("(\\N,");
+			sqlBuf.append(billHeader.getId() + ","); // cheader1_id
+			sqlBuf.append("'',"); // paymentId
+			sqlBuf.append(billItem.getId() + ","); // billing_on_item_id
+			sqlBuf.append(billHeader.getDemographic_no() + ","); // demographic_no
+			sqlBuf.append("'" + billHeader.getCreator() + "',"); // update_provider_no
+			sqlBuf.append("CURRENT_TIMESTAMP,"); // update_datetime
+			sqlBuf.append("null,"); // payment_date
+			sqlBuf.append("'" + billHeader.getRef_num() + "',"); // ref_num
+			sqlBuf.append("'" + billHeader.getProvince() + "',"); // province
+			sqlBuf.append("'" + billHeader.getMan_review() + "',"); // man_review
+			sqlBuf.append("'" + billHeader.getBilling_date() + "',"); // billing_date
+			sqlBuf.append("'" + billHeader.getStatus() + "',"); // status
+			sqlBuf.append("'" + billHeader.getPay_program() + "',"); // pay_program
+			sqlBuf.append("'" + billHeader.getPayee() + "',"); // paymentType
+			sqlBuf.append("'" + billHeader.getFacilty_num() + "',"); // facility_num
+			sqlBuf.append("'" + billHeader.getClinic() + "',"); // clinic
+			sqlBuf.append("'" + billHeader.getProviderNo() + "',"); // provider_no
+			sqlBuf.append("'" + billHeader.getCreator() + "',"); // creator
+			sqlBuf.append("'" + billHeader.getVisittype() + "',"); // visittype
+			sqlBuf.append("'" + billHeader.getAdmission_date() + "',"); // admission_date
+			sqlBuf.append("'" + billHeader.getLocation() + "',"); // sli_code
+			sqlBuf.append("'" + billItem.getService_code() + "',"); // service_code
+			sqlBuf.append("'" + billItem.getSer_num() + "',"); // service_code_num
+			sqlBuf.append("'" + billItem.getFee() + "',"); // service_code_invoiced
+			sqlBuf.append("'',"); // service_code_paid
+			sqlBuf.append("'',"); // service_code_refund
+			sqlBuf.append("'',"); // service_code_discount
+			sqlBuf.append("'" + billItem.getDx() + "',"); // dx_code
+			sqlBuf.append("'" + billHeader.getComment() + "',"); // billing_notes
+			sqlBuf.append("'" + BillingDataHlp.ACTION_TYPE.C.name() + "'"); // action_type
+			sqlBuf.append("),");
+		}
+		sqlBuf.deleteCharAt(sqlBuf.length() - 1);
+		
+		boolean retval = dbObj.updateDBRecord(sqlBuf.toString());
+		if (!retval) {
+			_logger.error("addOhipInvoiceTrans(sql = " + sqlBuf.toString());
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public boolean add3rdBillExt(Map<String,String>mVal, int id, Vector vecObj) {
 		boolean retval = true;
 		String[] temp = { "billTo", "remitTo", "total", "payment", "refund", "provider_no", "gst", "payDate", "payMethod"};
 		String demoNo = mVal.get("demographic_no");
@@ -158,11 +261,12 @@ public class JdbcBillingClaimImpl {
 	    		paymentDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(paymentDateParam);
 	    	} catch(ParseException ex) {
 				_logger.error("add3rdBillExt wrong date format " + paymentDateParam);
-		return retval;
+				return retval;
 	    	}
 	    	if(paymentTypeParam==null || paymentTypeParam.equals("")) paymentTypeParam="1";
     		BillingPaymentType type = billingPaymentTypeDao.find(Integer.parseInt(paymentTypeParam));
     		BillingONPayment payment = null;
+    		
     		if(paymentSumParam != null) {
 		    	payment = new BillingONPayment();
 	    		payment.setTotal_payment(BigDecimal.valueOf(Double.parseDouble(paymentSumParam)));
@@ -171,6 +275,7 @@ public class JdbcBillingClaimImpl {
 		    	payment.setBillingOnCheader1(ch1);
 		    	payment.setBillingPaymentType(type);
 		    	billingONPaymentDao.persist(payment);
+		    	addCreate3rdInvoiceTrans((BillingClaimHeader1Data) vecObj.get(0), (List<BillingItemData>)vecObj.get(1), payment.getId());
 	    	}
     		if(paymentRefundParam != null) {
     			BigDecimal refund = BigDecimal.valueOf(Double.parseDouble(paymentRefundParam));
@@ -183,7 +288,8 @@ public class JdbcBillingClaimImpl {
     				payment.setPaymentDate(paymentDate);
     		    	payment.setBillingOnCheader1(ch1);
     		    	payment.setBillingPaymentType(type);
-    		    	billingONPaymentDao.persist(payment);    				
+    		    	billingONPaymentDao.persist(payment);
+    		    	addCreate3rdInvoiceTrans((BillingClaimHeader1Data) vecObj.get(0), (List<BillingItemData>)vecObj.get(1), payment.getId());
     			}
 	    	}
         }

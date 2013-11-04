@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.oscarehr.billing.CA.ON.dao.BillingONPaymentDao;
+import org.oscarehr.billing.CA.ON.model.BillingClaimHeader1;
 import org.oscarehr.util.MiscUtils;
 import org.oscarehr.util.SpringUtils;
 
@@ -54,6 +55,7 @@ public class BillingSavePrep {
 		billingId = billingNo;
 		if (billingNo == 0)
 			return false;
+		claim1Obj.setId(((Integer)billingId).toString());
 		if (val.size() > 1) {
 			ret = dbObj.addItemRecord((List) val.get(1), billingNo);
 			if (!ret)
@@ -66,18 +68,19 @@ public class BillingSavePrep {
 	}
 
 	@SuppressWarnings("unchecked")
-	public boolean addPrivateBillExtRecord(HttpServletRequest requestData) {
+	public boolean addPrivateBillExtRecord(HttpServletRequest requestData, Vector vecObj) {
 		boolean ret = false;
 		boolean rat = false;
 		
 		@SuppressWarnings("unused")
 		Map<String,String> val = getPrivateBillExtObj(requestData);
-		ret = dbObj.add3rdBillExt(val, billingId);
+		ret = dbObj.add3rdBillExt(val, billingId, vecObj);
 		if (!ret)
 			_logger.error("addPrivateBillExtRecord " + billingId);
 
 		return ret;
 	}
+	
 	public boolean addTransaction(List<BillingTransactionData> val){
 		boolean ret = false;
 		BillingONPaymentDao paymentDao =(BillingONPaymentDao) SpringUtils.getBean("billingONPaymentDao");
@@ -87,6 +90,13 @@ public class BillingSavePrep {
 
 		return ret;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public void addOhipInvoiceTrans(Vector vecObj) {
+		dbObj.addCreateOhipInvoiceTrans((BillingClaimHeader1Data) vecObj.get(0), (List<BillingItemData>) vecObj.get(1));
+	}
+	
+	
 	// set appt to B
 	public boolean updateApptStatus(String apptNo, String status, String userNo) {
 		boolean ret = (new JdbcBillingPageUtil()).updateApptStatus(apptNo, status, userNo);
@@ -146,7 +156,7 @@ public class BillingSavePrep {
                 String billtype = val.getParameter("xml_billtype");
 
 		BillingClaimHeader1Data claim1Header = new BillingClaimHeader1Data();
-
+		
 		claim1Header.setTransc_id(BillingDataHlp.CLAIMHEADER1_TRANSACTIONIDENTIFIER);
 		claim1Header.setRec_id(BillingDataHlp.CLAIMHEADER1_REORDIDENTIFICATION);
 
@@ -256,7 +266,7 @@ public class BillingSavePrep {
 			transData[i].setPay_program(getPayProgram(val.getParameter("xml_billtype"), val.getParameter("hc_type")));
 			transData[i].setService_code(val.getParameter("xserviceCode_" + i));
 			transData[i].setService_code_num(getDefaultUnit(val.getParameter("xserviceUnit_" + i)));
-			transData[i].setService_code_invoice_no(val.getParameter("percCodeSubtotal_" + i));
+			transData[i].setService_code_invoiced(val.getParameter("percCodeSubtotal_" + i));
 			transData[i].setService_code_paid(val.getParameter("payment"));
 			transData[i].setService_code_refund(val.getParameter("refund"));
 			transData[i].setService_code_discount(val.getParameter("discount"));

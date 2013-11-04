@@ -184,6 +184,11 @@ public class BillingCorrectionPrep {
 	public boolean updateBillingItem(List lItemObj, HttpServletRequest request) {
 		boolean ret = true; // dbObj.updateBillingClaimHeader(ch1Obj);
 		// _logger.info("updateBillingItem(old value = ");
+		
+		BillingClaimHeader1Data ch1Obj = (BillingClaimHeader1Data)lItemObj.get(0);
+		String updateProviderNo = (String) request.getSession().getAttribute("user");
+		lItemObj.remove(0);
+		
 		Vector vecName = new Vector();
 		Vector vecUnit = new Vector();
 		Vector vecFee = new Vector();
@@ -207,7 +212,7 @@ public class BillingCorrectionPrep {
 		String claimId = "0";
 		for (int i = 0; i < lItemObj.size(); i++) {
 			BillingItemData iObj = (BillingItemData) lItemObj.get(i);
-			ret = changeItem(iObj, dx, serviceDate, vecName, vecUnit, vecFee,
+			ret = changeItem(ch1Obj, iObj, updateProviderNo, dx, serviceDate, vecName, vecUnit, vecFee,
 					vecStatus);
 			claimId = iObj.getCh1_id();
 			_logger.info(iObj.getService_code() + " lItemObj = " + ret);
@@ -219,8 +224,7 @@ public class BillingCorrectionPrep {
 			String sUnit = (String) vecUnit.get(i);
 			String sFee = (String) vecFee.get(i);
 			String sStatus = (String) vecStatus.get(i);
-			ret = addItem(lItemObj, dx, serviceDate, sName, sUnit, sFee,
-					sStatus);
+			ret = addItem(ch1Obj, lItemObj, updateProviderNo, dx, serviceDate, sName, sUnit, sFee, sStatus);
 			_logger.info(sName + " lItemObj(value = " + ret);
 		}
 
@@ -331,7 +335,7 @@ public class BillingCorrectionPrep {
 	}
 
 	// status...
-	private boolean changeItem(BillingItemData oldObj, String sDx,
+	private boolean changeItem(BillingClaimHeader1Data ch1Obj, BillingItemData oldObj, String updateProviderNo, String sDx,
 			String serviceDate, Vector vecName, Vector vecUnit, Vector vecFee,
 			Vector vecStatus) {
 		boolean ret = true;
@@ -363,40 +367,41 @@ public class BillingCorrectionPrep {
 				oldObj.setService_date(serviceDate);
 				oldObj.setDx(sDx);
 				oldObj.setStatus(cStatus);
-				List<String> payProgram = dbObj.getPayprogramByBillNo(oldObj.getCh1_id());
+				//List<String> payProgram = dbObj.getPayprogramByBillNo(oldObj.getCh1_id());
 				ret = dbObj.updateBillingOneItem(oldObj);
-					dbObj.addBillingTransaction(oldObj, payProgram.get(0));
-				if (!ret)
-					return ret;
+				//dbObj.addBillingTransaction(oldObj, payProgram.get(0));
+				if (ret) {
+					dbObj.addUpdateOneBillItemTrans(ch1Obj, oldObj, updateProviderNo);
+				}
 			}
 		} else {
 			// delete the old item
 
 			oldObj.setStatus("D");
-			List<String> payProgram = dbObj.getPayprogramByBillNo(oldObj.getCh1_id());
+			///List<String> payProgram = dbObj.getPayprogramByBillNo(oldObj.getCh1_id());
 			ret = dbObj.updateBillingOneItem(oldObj);
-			dbObj.addBillingTransaction(oldObj, payProgram.get(0));
+			if (ret) {
+				dbObj.addDeleteOneBillItemTrans(ch1Obj, oldObj, updateProviderNo);
+			}
 		}
 
 		return ret;
 	}
 
-	private boolean addItem(List lItemObj, String sDx, String serviceDate,
+	private boolean addItem(BillingClaimHeader1Data ch1Obj, List lItemObj, String updateProviderNo, String sDx, String serviceDate,
 			String sName, String sUnit, String sFee, String sStatus) {
 		boolean ret = true;
 		BillingItemData oldObj = null;
-                BillingItemData newObj = null;
+        BillingItemData newObj = null;
 		for (int i = 0; i < lItemObj.size(); i++) {
 			oldObj = (BillingItemData) lItemObj.get(i);
-
 			if (sName.equals(oldObj.getService_code())) {
-
 				ret = false;
 				break;
 			}
 		}
 		if (ret) {
-                        newObj = new BillingItemData(oldObj);
+            newObj = new BillingItemData(oldObj);
 			newObj.setService_code(sName);
 			newObj.setSer_num(getUnit(sUnit));
 			newObj.setFee(getFee(sFee, getUnit(sUnit), sName, serviceDate));
@@ -404,13 +409,12 @@ public class BillingCorrectionPrep {
 			newObj.setDx(sDx);
 			newObj.setStatus(sStatus);
 			JdbcBillingClaimImpl myObj = new JdbcBillingClaimImpl();
-
 			int i = myObj.addOneItemRecord(newObj);
-			List<String> payProgram = dbObj.getPayprogramByBillNo(oldObj.getCh1_id());
-			dbObj.addBillingTransaction(newObj, payProgram.get(0));
-			if (i == 0)
+			if (0 == i) {
 				return false;
-                        lItemObj.add(newObj);
+			}
+			lItemObj.add(newObj);
+			dbObj.addInsertOneBillItemTrans(ch1Obj, newObj, updateProviderNo);
 		}
 		ret = true;
 		return ret;
@@ -430,6 +434,9 @@ public class BillingCorrectionPrep {
 	// for appt unbill;
 	public boolean deleteBilling(String id, String status, String providerNo) {
 		boolean ret = dbObj.updateBillingStatus(id, status, providerNo);
+		if (ret) {
+			// record delete operation in billing_on_transaction table
+		}
 		return ret;
 	}
 

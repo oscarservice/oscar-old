@@ -178,11 +178,11 @@ public class BillingTransactionData {
 	public void setService_code_num(String service_code_num) {
 		this.service_code_num = service_code_num;
 	}
-	public String getService_code_invoice_no() {
+	public String getService_code_invoiced() {
 		return service_code_invoiced;
 	}
-	public void setService_code_invoice_no(String service_code_invoice_no) {
-		this.service_code_invoiced = service_code_invoice_no;
+	public void setService_code_invoiced(String service_code_invoiced) {
+		this.service_code_invoiced = service_code_invoiced;
 	}
 	public String getService_code_paid() {
 		return service_code_paid;

@@ -45,6 +45,8 @@ public final class BillingDataHlp {
 
 	public static String BILLINGMATCHSTRING_3RDPARTY = "PAT|OCF|ODS|CPP|STD|IFH";
 
+	public enum ACTION_TYPE {C, R, U, D};
+	
 	public static Properties propMonthCode = new Properties();
 	public static Properties propBillingCenter = new Properties();
 	public static Properties propBillingType = new Properties();
