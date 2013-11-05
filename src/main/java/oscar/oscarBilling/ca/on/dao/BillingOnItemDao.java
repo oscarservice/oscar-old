@@ -25,6 +25,7 @@
 
 package oscar.oscarBilling.ca.on.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
@@ -70,5 +71,16 @@ public class BillingOnItemDao extends HibernateDaoSupport {
             List<BillingOnCHeader1> rs = getHibernateTemplate().find(queryStr);
 
             return rs;
+        }
+        
+        public void updateItemRefund(BillingOnItem item,String refund){
+        	item.setRefund(new BigDecimal(refund));
+        	getHibernateTemplate().update(item);
+        }
+        
+        public void updateItemPayment(BillingOnItem item,String paid,String discount){
+        	item.setPaid(new BigDecimal(paid));
+        	item.setDiscount(new BigDecimal(discount));
+        	getHibernateTemplate().update(item);
         }
 }

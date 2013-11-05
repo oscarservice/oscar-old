@@ -490,24 +490,16 @@ function checkSettle(status) {
     					List<BillingONPayment> payments = billingONPaymentDao.listPaymentsByBillingNo(Integer.parseInt(request.getParameter("billing_no").trim()));
 					org.oscarehr.billing.CA.ON.model.BillingClaimHeader1 ch1 = null;
 					if(payments != null && payments.size()>0) {
-	    					for(BillingONPayment payment : payments) {
-		    					if(ch1 == null)  ch1 = payment.getBillingONCheader1();
-            						boolean isDisplayed = true;
-							if(isDisplayed) {
-								sum = sum.add(new BigDecimal(payment.getBillingONCheader1().getTotal()));
-	    						}
-        					}
-	    					if(payments.get(0).getTotal_refund()!=null){
-	    					balance = new BigDecimal((payments.get(0).getTotal_payment().add(payments.get(0).getTotal_refund()).add(payments.get(0).getTotal_discount()).toString()));
-	    					}else{
-		    					balance = new BigDecimal((payments.get(0).getTotal_payment().add(payments.get(0).getTotal_discount()).toString()));
-
-	    					}
+						sum = new BigDecimal(payments.get(0).getBillingONCheader1().getTotal());
+						BigDecimal payment = payments.get(payments.size()-1).getTotal_payment();
+						BigDecimal discount = payments.get(payments.size()-1).getTotal_discount();
+						BigDecimal refund = payments.get(payments.size()-1).getTotal_refund();
+					    balance= balance.add(payment).add(discount).add(refund);
+					    balance = balance.subtract(sum);
       					}  
 						//if(ch1!=null && ch1.getTotal()!=null)
 							
     						//balance = new BigDecimal(ch1.getTotal().replace("$","").replace(",","").replace(" ",""));
-    					balance= balance.subtract(sum);
 
                                         htmlPaid = "<br/>&nbsp;&nbsp;<span style='font-size:large;font-weight:bold'>Total:</span>&nbsp;&nbsp;&nbsp;<span id='payment' style='font-size:large;font-weight:bold'>"
 						+ currency.format(sum) + "</span>";
