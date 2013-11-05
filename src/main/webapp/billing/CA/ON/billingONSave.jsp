@@ -60,7 +60,6 @@
 					// add transaction log here for ohip
 					bObj.addOhipInvoiceTrans(vecObj);
 				}
-				//bObj.addTransaction(bObj.getBillingTransaction(request));
 				int billingNo = bObj.getBillingId();
 				
 				// update appt and close the page

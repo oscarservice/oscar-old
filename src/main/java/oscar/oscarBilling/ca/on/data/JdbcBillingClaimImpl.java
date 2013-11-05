@@ -227,7 +227,7 @@ public class JdbcBillingClaimImpl {
 	@SuppressWarnings("unchecked")
 	public boolean add3rdBillExt(Map<String,String>mVal, int id, Vector vecObj) {
 		boolean retval = true;
-		String[] temp = { "billTo", "remitTo", "total", "payment", "refund", "provider_no", "gst", "payDate", "payMethod"};
+		String[] temp = { "billTo", "remitTo", "total", "total_payment", "refund", "provider_no", "gst", "payDate", "payMethod"};
 		String demoNo = mVal.get("demographic_no");
 		String dateTime = UtilDateUtilities.getToday("yyyy-MM-dd HH:mm:ss");
                 mVal.put("payDate", dateTime);
@@ -239,10 +239,10 @@ public class JdbcBillingClaimImpl {
 			String sql = "insert into billing_on_ext values(\\N, " + id + "," + demoNo + ", '" + temp[i] + "', '"
 					+ mVal.get(temp[i]) + "', '" + dateTime + "', '1' )";
 			retval = dbObj.updateDBRecord(sql);
-			if(i == 3) paymentSumParam = mVal.get(temp[i]);
-			else if(i == 4) paymentRefundParam = mVal.get(temp[i]);		
-			else if(i == 7) paymentDateParam = mVal.get(temp[i]);		
-			else if(i == 8) paymentTypeParam = mVal.get(temp[i]);		
+			if(i == 3) paymentSumParam = mVal.get(temp[i]); // total_payment
+			else if(i == 4) paymentRefundParam = mVal.get(temp[i]); // refund
+			else if(i == 7) paymentDateParam = mVal.get(temp[i]); // paymentDate
+			else if(i == 8) paymentTypeParam = mVal.get(temp[i]); // paymentMethod
 			if (!retval) {
 				_logger.error("add3rdBillExt(sql = " + sql + ")");
 				return retval;
@@ -338,21 +338,6 @@ public class JdbcBillingClaimImpl {
 		return retval;
 	}
 	
-	public boolean addBillingTransaction(List lVal,int paymentId, int id){
-		boolean retval = true;
-		for (int i = 0; i < lVal.size(); i++) {
-			BillingTransactionData val = (BillingTransactionData) lVal.get(i);
-			String sql = "insert into billing_on_transaction(ch1_id,payment_id,pay_program,payment_date,service_code,service_code_num,service_code_invoiced,service_code_paid,service_code_refund,service_code_discount) values( " + id + ", '" + paymentId + "', '" + val.pay_program
-					+ "', \\N, '" + val.service_code + "', '" + val.service_code_num + "', '" + val.service_code_invoiced
-					+ "', '" + val.service_code_paid + "', '" + val.service_code_refund + "', '" + val.service_code_discount+"')";
-			retval = dbObj.updateDBRecord(sql);
-		if (!retval) {
-			_logger.error("addTransaction(sql = " + sql + ")");
-			return retval;
-		}
-		}
-		return retval;
-	}
 	/*
 	 * // add disk file public List addBillingDiskName(BillingDiskNameData val) {
 	 * List ret = new Vector(); int retval = 0; Vector ohipName =

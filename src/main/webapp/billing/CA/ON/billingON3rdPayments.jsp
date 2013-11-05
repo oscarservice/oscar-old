@@ -139,6 +139,15 @@ function setStatus(obj){
        document.getElementById("discount"+i).disabled=false;
 }
 }
+
+function setValue(obj){
+	alert(3);
+	if(obj.isChecked){
+		obj.value="false";
+	}else{
+		obj.value="true";
+	}
+}
 </script>
 
 </head>
@@ -165,15 +174,15 @@ function setStatus(obj){
       	    <tr BGCOLOR="#EEEEFF">
       	      <td width="30%">
       	        <div align="right">
-      	       		 <select id="<%=i%>"onchange="setStatus(this);">
+      	       		 <select id="<%=i%>" name="sel<%=i%>"onchange="setStatus(this);">
       	       		 	<option value="payment">Payment</option>
       	       		 	<option value="refund">Refund</option>
       	       		 </select>
       	        </div>
       	      </td>
       	      <td width="70%" align="left">
-      	        <input type="text" name="payment" id="payment" value="0.00" WIDTH="8" HEIGHT="20" border="0" hspace="2" maxlength="50" />
-      	        <input type="checkbox" id="cdis<%=i%>"name="Discount" value="Discount"/>Disctount     <span id="sp<%=i%>"><input type="text" id="discount<%=i%>"name="discount"></span>
+      	        <input type="text" name="pay_ref<%=i %>" id="payment" value="0.00" WIDTH="8" HEIGHT="20" border="0" hspace="2" maxlength="50" />
+      	        <input type="checkbox" id="cdis<%=i%>"name="Discount" onclick="setValue(this);"/>Disctount     <input type="text" id="discount<%=i%>"name="discount<%=i %>" value="0.00">
       	        </td>
       	    </tr>
       	    <tr BGCOLOR="#EEEEFF">
@@ -182,6 +191,8 @@ function setStatus(obj){
       	      <td align="left">
       	      Service Code:&nbsp;<b><%=items.get(i).getService_code()%>&nbsp;$<%=items.get(i).getFee() %>&nbsp;Paid:&nbsp;$<%=items.get(i).getPaid() %></b>
       	      </td>
+      	      <input type="hidden" name="service_code<%=i %>" value="<%=items.get(i).getId()%>"/>
+			</td>
       	    </tr>
       	    <tr BGCOLOR="#EEEEFF">
       	      <td>
@@ -211,6 +222,7 @@ function setStatus(obj){
       	    </TD> 
     	  </tr>
     	</table>
+    	<input type="hidden" name="size" value="<%=items.size() %>">
     </form>
 </logic:present>
 
@@ -226,11 +238,13 @@ BigDecimal balance = BigDecimal.valueOf(0);
 org.oscarehr.billing.CA.ON.model.BillingClaimHeader1 ch1 = null;
 if(payments != null && payments.size()>0) {
     ch1 = payments.get(0).getBillingONCheader1();
-    for(BillingONPayment payment : payments) {
-	sum = sum.add(new BigDecimal(payment.getBillingONCheader1().getTotal()));
-    }
-    balance = new BigDecimal(ch1.getTotal().replace("$","").replace(",","").replace(" ",""));
-    balance= balance.subtract(sum);
+  
+	sum = new BigDecimal(payments.get(0).getBillingONCheader1().getTotal());
+	BigDecimal payment = payments.get(payments.size()-1).getTotal_payment();
+	BigDecimal discount = payments.get(payments.size()-1).getTotal_discount();
+	BigDecimal refund = payments.get(payments.size()-1).getTotal_refund();
+    balance= balance.add(payment).add(discount).add(refund);
+    balance = balance.subtract(sum);
     request.setAttribute("balance", currency.format(balance));	
 }    
 %>

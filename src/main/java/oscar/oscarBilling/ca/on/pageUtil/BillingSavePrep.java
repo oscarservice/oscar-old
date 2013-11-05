@@ -81,21 +81,10 @@ public class BillingSavePrep {
 		return ret;
 	}
 	
-	public boolean addTransaction(List<BillingTransactionData> val){
-		boolean ret = false;
-		BillingONPaymentDao paymentDao =(BillingONPaymentDao) SpringUtils.getBean("billingONPaymentDao");
-		ret = dbObj.addBillingTransaction(val,paymentDao.getPaymentIdByBillingNo(billingId), billingId);
-		if (!ret)
-			_logger.error("addPrivateBillExtRecord " + billingId);
-
-		return ret;
-	}
-	
 	@SuppressWarnings("unchecked")
 	public void addOhipInvoiceTrans(Vector vecObj) {
 		dbObj.addCreateOhipInvoiceTrans((BillingClaimHeader1Data) vecObj.get(0), (List<BillingItemData>) vecObj.get(1));
 	}
-	
 	
 	// set appt to B
 	public boolean updateApptStatus(String apptNo, String status, String userNo) {
@@ -124,14 +113,7 @@ public class BillingSavePrep {
 		ret.add(aL);
 		return ret;
 	}
-	public List<BillingTransactionData> getBillingTransaction(HttpServletRequest requestData){
-		BillingTransactionData[] transData = getTransaction(requestData);
-		List<BillingTransactionData> ret = new ArrayList<BillingTransactionData>();
-		for(int i=0;i<transData.length;i++){
-			ret.add(transData[i]);
-		}
-		return ret;
-	}
+
 	// ret - Vector claimheader1data, itemdata
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Vector getBillingClaimHospObj(HttpServletRequest requestData, String service_date, String total,
@@ -249,38 +231,23 @@ public class BillingSavePrep {
 			claimItem[i].setDx(val.getParameter("dxCode"));
 			claimItem[i].setDx1(val.getParameter("dxCode1"));
 			claimItem[i].setDx2(val.getParameter("dxCode2"));
-			if(val.getParameter("tpayment"+i)!=null){
-			claimItem[i].setPaid(val.getParameter("tpayment"+i));
+			if(val.getParameter("paid_"+i)!=null){
+				claimItem[i].setPaid(val.getParameter("paid_"+i));
 			}else{
-			claimItem[i].setPaid("0.00");	
+				claimItem[i].setPaid("0.00");	
 			}
-			claimItem[i].setRefund(val.getParameter("refund"));
-			if(val.getParameter("discount"+i)!=null){
-			claimItem[i].setDiscount(val.getParameter("discount"+i));
+			//claimItem[i].setRefund(val.getParameter("refund"));
+			if(val.getParameter("discount_"+i)!=null){
+				claimItem[i].setDiscount(val.getParameter("discount_"+i));
 			}else{
-			claimItem[i].setDiscount("0.00");
+				claimItem[i].setDiscount("0.00");
 			}
 			claimItem[i].setStatus("O");
 		}
 
 		return claimItem;
 	}
-	private BillingTransactionData[] getTransaction(HttpServletRequest val){
-		int itemNum = Integer.parseInt(val.getParameter("totalItem"));
-		BillingTransactionData[] transData = new BillingTransactionData[itemNum];
-		
-		for(int i = 0;i<itemNum;i++){
-			transData[i] = new BillingTransactionData();
-			transData[i].setPay_program(getPayProgram(val.getParameter("xml_billtype"), val.getParameter("hc_type")));
-			transData[i].setService_code(val.getParameter("xserviceCode_" + i));
-			transData[i].setService_code_num(getDefaultUnit(val.getParameter("xserviceUnit_" + i)));
-			transData[i].setService_code_invoiced(val.getParameter("percCodeSubtotal_" + i));
-			transData[i].setService_code_paid(val.getParameter("payment"));
-			transData[i].setService_code_refund(val.getParameter("refund"));
-			transData[i].setService_code_discount(val.getParameter("discount"));
-		}
-		return transData;
-	}
+	
 	private BillingClaimHeader1Data getClaimHeader1HospObj(HttpServletRequest val, String service_date, String total) {
 		BillingClaimHeader1Data claim1Header = new BillingClaimHeader1Data();
 
@@ -372,29 +339,28 @@ public class BillingSavePrep {
 	}
 
 	private Map getPrivateBillExtObj(HttpServletRequest val) {
-		Map<String,String> valsMap = new HashMap<String,String>();
-		valsMap.put("demographic_no",val.getParameter("demographic_no"));
-		valsMap.put("billTo",val.getParameter("billto"));
-		valsMap.put("total_discount", val.getParameter("discount1"));
-		valsMap.put("remitTo",val.getParameter("remitto"));
-                valsMap.put("total",val.getParameter("gstBilledTotal"));
-                if (val.getParameter("submit").equalsIgnoreCase("Settle & Print Invoice")) {
-                    //valsMap.put("payment", valsMap.get("total"));
-                	valsMap.put("payment", val.getParameter("payment"));
-                }
-                else {
-                    valsMap.put("payment", val.getParameter("payment"));
-                }
-		valsMap.put("refund",val.getParameter("refund"));
-                valsMap.put("provider_no",val.getParameter("provider_no"));
-                valsMap.put("gst",val.getParameter("gst"));
+		Map<String, String> valsMap = new HashMap<String, String>();
+		valsMap.put("demographic_no", val.getParameter("demographic_no"));
+		valsMap.put("billTo", val.getParameter("billto"));
+		valsMap.put("total_discount", val.getParameter("total_discount"));
+		valsMap.put("remitTo", val.getParameter("remitto"));
+		valsMap.put("total", val.getParameter("gstBilledTotal"));
+		if (val.getParameter("submit").equalsIgnoreCase(
+				"Settle & Print Invoice")) {
+			// valsMap.put("payment", valsMap.get("total"));
+			valsMap.put("total_payment", val.getParameter("total_payment"));
+		} else {
+			valsMap.put("total_payment", val.getParameter("total_payment"));
+		}
+		valsMap.put("refund", val.getParameter("refund"));
+		valsMap.put("provider_no", val.getParameter("provider_no"));
+		valsMap.put("gst", val.getParameter("gst"));
 
 		if (val.getParameter("payMethod") != null) {
-			valsMap.put("payMethod",val.getParameter("payMethod"));
+			valsMap.put("payMethod", val.getParameter("payMethod"));
+		} else {
+			valsMap.put("payMethod", "");
 		}
-                else {
-                    valsMap.put("payMethod","");
-                }
 		return valsMap;
 	}
 
