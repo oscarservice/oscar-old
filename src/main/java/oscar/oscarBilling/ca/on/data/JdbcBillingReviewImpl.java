@@ -18,6 +18,7 @@
 
 package oscar.oscarBilling.ca.on.data;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -187,17 +188,16 @@ public class JdbcBillingReviewImpl {
 				+ startDate + " " + endDate + " " + billType + " " + dx + " "
 				+ visitType + " " + serviceCodes;
 		temp = temp.trim().startsWith("and") ? temp.trim().substring(3) : temp;
-
 		String sql = "SELECT ch1.id,pay_program,demographic_no,demographic_name,billing_date,billing_time,"
-				+ "ch1.status,provider_no,provider_ohip_no,apptProvider_no,timestamp1,total,paid,clinic,"
-				+ "bi.fee, bi.service_code, bi.dx "
+				+ "ch1.status,provider_no,provider_ohip_no,apptProvider_no,timestamp1,total,ch1.paid,clinic,"
+				+ "bi.fee, bi.service_code, bi.dx ,bi.paid "
 				+ "FROM billing_on_cheader1 ch1 LEFT JOIN billing_on_item bi ON ch1.id=bi.ch1_id "
 				+ "WHERE "
 				+ temp
 				+ serviceCodes
 				+ " and bi.status!='D' "
 				+ " ORDER BY billing_date, billing_time";
-
+		
 		_logger.info("getBill(sql = " + sql + ")");
 		ResultSet rs = dbObj.searchDBRecord(sql);
 
@@ -229,12 +229,15 @@ public class JdbcBillingReviewImpl {
 					 * if (!bSameBillCh1) ch1Obj.setPaid(rs.getString("paid"));
 					 * else ch1Obj.setPaid("0.00");
 					 */
-					if (!(ch1Obj.getId().equals(prevId) && rs.getString("paid")
-							.equals(prevPaid))) {
-						ch1Obj.setPaid(rs.getString("paid"));
-					} else
-						ch1Obj.setPaid("0.00");
-
+					if("PAT".equals(rs.getString("pay_program"))){
+						ch1Obj.setPaid(rs.getString(18));
+					}else{
+						if (!(ch1Obj.getId().equals(prevId) && rs.getString("paid")
+								.equals(prevPaid))) {
+							ch1Obj.setPaid(rs.getString("paid"));
+						} else
+							ch1Obj.setPaid("0.00");
+					}
 					ch1Obj.setTotal(rs.getString("fee"));
 					ch1Obj.setRec_id(rs.getString("dx"));
 					ch1Obj.setTransc_id(rs.getString("service_code"));
@@ -297,17 +300,26 @@ public class JdbcBillingReviewImpl {
 			String dx = "";
 			String strService = "";
 			String strServiceDate = "";
+			BigDecimal paid =new BigDecimal("0.00");
+			BigDecimal refund = new BigDecimal("0.00");
+			BigDecimal discount = new BigDecimal("0.00");
 			while (rs2.next()) {
 				strService += rs2.getString("service_code") + " x "
 						+ rs2.getString("ser_num") + ", ";
 				dx = rs2.getString("dx");
 				strServiceDate = rs2.getString("service_date");
+				paid = paid.add(rs2.getBigDecimal("paid"));
+				refund = refund.add(rs2.getBigDecimal("refund"));
+				discount = discount.add(rs2.getBigDecimal("discount"));
 			}
 			rs2.close();
 			BillingItemData itObj = new BillingItemData();
 			itObj.setService_code(strService);
 			itObj.setDx(dx);
 			itObj.setService_date(strServiceDate);
+			itObj.setPaid(paid.toString());
+			itObj.setRefund(refund.toString());
+			itObj.setDiscount(discount.toString());
 			retval.add(itObj);
 		}
 		return retval;
