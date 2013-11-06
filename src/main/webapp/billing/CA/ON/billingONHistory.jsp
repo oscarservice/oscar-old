@@ -17,6 +17,7 @@
     Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 --%>
+<%@page import="java.math.BigDecimal"%>
 <%
   if(session.getAttribute("user") == null)
     response.sendRedirect("../logout.htm");
@@ -71,6 +72,7 @@
 		<TH width="10%"><b>Bill Type</b></TH>
 		<TH width="35%"><b>Service Code</b></TH>
 		<TH width="5%"><b>Dx</b></TH>
+		<TH width="8%"><b>Balance</b></TH>
 		<TH width="8%"><b>Fee</b></TH>
 		<TH><b>COMMENTS</b></TH>
 	</tr>
@@ -95,6 +97,14 @@ for(int i=0; i<aL.size(); i=i+2) {
 	} else {
 		strBillType = "";
 	}
+	BigDecimal balance = new BigDecimal("0.00");
+	if("PAT".equals(strBillType)||"PAT Settled".equals(strBillType)){
+		BigDecimal paid = new BigDecimal(itObj.getPaid());
+		BigDecimal refund = new BigDecimal(itObj.getRefund());
+		BigDecimal discount = new BigDecimal(itObj.getDiscount());
+		balance =balance.add(paid).add(refund).add(discount);
+		balance = balance.subtract(new BigDecimal(obj.getTotal()));
+	}
 %>
 	<tr bgcolor="<%=i%2==0?"#CCFF99":"white"%>">
 		<td width="5%" align="center" height="25"><a href=#
@@ -109,6 +119,11 @@ for(int i=0; i<aL.size(); i=i+2) {
 		<td align="center"><%=strBillType%></td>
 		<td align="center"><%=itObj.getService_code()%></td>
 		<td align="center"><%=itObj.getDx()%></td>
+		<td align="center"><%if("PAT".equals(strBillType)||"PAT Settled".equals(strBillType)){ %>
+			<%=balance %>
+		<%}else{ %>
+			<%="" %>
+		<%} %></td>
 		<td align="center"><%=obj.getTotal()%></td>
 
 		<% if (obj.getStatus().compareTo("B")==0 || obj.getStatus().compareTo("S")==0) { %>
