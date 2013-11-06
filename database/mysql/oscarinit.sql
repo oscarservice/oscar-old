@@ -10674,6 +10674,12 @@ CREATE TABLE `eyeform_macro_billing` (
   PRIMARY KEY (`id`)
 );
 
+create table OscarCode (
+			id int(10) NOT NULL auto_increment primary key,
+			OscarCode varchar(25) not null,
+			description varchar(255)
+			);
+
 CREATE TABLE  `site_role_mpg` (
   `site_id` int(10) unsigned NOT NULL,
   `access_role_id` int(10) unsigned ,

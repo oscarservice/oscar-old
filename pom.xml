@@ -531,6 +531,12 @@
 			<version>1.6.2</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.oscarehr.ckd</groupId>
+			<artifactId>ckd</artifactId>
+			<version>1.0</version>
+		</dependency>
+
 		 <dependency>
                         <groupId>jspellchecker</groupId>
                         <artifactId>jazzy-core</artifactId>

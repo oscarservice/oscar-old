@@ -347,7 +347,12 @@ public class ScatterPlotChartServlet extends HttpServlet
                 String mInstrc = request.getParameter("mInstrc");                
                 EctSessionBean bean = (EctSessionBean)request.getSession().getAttribute("EctSessionBean");
                 String demographicNo = null;
-                if ( bean != null){
+                
+                if(request.getParameter("demographicNo") != null) {
+                	demographicNo = request.getParameter("demographicNo");
+                }
+                
+                if (demographicNo == null &&  bean != null){
                     demographicNo = bean.getDemographicNo();                    
                 }
                 try
