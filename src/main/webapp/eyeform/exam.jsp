@@ -1716,7 +1716,7 @@ span.ge{
 		<tr>
 			<td class="label">Amsler grid</td>
 			<td colspan="3"><input type="text" tabindex="133" maxlength="50" size="30" maxlength="50" measurement="o_ramsler" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-			<td colspan="3"><input type="text" tabindex="131" maxlength="50" size="30" measurement="o_lamsler" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+			<td colspan="3"><input type="text" tabindex="134" maxlength="50" size="30" measurement="o_lamsler" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
 			<td ></td>
 			<td colspan="4">W4D(dist)&nbsp;<input type="text" tabindex="135" maxlength="50" size="26" maxlength="50" measurement="o_w4dd" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
 			<td ></td>
