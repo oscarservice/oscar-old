@@ -782,7 +782,7 @@ function setAnterior_od(){
 	setfieldvalue("a_rk","clear");
 	setfieldvalue("a_rconj","white");
 	setfieldvalue("a_rac","deep and quiet");
-	setfieldvalue("a_rangle","open");
+	setfieldvalue("a_rangle_3","open");
 	setfieldvalue("a_riris","normal");
 	setfieldvalue("a_rlens","clear");
 }
@@ -800,7 +800,7 @@ function setAnterior_os(){
 	setfieldvalue("a_lk","clear");
 	setfieldvalue("a_lconj","white");
 	setfieldvalue("a_lac","deep and quiet");
-	setfieldvalue("a_langle","open");
+	setfieldvalue("a_langle_3","open");
 	setfieldvalue("a_liris","normal");
 	setfieldvalue("a_llens","clear");
 }
