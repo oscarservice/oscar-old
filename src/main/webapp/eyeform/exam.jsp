@@ -318,6 +318,63 @@ function touchColor() {
                 divs[i].getElementsByTagName("A")[0].style.color=color;
         }
 }
+function setglasseshxclass(){
+	if(document.getElementById("odSph").value.length > 0){
+		document.getElementById("odSph").className = "examfieldwhite" ;
+	}else{
+		document.getElementById("odSph").className = "examfieldgrey" ;
+	}
+	if(document.getElementById("odCyl").value.length > 0){
+		document.getElementById("odCyl").className = "examfieldwhite" ;
+	}else{
+		document.getElementById("odCyl").className = "examfieldgrey" ;
+	}
+	if(document.getElementById("odAxis").value.length > 0){
+		document.getElementById("odAxis").className = "examfieldwhite" ;
+	}else{
+		document.getElementById("odAxis").className = "examfieldgrey" ;
+	}
+	if(document.getElementById("odAdd").value.length > 0){
+		document.getElementById("odAdd").className = "examfieldwhite" ;
+	}else{
+		document.getElementById("odAdd").className = "examfieldgrey" ;
+	}
+	if(document.getElementById("odPrism").value.length > 0){
+		document.getElementById("odPrism").className = "examfieldwhite" ;
+	}else{
+		document.getElementById("odPrism").className = "examfieldgrey" ;
+	}
+	if(document.getElementById("osSph").value.length > 0){
+		document.getElementById("osSph").className = "examfieldwhite" ;
+	}else{
+		document.getElementById("osSph").className = "examfieldgrey" ;
+	}
+	if(document.getElementById("osCyl").value.length > 0){
+		document.getElementById("osCyl").className = "examfieldwhite" ;
+	}else{
+		document.getElementById("osCyl").className = "examfieldgrey" ;
+	}
+	if(document.getElementById("osAxis").value.length > 0){
+		document.getElementById("osAxis").className = "examfieldwhite" ;
+	}else{
+		document.getElementById("osAxis").className = "examfieldgrey" ;
+	}
+	if(document.getElementById("osAdd").value.length > 0){
+		document.getElementById("osAdd").className = "examfieldwhite" ;
+	}else{
+		document.getElementById("osAdd").className = "examfieldgrey" ;
+	}
+	if(document.getElementById("osPrism").value.length > 0){
+		document.getElementById("osPrism").className = "examfieldwhite" ;
+	}else{
+		document.getElementById("osPrism").className = "examfieldgrey" ;
+	}
+	if(document.getElementById("gl_date").value.length > 0){
+		document.getElementById("gl_date").className = "examfieldwhite" ;
+	}else{
+		document.getElementById("gl_date").className = "examfieldgrey" ;
+	}
+}
 </script>
 
 <script>
@@ -381,13 +438,19 @@ var copy_gl_ls = "";
 var copy_gl_lc = "";
 var copy_gl_lx = "";
 
+function getglasshxvalue(name){
+	var val;
+	val = document.getElementById(name).value;
+	return val;
+}
+
 function copyglasses(){
-	copy_gl_rs = getfieldvalue("gl_rs");
-	copy_gl_rc = getfieldvalue("gl_rc");
-	copy_gl_rx = getfieldvalue("gl_rx");
-	copy_gl_ls = getfieldvalue("gl_ls");
-	copy_gl_lc = getfieldvalue("gl_lc");	
-	copy_gl_lx = getfieldvalue("gl_lx");
+	copy_gl_rs = getglasshxvalue("odSph");
+	copy_gl_rc = getglasshxvalue("odCyl");
+	copy_gl_rx = getglasshxvalue("odAxis");
+	copy_gl_ls = getglasshxvalue("osSph");
+	copy_gl_lc = getglasshxvalue("osCyl");	
+	copy_gl_lx = getglasshxvalue("osAxis");
 }
 
 var copy_v_rs = "";
@@ -1071,7 +1134,7 @@ span.ge{
 		<a style="font-weight: bold;color:black;text-decoration:none;font-size:12px" href="javascript:void(0)" tabindex="31" id="a_21" onclick="togglediv(this);">Glasses Hx:</a>
 		<span>&nbsp;&nbsp;</span>
 
-             <a href="javascript:void(0)" tabindex="32" onclick="popupPage(500,900,'examinationhistory1','<c:out value="${ctx}"/>/eyeform/ExaminationHistory.do?demographicNo=<%=request.getParameter("demographic_no")%>&method=query&fromlist2=Glasses Rx'); return false;">[old glasses]</a>
+             <a href="javascript:void(0)" tabindex="32" onclick="popupPage(500,900,'examinationhistory1','<c:out value="${ctx}"/>/eyeform/ExaminationHistory.do?demographicNo=<%=request.getParameter("demographic_no")%>&method=query&oldglasses=true&fromlist2=Glasses Rx'); return false;">[old glasses]</a>
 	          <span>&nbsp;&nbsp;</span>
               <a href="javascript:void(0)" onclick="insRow()">[add]</a>
 			  
