@@ -195,7 +195,7 @@ public class BillingSavePrep {
 			paid = val.getParameter("total");
 		} else if (val.getParameter("submit").equalsIgnoreCase("Save & Print Invoice")
 				|| val.getParameter("submit").equalsIgnoreCase("Settle & Print Invoice")) {
-			paid = val.getParameter("payment");
+			paid = val.getParameter("total_payment");
 		}
 		claim1Header.setPaid(paid);
 		claim1Header.setStatus(getStatus(val.getParameter("submit"), val.getParameter("xml_billtype")));

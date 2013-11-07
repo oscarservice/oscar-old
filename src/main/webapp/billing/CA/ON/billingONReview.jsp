@@ -927,7 +927,6 @@ function calculateDiscount(){
 	}
 	document.getElementById("discount").value = discount;
 	document.getElementById("total_discount").value = discount;
-	document.getElementById("refund").value = discount; // in order to save this data to refund key in billing_on_ext
 }
 
 function addToDiseaseRegistry(){

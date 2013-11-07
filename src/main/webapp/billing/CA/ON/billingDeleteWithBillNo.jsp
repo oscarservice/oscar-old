@@ -122,7 +122,7 @@
   
 %>
 <p>
-<h1>Successful Addition of a billing Record.</h1>
+<h1>Successful Deletion of a billing Record.</h1>
 </p>
 <script LANGUAGE="JavaScript">
       self.close();
@@ -132,7 +132,7 @@
  }  else {
 %>
 <p>
-<h1>Sorry, addition has failed.</h1>
+<h1>Sorry, deletion has failed.</h1>
 </p>
 <%  
   }

@@ -232,15 +232,17 @@ public class JdbcBillingClaimImpl {
 		String dateTime = UtilDateUtilities.getToday("yyyy-MM-dd HH:mm:ss");
                 mVal.put("payDate", dateTime);
 		String paymentSumParam = null;
-		String paymentRefundParam = null;
 		String paymentDateParam = null;
 		String paymentTypeParam = null;
 		for (int i = 0; i < temp.length; i++) {
+			String val = mVal.get(temp[i]);
+			if ("refund".equals(temp[i])) {
+				val = mVal.get("total_discount"); // 'refund' stands for write off, here totoal_discount is write off
+			}
 			String sql = "insert into billing_on_ext values(\\N, " + id + "," + demoNo + ", '" + temp[i] + "', '"
-					+ mVal.get(temp[i]) + "', '" + dateTime + "', '1' )";
+					+ val + "', '" + dateTime + "', '1' )";
 			retval = dbObj.updateDBRecord(sql);
 			if(i == 3) paymentSumParam = mVal.get(temp[i]); // total_payment
-			else if(i == 4) paymentRefundParam = mVal.get(temp[i]); // refund
 			else if(i == 7) paymentDateParam = mVal.get(temp[i]); // paymentDate
 			else if(i == 8) paymentTypeParam = mVal.get(temp[i]); // paymentMethod
 			if (!retval) {
@@ -249,9 +251,7 @@ public class JdbcBillingClaimImpl {
 			}
 		}
         
-        if(paymentRefundParam != null && !paymentRefundParam.trim().startsWith("-")&&!"".equals(paymentRefundParam)) paymentRefundParam = paymentRefundParam.substring(1, paymentRefundParam.length());
-        
-        if(paymentSumParam!=null || paymentRefundParam!=null) {
+        if(paymentSumParam!=null) {
 			BillingONPaymentDao billingONPaymentDao =(BillingONPaymentDao) SpringUtils.getBean("billingONPaymentDao");
 			BillingClaimDAO billingONCHeader1Dao =(BillingClaimDAO) SpringUtils.getBean("billingClaimDAO");
 			BillingPaymentTypeDao billingPaymentTypeDao =(BillingPaymentTypeDao) SpringUtils.getBean("billingPaymentTypeDao");
@@ -263,7 +263,9 @@ public class JdbcBillingClaimImpl {
 				_logger.error("add3rdBillExt wrong date format " + paymentDateParam);
 				return retval;
 	    	}
-	    	if(paymentTypeParam==null || paymentTypeParam.equals("")) paymentTypeParam="1";
+	    	if(paymentTypeParam==null || paymentTypeParam.equals("")) {
+	    		paymentTypeParam="1";
+	    	}
     		BillingPaymentType type = billingPaymentTypeDao.find(Integer.parseInt(paymentTypeParam));
     		BillingONPayment payment = null;
     		
@@ -276,21 +278,6 @@ public class JdbcBillingClaimImpl {
 		    	payment.setBillingPaymentType(type);
 		    	billingONPaymentDao.persist(payment);
 		    	addCreate3rdInvoiceTrans((BillingClaimHeader1Data) vecObj.get(0), (List<BillingItemData>)vecObj.get(1), payment.getId());
-	    	}
-    		if(paymentRefundParam != null) {
-    			BigDecimal refund = BigDecimal.valueOf(Double.parseDouble(paymentRefundParam));
-    			int comp = refund.compareTo(new BigDecimal(0.0));
-    			if(comp != 0) {
-        			payment = new BillingONPayment();
-    	    		if(comp < 0) refund = refund.negate();
-        			payment.setTotal_refund(refund);
-    	    		payment.setTotal_discount(BigDecimal.valueOf(Double.parseDouble(mVal.get("total_discount"))));
-    				payment.setPaymentDate(paymentDate);
-    		    	payment.setBillingOnCheader1(ch1);
-    		    	payment.setBillingPaymentType(type);
-    		    	billingONPaymentDao.persist(payment);
-    		    	addCreate3rdInvoiceTrans((BillingClaimHeader1Data) vecObj.get(0), (List<BillingItemData>)vecObj.get(1), payment.getId());
-    			}
 	    	}
         }
 		return retval;
