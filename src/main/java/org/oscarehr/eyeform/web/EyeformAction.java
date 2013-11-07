@@ -1843,7 +1843,7 @@ public class EyeformAction extends DispatchAction {
 		           sections.add(new LabelValueBean("Lagophthalmos","Lagophthalmos"));
 		           sections.add(new LabelValueBean("Blink reflex","Blink reflex"));
 		           sections.add(new LabelValueBean("Cranial Nerve VII function","Cranial Nerve VII function"));
-		           sections.add(new LabelValueBean("Bell’s phenomenon","Bell’s phenomenon"));
+		           sections.add(new LabelValueBean("Bell's phenomenon","Bells phenomenon"));
 		           sections.add(new LabelValueBean("Schirmer test","Schirmer test"));
 		           sections.add(new LabelValueBean("Cornea","Cornea"));
 		           sections.add(new LabelValueBean("Conjunctiva/Sclera","Conjunctiva/Sclera"));

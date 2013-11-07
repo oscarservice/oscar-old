@@ -336,7 +336,7 @@
 								<option value="Lagophthalmos">Lagophthalmos</option>
 								<option value="Blink reflex">Blink reflex</option>
 								<option value="Cranial Nerve VII function">Cranial Nerve VII function</option>
-								<option value="Bell’s phenomenon">Bell’s phenomenon</option>
+								<option value="Bells phenomenon">Bell's phenomenon</option>
 								<option value="Schirmer test">Schirmer test</option>
 								
 								<option value="Cornea">Cornea</option>

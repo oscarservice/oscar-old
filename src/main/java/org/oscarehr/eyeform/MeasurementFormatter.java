@@ -507,15 +507,15 @@ public class MeasurementFormatter {
 			sb.append(this.getLagophthalmos());
 		}
 		if(includeMap.get("Blink reflex") != null && this.getBlink().length()>0) {
-			sb.append("Blink ");
+			sb.append("Blink reflex");
 			sb.append(this.getBlink());
 		}
-		if(includeMap.get("Cranial nerve VII function") != null && this.getCNVii().length()>0) {
+		if(includeMap.get("Cranial Nerve VII function") != null && this.getCNVii().length()>0) {
 			sb.append("Cranial nerve VII function ");
 			sb.append(this.getCNVii());
 		}
 		if(eyeform.equals("eyeform3")){
-			if(includeMap.get("Bell's phenomenon") != null && this.getBells().length()>0) {
+			if(includeMap.get("Bells phenomenon") != null && this.getBells().length()>0) {
 				sb.append("Bell's phenomenon ");
 				sb.append(this.getBells());
 			}
@@ -2235,9 +2235,9 @@ public class MeasurementFormatter {
 				sb.append("["+getValue("lid_rmrd")+"]");		
 				sb.append("; ");
 			}
-			if(isPresent("lid_Lmrd")) {
+			if(isPresent("lid_lmrd")) {
 				sb.append("OS ");
-				sb.append("["+getValue("lid_Lmrd")+"]");	
+				sb.append("["+getValue("lid_lmrd")+"]");	
 				sb.append(".");	
 			}
 		}else{
@@ -2468,7 +2468,7 @@ public class MeasurementFormatter {
 	
 	public String getRetropulsion() {
 		StringBuilder sb = new StringBuilder();
-		if(eyeform.equals("eyform3")){
+		if(eyeform.equals("eyeform3")){
 			if(isPresent("ext_rretro")) {
 				sb.append("OD ");		
 				sb.append("["+getValue("ext_rretro")+"]");		
