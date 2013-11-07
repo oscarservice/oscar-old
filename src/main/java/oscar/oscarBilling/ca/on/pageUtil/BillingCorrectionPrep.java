@@ -18,6 +18,7 @@
 package oscar.oscarBilling.ca.on.pageUtil;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Properties;
 import java.util.Vector;
@@ -25,7 +26,10 @@ import java.util.Vector;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
+import org.oscarehr.billing.CA.ON.dao.BillingONExtDao;
+import org.oscarehr.billing.CA.ON.model.BillingONExt;
 import org.oscarehr.util.MiscUtils;
+import org.oscarehr.util.SpringUtils;
 
 import oscar.oscarBilling.ca.on.data.BillingClaimHeader1Data;
 import oscar.oscarBilling.ca.on.data.BillingDataHlp;
@@ -231,7 +235,22 @@ public class BillingCorrectionPrep {
 		// recalculate amount
 		String newAmount = sumFee(vecFee);
 		_logger.info(" lItemObj(newAmount = " + newAmount);
-		updateAmount(newAmount, claimId);		
+		updateAmount(newAmount, claimId);
+				
+		// update total field in billing_on_ext if pay_program is 3rd party
+		if (ch1Obj.getPay_program().matches(BillingDataHlp.BILLINGMATCHSTRING_3RDPARTY)) {
+			BillingONExtDao billOnExtDao = SpringUtils.getBean(BillingONExtDao.class);
+			if (null != billOnExtDao) {
+				int billingNo = Integer.parseInt(ch1Obj.getId());
+				int demographicNo = Integer.parseInt(ch1Obj.getDemographic_no());
+				BillingONExt billOnExt = billOnExtDao.getClaimExtItem(billingNo, demographicNo, "payDate");
+				if (billOnExt != null) {
+					// update total,provider_no  payDate field has already been updated
+					billOnExtDao.setExtItem(billingNo, demographicNo, "total", newAmount
+							, billOnExt.getDateTime(), '1');
+				}
+			}
+		}
 
 		return ret;
 	}

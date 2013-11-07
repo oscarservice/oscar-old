@@ -187,6 +187,7 @@ function setValue(obj){
       	    </tr>
       	    <tr BGCOLOR="#EEEEFF">
       	      <td>
+      	      <div></div>
       	      </td>
       	      <td align="left">
       	      Service Code:&nbsp;<b><%=items.get(i).getService_code()%>&nbsp;$<%=items.get(i).getFee() %>&nbsp;Paid:&nbsp;$<%=items.get(i).getPaid() %></b>
