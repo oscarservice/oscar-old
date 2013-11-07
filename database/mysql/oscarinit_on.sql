@@ -1477,6 +1477,7 @@ CREATE TABLE billing_on_item (
   paid decimal(10,2) NOT NULL DEFAULT 0.00,
   refund decimal(10,2) NOT NULL DEFAULT 0.00,
   discount decimal(10,2) NOT NULL,
+  payment_typeID int(2) NOT NULL,
   PRIMARY KEY  (id),
   KEY ch1_id (ch1_id)
 ) ;
@@ -3071,7 +3072,7 @@ CREATE TABLE `billing_on_transaction` (
   `billing_date` DATE,
   `status` CHAR(1),
   `pay_program` CHAR(3),
-  `paymentType` CHAR(1),
+  `paymentType` int(2),
   `facility_num` CHAR(4),
   `clinic` VARCHAR(30),
   `provider_no` VARCHAR(6),

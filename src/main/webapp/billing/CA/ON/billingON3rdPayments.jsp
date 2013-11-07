@@ -141,7 +141,6 @@ function setStatus(obj){
 }
 
 function setValue(obj){
-	alert(3);
 	if(obj.isChecked){
 		obj.value="false";
 	}else{

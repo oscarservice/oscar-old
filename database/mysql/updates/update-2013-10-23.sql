@@ -13,7 +13,7 @@ CREATE TABLE `billing_on_transaction` (
   `billing_date` DATE,
   `status` CHAR(1),
   `pay_program` CHAR(3),
-  `paymentType` CHAR(1),
+  `paymentType` int(2),
   `facility_num` CHAR(4),
   `clinic` VARCHAR(30),
   `provider_no` VARCHAR(6),

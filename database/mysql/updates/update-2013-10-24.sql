@@ -5,3 +5,4 @@ alter table `billing_on_payment` change column `payment` `total_payment` decimal
 alter table `billing_on_item` add column `paid` decimal(10,2) NOT NULL;
 alter table `billing_on_item` add column `refund` decimal(10,2) NOT NULL;
 alter table `billing_on_item` add column `discount` decimal(10,2) NOT NULL;
+alter table `billing_on_item` add column `payment_typeID` int(2) NOT NULL;

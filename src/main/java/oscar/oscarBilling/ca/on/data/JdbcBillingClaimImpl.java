@@ -227,7 +227,7 @@ public class JdbcBillingClaimImpl {
 	@SuppressWarnings("unchecked")
 	public boolean add3rdBillExt(Map<String,String>mVal, int id, Vector vecObj) {
 		boolean retval = true;
-		String[] temp = { "billTo", "remitTo", "total", "total_payment", "refund", "provider_no", "gst", "payDate", "payMethod"};
+		String[] temp = { "billTo", "remitTo", "total", "payment", "discount", "provider_no", "gst", "payDate", "payMethod"};
 		String demoNo = mVal.get("demographic_no");
 		String dateTime = UtilDateUtilities.getToday("yyyy-MM-dd HH:mm:ss");
                 mVal.put("payDate", dateTime);
@@ -236,8 +236,11 @@ public class JdbcBillingClaimImpl {
 		String paymentTypeParam = null;
 		for (int i = 0; i < temp.length; i++) {
 			String val = mVal.get(temp[i]);
-			if ("refund".equals(temp[i])) {
+			if ("discount".equals(temp[i])) {
 				val = mVal.get("total_discount"); // 'refund' stands for write off, here totoal_discount is write off
+			}
+			if ("payment".equals(temp[i])) {
+				val = mVal.get("total_payment");
 			}
 			String sql = "insert into billing_on_ext values(\\N, " + id + "," + demoNo + ", '" + temp[i] + "', '"
 					+ val + "', '" + dateTime + "', '1' )";
