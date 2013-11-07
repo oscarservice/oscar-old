@@ -273,6 +273,7 @@ public class JdbcBillingClaimImpl {
 		    	payment = new BillingONPayment();
 	    		payment.setTotal_payment(BigDecimal.valueOf(Double.parseDouble(paymentSumParam)));
 	    		payment.setTotal_discount(BigDecimal.valueOf(Double.parseDouble(mVal.get("total_discount"))));
+	    		payment.setTotal_refund(new BigDecimal(0));
 				payment.setPaymentDate(paymentDate);
 		    	payment.setBillingOnCheader1(ch1);
 		    	payment.setBillingPaymentType(type);
