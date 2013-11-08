@@ -73,6 +73,10 @@ public class ReportHelper {
 		
 		Calendar c = Calendar.getInstance();
 		c.add(Calendar.YEAR, -1);
+		
+		if(idents.isEmpty()) 
+			return false;
+		
 		List<Measurement> ms =  measurementDao.findByType(demographicNo, idents,c.getTime());
 		
 		if(ms.size()==0)
@@ -147,16 +151,18 @@ public class ReportHelper {
 				continue;
 			}
 			String[] bp = m.getDataField().split("/");
-			if(Integer.parseInt(bp[0]) > 140 || Integer.parseInt(bp[1]) > 90) {
-				Demographic demo = demographicDao.getDemographic(String.valueOf(m.getDemographicId()));
-				if(demo!=null) {
-					if(!demo.isActive()) {
-						continue;
-					}
-					boolean diab = dxDao.entryExists(demo.getDemographicNo(), "icd9", "250");
-					boolean hyp = dxDao.entryExists(demo.getDemographicNo(), "icd9", "401");
-					if(!diab && !hyp) {
-						bpCount++;
+			if(bp.length>1) {
+				if(Integer.parseInt(bp[0]) > 140 || Integer.parseInt(bp[1]) > 90) {
+					Demographic demo = demographicDao.getDemographic(String.valueOf(m.getDemographicId()));
+					if(demo!=null) {
+						if(!demo.isActive()) {
+							continue;
+						}
+						boolean diab = dxDao.entryExists(demo.getDemographicNo(), "icd9", "250");
+						boolean hyp = dxDao.entryExists(demo.getDemographicNo(), "icd9", "401");
+						if(!diab && !hyp) {
+							bpCount++;
+						}
 					}
 				}
 			}

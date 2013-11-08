@@ -166,14 +166,13 @@ public class ICFHTDemoExportUtil
 						if (file != null)
 							fileNamesList.add(file.getAbsolutePath());
 					}
-					int f=0;
-					while (f < fileNamesList.size()) {
-						//String finalPDFFilePath = demographic.getDemographicNo() + "_" + demographic.getFirstName() + "_" + demographic.getLastName() + "_consultation.pdf";
-						String finalPDFFilePath = fileNamesList.get(f);
-						FileOutputStream fout = new FileOutputStream(new File(EXPORTED_PDF_DEST_DIR, finalPDFFilePath));
 					
-						ConcatPDF.concat((ArrayList) fileNamesList, fout);
-					}
+					String finalPDFFilePath = demographic.getDemographicNo() + "_" + demographic.getFirstName() + "_" + demographic.getLastName() + "_consultation.pdf";
+						
+					FileOutputStream fout = new FileOutputStream(new File(EXPORTED_PDF_DEST_DIR, finalPDFFilePath));
+					
+					ConcatPDF.concat((ArrayList) fileNamesList, fout);
+					
 					
 					for (File file : pdfFiles)
 					{

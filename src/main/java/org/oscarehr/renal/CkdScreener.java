@@ -323,6 +323,7 @@ public class CkdScreener {
 		boolean result=false;
 
 		for(Issue issue:issues) {
+			if(issue==null) continue;
 			List<CaseManagementNote> notes = caseManagementNoteDao.getCPPNotes(String.valueOf(demographicNo), issue.getId(), null);
 			for(CaseManagementNote note:notes) {
 				

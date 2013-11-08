@@ -71,7 +71,7 @@ public class EFormsExportUtil
 			String eFormName = "";
 			String eFormId = "";
 			
-			List<EFormData> eFormDataList = eFormDataDao.findByDemographicIdCurrentPatientIndependent(demographicId, true, null);
+			List<EFormData> eFormDataList = eFormDataDao.findByDemographicIdCurrent(demographicId, true);
 			logger.info("found <"+(eFormDataList!=null?eFormDataList.size():"0")+"> eforms to be exported for demographic no. - "+demographicId);
 			
 			for (EFormData eFormData : eFormDataList)
