@@ -593,7 +593,7 @@ function  to2DecimalDigits(decimal)
 //				document.all.FrmForm.action="../form/createpdf?__title=Invoice&__cfgfile=invoice&__template=invoice";
 
 //            document.forms[0].action = "../form/createpdf?__title=Ovulation+Form&__cfgfile=ovulationPrintCfgPg1&__template=bcar1";
-			  document.forms[0].action = "../form/createpdf?__title=Ovulation+Form&__cfgfile=ovulationPrintCfgPg1&__cfgfile=ovulationPrintCfgPg2&__template=OvulationForm_95";
+			  document.forms[0].action = "../form/createpdf?__title=IvfTrackSheet+Form&__cfgfile=ivfTrackSheetPrintCfgPg1&__cfgfile=ivfTrackSheetPrintCfgPg2&__template=IvfTrackSheetForm_95";
 //			  document.forms[0].action = "../form/formGrowthChartPrint.jsp?print=1&__title=GrowthCharts&__cfgfile=<//%=bGirl?"growthChartGirlPrint":"growthChartBoyPrint"%>&__cfgGraphicFile=<//%=bGirl?"growthChartGirlGraphic":"growthChartBoyGraphic"%>&__cfgGraphicFile=<//%=bGirl?"growthChartGirlGraphic2":"growthChartBoyGraphic2"%>&__template=<//%=bGirl?"growthChartGirlStatureWeight":"growthChartBoyStatureWeight"%>";
 			  
 
@@ -814,9 +814,9 @@ var maxYear=9900;
     {
         var b = true;
 		
-        if(valDate(document.forms[0].lmp)==false){
-            b = false;
-        }else
+        //if(valDate(document.forms[0].lmp)==false){
+        //    b = false;
+        //}else
         if(valDate(document.forms[0].date1)==false){
             b = false;
         }else
@@ -853,7 +853,22 @@ var maxYear=9900;
         if(valDate(document.forms[0].date12)==false){
             b = false;
         }else
-        if(valDate(document.forms[0].collectionDate)==false){
+        if(valDate(document.forms[0].date13)==false){
+            b = false;
+		}else
+        if(valDate(document.forms[0].date14)==false){
+            b = false;
+		}else
+        if(valDate(document.forms[0].date15)==false){
+            b = false;
+		}else
+        if(valDate(document.forms[0].date16)==false){
+            b = false;
+		}else
+        if(valDate(document.forms[0].date17)==false){
+            b = false;
+		}else
+        if(valDate(document.forms[0].date18)==false){
             b = false;
 		}
         return b;
@@ -924,7 +939,8 @@ function sortedTextValue(num){
 		name = name + count.toString();
 		count = count - 1;
 		if(document.getElementById(name).value > 0){
-			value[count] = document.getElementById(name).value;
+			value[num1] = document.getElementById(name).value;
+			num1 ++;
 		}
 	}
 	for(count = 0;count < value.length;count ++){
@@ -942,6 +958,13 @@ function sortedTextValue(num){
 		name = name + count.toString();
 		count = count - 1;
 		document.getElementById(name).value = value[count];
+	}
+	if(value.length < 15){
+		for(count = value.length + 1; count <= 15;count ++){
+			name = "r_l" + num;
+			name = name + count.toString();
+			document.getElementById(name).value = "";
+		}
 	}
 }
 
@@ -971,7 +994,7 @@ function sortedTextValue(num){
 	<tbody>
 	<tr>
 	<td width="66%">
-	<table align="center"  border="0" cellspacing="0" cellpadding="0">
+	<table   border="0" cellspacing="0" cellpadding="0">
 	<tbody>
 	
 	<tr>
@@ -1543,11 +1566,11 @@ function sortedTextValue(num){
 		<td align="center" onclick="sortedTextValue(35);">L</td>
 	</tr>
 	<tr>
-		<td><textarea id="txt2" name="txt2" style="width: 139px; height: 374px;"></textarea></td>
+		<td><textarea id="txt2" name="txt2" style="width: 139px; height: 374px;"><%=props.getProperty("txt2", "")%></textarea></td>
 		<td>
 			<table>
 				<tr>
-					<td><input type="text" id="r_l01" name="r_l01" size="2" maxlength="2" value="<%=props.getProperty("r_l01", "")%>"/></td>
+					<td><input type="text" id="r_l01" name="r_l01" size="2" maxlength="2" value="<%=props.getProperty("r_l01", "")%>" /></td>
 				</tr>
 				<tr>
 					<td><input type="text" id="r_l02" name="r_l02" size="2" maxlength="2" value="<%=props.getProperty("r_l02", "")%>"/></td>
