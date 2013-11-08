@@ -537,7 +537,7 @@ window.onload=function(){
 				<%if(!"PRI".equals(billType)){%>
 				<td>Description</td>
 				<%}else{%>
-				<td>Description&nbsp;&nbsp;&nbsp;&nbsp;Payment&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Discount</td>
+				<td width="8%">Description</td><td width="8%">Payment</td><td width="8%">Discount</td>
 				<%}%>
 			</tr>
 <%  }
@@ -595,7 +595,9 @@ window.onload=function(){
 				<%if(!"PRI".equals(billType)){%>
 					<td width='25%'><%=propCodeDesc.getProperty(codeName, "") %></td>
 				<%}else{%>
-				<td nowrap colspan='3' width='25%'><%=codeName%>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input style="width:25%" type="text" id="paymentx<%=i%>"name="tpayment<%=i %>" value="0.00" onBlur="calculatePayment();"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input style="width:25%" type="text" id="discountx<%=i%>" name="discount<%=i %>" value="0.00"onBlur="calculateDiscount();"/></td>
+				<td nowrap width='8%'><%=codeName%></td>
+				<td nowrap width='8%'><input type="text" id="paid_<%=i%>" name="paid_<%=i %>" value="0.00" onBlur="calculatePayment();"/></td>
+				<td nowrap width='8%'><input type="text" id="discount_<%=i%>" name="discount_<%=i %>" value="0.00"onBlur="calculateDiscount();"/></td>
 				<%}%>
 			</tr>
 			<%
@@ -875,9 +877,9 @@ if (bMultisites) {
 					style="width: 120px;" /><input type="submit" name="submit"
 					value="Settle & Print Invoice" onClick="document.forms['titlesearch'].btnPressed.value='Settle'; document.forms['titlesearch'].submit();javascript:popupPage(700,720,'billingON3rdInv.jsp');" style="width: 120px;" />
 				<input type="hidden"  name="btnPressed" value="">
-				<input type="hidden" name="payment" id="pay1" value="0.00"/>
-				<input type="hidden" name="discount1" id="dis1" value="0.00"/>
-				<input type="hidden" name="refund" value="0.00"/>
+				<input type="hidden" name="total_payment" id="total_payment" value="0.00"/>
+				<input type="hidden" name="total_discount" id="total_discount" value="0.00"/>
+				<input type="hidden" name="refund" id="refund" value="0.00"/>
 				</td>
 			</tr>
 		</table>
@@ -901,30 +903,32 @@ if (bMultisites) {
 <script language="JavaScript">
 function calculatePayment(){
     var payment=0;
+	for(var j=0;j<10;j++){
+	    var obj = document.getElementById("paid_"+j);
+	    if(obj!=null){
+	       	if(obj.value!=''){
+	       		payment =parseFloat(payment)+parseFloat(obj.value);
+	       	}
+		}
+	}
+	document.getElementById("payment").value =payment;
+	document.getElementById("total_payment").value=payment;
+}
 
-for(var j=0;j<10;j++){
-    var obj = document.getElementById("paymentx"+j);
-       if(obj!=null){
-           if(obj.value!=''){
-       payment =parseFloat(payment)+parseFloat(obj.value);}
-}
-}
-document.getElementById("payment").value =payment;
-document.getElementById("pay1").value=payment;
-}
 function calculateDiscount(){
+	var discount=0;
+	for(var i=0;i<10;i++){
+	    var obj = document.getElementById("discount_"+i);
+		if(obj!=null){
+		    if(obj.value!=''){
+		    	discount = parseFloat(discount)+parseFloat(obj.value);
+			}
+		}
+	}
+	document.getElementById("discount").value = discount;
+	document.getElementById("total_discount").value = discount;
+}
 
-var discount=0;
-for(var i=0;i<10;i++){
-    var obj = document.getElementById("discountx"+i);
-   if(obj!=null){
-       if(obj.value!=''){
-       discount = parseFloat(discount)+parseFloat(obj.value);
-}}
-}
-document.getElementById("discount").value = discount;
-document.getElementById("dis1").value= discount;
-}
 function addToDiseaseRegistry(){
     if ( validateItems() ) {
 	var url = "../../../oscarResearch/oscarDxResearch/dxResearch.do";
@@ -956,13 +960,15 @@ function getNewCurrentDxCodeList(origRequest){
    //alert("calling get NEW current Dx Code List");
    var url = "../../../oscarResearch/oscarDxResearch/currentCodeList.jsp";
    var ran_number=Math.round(Math.random()*1000000);
-   var params = "demographicNo=<%=demo_no%>&rand="+ran_number;  //hack to get around ie caching the page
-   //alert(params);
-   new Ajax.Updater('dxFullListing',url, {method:'get',parameters:params,asynchronous:true});
-   //alert(origRequest.responseText);
-}
-
-
+   var params = "demographicNo=<%=demo_no%>&rand=" + ran_number; //hack to get around ie caching the page
+		//alert(params);
+		new Ajax.Updater('dxFullListing', url, {
+			method : 'get',
+			parameters : params,
+			asynchronous : true
+		});
+		//alert(origRequest.responseText);
+	}
 </script>
 
 

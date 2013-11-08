@@ -119,7 +119,7 @@ public class BillingONPaymentsAction extends DispatchAction {
 		Integer paymentType = null;
 		Integer billingNo = null;
 		Date curDate = new Date();
-		Vector<String> payments= new Vector<String>();
+		Vector<String> payments = new Vector<String>();
 		Vector<String> discounts = new Vector<String>();
 		Vector<String> refunds = new Vector<String>();
 		int size = Integer.parseInt(request.getParameter("size"));
@@ -130,7 +130,7 @@ public class BillingONPaymentsAction extends DispatchAction {
 			String discount = request.getParameter("discount" + i);
 			String serviceCode = request.getParameter("service_code" + i);
 			if(!"".equals(request.getParameter("paymentType"+i))){
-			 paymentid = Integer.parseInt(request.getParameter("paymentType"+i));
+				paymentid = Integer.parseInt(request.getParameter("paymentType"+i));
 			}
 			if (billingOnItemDao.getBillingItemById(Integer.parseInt(serviceCode)).size() > 0) {
 				BillingOnItem item = billingOnItemDao.getBillingItemById(Integer.parseInt(serviceCode)).get(0);
@@ -148,30 +148,31 @@ public class BillingONPaymentsAction extends DispatchAction {
 				billingOnItemDao.updatePaymentId(item,paymentid);
 			}
 
-		}	
-			BigDecimal sumPaid = new BigDecimal("0.00");
-			BigDecimal sumRefund = new BigDecimal("0.00");
-			BigDecimal sumDiscount = new BigDecimal("0.00");
-			for(int i=0;i<payments.size();i++){
-				sumPaid = sumPaid.add(new BigDecimal(payments.get(i)));
+		}
+		BigDecimal sumPaid = new BigDecimal("0.00");
+		BigDecimal sumRefund = new BigDecimal("0.00");
+		BigDecimal sumDiscount = new BigDecimal("0.00");
+		for (int i = 0; i < payments.size(); i++) {
+			sumPaid = sumPaid.add(new BigDecimal(payments.get(i)));
 
-			}
-			for(int i=0;i<refunds.size();i++){
-				sumRefund = sumRefund.add(new BigDecimal(refunds.get(i)));
+		}
+		for (int i = 0; i < refunds.size(); i++) {
+			sumRefund = sumRefund.add(new BigDecimal(refunds.get(i)));
 
-			}
-			for(int i=0;i<discounts.size();i++){
-				sumDiscount = sumDiscount.add(new BigDecimal(discounts.get(i)));
+		}
+		for (int i = 0; i < discounts.size(); i++) {
+			sumDiscount = sumDiscount.add(new BigDecimal(discounts.get(i)));
 
-			}
-			billingONCHeader1Dao.updatePaid(billNo,sumPaid);
-				
+		}
+
+		billingONCHeader1Dao.updatePaid(billNo,sumPaid);
+
 		try {
 			// String paymentString = request.getParameter("payment");
 			// if(paymentString.substring(0,1).equals("$")) paymentString =
 			// paymentString.substring(1,paymentString.length());
-//			paymentValue = BigDecimal.valueOf(Double.parseDouble(request
-//					.getParameter("payment")));
+			// paymentValue = BigDecimal.valueOf(Double.parseDouble(request
+			// .getParameter("payment")));
 			paymentDate = new SimpleDateFormat("yyyy-MM-dd").parse(request
 					.getParameter("paymentDate"));
 			//paymentType = Integer.parseInt(request.getParameter("paymentType"));
@@ -191,7 +192,7 @@ public class BillingONPaymentsAction extends DispatchAction {
 		if (paymentIdParam == null || paymentIdParam.equals("")) {
 			// insert
 			payment = new BillingONPayment();
-			//payment.setTotal_payment(paymentValue);
+			// payment.setTotal_payment(paymentValue);
 			payment.setTotal_payment(sumPaid);
 			payment.setTotal_refund(sumRefund);
 			payment.setTotal_discount(sumDiscount);
@@ -206,7 +207,7 @@ public class BillingONPaymentsAction extends DispatchAction {
 			// update
 			Integer paymentId = Integer.parseInt(paymentIdParam);
 			payment = billingONPaymentDao.find(paymentId);
-			//payment.setTotal_payment(paymentValue);
+			// payment.setTotal_payment(paymentValue);
 			payment.setTotal_payment(sumPaid);
 			payment.setTotal_refund(sumRefund);
 			payment.setTotal_discount(sumDiscount);

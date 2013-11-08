@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,13 +25,13 @@ public class BillingONPayment extends AbstractModel<Integer> implements Serializ
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 
-	private BigDecimal total_payment;
-
+	private BigDecimal total_payment = new BigDecimal(0);
+	@Column(nullable=false)
 	private Date paymentdate;
 	
-	private BigDecimal total_refund;
+	private BigDecimal total_refund = new BigDecimal(0);
 	
-	private BigDecimal total_discount;
+	private BigDecimal total_discount = new BigDecimal(0);
 	private static final long serialVersionUID = 1L;
 
 	@ManyToOne(optional=false)

@@ -38,7 +38,7 @@
 
 			// update item objs
 			if(lObj.size() > 1) {
-				lObj.remove(0);
+				//lObj.remove(0);
 				bs = bObj.updateBillingItem(lObj, request);
 			}
 			

@@ -484,25 +484,24 @@ function checkSettle(status) {
 */
 
 				if(isMultiSiteProvider) {	
-					BigDecimal sum = BigDecimal.valueOf(0);
+					BigDecimal total_payment = BigDecimal.valueOf(0);
 					BigDecimal balance = BigDecimal.valueOf(0);
 					BillingONPaymentDao billingONPaymentDao = (BillingONPaymentDao) WebApplicationContextUtils.getWebApplicationContext(application).getBean("billingONPaymentDao");
     					List<BillingONPayment> payments = billingONPaymentDao.listPaymentsByBillingNo(Integer.parseInt(request.getParameter("billing_no").trim()));
 					org.oscarehr.billing.CA.ON.model.BillingClaimHeader1 ch1 = null;
 					if(payments != null && payments.size()>0) {
-						sum = new BigDecimal(payments.get(0).getBillingONCheader1().getTotal());
-						BigDecimal payment = payments.get(payments.size()-1).getTotal_payment();
+						BigDecimal sum = new BigDecimal(payments.get(0).getBillingONCheader1().getTotal());
+						total_payment = payments.get(payments.size()-1).getTotal_payment();
 						BigDecimal discount = payments.get(payments.size()-1).getTotal_discount();
 						BigDecimal refund = payments.get(payments.size()-1).getTotal_refund();
-					    balance= balance.add(payment).add(discount).add(refund);
-					    balance = balance.subtract(sum);
+					    balance = sum.subtract(total_payment).subtract(discount).subtract(refund);
       					}  
 						//if(ch1!=null && ch1.getTotal()!=null)
 							
     						//balance = new BigDecimal(ch1.getTotal().replace("$","").replace(",","").replace(" ",""));
 
-                                        htmlPaid = "<br/>&nbsp;&nbsp;<span style='font-size:large;font-weight:bold'>Total:</span>&nbsp;&nbsp;&nbsp;<span id='payment' style='font-size:large;font-weight:bold'>"
-						+ currency.format(sum) + "</span>";
+                                        htmlPaid = "<br/>&nbsp;&nbsp;<span style='font-size:large;font-weight:bold'>Paid:</span>&nbsp;&nbsp;&nbsp;<span id='payment' style='font-size:large;font-weight:bold'>"
+						+ currency.format(total_payment) + "</span>";
 					htmlPaid += "&nbsp;&nbsp;&nbsp;&nbsp;<span style='font-size:large;font-weight:bold'>Balance:</span>&nbsp;&nbsp;&nbsp;<span id='balance' style='font-size:large;font-weight:bold'>"
 						+ currency.format(balance) + "</span>";
 

@@ -186,9 +186,11 @@ function setValue(obj){
       	    </tr>
       	    <tr BGCOLOR="#EEEEFF">
       	      <td>
+      	      <div></div>
       	      </td>
       	      <td align="left">
-      	      Service_code:$<%=items.get(i).getService_code()%>(<%=items.get(i).getSer_num()%>)<%=items.get(i).getFee() %>  Paid:$<%=items.get(i).getPaid() %>
+      	      Service Code:&nbsp;<b><%=items.get(i).getService_code()%>&nbsp;$<%=items.get(i).getFee() %>&nbsp;Paid:&nbsp;$<%=items.get(i).getPaid() %></b>
+      	      </td>
       	      <input type="hidden" name="service_code<%=i %>" value="<%=items.get(i).getId()%>"/>
 			</td>
       	    </tr>
