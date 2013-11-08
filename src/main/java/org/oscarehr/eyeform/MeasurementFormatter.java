@@ -1085,16 +1085,34 @@ public class MeasurementFormatter {
 	public String getNCT() {
 		StringBuilder sb = new StringBuilder();		
 		if(eyeform.equals("eyeform3")){
+			Date d1 = null;
+			Date d2 = null;
 			if(isPresent("iop_rn")){
 				sb.append("OD ");
 				sb.append("[" +getValue("iop_rn")+ "]");
 				sb.append("; ");
+				d1 = mmap.get("iop_rn").getDateObserved();
 			}
 			if(isPresent("iop_ln")){
 				sb.append("OS ");
 				sb.append("[" +getValue("iop_ln")+ "]");
-				sb.append(". ");
+				sb.append("; ");
+				d2 = mmap.get("iop_ln").getDateObserved();
 			}
+			Date d = d2;
+			if((d1 != null) &&(d2 != null)){
+				if(d1.after(d2))
+					d=d1;
+			}
+			if((d1 != null) &&(d2 == null)){
+				d=d1;
+			}
+			if((d1 == null) &&(d2 != null)){
+				d=d2;
+			}
+			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+			sb.append("([" + sdf.format(d)  + "])");
+			sb.append(".");
 		}else{
 			if(isPresent("od_iop_nct") && isPresent("os_iop_nct")) {
 				sb.append("OD ");		
@@ -1137,16 +1155,34 @@ public class MeasurementFormatter {
 	public String getApplanation() {		
 		StringBuilder sb = new StringBuilder();
 		if(eyeform.equals("eyeform3")){
+			Date d1 = null;
+			Date d2 = null;
 			if(isPresent("iop_ra")){
 				sb.append("OD ");
 				sb.append("[" +getValue("iop_ra")+ "]");
 				sb.append("; ");
+				d1 = mmap.get("iop_ra").getDateObserved();
 			}
 			if(isPresent("iop_la")){
 				sb.append("OS ");
 				sb.append("[" +getValue("iop_la")+ "]");
-				sb.append(". ");
+				sb.append("; ");
+				d2 = mmap.get("iop_la").getDateObserved();
 			}
+			Date d = d2;
+			if((d1 != null) &&(d2 != null)){
+				if(d1.after(d2))
+					d=d1;
+			}
+			if((d1 != null) &&(d2 == null)){
+				d=d1;
+			}
+			if((d1 == null) &&(d2 != null)){
+				d=d2;
+			}
+			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+			sb.append("([" + sdf.format(d)  + "])");
+			sb.append(".");
 		}else{
 			if(isPresent("od_iop_applanation") && isPresent("os_iop_applanation")) {
 				sb.append("OD ");		

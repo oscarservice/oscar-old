@@ -459,18 +459,59 @@ public class ExaminationHistoryAction extends DispatchAction {
 				for(Appointment appt:appts) {
 					Map<String,String> map = new HashMap<String,String>();
 					Measurements m = null;
+					Date d1 = null;
+					Date d2 = null;
 					m = measurementsDao.getLatestMeasurementByAppointment(appt.getId(),"iop_rn");
 					if(m!=null){map.put(m.getType(), m.getDataField());}else{map.put("iop_rn", "");}
+					if(m != null){
+						d1 = m.getDateObserved();
+					}
 					m = measurementsDao.getLatestMeasurementByAppointment(appt.getId(),"iop_ln");
 					if(m!=null){map.put(m.getType(), m.getDataField());}else{map.put("iop_ln", "");}
-					m = measurementsDao.getLatestMeasurementByAppointment(appt.getId(),"iop_ntime");
-					if(m!=null){map.put(m.getType(), m.getDataField());}else{map.put("iop_ntime", "");}
+					if(m != null){
+						d2 = m.getDateObserved();
+					}
+					Date d = d2;
+					if((d1 != null) &&(d2 != null)){
+						if(d1.after(d2))
+							d=d1;
+					}
+					if((d1 != null) &&(d2 == null)){
+						d=d1;
+					}
+					if((d1 == null) &&(d2 != null)){
+						d=d2;
+					}
+					SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+					map.put("iop_ntime", sdf.format(d));
+					//m = measurementsDao.getLatestMeasurementByAppointment(appt.getId(),"iop_ntime");
+					//if(m!=null){map.put(m.getType(), m.getDataField());}else{map.put("iop_ntime", "");}
 					m = measurementsDao.getLatestMeasurementByAppointment(appt.getId(),"iop_ra");
 					if(m!=null){map.put(m.getType(), m.getDataField());}else{map.put("iop_ra", "");}
+					if(m != null){
+						d1 = m.getDateObserved();
+					}
 					m = measurementsDao.getLatestMeasurementByAppointment(appt.getId(),"iop_la");
 					if(m!=null){map.put(m.getType(), m.getDataField());}else{map.put("iop_la", "");}
-					m = measurementsDao.getLatestMeasurementByAppointment(appt.getId(),"iop_atime");
-					if(m!=null){map.put(m.getType(), m.getDataField());}else{map.put("iop_atime", "");}
+					if(m != null){
+						d2 = m.getDateObserved();
+					}
+					Date d3= d2;
+					if((d1 != null) &&(d2 != null)){
+						if(d1.after(d2))
+							d3=d1;
+					}
+					if((d1 != null) &&(d2 == null)){
+						d3=d1;
+					}
+					if((d1 == null) &&(d2 != null)){
+						d3=d2;
+					}
+					SimpleDateFormat sdf1 = new SimpleDateFormat("HH:mm");
+					map.put("iop_atime", sdf.format(d3));
+					
+					//m = measurementsDao.getLatestMeasurementByAppointment(appt.getId(),"iop_atime");
+					//if(m!=null){map.put(m.getType(), m.getDataField());}else{map.put("iop_atime", "");}
 					m = measurementsDao.getLatestMeasurementByAppointment(appt.getId(),"cct_r");
 					if(m!=null){map.put(m.getType(), m.getDataField());}else{map.put("cct_r", "");}
 					m = measurementsDao.getLatestMeasurementByAppointment(appt.getId(),"cct_l");
