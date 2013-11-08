@@ -141,7 +141,6 @@ function setStatus(obj){
 }
 
 function setValue(obj){
-	alert(3);
 	if(obj.isChecked){
 		obj.value="false";
 	}else{
@@ -202,7 +201,7 @@ function setValue(obj){
 		<logic:iterate id="billingPaymentType" name="billingPaymentTypeList" indexId="ttr">
 		    <%= ttr.intValue()%2 == 0 ? "<tr>" : "" %>
 		      <td width="50%">
-			<input type="radio" name="paymentType" id="paymentType<bean:write name='billingPaymentType' property='id'/>" value="<bean:write name='billingPaymentType' property='id'/>" <%=(ttr==0 ? "checked=true" : "")%> />
+			<input type="radio" name="paymentType<%=i %>" id="paymentType<bean:write name='billingPaymentType' property='id'/>" value="<bean:write name='billingPaymentType' property='id'/>" <%=(ttr==0 ? "checked=true" : "")%> />
 		        <bean:write name="billingPaymentType" property="paymentType"/>		    	
 		      </td>  
 		    <%= ttr.intValue()%2 == 0 ? "" : "</tr>" %>
@@ -233,17 +232,23 @@ int count = 0;
 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:MM");
 BigDecimal sum = BigDecimal.valueOf(0);
 BigDecimal balance = BigDecimal.valueOf(0);
-
+int index = 0;
 org.oscarehr.billing.CA.ON.model.BillingClaimHeader1 ch1 = null;
+List balances = new ArrayList();
 if(payments != null && payments.size()>0) {
     ch1 = payments.get(0).getBillingONCheader1();
-  
+  	
 	sum = new BigDecimal(payments.get(0).getBillingONCheader1().getTotal());
-	BigDecimal payment = payments.get(payments.size()-1).getTotal_payment();
-	BigDecimal discount = payments.get(payments.size()-1).getTotal_discount();
-	BigDecimal refund = payments.get(payments.size()-1).getTotal_refund();
+	for(int i=0;i<payments.size();i++){
+	balance = BigDecimal.valueOf(0);
+	BigDecimal payment = payments.get(i).getTotal_payment();
+	BigDecimal discount = payments.get(i).getTotal_discount();
+	BigDecimal refund = payments.get(i).getTotal_refund();
     balance= balance.add(payment).add(discount).add(refund);
     balance = balance.subtract(sum);
+    balances.add(i, balance);
+	}
+    //balance = balance.subtract(sum);
     request.setAttribute("balance", currency.format(balance));	
 }    
 %>
@@ -262,11 +267,10 @@ if(payments != null && payments.size()>0) {
 			    <td><bean:write name="displayPayment" property="paymentDateFormatted" /> </td>
 			    <td><bean:write name="displayPayment" property="total_discount" /> </td>
 			    <td><bean:write name="displayPayment" property="total_refund" /> </td>
-			     <td><%= currency.format(balance) %> </td>
+			     <td><%= currency.format(balances.get(index++)) %> </td>
 			    <td><a href="#" onClick="onEditPayment('<bean:write name="displayPayment" property="id" />',
 			    	'<bean:write name="displayPayment" property="total_payment" />',
-			    	'<bean:write name="displayPayment" property="paymentDateFormatted" />',
-			    	'<bean:write name="displayPayment" property="billingPaymentType.id" />')">view</a>
+			    	'<bean:write name="displayPayment" property="paymentDateFormatted" />')">view</a>
 			    </td>	
 			</tr>    
 		</logic:iterate>

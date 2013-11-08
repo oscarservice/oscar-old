@@ -49,7 +49,7 @@ public class BillingOnItem implements Serializable {
     private BigDecimal refund;
     private BigDecimal discount;
     private Timestamp timestamp;
-
+    private int payment_typeID;
     public Integer getId() {
         return this.id;
     }
@@ -178,4 +178,16 @@ public class BillingOnItem implements Serializable {
 	public void setTimestamp(Timestamp t) {
         this.timestamp = t;
     }
+
+	public int getPayment_typeID() {
+		return payment_typeID;
+	}
+
+	public void setPayment_typeID(int payment_typeID) {
+		this.payment_typeID = payment_typeID;
+	}
+
+	
+	
+	
 }

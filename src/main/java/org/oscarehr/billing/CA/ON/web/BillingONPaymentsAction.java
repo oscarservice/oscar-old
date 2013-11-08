@@ -47,6 +47,7 @@ import org.oscarehr.billing.CA.ON.model.BillingClaimHeader1;
 import org.oscarehr.billing.CA.ON.model.BillingONPayment;
 import org.oscarehr.billing.CA.dao.BillingPaymentTypeDao;
 import org.oscarehr.billing.CA.model.BillingPaymentType;
+import org.oscarehr.common.dao.BillingONCHeader1Dao;
 
 import oscar.oscarBilling.ca.on.dao.BillingOnItemDao;
 import oscar.oscarBilling.ca.on.model.BillingOnItem;
@@ -64,6 +65,7 @@ public class BillingONPaymentsAction extends DispatchAction {
 	private BillingPaymentTypeDao billingPaymentTypeDao;
 	private BillingClaimDAO billingClaimDAO;
 	private BillingONExtDao billingONExtDao;
+	private BillingONCHeader1Dao billingONCHeader1Dao;
 
 	// private SiteDao siteDao;
 	// private ProviderDao providerDao;
@@ -121,10 +123,15 @@ public class BillingONPaymentsAction extends DispatchAction {
 		Vector<String> discounts = new Vector<String>();
 		Vector<String> refunds = new Vector<String>();
 		int size = Integer.parseInt(request.getParameter("size"));
+		int billNo = Integer.parseInt(request.getParameter("billingNo"));
+		int paymentid = 1;
 		for (int i = 0; i < size; i++) {
 			String pay_ref = request.getParameter("pay_ref" + i);
 			String discount = request.getParameter("discount" + i);
 			String serviceCode = request.getParameter("service_code" + i);
+			if(!"".equals(request.getParameter("paymentType"+i))){
+			 paymentid = Integer.parseInt(request.getParameter("paymentType"+i));
+			}
 			if (billingOnItemDao.getBillingItemById(Integer.parseInt(serviceCode)).size() > 0) {
 				BillingOnItem item = billingOnItemDao.getBillingItemById(Integer.parseInt(serviceCode)).get(0);
 				if ("payment".equals(request.getParameter("sel" + i))) {
@@ -137,6 +144,8 @@ public class BillingONPaymentsAction extends DispatchAction {
 					refunds.add(pay_ref);
 					billingOnItemDao.updateItemRefund(item, pay_ref);
 				}
+				
+				billingOnItemDao.updatePaymentId(item,paymentid);
 			}
 
 		}	
@@ -155,7 +164,7 @@ public class BillingONPaymentsAction extends DispatchAction {
 				sumDiscount = sumDiscount.add(new BigDecimal(discounts.get(i)));
 
 			}
-				
+			billingONCHeader1Dao.updatePaid(billNo,sumPaid);
 				
 		try {
 			// String paymentString = request.getParameter("payment");
@@ -165,7 +174,7 @@ public class BillingONPaymentsAction extends DispatchAction {
 //					.getParameter("payment")));
 			paymentDate = new SimpleDateFormat("yyyy-MM-dd").parse(request
 					.getParameter("paymentDate"));
-			paymentType = Integer.parseInt(request.getParameter("paymentType"));
+			//paymentType = Integer.parseInt(request.getParameter("paymentType"));
 			billingNo = Integer.parseInt(request.getParameter("billingNo"));
 		} catch (Exception ex) {
 			logger.error(
@@ -177,7 +186,7 @@ public class BillingONPaymentsAction extends DispatchAction {
 		}
 		String paymentIdParam = request.getParameter("id");
 		BillingClaimHeader1 ch1 = billingClaimDAO.find(billingNo);
-		BillingPaymentType type = billingPaymentTypeDao.find(paymentType);
+	//	BillingPaymentType type = billingPaymentTypeDao.find(paymentType);
 		BillingONPayment payment = null;
 		if (paymentIdParam == null || paymentIdParam.equals("")) {
 			// insert
@@ -189,7 +198,7 @@ public class BillingONPaymentsAction extends DispatchAction {
 			payment.setPaymentDate(paymentDate);
 			payment.setBillingOnCheader1(ch1);
 			// payment.setPaymentId(billingNo);
-			payment.setBillingPaymentType(type);
+			//payment.setBillingPaymentType(type);
 			// payment.setPaymentTypeId(paymentType);
 			billingONPaymentDao.persist(payment);
 
@@ -204,7 +213,7 @@ public class BillingONPaymentsAction extends DispatchAction {
 			payment.setPaymentDate(paymentDate);
 			// payment.setBillingOnCheader1(ch1);
 			// payment.setPaymentId(billingNo);
-			payment.setBillingPaymentType(type);
+			//payment.setBillingPaymentType(type);
 			// payment.setPaymentTypeId(paymentType);
 			billingONPaymentDao.merge(payment);
 		}
@@ -214,9 +223,9 @@ public class BillingONPaymentsAction extends DispatchAction {
 		BigDecimal refund = billingONPaymentDao.getPaymentsRefundByBillingNo(
 				billingNo).negate();
 		NumberFormat currency = NumberFormat.getCurrencyInstance();
-		ch1.setPaid(currency.format(paid.subtract(refund)).replace("$", "")
-				.replace(",", ""));
-		billingClaimDAO.merge(ch1);
+		//ch1.setPaid(currency.format(paid.subtract(refund)).replace("$", "")
+			//	.replace(",", ""));
+		//billingClaimDAO.merge(ch1);
 
 		billingONExtDao.setExtItem(billingNo, ch1.getDemographic_no(),
 				BillingONExtDao.KEY_PAYMENT,
@@ -230,9 +239,9 @@ public class BillingONPaymentsAction extends DispatchAction {
 				BillingONExtDao.KEY_PAY_DATE, new SimpleDateFormat(
 						"yyyy-MM-dd HH:mm:ss").format(paymentDate), curDate,
 				'1');
-		billingONExtDao.setExtItem(billingNo, ch1.getDemographic_no(),
-				BillingONExtDao.KEY_PAY_METHOD, payment.getBillingPaymentType()
-						.getPaymentType(), curDate, '1');
+	//	billingONExtDao.setExtItem(billingNo, ch1.getDemographic_no(),
+		//		BillingONExtDao.KEY_PAY_METHOD, payment.getBillingPaymentType()
+			//			.getPaymentType(), curDate, '1');
 
 		return listPayments(actionMapping, actionForm, request, response);
 
@@ -297,6 +306,11 @@ public class BillingONPaymentsAction extends DispatchAction {
 		this.billingOnItemDao = billingOnItemDao;
 	}
 
+	public void setBillingONCHeader1Dao(BillingONCHeader1Dao billingONCHeader1Dao) {
+		this.billingONCHeader1Dao = billingONCHeader1Dao;
+	}
+	
+	
 	/*
 	 * public void setSiteDao(SiteDao siteDao) { this.siteDao = siteDao; }
 	 * 

@@ -39,5 +39,6 @@
                 <property name="paid"/>
                 <property name="refund"/>
                 <property name="discount"/>
+                <property name="payment_typeID"/>
     </class>
 </hibernate-mapping>

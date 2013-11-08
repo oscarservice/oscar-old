@@ -83,4 +83,9 @@ public class BillingOnItemDao extends HibernateDaoSupport {
         	item.setDiscount(new BigDecimal(discount));
         	getHibernateTemplate().update(item);
         }
+
+		public void updatePaymentId(BillingOnItem item, int paymentid) {
+			item.setPayment_typeID(paymentid);
+			getHibernateTemplate().update(item);
+		}
 }

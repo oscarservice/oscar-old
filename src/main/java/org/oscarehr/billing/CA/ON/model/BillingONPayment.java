@@ -37,9 +37,9 @@ public class BillingONPayment extends AbstractModel<Integer> implements Serializ
 	@JoinColumn(name="ch1_id")
 	private BillingClaimHeader1 billingONCheader1;
 
-	@ManyToOne(optional=false)
-	@JoinColumn(name="paymentTypeId")
-	private BillingPaymentType billingPaymentType;
+	//@ManyToOne(optional=false)
+	//@JoinColumn(name="paymentTypeId")
+	//private BillingPaymentType billingPaymentType;
 
 	public BillingONPayment() {
 		super();
@@ -73,13 +73,13 @@ public class BillingONPayment extends AbstractModel<Integer> implements Serializ
 		this.billingONCheader1 = billingOnCheader1;
 	}
 
-	public BillingPaymentType getBillingPaymentType() {
-		return this.billingPaymentType;
-	}
-
-	public void setBillingPaymentType(BillingPaymentType billingPaymentType) {
-		this.billingPaymentType = billingPaymentType;
-	}
+//	public BillingPaymentType getBillingPaymentType() {
+//		return this.billingPaymentType;
+//	}
+//
+//	public void setBillingPaymentType(BillingPaymentType billingPaymentType) {
+//		this.billingPaymentType = billingPaymentType;
+//	}
 
 	public BigDecimal getTotal_payment() {
 		return total_payment;

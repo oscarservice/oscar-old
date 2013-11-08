@@ -42,6 +42,8 @@
 	  response.sendRedirect("../logout.jsp");
 	  return;
   }
+String demographic_no = (String)request.getParameter("demographic_no");
+session.setAttribute("demographic_nox", demographic_no);
 %>
 
 <%@ page errorPage="errorpage.jsp" import="oscar.OscarProperties"%>

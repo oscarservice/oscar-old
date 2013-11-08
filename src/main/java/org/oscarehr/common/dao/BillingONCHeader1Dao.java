@@ -23,14 +23,18 @@
 
 package org.oscarehr.common.dao;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Query;
 
 import org.apache.commons.lang.StringUtils;
 import org.oscarehr.common.model.BillingONCHeader1;
 import org.springframework.stereotype.Repository;
+
+import oscar.oscarBilling.ca.on.model.BillingOnCHeader1;
 
 /**
 *
@@ -57,5 +61,18 @@ public class BillingONCHeader1Dao extends AbstractDao<BillingONCHeader1>{
                 BigInteger bint =  (BigInteger) query.getSingleResult();
                 return bint.intValue();
     }
+    
+    public List<BillingONCHeader1> getBillCheader1ByDemographicNo(int demographic_no){
+    	Query query = entityManager.createQuery("select ch from BillingONCHeader1 ch where ch.demographicNo=?");
+    	query.setParameter(1, demographic_no);
+    	return query.getResultList();
+    }
+
+	public void updatePaid(int billNo, BigDecimal sumPaid) {
+		Query query = entityManager.createQuery("update BillingONCHeader1 ch set ch.paid=? where ch.id=?");
+		query.setParameter(1, sumPaid.toString());
+		query.setParameter(2, billNo);
+		query.executeUpdate();
+	}
 
 }

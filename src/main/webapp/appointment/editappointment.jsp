@@ -42,6 +42,8 @@
 <%@page import="oscar.oscarDemographic.data.*, java.util.*, java.sql.*, oscar.appt.*, oscar.*, java.text.*, java.net.*, org.oscarehr.common.OtherIdManager"%>
 <%@ page import="oscar.appt.status.service.AppointmentStatusMgr"%>
 <%@ page import="oscar.appt.status.model.AppointmentStatus"%>
+<%@page import="org.oscarehr.common.dao.BillingONCHeader1Dao"%>
+<%@page import="org.oscarehr.common.model.BillingONCHeader1"%>
 <%@ page import="org.oscarehr.common.dao.DemographicDao, org.oscarehr.PMmodule.dao.ProviderDao, org.oscarehr.common.model.Demographic, org.oscarehr.util.SpringUtils"%>
 <%@ page import="oscar.oscarEncounter.data.EctFormData"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -51,13 +53,16 @@
 <%@page import="org.oscarehr.common.model.DemographicCust" %>
 <%@page import="org.oscarehr.common.dao.DemographicCustDao" %>
 <%
-	DemographicCustDao demographicCustDao = (DemographicCustDao)SpringUtils.getBean("demographicCustDao");  	
+	DemographicCustDao demographicCustDao = (DemographicCustDao)SpringUtils.getBean("demographicCustDao"); 
+	BillingONCHeader1Dao cheader1Dao = (BillingONCHeader1Dao)SpringUtils.getBean("billingONCHeader1Dao"); 
 	ProviderDao providerDao = (ProviderDao)SpringUtils.getBean("providerDao");
+	String demographic_nox = (String)session.getAttribute("demographic_nox");
 
 %>
 <%
   ApptData apptObj = ApptUtil.getAppointmentFromSession(request);
-
+ // List<BillingONCHeader1> cheader1s = cheader1Dao.getBillCheader1ByDemographicNo(Integer.parseInt(apptObj.getDemographic_no()));
+ List<BillingONCHeader1> cheader1s = cheader1Dao.getBillCheader1ByDemographicNo(Integer.parseInt(demographic_nox));
   oscar.OscarProperties pros = oscar.OscarProperties.getInstance();
   String strEditable = pros.getProperty("ENABLE_EDIT_APPT_STATUS");
 
@@ -796,8 +801,14 @@ if (bMultisites) { %>
 
 <% if (isSiteSelected) { %>
 <table width="95%" align="center">
+<tr>
+	<th width="40%"><font color="red">Outstanding 3rd Invoices</font></th>
+	<th width="20%"><font color="red">Invoice Date</font></th>
+	<th><font color="red">Amount</font></th>
+	<th><font color="red">Balance</font></th>
+	</tr>
 	<tr>
-		<td><input type="submit"
+		<td colspan="3"><input type="submit"
 			onclick="document.forms['EDITAPPT'].displaymode.value='Cut';"
 			value="Cut" /> | <input type="submit"
 			onclick="document.forms['EDITAPPT'].displaymode.value='Copy';"
@@ -819,8 +830,20 @@ if (bMultisites) { %>
                   %><a href=#
 			onclick="pasteAppt(<%=(numSameDayGroupApptsPaste > 0)%>);">Paste</a>
 		<% } %>
+		
 		</td>
 	</tr>
+	<%if(cheader1s.size()>0){
+		for(int i=0;i<cheader1s.size();i++)
+		{%>
+			<tr>
+				<td align="center"><a href="#" onclick="popupPage(600,800, '<%=request.getContextPath() %>/billing/CA/ON/billingONCorrection.jsp?billing_no=<%=cheader1s.get(i).getId()%>')"><font color="red">Inv #<%=cheader1s.get(i).getId() %></font></a></td>
+				<td align="center"><font color="red"><%=cheader1s.get(i).getBillingDate() %></font></td>
+				<td align="center"><font color="red">$<%=(double)cheader1s.get(i).getTotal()/100 %></font></td>
+				<td align="center"><font color="red">$<%=(double)(cheader1s.get(i).getPaid()-cheader1s.get(i).getTotal())/100%></font></td>
+			</tr>
+		<%}%>
+	<%} %>
 </table>
 <% } %>
 
