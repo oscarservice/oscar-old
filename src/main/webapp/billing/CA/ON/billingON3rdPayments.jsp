@@ -181,7 +181,7 @@ function setValue(obj){
       	      </td>
       	      <td width="70%" align="left">
       	        <input type="text" name="pay_ref<%=i %>" id="payment" value="0.00" WIDTH="8" HEIGHT="20" border="0" hspace="2" maxlength="50" />
-      	        <input type="checkbox" id="cdis<%=i%>"name="Discount" onclick="setValue(this);"/>Disctount     <input type="text" id="discount<%=i%>"name="discount<%=i %>" value="0.00">
+      	        <input type="checkbox" id="cdis<%=i%>"name="Discount" onclick="setValue(this);"/>Discount     <input type="text" id="discount<%=i%>"name="discount<%=i %>" value="0.00">
       	        </td>
       	    </tr>
       	    <tr BGCOLOR="#EEEEFF">
