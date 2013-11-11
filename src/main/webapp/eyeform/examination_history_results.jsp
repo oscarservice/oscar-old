@@ -506,6 +506,9 @@ if(fieldList.contains("NCT")){
 		String iop_ra = nct_str.get("iop_ra");
 		String iop_la = nct_str.get("iop_la");
 		String iop_atime = nct_str.get("iop_atime");
+		if(iop_atime == null){
+			iop_atime = "";
+		}
 %>
 		<span class="title1">Applanation  </span>
 		OD [<%=iop_ra%>];OS [<%=iop_la%>];([<%=iop_atime%>]).	
@@ -1056,7 +1059,7 @@ if(fieldList.contains("Upper lid")){
 		String ext_rdye = upper_str.get("ext_rdye");
 		String ext_ldye = upper_str.get("ext_ldye");	
 %>
-		<span class="title1">Nasolacrimal duct  </span>
+		<span class="title1">Dye disappearance  </span>
 			OD [<%=ext_rdye%>];OS [<%=ext_ldye%>].
 <%
 	}
@@ -1116,7 +1119,7 @@ if(fieldList.contains("Margin reflex distance")){
 		String lid_rlag = margin_str.get("lid_rlag");
 		String lid_llag = margin_str.get("lid_llag");	
 %>
-		<span class="title1">Levator function  </span>
+		<span class="title1">Lagophthalmos  </span>
 			OD [<%=lid_rlag%>];OS [<%=lid_llag%>].
 <%
 	}
@@ -1126,7 +1129,7 @@ if(fieldList.contains("Margin reflex distance")){
 		String lid_rblink = margin_str.get("lid_rblink");
 		String lid_lblink = margin_str.get("lid_lblink");	
 %>
-		<span class="title1">Levator function  </span>
+		<span class="title1">Blink reflex  </span>
 			OD [<%=lid_rblink%>];OS [<%=lid_lblink%>].
 <%
 	}
@@ -1142,11 +1145,11 @@ if(fieldList.contains("Margin reflex distance")){
 	}
 %>
 <%
-	if(fieldList.contains("Bell’s phenomenon")){
+	if(fieldList.contains("Bells phenomenon")){
 		String lid_rbell = margin_str.get("lid_rbell");
 		String lid_lbell = margin_str.get("lid_lbell");	
 %>
-		<span class="title1">Bell’s phenomenon  </span>
+		<span class="title1">Bell's phenomenon  </span>
 			OD [<%=lid_rbell%>];OS [<%=lid_lbell%>].
 <%
 	}
