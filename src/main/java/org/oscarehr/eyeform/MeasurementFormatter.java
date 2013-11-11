@@ -1746,16 +1746,79 @@ public class MeasurementFormatter {
 		StringBuilder sb = new StringBuilder();	
 		if(eyeform.equals("eyeform3")){
 			if(isPresent("a_rangle_1") || isPresent("a_rangle_2") || isPresent("a_rangle_3") || isPresent("a_rangle_4") || isPresent("a_rangle_5")) {			
-				sb.append("OD ");		
-				sb.append(getValue("a_rangle_1") + getValue("a_rangle_2") + getValue("a_rangle_3") + getValue("a_rangle_4") +getValue("a_rangle_5"));
-				
+				sb.append("OD ");
+				sb.append(getValue("[" +"a_rangle_3") + "]");
+				if(isPresent("a_rangle_1") || isPresent("a_rangle_2") || isPresent("a_rangle_4") || isPresent("a_rangle_5")) {
+					sb.append(" (");
+				}
+				boolean flag=false;
+				if(isPresent("a_rangle_1")) {
+					sb.append("superior ["+getValue("a_rangle_1") + "]");
+					if(!flag) flag=true;
+				}
+				if(isPresent("a_rangle_4")) {
+					if(flag) {					
+						sb.append(", ");
+					}
+					if(!flag) flag=true;
+					sb.append("nasal ["+getValue("a_rangle_4") + "]");
+				}
+				if(isPresent("a_rangle_5")) {
+					if(flag) {
+						sb.append(", ");
+					}
+					if(!flag) flag=true;
+					sb.append("inferior ["+getValue("a_rangle_5") + "]");
+				}
+				if(isPresent("a_rangle_2")) {
+					if(flag) {
+						sb.append(", ");
+					}
+					if(!flag) flag=true;
+					sb.append("temporal [" + getValue("a_rangle_2") + "]");
+				}				
+				if(isPresent("a_rangle_1") || isPresent("a_rangle_2") || isPresent("a_rangle_4") || isPresent("a_rangle_5")) {
+					sb.append(")");
+				}
 				sb.append("; ");
 			}
 
 			if(isPresent("a_langle_1") || isPresent("a_langle_2") || isPresent("a_langle_3") || isPresent("a_langle_4") || isPresent("a_langle_5")) {			
-				sb.append("OS ");		
-				sb.append(getValue("a_langle_1") + getValue("a_langle_2") + getValue("a_langle_3") + getValue("a_langle_4") + getValue("a_langle_5"));
-
+				sb.append("OS ");
+				sb.append(getValue("[" +"a_langle_3") + "]");
+				if(isPresent("a_langle_1") || isPresent("a_langle_2") || isPresent("a_langle_4") || isPresent("a_langle_5")) {
+					sb.append(" (");
+				}
+				boolean flag=false;
+				if(isPresent("a_langle_1")) {
+					sb.append("superior ["+getValue("a_langle_1") + "]");
+					if(!flag) flag=true;
+				}
+				if(isPresent("a_langle_2")) {
+					if(flag) {					
+						sb.append(", ");
+					}
+					if(!flag) flag=true;
+					sb.append("nasal ["+getValue("a_langle_2") + "]");
+				}
+				if(isPresent("a_langle_5")) {
+					if(flag) {
+						sb.append(", ");
+					}
+					if(!flag) flag=true;
+					sb.append("inferior ["+getValue("a_langle_5") + "]");
+				}
+				if(isPresent("a_langle_4")) {
+					if(flag) {
+						sb.append(", ");
+					}
+					if(!flag) flag=true;
+					sb.append("temporal [" + getValue("a_langle_4") + "]");
+				}
+				
+				if(isPresent("a_langle_1") || isPresent("a_langle_2") || isPresent("a_langle_4") || isPresent("a_langle_5")) {
+					sb.append(")");
+				}
 				sb.append("; ");
 			}	
 				

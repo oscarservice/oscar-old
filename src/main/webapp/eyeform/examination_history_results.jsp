@@ -1228,7 +1228,7 @@ if(fieldList.contains("Cornea")){
 		String a_langle_5 = cornea_str.get("a_langle_5");	
 %>
 		<span class="title1">Angle </span>
-			OD [<%=a_rangle_1%>][<%=a_rangle_2%>][<%=a_rangle_3%>][<%=a_rangle_4%>][<%=a_rangle_5%>];OS [<%=a_langle_1%>][<%=a_langle_2%>][<%=a_langle_3%>][<%=a_langle_4%>][<%=a_langle_5%>].
+			OD [<%=a_rangle_3%>] (superior[<%=a_rangle_1%>] nasal[<%=a_rangle_4%>] inferior[<%=a_rangle_5%>] temporal[<%=a_rangle_2%>]);OS [<%=a_langle_3%>] (superior[<%=a_langle_1%>] nasal[<%=a_langle_2%>] inferior[<%=a_langle_5%>] temporal[<%=a_langle_4%>]).
 <%
 	}
 %>
