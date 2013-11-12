@@ -437,7 +437,7 @@ var copy_gl_rx = "";
 var copy_gl_ls = "";
 var copy_gl_lc = "";
 var copy_gl_lx = "";
-
+var copy_from = true;
 function getglasshxvalue(name){
 	var val;
 	val = document.getElementById(name).value;
@@ -445,6 +445,7 @@ function getglasshxvalue(name){
 }
 
 function copyglasses(){
+	copy_form = true;
 	copy_gl_rs = getglasshxvalue("odSph");
 	copy_gl_rc = getglasshxvalue("odCyl");
 	copy_gl_rx = getglasshxvalue("odAxis");
@@ -461,6 +462,7 @@ var copy_v_lc = "";
 var copy_v_lx = "";
 
 function copyar(){
+	copy_form = false;
 	copy_v_rs = getfieldvalue("v_rs");
 	copy_v_rc = getfieldvalue("v_rc");
 	copy_v_rx = getfieldvalue("v_rx");
@@ -470,30 +472,57 @@ function copyar(){
 }
 
 function paste_mdist(){
-	setfieldvalue("v_rds",copy_gl_rs);
-	setfieldvalue("v_rdc",copy_gl_rc);
-	setfieldvalue("v_rdx",copy_gl_rx);
-	setfieldvalue("v_lds",copy_gl_ls);
-	setfieldvalue("v_ldc",copy_gl_lc);
-	setfieldvalue("v_ldx",copy_gl_lx);
+	if(!copy_form){
+		setfieldvalue("v_rds",copy_v_rs);
+		setfieldvalue("v_rdc",copy_v_rc);
+		setfieldvalue("v_rdx",copy_v_rx);
+		setfieldvalue("v_lds",copy_v_ls);
+		setfieldvalue("v_ldc",copy_v_lc);
+		setfieldvalue("v_ldx",copy_v_lx);
+	}else{
+		setfieldvalue("v_rds",copy_gl_rs);
+		setfieldvalue("v_rdc",copy_gl_rc);
+		setfieldvalue("v_rdx",copy_gl_rx);
+		setfieldvalue("v_lds",copy_gl_ls);
+		setfieldvalue("v_ldc",copy_gl_lc);
+		setfieldvalue("v_ldx",copy_gl_lx);
+	}
 }
 
 function paste_mnear(){
-	setfieldvalue("v_rns",copy_gl_rs);
-	setfieldvalue("v_rnc",copy_gl_rc);
-	setfieldvalue("v_rnx",copy_gl_rx);
-	setfieldvalue("v_lns",copy_gl_ls);
-	setfieldvalue("v_lnc",copy_gl_lc);
-	setfieldvalue("v_lnx",copy_gl_lx);
+	if(!copy_form){
+		setfieldvalue("v_rns",copy_v_rs);
+		setfieldvalue("v_rnc",copy_v_rc);
+		setfieldvalue("v_rnx",copy_v_rx);
+		setfieldvalue("v_lns",copy_v_ls);
+		setfieldvalue("v_lnc",copy_v_lc);
+		setfieldvalue("v_lnx",copy_v_lx);
+	}else{
+		setfieldvalue("v_rns",copy_gl_rs);
+		setfieldvalue("v_rnc",copy_gl_rc);
+		setfieldvalue("v_rnx",copy_gl_rx);
+		setfieldvalue("v_lns",copy_gl_ls);
+		setfieldvalue("v_lnc",copy_gl_lc);
+		setfieldvalue("v_lnx",copy_gl_lx);
+	}
 }
 
 function paste_Cyclo(){
-	setfieldvalue("v_rcs",copy_gl_rs);
-	setfieldvalue("v_rcc",copy_gl_rc);
-	setfieldvalue("v_rcx",copy_gl_rx);
-	setfieldvalue("v_lcs",copy_gl_ls);
-	setfieldvalue("v_lcc",copy_gl_lc);
-	setfieldvalue("v_lcx",copy_gl_lx);
+	if(!copy_form){
+		setfieldvalue("v_rcs",copy_v_rs);
+		setfieldvalue("v_rcc",copy_v_rc);
+		setfieldvalue("v_rcx",copy_v_rx);
+		setfieldvalue("v_lcs",copy_v_ls);
+		setfieldvalue("v_lcc",copy_v_lc);
+		setfieldvalue("v_lcx",copy_v_lx);
+	}else{
+		setfieldvalue("v_rcs",copy_gl_rs);
+		setfieldvalue("v_rcc",copy_gl_rc);
+		setfieldvalue("v_rcx",copy_gl_rx);
+		setfieldvalue("v_lcs",copy_gl_ls);
+		setfieldvalue("v_lcc",copy_gl_lc);
+		setfieldvalue("v_lcx",copy_gl_lx);
+	}
 }
 
 function copySpecs(){
@@ -791,7 +820,7 @@ function clearAnterior_od(){
 	setfieldvalue("a_rk","");
 	setfieldvalue("a_rconj","");
 	setfieldvalue("a_rac","");
-	setfieldvalue("a_rangle","");
+	setfieldvalue("a_rangle_3","");
 	setfieldvalue("a_riris","");
 	setfieldvalue("a_rlens","");
 }
@@ -809,7 +838,7 @@ function clearAnterior_os(){
 	setfieldvalue("a_lk","");
 	setfieldvalue("a_lconj","");
 	setfieldvalue("a_lac","");
-	setfieldvalue("a_langle","");
+	setfieldvalue("a_langle_3","");
 	setfieldvalue("a_liris","");
 	setfieldvalue("a_llens","");
 }

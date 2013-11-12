@@ -226,7 +226,7 @@ function selectOption(toList,val) {
 					selectOption1(toList,'Lagophthalmos');
 					selectOption1(toList,'Blink reflex');
 					selectOption1(toList,'Cranial Nerve VII function');
-					selectOption1(toList,'Bell’s phenomenon');
+					selectOption1(toList,'Bells phenomenon');
 					selectOption1(toList,'Schirmer test');
 				}
 				if(section == 'ANTERIOR SEGMENT') {
