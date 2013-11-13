@@ -53,7 +53,7 @@ public class UnZip {
 					}
 					if("html".equalsIgnoreCase(endName))
 					{
-			             EFormUtil.saveEForm(info.getName(), "", zipEntry.getName(), info.getContent(), false, "");
+			             EFormUtil.saveEForm(info.getName(), "", zipEntry.getName(), info.getContent(), true, false, "");
 
 					}
 					in = readfile.getInputStream(zipEntry);
