@@ -1050,7 +1050,10 @@ import cdsDt.PersonNameStandard.OtherNames;
                         	err_note.add("Problem List diagnosis procedure code could not be retrieved. The code description is:"+probList[i].getDiagnosisCode().getStandardCodeDescription());
                         }
                     }
-
+                    
+                    if(cmNote.getIssues().isEmpty())
+                    	cmNote.setIssues(scmi);
+                    
                     //main field
                     String ongConcerns = probList[i].getProblemDiagnosisDescription();
                     if (StringUtils.empty(ongConcerns)) {
