@@ -56,8 +56,8 @@
 	String forumUser = null;
 	String forumPwd = null;
 	if (zeissEnable) {
-		forumUser = OscarProperties.getInstance().getProperty("forum_user");
-		forumPwd = OscarProperties.getInstance().getProperty("forum_password");
+		forumUser = OscarProperties.getInstance().getProperty("forumviewer_username");
+		forumPwd = OscarProperties.getInstance().getProperty("forumviewer_password");
 	}
 
 %>
