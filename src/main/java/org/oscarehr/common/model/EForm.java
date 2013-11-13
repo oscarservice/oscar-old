@@ -80,6 +80,7 @@ public class EForm extends AbstractModel<Integer> implements Serializable {
 	@Column(name = "form_html")
 	private String formHtml;
 
+	@Column(name = "showLatestFormOnly")
 	private boolean showLatestFormOnly;
 	
 	@Column(name = "patient_independent")
