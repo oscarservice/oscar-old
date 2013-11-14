@@ -65,7 +65,7 @@ public class SpecsHistoryDao extends AbstractDao<EyeformSpecsHistory> {
 		return (results);
 	}
 	public List<EyeformSpecsHistory> getByDateRange(int demographicNo,Date startDate, Date endDate) {
-		String sql="select x from "+modelClass.getSimpleName()+" x where x.demographicNo=? and x.date >= ? and x.date <=?";
+		String sql="select x from "+modelClass.getSimpleName()+" x where x.demographicNo=? and x.updateTime >= ? and x.updateTime <=?";
 		Query query = entityManager.createQuery(sql);
 		query.setParameter(1, demographicNo);
 		query.setParameter(2, startDate);

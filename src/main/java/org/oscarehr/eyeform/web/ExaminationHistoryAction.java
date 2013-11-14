@@ -483,7 +483,11 @@ public class ExaminationHistoryAction extends DispatchAction {
 						d=d2;
 					}
 					SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-					map.put("iop_ntime", sdf.format(d));
+					if(d != null){
+						map.put("iop_ntime", sdf.format(d));
+					}else{
+						map.put("iop_ntime", "");
+					}
 					//m = measurementsDao.getLatestMeasurementByAppointment(appt.getId(),"iop_ntime");
 					//if(m!=null){map.put(m.getType(), m.getDataField());}else{map.put("iop_ntime", "");}
 					m = measurementsDao.getLatestMeasurementByAppointment(appt.getId(),"iop_ra");
@@ -508,7 +512,11 @@ public class ExaminationHistoryAction extends DispatchAction {
 						d3=d2;
 					}
 					SimpleDateFormat sdf1 = new SimpleDateFormat("HH:mm");
-					map.put("iop_atime", sdf.format(d3));
+					if(d3 != null){
+						map.put("iop_atime", sdf.format(d3));
+					}else{
+						map.put("iop_atime", "");
+					}
 					
 					//m = measurementsDao.getLatestMeasurementByAppointment(appt.getId(),"iop_atime");
 					//if(m!=null){map.put(m.getType(), m.getDataField());}else{map.put("iop_atime", "");}

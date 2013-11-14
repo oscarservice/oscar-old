@@ -1111,8 +1111,10 @@ public class MeasurementFormatter {
 				d=d2;
 			}
 			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-			sb.append("([" + sdf.format(d)  + "])");
-			sb.append(".");
+			if(d != null){
+				sb.append("([" + sdf.format(d)  + "])");
+				sb.append(".");
+			}		
 		}else{
 			if(isPresent("od_iop_nct") && isPresent("os_iop_nct")) {
 				sb.append("OD ");		
@@ -1181,8 +1183,10 @@ public class MeasurementFormatter {
 				d=d2;
 			}
 			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-			sb.append("([" + sdf.format(d)  + "])");
-			sb.append(".");
+			if(d != null){
+				sb.append("([" + sdf.format(d)  + "])");
+				sb.append(".");
+			}
 		}else{
 			if(isPresent("od_iop_applanation") && isPresent("os_iop_applanation")) {
 				sb.append("OD ");		
@@ -1523,32 +1527,32 @@ public class MeasurementFormatter {
 		}
 		
 		StringBuilder sb2 = new StringBuilder();
-		if(isPresent("duc_ur")) {
-			sb2.append("[" +getValue("duc_ur")+ "]");
+		if(isPresent("dip_ur")) {
+			sb2.append("[" +getValue("dip_ur")+ "]");
 		}
-		if(isPresent("duc_u")) {
-			sb2.append("[" +getValue("duc_u")+ "]");
+		if(isPresent("dip_u")) {
+			sb2.append("[" +getValue("dip_u")+ "]");
 		}
-		if(isPresent("duc_ul")) {
-			sb2.append("[" +getValue("duc_ul")+ "]");	
+		if(isPresent("dip_ul")) {
+			sb2.append("[" +getValue("dip_ul")+ "]");	
 		}
-		if(isPresent("duc_r")) {
-			sb2.append("[" +getValue("duc_r")+ "]");
+		if(isPresent("dip_r")) {
+			sb2.append("[" +getValue("dip_r")+ "]");
 		}
-		if(isPresent("duc_p")) {
-			sb2.append("[" +getValue("duc_p")+ "]");
+		if(isPresent("dip_p")) {
+			sb2.append("[" +getValue("dip_p")+ "]");
 		}
-		if(isPresent("duc_l")) {
-			sb2.append("[" +getValue("duc_l")+ "]");	
+		if(isPresent("dip_l")) {
+			sb2.append("[" +getValue("dip_l")+ "]");	
 		}
-		if(isPresent("duc_dr")) {
-			sb2.append("[" +getValue("duc_dr")+ "]");
+		if(isPresent("dip_dr")) {
+			sb2.append("[" +getValue("dip_dr")+ "]");
 		}
-		if(isPresent("duc_d")) {
-			sb2.append("[" +getValue("duc_d")+ "]");
+		if(isPresent("dip_d")) {
+			sb2.append("[" +getValue("dip_d")+ "]");
 		}
-		if(isPresent("duc_dl")) {
-			sb2.append("[" +getValue("duc_dl")+ "]");
+		if(isPresent("dip_dl")) {
+			sb2.append("[" +getValue("dip_dl")+ "]");
 		}
 		if(sb2.length() > 0){
 			sb2.insert(0, "OU ");

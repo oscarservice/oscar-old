@@ -106,18 +106,18 @@ public class SpecsHistoryAction extends DispatchAction {
 
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		DynaValidatorForm f = (DynaValidatorForm) form;
-		String type = request.getParameter("specs.type");
-		String date = request.getParameter("specs.dateStr");
-		String odSph = request.getParameter("specs.odSph");
-		String odCyl = request.getParameter("specs.odCyl");
-		String odAxis = request.getParameter("specs.odAxis");
-		String odAdd = request.getParameter("specs.odAdd");
-		String odPrism = request.getParameter("specs.odPrism");
-		String osSph = request.getParameter("specs.osSph");
-		String osCyl = request.getParameter("specs.osCyl");
-		String osAxis = request.getParameter("specs.osAxis");
-		String osAdd = request.getParameter("specs.osAdd");
-		String osPrism = request.getParameter("specs.osPrism");
+		String type = request.getParameter("specs.type1");
+		String date = request.getParameter("specs.dateStr1");
+		String odSph = request.getParameter("specs.odSph1");
+		String odCyl = request.getParameter("specs.odCyl1");
+		String odAxis = request.getParameter("specs.odAxis1");
+		String odAdd = request.getParameter("specs.odAdd1");
+		String odPrism = request.getParameter("specs.odPrism1");
+		String osSph = request.getParameter("specs.osSph1");
+		String osCyl = request.getParameter("specs.osCyl1");
+		String osAxis = request.getParameter("specs.osAxis1");
+		String osAdd = request.getParameter("specs.osAdd1");
+		String osPrism = request.getParameter("specs.osPrism1");
 		int demographicNo = Integer.parseInt(request
 				.getParameter("specs.demographicNo"));
 		int appointmentNo = Integer.parseInt(request

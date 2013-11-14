@@ -114,6 +114,9 @@
 	String note2= "";
 	String note3= "";
 	String note4= "";
+	String glass_show = "style=\"display:none\"";
+	int num = 0;
+	int num1 = 0;
 	if(specs.size() > 0){
 		value1 = specs.get(0).getDateStr();
 		value2 = specs.get(0).getOdSph();
@@ -127,6 +130,8 @@
 		value10 = specs.get(0).getOsAdd();
 		value11 = specs.get(0).getOsPrism();
 		note1 = specs.get(0).getNote();
+		glass_show = "";
+		num ++;
 	}
 	if(specs1.size() > 0){
 		value12 = specs1.get(0).getDateStr();
@@ -141,6 +146,8 @@
 		value21 = specs1.get(0).getOsAdd();
 		value22 = specs1.get(0).getOsPrism();
 		note2 = specs1.get(0).getNote();
+		glass_show = "";
+		num ++;
 	}
 	if(specs2.size() > 0){
 		value23 = specs2.get(0).getDateStr();
@@ -155,6 +162,8 @@
 		value32 = specs2.get(0).getOsAdd();
 		value33 = specs2.get(0).getOsPrism();
 		note3 = specs2.get(0).getNote();
+		glass_show = "";
+		num ++;
 	}
 	if(specs3.size() > 0){
 		value34 = specs3.get(0).getDateStr();
@@ -169,140 +178,470 @@
 		value43 = specs3.get(0).getOsAdd();
 		value44 = specs3.get(0).getOsPrism();
 		note4 = specs3.get(0).getNote();
+		glass_show = "";
+		num ++;
 	}
 %>
 
 <script>
 //if have value under slidy block set the color to brown
 var note_str = document.getElementById("note1").value;
-function demo() {
-var type001=document.getElementById("type001").value;
-var gl_date=document.getElementById("gl_date").value;
-var odSph=document.getElementById("odSph").value;
-var odCyl=document.getElementById("odCyl").value;
-var odAxis=document.getElementById("odAxis").value;
-var odAdd=document.getElementById("odAdd").value;
-var odPrism=document.getElementById("odPrism").value;
-var osSph=document.getElementById("osSph").value;
-var osCyl=document.getElementById("osCyl").value;
-var osAxis=document.getElementById("osAxis").value;
-var osAdd=document.getElementById("osAdd").value;
-var osPrism=document.getElementById("osPrism").value;
+function demo1() {
+	var type001=document.getElementById("type001").value;
+	
+	var gl_date5=document.getElementById("gl_date5").value;
+	var odSph5=document.getElementById("odSph5").value;
+	var odCyl5=document.getElementById("odCyl5").value;
+	var odAxis5=document.getElementById("odAxis5").value;
+	var odAdd5=document.getElementById("odAdd5").value;
+	var odPrism5=document.getElementById("odPrism5").value;
+	var osSph5=document.getElementById("osSph5").value;
+	var osCyl5=document.getElementById("osCyl5").value;
+	var osAxis5=document.getElementById("osAxis5").value;
+	var osAdd5=document.getElementById("osAdd5").value;
+	var osPrism5=document.getElementById("osPrism5").value;
 
-var gl_date5=document.getElementById("gl_date5").value;
-var odSph5=document.getElementById("odSph5").value;
-var odCyl5=document.getElementById("odCyl5").value;
-var odAxis5=document.getElementById("odAxis5").value;
-var odAdd5=document.getElementById("odAdd5").value;
-var odPrism5=document.getElementById("odPrism5").value;
-var osSph5=document.getElementById("osSph5").value;
-var osCyl5=document.getElementById("osCyl5").value;
-var osAxis5=document.getElementById("osAxis5").value;
-var osAdd5=document.getElementById("osAdd5").value;
-var osPrism5=document.getElementById("osPrism5").value;
+	var gl_date6=document.getElementById("gl_date6").value;
+	var odSph6=document.getElementById("odSph6").value;
+	var odCyl6=document.getElementById("odCyl6").value;
+	var odAxis6=document.getElementById("odAxis6").value;
+	var odAdd6=document.getElementById("odAdd6").value;
+	var odPrism6=document.getElementById("odPrism6").value;
+	var osSph6=document.getElementById("osSph6").value;
+	var osCyl6=document.getElementById("osCyl6").value;
+	var osAxis6=document.getElementById("osAxis6").value;
+	var osAdd6=document.getElementById("osAdd6").value;
+	var osPrism6=document.getElementById("osPrism6").value;
 
-var gl_date6=document.getElementById("gl_date6").value;
-var odSph6=document.getElementById("odSph6").value;
-var odCyl6=document.getElementById("odCyl6").value;
-var odAxis6=document.getElementById("odAxis6").value;
-var odAdd6=document.getElementById("odAdd6").value;
-var odPrism6=document.getElementById("odPrism6").value;
-var osSph6=document.getElementById("osSph6").value;
-var osCyl6=document.getElementById("osCyl6").value;
-var osAxis6=document.getElementById("osAxis6").value;
-var osAdd6=document.getElementById("osAdd6").value;
-var osPrism6=document.getElementById("osPrism6").value;
+	var gl_date7=document.getElementById("gl_date7").value;
+	var odSph7=document.getElementById("odSph7").value;
+	var odCyl7=document.getElementById("odCyl7").value;
+	var odAxis7=document.getElementById("odAxis7").value;
+	var odAdd7=document.getElementById("odAdd7").value;
+	var odPrism7=document.getElementById("odPrism7").value;
+	var osSph7=document.getElementById("osSph7").value;
+	var osCyl7=document.getElementById("osCyl7").value;
+	var osAxis7=document.getElementById("osAxis7").value;
+	var osAdd7=document.getElementById("osAdd7").value;
+	var osPrism7=document.getElementById("osPrism7").value;
 
-var gl_date7=document.getElementById("gl_date7").value;
-var odSph7=document.getElementById("odSph7").value;
-var odCyl7=document.getElementById("odCyl7").value;
-var odAxis7=document.getElementById("odAxis7").value;
-var odAdd7=document.getElementById("odAdd7").value;
-var odPrism7=document.getElementById("odPrism7").value;
-var osSph7=document.getElementById("osSph7").value;
-var osCyl7=document.getElementById("osCyl7").value;
-var osAxis7=document.getElementById("osAxis7").value;
-var osAdd7=document.getElementById("osAdd7").value;
-var osPrism7=document.getElementById("osPrism7").value;
+	var gl_date8=document.getElementById("gl_date8").value;
+	var odSph8=document.getElementById("odSph8").value;
+	var odCyl8=document.getElementById("odCyl8").value;
+	var odAxis8=document.getElementById("odAxis8").value;
+	var odAdd8=document.getElementById("odAdd8").value;
+	var odPrism8=document.getElementById("odPrism8").value;
+	var osSph8=document.getElementById("osSph8").value;
+	var osCyl8=document.getElementById("osCyl8").value;
+	var osAxis8=document.getElementById("osAxis8").value;
+	var osAdd8=document.getElementById("osAdd8").value;
+	var osPrism8=document.getElementById("osPrism8").value;
 
-var gl_date8=document.getElementById("gl_date8").value;
-var odSph8=document.getElementById("odSph8").value;
-var odCyl8=document.getElementById("odCyl8").value;
-var odAxis8=document.getElementById("odAxis8").value;
-var odAdd8=document.getElementById("odAdd8").value;
-var odPrism8=document.getElementById("odPrism8").value;
-var osSph8=document.getElementById("osSph8").value;
-var osCyl8=document.getElementById("osCyl8").value;
-var osAxis8=document.getElementById("osAxis8").value;
-var osAdd8=document.getElementById("osAdd8").value;
-var osPrism8=document.getElementById("osPrism8").value;
+	if(type001=="distance"){
 
-if(type001=="distance"){
+		document.getElementById("gl_date1").value=gl_date8;
 
-document.getElementById("gl_date").value=gl_date8;
+		document.getElementById("odSph1").value=odSph8;
+		document.getElementById("odCyl1").value=odCyl8;
+		document.getElementById("odAxis1").value=odAxis8;
+		document.getElementById("odAdd1").value=odAdd8;
+		document.getElementById("odPrism1").value=odPrism8;
+		document.getElementById("osSph1").value=osSph8;
+		document.getElementById("osCyl1").value=osCyl8;
+		document.getElementById("osAxis1").value=osAxis8;
+		document.getElementById("osAdd1").value=osAdd8;
+		document.getElementById("osPrism1").value=osPrism8;
 
-document.getElementById("odSph").value=odSph8;
-document.getElementById("odCyl").value=odCyl8;
-document.getElementById("odAxis").value=odAxis8;
-document.getElementById("odAdd").value=odAdd8;
-document.getElementById("odPrism").value=odPrism8;
-document.getElementById("osSph").value=osSph8;
-document.getElementById("osCyl").value=osCyl8;
-document.getElementById("osAxis").value=osAxis8;
-document.getElementById("osAdd").value=osAdd8;
-document.getElementById("osPrism").value=osPrism8;
+		note_str = document.getElementById("note1").value;
+	}else if(type001=="bifocal"){
 
-note_str = document.getElementById("note1").value;
-}else if(type001=="bifocal"){
+		document.getElementById("gl_date1").value=gl_date5;
+		document.getElementById("odSph1").value=odSph5;
+		document.getElementById("odCyl1").value=odCyl5;
+		document.getElementById("odAxis1").value=odAxis5;
+		document.getElementById("odAdd1").value=odAdd5;
+		document.getElementById("odPrism1").value=odPrism5;
+		document.getElementById("osSph1").value=osSph5;
+		document.getElementById("osCyl1").value=osCyl5;
+		document.getElementById("osAxis1").value=osAxis5;
+		document.getElementById("osAdd1").value=osAdd5;
+		document.getElementById("osPrism1").value=osPrism5;
 
-document.getElementById("gl_date").value=gl_date5;
-document.getElementById("odSph").value=odSph5;
-document.getElementById("odCyl").value=odCyl5;
-document.getElementById("odAxis").value=odAxis5;
-document.getElementById("odAdd").value=odAdd5;
-document.getElementById("odPrism").value=odPrism5;
-document.getElementById("osSph").value=osSph5;
-document.getElementById("osCyl").value=osCyl5;
-document.getElementById("osAxis").value=osAxis5;
-document.getElementById("osAdd").value=osAdd5;
-document.getElementById("osPrism").value=osPrism5;
+		note_str = document.getElementById("note2").value;
+	}else if(type001=="invisible bifocal"){
 
-note_str = document.getElementById("note2").value;
-}else if(type001=="invisible bifocal"){
+		document.getElementById("gl_date1").value=gl_date6;
+		document.getElementById("odSph1").value=odSph6;
+		document.getElementById("odCyl1").value=odCyl6;
+		document.getElementById("odAxis1").value=odAxis6;
+		document.getElementById("odAdd1").value=odAdd6;
+		document.getElementById("odPrism1").value=odPrism6;
+		document.getElementById("osSph1").value=osSph6;
+		document.getElementById("osCyl1").value=osCyl6;
+		document.getElementById("osAxis1").value=osAxis6;
+		document.getElementById("osAdd1").value=osAdd6;
+		document.getElementById("osPrism1").value=osPrism6;
 
-document.getElementById("gl_date").value=gl_date6;
-document.getElementById("odSph").value=odSph6;
-document.getElementById("odCyl").value=odCyl6;
-document.getElementById("odAxis").value=odAxis6;
-document.getElementById("odAdd").value=odAdd6;
-document.getElementById("odPrism").value=odPrism6;
-document.getElementById("osSph").value=osSph6;
-document.getElementById("osCyl").value=osCyl6;
-document.getElementById("osAxis").value=osAxis6;
-document.getElementById("osAdd").value=osAdd6;
-document.getElementById("osPrism").value=osPrism6;
+		note_str = document.getElementById("note3").value;
+	}
+	else if(type001=="reading"){
 
-note_str = document.getElementById("note3").value;
-}
-else if(type001=="reading"){
+		document.getElementById("gl_date1").value=gl_date7;
+		document.getElementById("odSph1").value=odSph7;
+		document.getElementById("odCyl1").value=odCyl7;
+		document.getElementById("odAxis1").value=odAxis7;
+		document.getElementById("odAdd1").value=odAdd7;
+		document.getElementById("odPrism1").value=odPrism7;
+		document.getElementById("osSph1").value=osSph7;
+		document.getElementById("osCyl1").value=osCyl7;
+		document.getElementById("osAxis1").value=osAxis7;
+		document.getElementById("osAdd1").value=osAdd7;
+		document.getElementById("osPrism1").value=osPrism7;
 
-document.getElementById("gl_date").value=gl_date7;
-document.getElementById("odSph").value=odSph7;
-document.getElementById("odCyl").value=odCyl7;
-document.getElementById("odAxis").value=odAxis7;
-document.getElementById("odAdd").value=odAdd7;
-document.getElementById("odPrism").value=odPrism7;
-document.getElementById("osSph").value=osSph7;
-document.getElementById("osCyl").value=osCyl7;
-document.getElementById("osAxis").value=osAxis7;
-document.getElementById("osAdd").value=osAdd7;
-document.getElementById("osPrism").value=osPrism7;
-
-note_str = document.getElementById("note4").value;
+		note_str = document.getElementById("note4").value;
+	}
 }
 
+function demo2() {
+	var type002=document.getElementById("type002").value;
+	
+	var gl_date5=document.getElementById("gl_date5").value;
+	var odSph5=document.getElementById("odSph5").value;
+	var odCyl5=document.getElementById("odCyl5").value;
+	var odAxis5=document.getElementById("odAxis5").value;
+	var odAdd5=document.getElementById("odAdd5").value;
+	var odPrism5=document.getElementById("odPrism5").value;
+	var osSph5=document.getElementById("osSph5").value;
+	var osCyl5=document.getElementById("osCyl5").value;
+	var osAxis5=document.getElementById("osAxis5").value;
+	var osAdd5=document.getElementById("osAdd5").value;
+	var osPrism5=document.getElementById("osPrism5").value;
 
+	var gl_date6=document.getElementById("gl_date6").value;
+	var odSph6=document.getElementById("odSph6").value;
+	var odCyl6=document.getElementById("odCyl6").value;
+	var odAxis6=document.getElementById("odAxis6").value;
+	var odAdd6=document.getElementById("odAdd6").value;
+	var odPrism6=document.getElementById("odPrism6").value;
+	var osSph6=document.getElementById("osSph6").value;
+	var osCyl6=document.getElementById("osCyl6").value;
+	var osAxis6=document.getElementById("osAxis6").value;
+	var osAdd6=document.getElementById("osAdd6").value;
+	var osPrism6=document.getElementById("osPrism6").value;
+
+	var gl_date7=document.getElementById("gl_date7").value;
+	var odSph7=document.getElementById("odSph7").value;
+	var odCyl7=document.getElementById("odCyl7").value;
+	var odAxis7=document.getElementById("odAxis7").value;
+	var odAdd7=document.getElementById("odAdd7").value;
+	var odPrism7=document.getElementById("odPrism7").value;
+	var osSph7=document.getElementById("osSph7").value;
+	var osCyl7=document.getElementById("osCyl7").value;
+	var osAxis7=document.getElementById("osAxis7").value;
+	var osAdd7=document.getElementById("osAdd7").value;
+	var osPrism7=document.getElementById("osPrism7").value;
+
+	var gl_date8=document.getElementById("gl_date8").value;
+	var odSph8=document.getElementById("odSph8").value;
+	var odCyl8=document.getElementById("odCyl8").value;
+	var odAxis8=document.getElementById("odAxis8").value;
+	var odAdd8=document.getElementById("odAdd8").value;
+	var odPrism8=document.getElementById("odPrism8").value;
+	var osSph8=document.getElementById("osSph8").value;
+	var osCyl8=document.getElementById("osCyl8").value;
+	var osAxis8=document.getElementById("osAxis8").value;
+	var osAdd8=document.getElementById("osAdd8").value;
+	var osPrism8=document.getElementById("osPrism8").value;
+	
+	if(type002=="distance"){
+		document.getElementById("gl_date2").value=gl_date8;
+
+		document.getElementById("odSph2").value=odSph8;
+		document.getElementById("odCyl2").value=odCyl8;
+		document.getElementById("odAxis2").value=odAxis8;
+		document.getElementById("odAdd2").value=odAdd8;
+		document.getElementById("odPrism2").value=odPrism8;
+		document.getElementById("osSph2").value=osSph8;
+		document.getElementById("osCyl2").value=osCyl8;
+		document.getElementById("osAxis2").value=osAxis8;
+		document.getElementById("osAdd2").value=osAdd8;
+		document.getElementById("osPrism2").value=osPrism8;
+
+		note_str = document.getElementById("note2").value;
+	}else if(type002=="bifocal"){
+		document.getElementById("gl_date2").value=gl_date5;
+		document.getElementById("odSph2").value=odSph5;
+		document.getElementById("odCyl2").value=odCyl5;
+		document.getElementById("odAxis2").value=odAxis5;
+		document.getElementById("odAdd2").value=odAdd5;
+		document.getElementById("odPrism2").value=odPrism5;
+		document.getElementById("osSph2").value=osSph5;
+		document.getElementById("osCyl2").value=osCyl5;
+		document.getElementById("osAxis2").value=osAxis5;
+		document.getElementById("osAdd2").value=osAdd5;
+		document.getElementById("osPrism2").value=osPrism5;
+
+		note_str = document.getElementById("note2").value;
+	}else if(type002=="invisible bifocal"){
+
+		document.getElementById("gl_date2").value=gl_date6;
+		document.getElementById("odSph2").value=odSph6;
+		document.getElementById("odCyl2").value=odCyl6;
+		document.getElementById("odAxis2").value=odAxis6;
+		document.getElementById("odAdd2").value=odAdd6;
+		document.getElementById("odPrism2").value=odPrism6;
+		document.getElementById("osSph2").value=osSph6;
+		document.getElementById("osCyl2").value=osCyl6;
+		document.getElementById("osAxis2").value=osAxis6;
+		document.getElementById("osAdd2").value=osAdd6;
+		document.getElementById("osPrism2").value=osPrism6;
+
+		note_str = document.getElementById("note3").value;
+	}
+	else if(type002=="reading"){
+
+		document.getElementById("gl_date2").value=gl_date7;
+		document.getElementById("odSph2").value=odSph7;
+		document.getElementById("odCyl2").value=odCyl7;
+		document.getElementById("odAxis2").value=odAxis7;
+		document.getElementById("odAdd2").value=odAdd7;
+		document.getElementById("odPrism2").value=odPrism7;
+		document.getElementById("osSph2").value=osSph7;
+		document.getElementById("osCyl2").value=osCyl7;
+		document.getElementById("osAxis2").value=osAxis7;
+		document.getElementById("osAdd2").value=osAdd7;
+		document.getElementById("osPrism2").value=osPrism7;
+
+		note_str = document.getElementById("note4").value;
+	}
 }
+
+function demo3() {
+	var type003=document.getElementById("type003").value;
+	var gl_date5=document.getElementById("gl_date5").value;
+	var odSph5=document.getElementById("odSph5").value;
+	var odCyl5=document.getElementById("odCyl5").value;
+	var odAxis5=document.getElementById("odAxis5").value;
+	var odAdd5=document.getElementById("odAdd5").value;
+	var odPrism5=document.getElementById("odPrism5").value;
+	var osSph5=document.getElementById("osSph5").value;
+	var osCyl5=document.getElementById("osCyl5").value;
+	var osAxis5=document.getElementById("osAxis5").value;
+	var osAdd5=document.getElementById("osAdd5").value;
+	var osPrism5=document.getElementById("osPrism5").value;
+
+	var gl_date6=document.getElementById("gl_date6").value;
+	var odSph6=document.getElementById("odSph6").value;
+	var odCyl6=document.getElementById("odCyl6").value;
+	var odAxis6=document.getElementById("odAxis6").value;
+	var odAdd6=document.getElementById("odAdd6").value;
+	var odPrism6=document.getElementById("odPrism6").value;
+	var osSph6=document.getElementById("osSph6").value;
+	var osCyl6=document.getElementById("osCyl6").value;
+	var osAxis6=document.getElementById("osAxis6").value;
+	var osAdd6=document.getElementById("osAdd6").value;
+	var osPrism6=document.getElementById("osPrism6").value;
+
+	var gl_date7=document.getElementById("gl_date7").value;
+	var odSph7=document.getElementById("odSph7").value;
+	var odCyl7=document.getElementById("odCyl7").value;
+	var odAxis7=document.getElementById("odAxis7").value;
+	var odAdd7=document.getElementById("odAdd7").value;
+	var odPrism7=document.getElementById("odPrism7").value;
+	var osSph7=document.getElementById("osSph7").value;
+	var osCyl7=document.getElementById("osCyl7").value;
+	var osAxis7=document.getElementById("osAxis7").value;
+	var osAdd7=document.getElementById("osAdd7").value;
+	var osPrism7=document.getElementById("osPrism7").value;
+
+	var gl_date8=document.getElementById("gl_date8").value;
+	var odSph8=document.getElementById("odSph8").value;
+	var odCyl8=document.getElementById("odCyl8").value;
+	var odAxis8=document.getElementById("odAxis8").value;
+	var odAdd8=document.getElementById("odAdd8").value;
+	var odPrism8=document.getElementById("odPrism8").value;
+	var osSph8=document.getElementById("osSph8").value;
+	var osCyl8=document.getElementById("osCyl8").value;
+	var osAxis8=document.getElementById("osAxis8").value;
+	var osAdd8=document.getElementById("osAdd8").value;
+	var osPrism8=document.getElementById("osPrism8").value;
+	
+	if(type003=="distance"){
+		document.getElementById("gl_date3").value=gl_date8;
+
+		document.getElementById("odSph3").value=odSph8;
+		document.getElementById("odCyl3").value=odCyl8;
+		document.getElementById("odAxis3").value=odAxis8;
+		document.getElementById("odAdd3").value=odAdd8;
+		document.getElementById("odPrism3").value=odPrism8;
+		document.getElementById("osSph3").value=osSph8;
+		document.getElementById("osCyl3").value=osCyl8;
+		document.getElementById("osAxis3").value=osAxis8;
+		document.getElementById("osAdd3").value=osAdd8;
+		document.getElementById("osPrism3").value=osPrism8;
+
+		note_str = document.getElementById("note3").value;
+	}else if(type003=="bifocal"){
+		document.getElementById("gl_date3").value=gl_date5;
+		document.getElementById("odSph3").value=odSph5;
+		document.getElementById("odCyl3").value=odCyl5;
+		document.getElementById("odAxis3").value=odAxis5;
+		document.getElementById("odAdd3").value=odAdd5;
+		document.getElementById("odPrism3").value=odPrism5;
+		document.getElementById("osSph3").value=osSph5;
+		document.getElementById("osCyl3").value=osCyl5;
+		document.getElementById("osAxis3").value=osAxis5;
+		document.getElementById("osAdd3").value=osAdd5;
+		document.getElementById("osPrism3").value=osPrism5;
+
+		note_str = document.getElementById("note3").value;
+	}else if(type003=="invisible bifocal"){
+
+		document.getElementById("gl_date3").value=gl_date6;
+		document.getElementById("odSph3").value=odSph6;
+		document.getElementById("odCyl3").value=odCyl6;
+		document.getElementById("odAxis3").value=odAxis6;
+		document.getElementById("odAdd3").value=odAdd6;
+		document.getElementById("odPrism3").value=odPrism6;
+		document.getElementById("osSph3").value=osSph6;
+		document.getElementById("osCyl3").value=osCyl6;
+		document.getElementById("osAxis3").value=osAxis6;
+		document.getElementById("osAdd3").value=osAdd6;
+		document.getElementById("osPrism3").value=osPrism6;
+
+		note_str = document.getElementById("note3").value;
+	}
+	else if(type003=="reading"){
+
+		document.getElementById("gl_date3").value=gl_date7;
+		document.getElementById("odSph3").value=odSph7;
+		document.getElementById("odCyl3").value=odCyl7;
+		document.getElementById("odAxis3").value=odAxis7;
+		document.getElementById("odAdd3").value=odAdd7;
+		document.getElementById("odPrism3").value=odPrism7;
+		document.getElementById("osSph3").value=osSph7;
+		document.getElementById("osCyl3").value=osCyl7;
+		document.getElementById("osAxis3").value=osAxis7;
+		document.getElementById("osAdd3").value=osAdd7;
+		document.getElementById("osPrism3").value=osPrism7;
+
+		note_str = document.getElementById("note3").value;
+	}
+	
+}
+function demo4() {
+	var type004=document.getElementById("type004").value;
+	var gl_date5=document.getElementById("gl_date5").value;
+	var odSph5=document.getElementById("odSph5").value;
+	var odCyl5=document.getElementById("odCyl5").value;
+	var odAxis5=document.getElementById("odAxis5").value;
+	var odAdd5=document.getElementById("odAdd5").value;
+	var odPrism5=document.getElementById("odPrism5").value;
+	var osSph5=document.getElementById("osSph5").value;
+	var osCyl5=document.getElementById("osCyl5").value;
+	var osAxis5=document.getElementById("osAxis5").value;
+	var osAdd5=document.getElementById("osAdd5").value;
+	var osPrism5=document.getElementById("osPrism5").value;
+
+	var gl_date6=document.getElementById("gl_date6").value;
+	var odSph6=document.getElementById("odSph6").value;
+	var odCyl6=document.getElementById("odCyl6").value;
+	var odAxis6=document.getElementById("odAxis6").value;
+	var odAdd6=document.getElementById("odAdd6").value;
+	var odPrism6=document.getElementById("odPrism6").value;
+	var osSph6=document.getElementById("osSph6").value;
+	var osCyl6=document.getElementById("osCyl6").value;
+	var osAxis6=document.getElementById("osAxis6").value;
+	var osAdd6=document.getElementById("osAdd6").value;
+	var osPrism6=document.getElementById("osPrism6").value;
+
+	var gl_date7=document.getElementById("gl_date7").value;
+	var odSph7=document.getElementById("odSph7").value;
+	var odCyl7=document.getElementById("odCyl7").value;
+	var odAxis7=document.getElementById("odAxis7").value;
+	var odAdd7=document.getElementById("odAdd7").value;
+	var odPrism7=document.getElementById("odPrism7").value;
+	var osSph7=document.getElementById("osSph7").value;
+	var osCyl7=document.getElementById("osCyl7").value;
+	var osAxis7=document.getElementById("osAxis7").value;
+	var osAdd7=document.getElementById("osAdd7").value;
+	var osPrism7=document.getElementById("osPrism7").value;
+
+	var gl_date8=document.getElementById("gl_date8").value;
+	var odSph8=document.getElementById("odSph8").value;
+	var odCyl8=document.getElementById("odCyl8").value;
+	var odAxis8=document.getElementById("odAxis8").value;
+	var odAdd8=document.getElementById("odAdd8").value;
+	var odPrism8=document.getElementById("odPrism8").value;
+	var osSph8=document.getElementById("osSph8").value;
+	var osCyl8=document.getElementById("osCyl8").value;
+	var osAxis8=document.getElementById("osAxis8").value;
+	var osAdd8=document.getElementById("osAdd8").value;
+	var osPrism8=document.getElementById("osPrism8").value;
+	
+	if(type004=="distance"){
+		document.getElementById("gl_date4").value=gl_date8;
+
+		document.getElementById("odSph4").value=odSph8;
+		document.getElementById("odCyl4").value=odCyl8;
+		document.getElementById("odAxis4").value=odAxis8;
+		document.getElementById("odAdd4").value=odAdd8;
+		document.getElementById("odPrism4").value=odPrism8;
+		document.getElementById("osSph4").value=osSph8;
+		document.getElementById("osCyl4").value=osCyl8;
+		document.getElementById("osAxis4").value=osAxis8;
+		document.getElementById("osAdd4").value=osAdd8;
+		document.getElementById("osPrism4").value=osPrism8;
+
+		note_str = document.getElementById("note4").value;
+	}else if(type004=="bifocal"){
+		document.getElementById("gl_date4").value=gl_date5;
+		document.getElementById("odSph4").value=odSph5;
+		document.getElementById("odCyl4").value=odCyl5;
+		document.getElementById("odAxis4").value=odAxis5;
+		document.getElementById("odAdd4").value=odAdd5;
+		document.getElementById("odPrism4").value=odPrism5;
+		document.getElementById("osSph4").value=osSph5;
+		document.getElementById("osCyl4").value=osCyl5;
+		document.getElementById("osAxis4").value=osAxis5;
+		document.getElementById("osAdd4").value=osAdd5;
+		document.getElementById("osPrism4").value=osPrism5;
+
+		note_str = document.getElementById("note4").value;
+	}else if(type004=="invisible bifocal"){
+
+		document.getElementById("gl_date4").value=gl_date6;
+		document.getElementById("odSph4").value=odSph6;
+		document.getElementById("odCyl4").value=odCyl6;
+		document.getElementById("odAxis4").value=odAxis6;
+		document.getElementById("odAdd4").value=odAdd6;
+		document.getElementById("odPrism4").value=odPrism6;
+		document.getElementById("osSph4").value=osSph6;
+		document.getElementById("osCyl4").value=osCyl6;
+		document.getElementById("osAxis4").value=osAxis6;
+		document.getElementById("osAdd4").value=osAdd6;
+		document.getElementById("osPrism4").value=osPrism6;
+
+		note_str = document.getElementById("note4").value;
+	}
+	else if(type004=="reading"){
+
+		document.getElementById("gl_date4").value=gl_date7;
+		document.getElementById("odSph4").value=odSph7;
+		document.getElementById("odCyl4").value=odCyl7;
+		document.getElementById("odAxis4").value=odAxis7;
+		document.getElementById("odAdd4").value=odAdd7;
+		document.getElementById("odPrism4").value=odPrism7;
+		document.getElementById("osSph4").value=osSph7;
+		document.getElementById("osCyl4").value=osCyl7;
+		document.getElementById("osAxis4").value=osAxis7;
+		document.getElementById("osAdd4").value=osAdd7;
+		document.getElementById("osPrism4").value=osPrism7;
+
+		note_str = document.getElementById("note4").value;
+	}
+}
+
 function touchColor() {
 		var divs = document.getElementsByClassName(document, "div", "slidey");
         for (var i=0; i<divs.length; i++) {
@@ -319,60 +658,65 @@ function touchColor() {
         }
 }
 function setglasseshxclass(){
-	if(document.getElementById("odSph").value.length > 0){
-		document.getElementById("odSph").className = "examfieldwhite" ;
-	}else{
-		document.getElementById("odSph").className = "examfieldgrey" ;
-	}
-	if(document.getElementById("odCyl").value.length > 0){
-		document.getElementById("odCyl").className = "examfieldwhite" ;
-	}else{
-		document.getElementById("odCyl").className = "examfieldgrey" ;
-	}
-	if(document.getElementById("odAxis").value.length > 0){
-		document.getElementById("odAxis").className = "examfieldwhite" ;
-	}else{
-		document.getElementById("odAxis").className = "examfieldgrey" ;
-	}
-	if(document.getElementById("odAdd").value.length > 0){
-		document.getElementById("odAdd").className = "examfieldwhite" ;
-	}else{
-		document.getElementById("odAdd").className = "examfieldgrey" ;
-	}
-	if(document.getElementById("odPrism").value.length > 0){
-		document.getElementById("odPrism").className = "examfieldwhite" ;
-	}else{
-		document.getElementById("odPrism").className = "examfieldgrey" ;
-	}
-	if(document.getElementById("osSph").value.length > 0){
-		document.getElementById("osSph").className = "examfieldwhite" ;
-	}else{
-		document.getElementById("osSph").className = "examfieldgrey" ;
-	}
-	if(document.getElementById("osCyl").value.length > 0){
-		document.getElementById("osCyl").className = "examfieldwhite" ;
-	}else{
-		document.getElementById("osCyl").className = "examfieldgrey" ;
-	}
-	if(document.getElementById("osAxis").value.length > 0){
-		document.getElementById("osAxis").className = "examfieldwhite" ;
-	}else{
-		document.getElementById("osAxis").className = "examfieldgrey" ;
-	}
-	if(document.getElementById("osAdd").value.length > 0){
-		document.getElementById("osAdd").className = "examfieldwhite" ;
-	}else{
-		document.getElementById("osAdd").className = "examfieldgrey" ;
-	}
-	if(document.getElementById("osPrism").value.length > 0){
-		document.getElementById("osPrism").className = "examfieldwhite" ;
-	}else{
-		document.getElementById("osPrism").className = "examfieldgrey" ;
-	}
-	if(document.getElementById("gl_date").value.length > 0){
-		document.getElementById("gl_date").className = "examfieldwhite" ;
-	}else{
-		document.getElementById("gl_date").className = "examfieldgrey" ;
+	var num = Number(document.getElementById("shownum").value);
+	if(num > 0){
+		for(var i = 1;i <= num; i++){
+			if(document.getElementById("gl_date"+ i).value.length > 0){
+				document.getElementById("gl_date"+ i).className = "examfieldwhite" ;
+			}else{
+				document.getElementById("gl_date"+ i).className = "examfieldgrey" ;
+			}
+			if(document.getElementById("odSph" + i).value.length > 0){
+				document.getElementById("odSph" + i).className = "examfieldwhite" ;
+			}else{
+				document.getElementById("odSph" + i).className = "examfieldgrey" ;
+			}
+			if(document.getElementById("odCyl" + i).value.length > 0){
+				document.getElementById("odCyl" + i).className = "examfieldwhite" ;
+			}else{
+				document.getElementById("odCyl" + i).className = "examfieldgrey" ;
+			}
+			if(document.getElementById("odAxis" + i).value.length > 0){
+				document.getElementById("odAxis" + i).className = "examfieldwhite" ;
+			}else{
+				document.getElementById("odAxis" + i).className = "examfieldgrey" ;
+			}
+			if(document.getElementById("odAdd" + i).value.length > 0){
+				document.getElementById("odAdd" + i).className = "examfieldwhite" ;
+			}else{
+				document.getElementById("odAdd" + i).className = "examfieldgrey" ;
+			}
+			if(document.getElementById("odPrism" + i).value.length > 0){
+				document.getElementById("odPrism" + i).className = "examfieldwhite" ;
+			}else{
+				document.getElementById("odPrism" + i).className = "examfieldgrey" ;
+			}
+			if(document.getElementById("osSph" + i).value.length > 0){
+				document.getElementById("osSph" + i).className = "examfieldwhite" ;
+			}else{
+				document.getElementById("osSph" + i).className = "examfieldgrey" ;
+			}
+			if(document.getElementById("osCyl" + i).value.length > 0){
+				document.getElementById("osCyl" + i).className = "examfieldwhite" ;
+			}else{
+				document.getElementById("osCyl" + i).className = "examfieldgrey" ;
+			}
+			if(document.getElementById("osAxis"+ i).value.length > 0){
+				document.getElementById("osAxis"+ i).className = "examfieldwhite" ;
+			}else{
+				document.getElementById("osAxis"+ i).className = "examfieldgrey" ;
+			}
+			if(document.getElementById("osAdd"+ i).value.length > 0){
+				document.getElementById("osAdd"+ i).className = "examfieldwhite" ;
+			}else{
+				document.getElementById("osAdd"+ i).className = "examfieldgrey" ;
+			}
+			if(document.getElementById("osPrism"+ i).value.length > 0){
+				document.getElementById("osPrism"+ i).className = "examfieldwhite" ;
+			}else{
+				document.getElementById("osPrism"+ i).className = "examfieldgrey" ;
+			}		
+		}
 	}
 }
 </script>
@@ -446,12 +790,12 @@ function getglasshxvalue(name){
 
 function copyglasses(){
 	copy_form = true;
-	copy_gl_rs = getglasshxvalue("odSph");
-	copy_gl_rc = getglasshxvalue("odCyl");
-	copy_gl_rx = getglasshxvalue("odAxis");
-	copy_gl_ls = getglasshxvalue("osSph");
-	copy_gl_lc = getglasshxvalue("osCyl");	
-	copy_gl_lx = getglasshxvalue("osAxis");
+	copy_gl_rs = getglasshxvalue("odSph1");
+	copy_gl_rc = getglasshxvalue("odCyl1");
+	copy_gl_rx = getglasshxvalue("odAxis1");
+	copy_gl_ls = getglasshxvalue("osSph1");
+	copy_gl_lc = getglasshxvalue("osCyl1");	
+	copy_gl_lx = getglasshxvalue("osAxis1");
 }
 
 var copy_v_rs = "";
@@ -906,7 +1250,11 @@ function collapseAll() {
 		}
 	});
 }
-var rowID=2;
+var rowID=1;
+rowID = Number(document.getElementById("shownum").value) + 1;
+if(Number(document.getElementById("shownum").value) == 0){
+	rowID = 2;
+}
 function insRow()
 {
 
@@ -934,20 +1282,20 @@ var h18=x.insertCell(17);
 var h19=x.insertCell(18);
 
 
-h1.innerHTML="<div><select style='width:100px;' name='specs.type"+rowNo+"' id='specs.type"+rowNo+"'><option value='distance'>distance</option><option value='bifocal'>bifocal</option><option value='invisible bifocal'>invisible bifocal</option><option value='reading'>reading</option></select></div>";
+h1.innerHTML="<div><select style='width:100px;' name='specs.type"+rowNo+"' id='type00"+rowNo+"'><option value='distance'>distance</option><option value='bifocal'>bifocal</option><option value='invisible bifocal'>invisible bifocal</option><option value='reading'>reading</option></select></div>";
 h2.innerHTML="<div><input name='specs.dateStr"+rowNo+"'  type='text' tabindex='33' class='examfieldgrey' size='10'  id='gl_date"+rowNo+"' onfocus='whiteField(this);'></div>";
 h3.innerHTML="<div  width='1%'><img src='"+ctx+"/images/cal.gif' id='pdate_cal"+rowNo+"'></div>";
-h4.innerHTML="<div><input name='specs.odSph"+rowNo+"' id='specs.odSph"+rowNo+"' type='text' tabindex='34' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
-h5.innerHTML="<div><input name='specs.odCyl"+rowNo+"' id='specs.odCyl"+rowNo+"' type='text' tabindex='35' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
-h6.innerHTML="<div><input name='specs.odAxis"+rowNo+"' id='specs.odAxis"+rowNo+"' type='text' tabindex='36' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
-h7.innerHTML="<div><input name='specs.odAdd"+rowNo+"' id='specs.odAdd"+rowNo+"' type='text' tabindex='37' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
-h8.innerHTML="<div><input name='specs.odPrism"+rowNo+"' id='specs.odPrism"+rowNo+"' type='text' tabindex='38' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
+h4.innerHTML="<div><input name='specs.odSph"+rowNo+"' id='odSph"+rowNo+"' type='text' tabindex='34' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
+h5.innerHTML="<div><input name='specs.odCyl"+rowNo+"' id='odCyl"+rowNo+"' type='text' tabindex='35' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
+h6.innerHTML="<div><input name='specs.odAxis"+rowNo+"' id='odAxis"+rowNo+"' type='text' tabindex='36' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
+h7.innerHTML="<div><input name='specs.odAdd"+rowNo+"' id='odAdd"+rowNo+"' type='text' tabindex='37' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
+h8.innerHTML="<div><input name='specs.odPrism"+rowNo+"' id='odPrism"+rowNo+"' type='text' tabindex='38' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
 h9.innerHTML="<div  width='8%'></div>";
-h10.innerHTML="<div><input name='specs.osSph"+rowNo+"' id='specs.osSph"+rowNo+"' type='text' tabindex='39' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
-h11.innerHTML="<div><input name='specs.osCyl"+rowNo+"' id='specs.osCyl"+rowNo+"' type='text' tabindex='40' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
-h12.innerHTML="<div><input name='specs.osAxis"+rowNo+"' id='specs.osAxis"+rowNo+"' type='text' tabindex='41' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
-h13.innerHTML="<div><input name='specs.osAdd"+rowNo+"' id='specs.osAdd"+rowNo+"' type='text' tabindex='42' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
-h14.innerHTML="<div><input name='specs.osPrism"+rowNo+"' id='specs.osPrism"+rowNo+"' type='text' tabindex='43' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
+h10.innerHTML="<div><input name='specs.osSph"+rowNo+"' id='osSph"+rowNo+"' type='text' tabindex='39' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
+h11.innerHTML="<div><input name='specs.osCyl"+rowNo+"' id='osCyl"+rowNo+"' type='text' tabindex='40' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
+h12.innerHTML="<div><input name='specs.osAxis"+rowNo+"' id='osAxis"+rowNo+"' type='text' tabindex='41' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
+h13.innerHTML="<div><input name='specs.osAdd"+rowNo+"' id='osAdd"+rowNo+"' type='text' tabindex='42' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
+h14.innerHTML="<div><input name='specs.osPrism"+rowNo+"' id='osPrism"+rowNo+"' type='text' tabindex='43' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
 h15.innerHTML="<div><a href='javascript:void(0)' onclick='hxOpen"+rowNo+"();'><img src='../images/notes.gif' /> </a></div>";
 h16.innerHTML="<div><input type='hidden' value='save' name='method'></div>";
 h17.innerHTML="<div><input type='hidden' value="+<%=request.getParameter("demographic_no")%>+" name='specs.demographicNo'></div>";
@@ -961,23 +1309,23 @@ rowID=rowID+1;
 }
 }
 
-function hxOpen()
+function hxOpen1()
 {
-        var id=document.getElementById("specs.id").value;
+        var id=document.getElementById("specs.id1").value;
         var type=document.getElementById("type001").value;  	
-		var date=document.getElementById("gl_date").value;
+		var date=document.getElementById("gl_date1").value;
 		
-		var odSph=document.getElementById("odSph").value;
-		var odCyl=document.getElementById("odCyl").value;
-        var odAxis=document.getElementById("odAxis").value;
-		var odAdd=document.getElementById("odAdd").value;
-    	var odPrism=document.getElementById("odPrism").value;
+		var odSph=document.getElementById("odSph1").value;
+		var odCyl=document.getElementById("odCyl1").value;
+        var odAxis=document.getElementById("odAxis1").value;
+		var odAdd=document.getElementById("odAdd1").value;
+    	var odPrism=document.getElementById("odPrism1").value;
 		
-		var osSph=document.getElementById("osSph").value;
-		var osCyl=document.getElementById("osCyl").value;
-		var osAxis=document.getElementById("osAxis").value;
-        var osAdd=document.getElementById("osAdd").value;
-		var osPrism=document.getElementById("osPrism").value;  
+		var osSph=document.getElementById("osSph1").value;
+		var osCyl=document.getElementById("osCyl1").value;
+		var osAxis=document.getElementById("osAxis1").value;
+        var osAdd=document.getElementById("osAdd1").value;
+		var osPrism=document.getElementById("osPrism1").value;  
 		
 		var appno=document.getElementById("appointment_no").value; 
 		var demno=document.getElementById("demographic_no").value; 
@@ -988,20 +1336,20 @@ function hxOpen()
 function hxOpen2()
 {
         var id=document.getElementById("specs.id2").value;
-        var type=document.getElementById("specs.type2").value;  	
+        var type=document.getElementById("type002").value;  	
 		var date=document.getElementById("gl_date2").value;
 		
-		var odSph=document.getElementById("specs.odSph2").value;
-		var odCyl=document.getElementById("specs.odCyl2").value;
-        var odAxis=document.getElementById("specs.odAxis2").value;
-		var odAdd=document.getElementById("specs.odAdd2").value;
-    	var odPrism=document.getElementById("specs.odPrism2").value;
+		var odSph=document.getElementById("odSph2").value;
+		var odCyl=document.getElementById("odCyl2").value;
+        var odAxis=document.getElementById("odAxis2").value;
+		var odAdd=document.getElementById("odAdd2").value;
+    	var odPrism=document.getElementById("odPrism2").value;
 		
-		var osSph=document.getElementById("specs.osSph2").value;
-		var osCyl=document.getElementById("specs.osCyl2").value;
-		var osAxis=document.getElementById("specs.osAxis2").value;
-        var osAdd=document.getElementById("specs.osAdd2").value;
-		var osPrism=document.getElementById("specs.osPrism2").value;  
+		var osSph=document.getElementById("osSph2").value;
+		var osCyl=document.getElementById("osCyl2").value;
+		var osAxis=document.getElementById("osAxis2").value;
+        var osAdd=document.getElementById("osAdd2").value;
+		var osPrism=document.getElementById("osPrism2").value;  
 		
 		var appno=document.getElementById("appointment_no").value; 
 		var demno=document.getElementById("demographic_no").value; 
@@ -1012,20 +1360,20 @@ function hxOpen2()
 function hxOpen3()
 {
         var id=document.getElementById("specs.id3").value;
-        var type=document.getElementById("specs.type3").value;  	
-		var date=document.getElementById("gl_date").value;
+        var type=document.getElementById("type003").value;  	
+		var date=document.getElementById("gl_date3").value;
 		
-		var odSph=document.getElementById("specs.odSph3").value;
-		var odCyl=document.getElementById("specs.odCyl3").value;
-        var odAxis=document.getElementById("specs.odAxis3").value;
-		var odAdd=document.getElementById("specs.odAdd3").value;
-    	var odPrism=document.getElementById("specs.odPrism3").value;
+		var odSph=document.getElementById("odSph3").value;
+		var odCyl=document.getElementById("odCyl3").value;
+        var odAxis=document.getElementById("odAxis3").value;
+		var odAdd=document.getElementById("odAdd3").value;
+    	var odPrism=document.getElementById("odPrism3").value;
 		
-		var osSph=document.getElementById("specs.osSph3").value;
-		var osCyl=document.getElementById("specs.osCyl3").value;
-		var osAxis=document.getElementById("specs.osAxis3").value;
-        var osAdd=document.getElementById("specs.osAdd3").value;
-		var osPrism=document.getElementById("specs.osPrism3").value;  
+		var osSph=document.getElementById("osSph3").value;
+		var osCyl=document.getElementById("osCyl3").value;
+		var osAxis=document.getElementById("osAxis3").value;
+        var osAdd=document.getElementById("osAdd3").value;
+		var osPrism=document.getElementById("osPrism3").value;  
 		
 		var appno=document.getElementById("appointment_no").value; 
 		var demno=document.getElementById("demographic_no").value; 
@@ -1036,20 +1384,20 @@ function hxOpen3()
 function hxOpen4()
 {
         var id=document.getElementById("specs.id4").value;
-        var type=document.getElementById("specs.type4").value;  	
+        var type=document.getElementById("type004").value;  	
 		var date=document.getElementById("gl_date4").value;
 		
-		var odSph=document.getElementById("specs.odSph4").value;
-		var odCyl=document.getElementById("specs.odCyl4").value;
-        var odAxis=document.getElementById("specs.odAxis4").value;
-		var odAdd=document.getElementById("specs.odAdd4").value;
-    	var odPrism=document.getElementById("specs.odPrism4").value;
+		var odSph=document.getElementById("odSph4").value;
+		var odCyl=document.getElementById("odCyl4").value;
+        var odAxis=document.getElementById("odAxis4").value;
+		var odAdd=document.getElementById("odAdd4").value;
+    	var odPrism=document.getElementById("odPrism4").value;
 		
-		var osSph=document.getElementById("specs.osSph4").value;
-		var osCyl=document.getElementById("specs.osCyl4").value;
-		var osAxis=document.getElementById("specs.osAxis4").value;
-        var osAdd=document.getElementById("specs.osAdd4").value;
-		var osPrism=document.getElementById("specs.osPrism4").value;  
+		var osSph=document.getElementById("osSph4").value;
+		var osCyl=document.getElementById("osCyl4").value;
+		var osAxis=document.getElementById("osAxis4").value;
+        var osAdd=document.getElementById("osAdd4").value;
+		var osPrism=document.getElementById("osPrism4").value;  
 		
 		var appno=document.getElementById("appointment_no").value; 
 		var demno=document.getElementById("demographic_no").value; 
@@ -1176,7 +1524,7 @@ span.ge{
 <div class="slidey">
  <form action="<c:out value="${ctx}"/>/eyeform/SpecsHistory.do" method="post" name="specsHistoryForm" id="hxForm" target="ifFrame">
 	<div class="title">
-		<a style="font-weight: bold;color:black;text-decoration:none;font-size:12px" href="javascript:void(0)" tabindex="31" id="a_21" onclick="togglediv(this);">Glasses Hx:</a>
+		<a style="font-weight: bold;color:black;text-decoration:none;font-size:12px" href="javascript:void(0)" tabindex="31" id="a_20" onclick="togglediv(this);">Glasses Hx:</a>
 		<span>&nbsp;&nbsp;</span>
 
              <a href="javascript:void(0)" tabindex="32" onclick="popupPage(500,900,'examinationhistory1','<c:out value="${ctx}"/>/eyeform/ExaminationHistory.do?demographicNo=<%=request.getParameter("demographic_no")%>&method=query&oldglasses=true&fromlist2=Glasses Rx'); return false;">[old glasses]</a>
@@ -1243,10 +1591,11 @@ span.ge{
 	 <input type="hidden" id="note2" value="<%=note2%>" />
 	 <input type="hidden" id="note3" value="<%=note3%>" />
 	 <input type="hidden" id="note4" value="<%=note4%>" />
+	 <input type="hidden" id="shownum" value="<%=num%>" />
 </div>	
 			
 	
-	<div id="s_21" class="slideblock">
+	<div id="s_20"  <%=glass_show%>>
 	
 		<table class="exam" width="100%" id="myTable">
 		 
@@ -1277,42 +1626,197 @@ span.ge{
 			<td>X</td>
 			<td>Add</td>
 			<td>prism</td>
-		</tr>					
-		<tr>
+		</tr>
+		<%if(num == 0){
+		num1 ++;%>
+			<tr>
 			  <td>
-	             <select name="specs.type" style="width:100px;" id="type001"  onchange="demo()">
+	             <select name="specs.type" style="width:100px;" id="type00<%=num1%>"  onchange="demo<%=num1%>()">
 	   	            <option value="distance">distance</option>
 	            	<option value="bifocal">bifocal</option>
 	            	<option value="invisible bifocal">invisible bifocal</option>
 	                <option value="reading">reading</option>
 	            </select>
 	         </td>
-             <td><input name="specs.dateStr"  type="text" tabindex="33" class="examfieldgrey" size="10"  id="gl_date" onfocus="whiteField(this);" value="<%=value1%>"/>		 </td>			 
-			 <td width="8%"><img src="<%=request.getContextPath()%>/images/cal.gif" id="pdate_cal">
+             <td><input name="specs.dateStr<%=num1%>"  type="text" tabindex="33" class="examfieldgrey" size="10"  id="gl_date<%=num1%>" onfocus="whiteField(this);" value="<%=value1%>"/>		 </td>			 
+			 <td width="8%"><img src="<%=request.getContextPath()%>/images/cal.gif" id="pdate_cal<%=num1%>">
 			 <script type="text/javascript">
-				Calendar.setup({ inputField : "gl_date", ifFormat : "%Y-%m-%d", showsTime :false, button : "pdate_cal", singleClick : true, step : 1 });
+				Calendar.setup({ inputField : "gl_date<%=num1%>", ifFormat : "%Y-%m-%d", showsTime :false, button : "pdate_cal<%=num1%>", singleClick : true, step : 1 });
 			</script>
 			 </td>
-			 <td><input name="specs.odSph" id="odSph" type="text" tabindex="34" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value2%>"/></td>
-			 <td><input name="specs.odCyl" id="odCyl" type="text" tabindex="35" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value3%>"/></td>
-			 <td><input name="specs.odAxis" id="odAxis" type="text" tabindex="36" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value4%>"/></td>
-			 <td><input name="specs.odAdd" id="odAdd" type="text" tabindex="37" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value5%>"/></td>
-			 <td><input name="specs.odPrism" id="odPrism" type="text" tabindex="38" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value6%>"/></td>		
+			 <td><input name="specs.odSph<%=num1%>" id="odSph<%=num1%>" type="text" tabindex="34" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value2%>"/></td>
+			 <td><input name="specs.odCyl<%=num1%>" id="odCyl<%=num1%>" type="text" tabindex="35" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value3%>"/></td>
+			 <td><input name="specs.odAxis<%=num1%>" id="odAxis<%=num1%>" type="text" tabindex="36" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value4%>"/></td>
+			 <td><input name="specs.odAdd<%=num1%>" id="odAdd<%=num1%>" type="text" tabindex="37" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value5%>"/></td>
+			 <td><input name="specs.odPrism<%=num1%>" id="odPrism<%=num1%>" type="text" tabindex="38" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value6%>"/></td>		
 			 <td width="8%"></td>
-			 <td><input name="specs.osSph" id="osSph" type="text" tabindex="39" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value7%>"/></td>
-			 <td><input name="specs.osCyl" id="osCyl" type="text" tabindex="40" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value8%>"/></td>
-			 <td><input name="specs.osAxis"id="osAxis" type="text" tabindex="41" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value9%>"/></td>
-			 <td><input name="specs.osAdd" id="osAdd" type="text" tabindex="42" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value10%>"/></td>
-			 <td><input name="specs.osPrism" id="osPrism" type="text" tabindex="43" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value11%>"/></td>
+			 <td><input name="specs.osSph<%=num1%>" id="osSph<%=num1%>" type="text" tabindex="39" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value7%>"/></td>
+			 <td><input name="specs.osCyl<%=num1%>" id="osCyl<%=num1%>" type="text" tabindex="40" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value8%>"/></td>
+			 <td><input name="specs.osAxis<%=num1%>"id="osAxis<%=num1%>" type="text" tabindex="41" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value9%>"/></td>
+			 <td><input name="specs.osAdd<%=num1%>" id="osAdd<%=num1%>" type="text" tabindex="42" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value10%>"/></td>
+			 <td><input name="specs.osPrism<%=num1%>" id="osPrism<%=num1%>" type="text" tabindex="43" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value11%>"/></td>
 			 
-			 <td><a href="javascript:void(0)" onclick="hxOpen();"><img src="../images/notes.gif"  /> </a></td>
+			 <td><a href="javascript:void(0)" onclick="hxOpen<%=num1%>();"><img src="../images/notes.gif"  /> </a></td>
 			 
 			 <td><input type="hidden" value="save" name="method"></td>
              <td><input type="hidden" value="<%=request.getParameter("demographic_no")%>" name="specs.demographicNo" id="demographic_no"></td>
              <td><input type="hidden" value="<%= request.getParameter("appointment_no")%>" name="specs.appointmentNo" id="appointment_no"></td>
              <td><input type="hidden" value="" name="specs.id" id="specs.id"></td>		 
 		</tr>
-		
+		<%}%>
+		<%
+			if(specs.size() > 0){
+			num1 ++;
+		%>
+		<tr>
+			  <td>
+	             <select name="specs.type" style="width:100px;" id="type00<%=num1%>"  onchange="demo<%=num1%>()">
+	   	            <option value="distance">distance</option>
+	            	<option value="bifocal">bifocal</option>
+	            	<option value="invisible bifocal">invisible bifocal</option>
+	                <option value="reading">reading</option>
+	            </select>
+	         </td>
+             <td><input name="specs.dateStr<%=num1%>"  type="text" tabindex="33" class="examfieldgrey" size="10"  id="gl_date<%=num1%>" onfocus="whiteField(this);" value="<%=value1%>"/>		 </td>			 
+			 <td width="8%"><img src="<%=request.getContextPath()%>/images/cal.gif" id="pdate_cal<%=num1%>">
+			 <script type="text/javascript">
+				Calendar.setup({ inputField : "gl_date<%=num1%>", ifFormat : "%Y-%m-%d", showsTime :false, button : "pdate_cal<%=num1%>", singleClick : true, step : 1 });
+			</script>
+			 </td>
+			 <td><input name="specs.odSph<%=num1%>" id="odSph<%=num1%>" type="text" tabindex="34" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value2%>"/></td>
+			 <td><input name="specs.odCyl<%=num1%>" id="odCyl<%=num1%>" type="text" tabindex="35" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value3%>"/></td>
+			 <td><input name="specs.odAxis<%=num1%>" id="odAxis<%=num1%>" type="text" tabindex="36" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value4%>"/></td>
+			 <td><input name="specs.odAdd<%=num1%>" id="odAdd<%=num1%>" type="text" tabindex="37" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value5%>"/></td>
+			 <td><input name="specs.odPrism<%=num1%>" id="odPrism<%=num1%>" type="text" tabindex="38" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value6%>"/></td>		
+			 <td width="8%"></td>
+			 <td><input name="specs.osSph<%=num1%>" id="osSph<%=num1%>" type="text" tabindex="39" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value7%>"/></td>
+			 <td><input name="specs.osCyl<%=num1%>" id="osCyl<%=num1%>" type="text" tabindex="40" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value8%>"/></td>
+			 <td><input name="specs.osAxis<%=num1%>"id="osAxis<%=num1%>" type="text" tabindex="41" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value9%>"/></td>
+			 <td><input name="specs.osAdd<%=num1%>" id="osAdd<%=num1%>" type="text" tabindex="42" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value10%>"/></td>
+			 <td><input name="specs.osPrism<%=num1%>" id="osPrism<%=num1%>" type="text" tabindex="43" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value11%>"/></td>
+			 
+			 <td><a href="javascript:void(0)" onclick="hxOpen<%=num1%>();"><img src="../images/notes.gif"  /> </a></td>
+			 
+			 <td><input type="hidden" value="save" name="method"></td>
+             <td><input type="hidden" value="<%=request.getParameter("demographic_no")%>" name="specs.demographicNo" id="demographic_no"></td>
+             <td><input type="hidden" value="<%= request.getParameter("appointment_no")%>" name="specs.appointmentNo" id="appointment_no"></td>
+             <td><input type="hidden" value="" name="specs.id" id="specs.id"></td>		 
+		</tr>
+		<%}%>
+		<%if(specs1.size() > 0){
+			num1 ++;
+		%>
+		<tr>
+			  <td>
+	             <select name="specs.type<%=num1%>" style="width:100px;" id="type00<%=num1%>"  onchange="demo<%=num1%>()">
+	   	            <option value="distance">distance</option>
+	            	<option value="bifocal" selected>bifocal</option>
+	            	<option value="invisible bifocal">invisible bifocal</option>
+	                <option value="reading">reading</option>
+	            </select>
+	         </td>
+             <td><input name="specs.dateStr<%=num1%>"  type="text" tabindex="33" class="examfieldgrey" size="10"  id="gl_date<%=num1%>" onfocus="whiteField(this);" value="<%=value12%>"/>		 </td>			 
+			 <td width="8%"><img src="<%=request.getContextPath()%>/images/cal.gif" id="pdate_cal<%=num1%>">
+			 <script type="text/javascript">
+				Calendar.setup({ inputField : "gl_date<%=num1%>", ifFormat : "%Y-%m-%d", showsTime :false, button : "pdate_cal<%=num1%>", singleClick : true, step : 1 });
+			</script>
+			 </td>
+			 <td><input name="specs.odSph<%=num1%>" id="odSph<%=num1%>" type="text" tabindex="34" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value13%>"/></td>
+			 <td><input name="specs.odCyl<%=num1%>" id="odCyl<%=num1%>" type="text" tabindex="35" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value14%>"/></td>
+			 <td><input name="specs.odAxis<%=num1%>" id="odAxis<%=num1%>" type="text" tabindex="36" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value15%>"/></td>
+			 <td><input name="specs.odAdd<%=num1%>" id="odAdd<%=num1%>" type="text" tabindex="37" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value16%>"/></td>
+			 <td><input name="specs.odPrism<%=num1%>" id="odPrism<%=num1%>" type="text" tabindex="38" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value17%>"/></td>		
+			 <td width="8%"></td>
+			 <td><input name="specs.osSph<%=num1%>" id="osSph<%=num1%>" type="text" tabindex="39" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value18%>"/></td>
+			 <td><input name="specs.osCyl<%=num1%>" id="osCyl<%=num1%>" type="text" tabindex="40" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value19%>"/></td>
+			 <td><input name="specs.osAxis<%=num1%>"id="osAxis<%=num1%>" type="text" tabindex="41" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value20%>"/></td>
+			 <td><input name="specs.osAdd<%=num1%>" id="osAdd<%=num1%>" type="text" tabindex="42" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value21%>"/></td>
+			 <td><input name="specs.osPrism<%=num1%>" id="osPrism<%=num1%>" type="text" tabindex="43" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value22%>"/></td>
+			 
+			 <td><a href="javascript:void(0)" onclick="hxOpen<%=num1%>();"><img src="../images/notes.gif"  /> </a></td>
+			 
+			 <td><input type="hidden" value="save" name="method"></td>
+             <td><input type="hidden" value="<%=request.getParameter("demographic_no")%>" name="specs.demographicNo" id="demographic_no"></td>
+             <td><input type="hidden" value="<%= request.getParameter("appointment_no")%>" name="specs.appointmentNo" id="appointment_no"></td>
+             <td><input type="hidden" value="" name="specs.id<%=num1%>" id="specs.id<%=num1%>"></td>	
+		</tr>
+		<%}%>
+		<%if(specs2.size() > 0){
+			num1 ++;
+		%>
+		<tr>
+			  <td>
+	             <select name="specs.type<%=num1%>" style="width:100px;" id="type00<%=num1%>"  onchange="demo<%=num1%>()">
+	   	            <option value="distance">distance</option>
+	            	<option value="bifocal">bifocal</option>
+	            	<option value="invisible bifocal" selected>invisible bifocal</option>
+	                <option value="reading">reading</option>
+	            </select>
+	         </td>
+             <td><input name="specs.dateStr<%=num1%>"  type="text" tabindex="33" class="examfieldgrey" size="10"  id="gl_date<%=num1%>" onfocus="whiteField(this);" value="<%=value23%>"/>		 </td>			 
+			 <td width="8%"><img src="<%=request.getContextPath()%>/images/cal.gif" id="pdate_cal<%=num1%>">
+			 <script type="text/javascript">
+				Calendar.setup({ inputField : "gl_date<%=num1%>", ifFormat : "%Y-%m-%d", showsTime :false, button : "pdate_cal<%=num1%>", singleClick : true, step : 1 });
+			</script>
+			 </td>
+			 <td><input name="specs.odSph<%=num1%>" id="odSph<%=num1%>" type="text" tabindex="34" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value24%>"/></td>
+			 <td><input name="specs.odCyl<%=num1%>" id="odCyl<%=num1%>" type="text" tabindex="35" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value25%>"/></td>
+			 <td><input name="specs.odAxis<%=num1%>" id="odAxis<%=num1%>" type="text" tabindex="36" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value26%>"/></td>
+			 <td><input name="specs.odAdd<%=num1%>" id="odAdd<%=num1%>" type="text" tabindex="37" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value27%>"/></td>
+			 <td><input name="specs.odPrism<%=num1%>" id="odPrism<%=num1%>" type="text" tabindex="38" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value28%>"/></td>		
+			 <td width="8%"></td>
+			 <td><input name="specs.osSph<%=num1%>" id="osSph<%=num1%>" type="text" tabindex="39" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value29%>"/></td>
+			 <td><input name="specs.osCyl<%=num1%>" id="osCyl<%=num1%>" type="text" tabindex="40" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value30%>"/></td>
+			 <td><input name="specs.osAxis<%=num1%>"id="osAxis<%=num1%>" type="text" tabindex="41" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value31%>"/></td>
+			 <td><input name="specs.osAdd<%=num1%>" id="osAdd3" type="text" tabindex="42" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value32%>"/></td>
+			 <td><input name="specs.osPrism<%=num1%>" id="osPrism<%=num1%>" type="text" tabindex="43" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value33%>"/></td>
+			 
+			 <td><a href="javascript:void(0)" onclick="hxOpen<%=num1%>();"><img src="../images/notes.gif"  /> </a></td>
+			 
+			 <td><input type="hidden" value="save" name="method"></td>
+             <td><input type="hidden" value="<%=request.getParameter("demographic_no")%>" name="specs.demographicNo" id="demographic_no"></td>
+             <td><input type="hidden" value="<%= request.getParameter("appointment_no")%>" name="specs.appointmentNo" id="appointment_no"></td>
+             <td><input type="hidden" value="" name="specs.id<%=num1%>" id="specs.id<%=num1%>"></td>	
+		</tr>
+		<%}%>
+		<%if(specs3.size() > 0){
+			num1 ++;
+		%>
+		<tr>
+			  <td>
+	             <select name="specs.type<%=num1%>" style="width:100px;" id="type00<%=num1%>"  onchange="demo<%=num1%>()">
+	   	            <option value="distance">distance</option>
+	            	<option value="bifocal">bifocal</option>
+	            	<option value="invisible bifocal">invisible bifocal</option>
+	                <option value="reading" selected>reading</option>
+	            </select>
+	         </td>
+             <td><input name="specs.dateStr<%=num1%>"  type="text" tabindex="33" class="examfieldgrey" size="10"  id="gl_date<%=num1%>" onfocus="whiteField(this);" value="<%=value34%>"/>		 </td>			 
+			 <td width="8%"><img src="<%=request.getContextPath()%>/images/cal.gif" id="pdate_cal<%=num1%>">
+			 <script type="text/javascript">
+				Calendar.setup({ inputField : "gl_date<%=num1%>", ifFormat : "%Y-%m-%d", showsTime :false, button : "pdate_cal<%=num1%>", singleClick : true, step : 1 });
+			</script>
+			 </td>
+			 <td><input name="specs.odSph<%=num1%>" id="odSph<%=num1%>" type="text" tabindex="34" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value35%>"/></td>
+			 <td><input name="specs.odCyl<%=num1%>" id="odCyl<%=num1%>" type="text" tabindex="35" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value36%>"/></td>
+			 <td><input name="specs.odAxisv" id="odAxis<%=num1%>" type="text" tabindex="36" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value37%>"/></td>
+			 <td><input name="specs.odAdd<%=num1%>" id="odAdd<%=num1%>" type="text" tabindex="37" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value38%>"/></td>
+			 <td><input name="specs.odPrism<%=num1%>" id="odPrism<%=num1%>" type="text" tabindex="38" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value39%>"/></td>		
+			 <td width="8%"></td>
+			 <td><input name="specs.osSph<%=num1%>" id="osSph<%=num1%>" type="text" tabindex="39" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value40%>"/></td>
+			 <td><input name="specs.osCyl<%=num1%>" id="osCyl<%=num1%>" type="text" tabindex="40" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value41%>"/></td>
+			 <td><input name="specs.osAxis<%=num1%>"id="osAxis<%=num1%>" type="text" tabindex="41" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value42%>"/></td>
+			 <td><input name="specs.osAdd4<%=num1%>" id="osAdd<%=num1%>" type="text" tabindex="42" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value43%>"/></td>
+			 <td><input name="specs.osPrism<%=num1%>" id="osPrism<%=num1%>" type="text" tabindex="43" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value44%>"/></td>
+			 
+			 <td><a href="javascript:void(0)" onclick="hxOpen<%=num1%>();"><img src="../images/notes.gif"  /> </a></td>
+			 
+			 <td><input type="hidden" value="save" name="method"></td>
+             <td><input type="hidden" value="<%=request.getParameter("demographic_no")%>" name="specs.demographicNo" id="demographic_no"></td>
+             <td><input type="hidden" value="<%= request.getParameter("appointment_no")%>" name="specs.appointmentNo" id="appointment_no"></td>
+             <td><input type="hidden" value="" name="specs.id4" id="specs.id<%=num1%>"></td>	
+		</tr>
+		<%}%>
 		</table>
 		
 	</div>
@@ -1324,7 +1828,7 @@ span.ge{
 </td>
 </tr>
 <%}%>
-<% if (!vision_assessment) {%>
+<% if (!vision_assessment){%>
 <tr>
 <td>
 <div class="slidey">
