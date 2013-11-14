@@ -811,7 +811,11 @@ function setAnterior_od(){
 	setfieldvalue("a_rk","clear");
 	setfieldvalue("a_rconj","white");
 	setfieldvalue("a_rac","deep and quiet");
+	setfieldvalue("a_rangle_1","open");
+	setfieldvalue("a_rangle_2","open");
 	setfieldvalue("a_rangle_3","open");
+	setfieldvalue("a_rangle_4","open");
+	setfieldvalue("a_rangle_5","open");
 	setfieldvalue("a_riris","normal");
 	setfieldvalue("a_rlens","clear");
 }
@@ -820,7 +824,11 @@ function clearAnterior_od(){
 	setfieldvalue("a_rk","");
 	setfieldvalue("a_rconj","");
 	setfieldvalue("a_rac","");
+	setfieldvalue("a_rangle_1","");
+	setfieldvalue("a_rangle_2","");
 	setfieldvalue("a_rangle_3","");
+	setfieldvalue("a_rangle_4","");
+	setfieldvalue("a_rangle_5","");
 	setfieldvalue("a_riris","");
 	setfieldvalue("a_rlens","");
 }
@@ -829,7 +837,11 @@ function setAnterior_os(){
 	setfieldvalue("a_lk","clear");
 	setfieldvalue("a_lconj","white");
 	setfieldvalue("a_lac","deep and quiet");
+	setfieldvalue("a_langle_1","open");
+	setfieldvalue("a_langle_2","open");
 	setfieldvalue("a_langle_3","open");
+	setfieldvalue("a_langle_4","open");
+	setfieldvalue("a_langle_5","open");
 	setfieldvalue("a_liris","normal");
 	setfieldvalue("a_llens","clear");
 }
@@ -838,7 +850,11 @@ function clearAnterior_os(){
 	setfieldvalue("a_lk","");
 	setfieldvalue("a_lconj","");
 	setfieldvalue("a_lac","");
+	setfieldvalue("a_langle_1","");
+	setfieldvalue("a_langle_2","");
 	setfieldvalue("a_langle_3","");
+	setfieldvalue("a_langle_4","");
+	setfieldvalue("a_langle_5","");
 	setfieldvalue("a_liris","");
 	setfieldvalue("a_llens","");
 }
