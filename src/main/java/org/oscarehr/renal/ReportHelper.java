@@ -104,15 +104,19 @@ public class ReportHelper {
 			idents.add(map.getIdentCode());
 		}
 		
-		List<Measurement> ms =  measurementDao.findByType(demographicNo,idents);
+		List<Measurement> ms = null;
+		if(idents.size()>0) {
+			ms =  measurementDao.findByType(demographicNo,idents);
+		}
 		
-		if(ms.size()==0)
+		if(ms==null || ms.size()==0)
 			return false;
+		
 		
 		//bp
 		List<Measurement> bps = measurementDao.findByType(demographicNo, "BP");
 		
-		if(ms.size()>0 && bps.size()>0)
+		if(ms!=null && ms.size()>0 && bps!=null && bps.size()>0)
 			return true;
 		
 		return false;
@@ -129,7 +133,7 @@ public class ReportHelper {
 		for(Dxresearch d:diabetics) {
 			Integer demographicNo = d.getDemographicNo();
 			Demographic demo = demographicDao.getDemographic(String.valueOf(demographicNo));
-			if(demo.isActive()) {
+			if(demo!=null && demo.isActive()) {
 				diabeticCount++;
 			}
 		}
@@ -139,7 +143,7 @@ public class ReportHelper {
 		for(Dxresearch d:hypertensives) {
 			Integer demographicNo = d.getDemographicNo();
 			Demographic demo = demographicDao.getDemographic(String.valueOf(demographicNo));
-			if(demo.isActive()) {
+			if(demo!=null && demo.isActive()) {
 				hypertensiveCount++;
 			}
 		}
@@ -199,7 +203,7 @@ public class ReportHelper {
 		for(Dxresearch d:diabetics) {
 			Integer demographicNo = d.getDemographicNo();
 			Demographic demo = demographicDao.getDemographic(String.valueOf(demographicNo));
-			if(demo.isActive() && patientScreenedInLastYear(demo.getDemographicNo())) {
+			if(demo!=null && demo.isActive() && patientScreenedInLastYear(demo.getDemographicNo())) {
 				diabeticCount++;
 			}
 		}
@@ -209,7 +213,7 @@ public class ReportHelper {
 		for(Dxresearch d:hypertensives) {
 			Integer demographicNo = d.getDemographicNo();
 			Demographic demo = demographicDao.getDemographic(String.valueOf(demographicNo));
-			if(demo.isActive() && patientScreenedInLastYear(demo.getDemographicNo())) {
+			if(demo!=null && demo.isActive() && patientScreenedInLastYear(demo.getDemographicNo())) {
 				hypertensiveCount++;
 			}
 		}
@@ -231,7 +235,7 @@ public class ReportHelper {
 		}
 		for(Integer demographicNo:bpPatients.keySet()) {
 			Demographic d = demographicDao.getDemographicById(demographicNo);
-			if(d.isActive() && patientScreenedInLastYear(demographicNo)) {
+			if(d!=null && d.isActive() && patientScreenedInLastYear(demographicNo)) {
 				bpCount++;
 			}
 		}
@@ -280,7 +284,7 @@ public class ReportHelper {
 		for(Dxresearch d:diabetics) {
 			Integer demographicNo = d.getDemographicNo();
 			Demographic demo = demographicDao.getDemographic(String.valueOf(demographicNo));
-			if(demo.isActive() && patientScreened(demo.getDemographicNo())) {
+			if(demo!=null && demo.isActive() && patientScreened(demo.getDemographicNo())) {
 				diabeticCount++;
 			}
 		}
@@ -290,7 +294,7 @@ public class ReportHelper {
 		for(Dxresearch d:hypertensives) {
 			Integer demographicNo = d.getDemographicNo();
 			Demographic demo = demographicDao.getDemographic(String.valueOf(demographicNo));
-			if(demo.isActive() && patientScreened(demo.getDemographicNo())) {
+			if(demo!=null && demo.isActive() && patientScreened(demo.getDemographicNo())) {
 				hypertensiveCount++;
 			}
 		}
@@ -311,7 +315,7 @@ public class ReportHelper {
 		}
 		for(Integer demographicNo:bpPatients.keySet()) {
 			Demographic d = demographicDao.getDemographicById(demographicNo);
-			if(d.isActive() && patientScreened(demographicNo)) {
+			if(d!=null && d.isActive() && patientScreened(demographicNo)) {
 				bpCount++;
 			}
 		}
@@ -383,6 +387,8 @@ public class ReportHelper {
 		for(MeasurementMap map:maps) {
 			idents.add(map.getIdentCode());
 		}
+		if(idents==null || idents.size()<1)
+			return;
 		List<Integer> demoIds = measurementDao.findDemographicIdsByType(idents);
 		for(Integer demoId:demoIds) {
 			List<Measurement> ms = measurementDao.findByType(demoId, idents);

@@ -101,9 +101,11 @@ public class CkdScreenerReportHandler {
 			}
 			
 			List<Appointment> appts = appointmentDao.getAllByDemographicNo(demographicNo);
-			Collections.sort(appts,Appointment.APPT_DATE_COMPARATOR);
-			for(Appointment appt:appts) {
-				if(appt.getAppointmentDate().before(new Date())) {
+			if(appts!=null) {
+			  if(appts.size()>1)
+				  Collections.sort(appts,Appointment.APPT_DATE_COMPARATOR);
+			  for(Appointment appt:appts) {
+				if(appt.getAppointmentDate()!=null && appt.getAppointmentDate().before(new Date())) {
 					Calendar time = Calendar.getInstance();
 					time.setTime(appt.getStartTime());
 					Calendar cal = Calendar.getInstance();
@@ -115,6 +117,7 @@ public class CkdScreenerReportHandler {
 					result.setLastVisit(apptFormatter.format(d));
 					break;
 				}
+			  }
 			}
 			results.add(result);
 		}
