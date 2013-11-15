@@ -10704,6 +10704,16 @@ CREATE TABLE `zeiss_oru_result` (
   UNIQUE KEY `placer_order_number` (`placer_order_number`)
 );
 
+create table ORNPreImplementationReportLog (
+  id int(10) NOT NULL auto_increment,
+  providerNo varchar(10) not null,
+  reportData text not null,
+  lastUpdateDate datetime not null,
+  primary key(id)
+);
+
+
+
 CREATE TABLE  `form_audiology_rpt` (
   `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `formEdited` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
