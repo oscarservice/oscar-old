@@ -60,6 +60,7 @@ public class MacroAction extends DispatchAction {
 		sliCodeList.add(new LabelValueBean("IHF | Independant Health Facility","IHF"));
 		sliCodeList.add(new LabelValueBean("OFF | Office of community physician","OFF"));
 		sliCodeList.add(new LabelValueBean("OTN | Ontario Telemedicine Network","OTN"));
+		sliCodeList.add(new LabelValueBean("PDF | Private Diagnostic Facility","PDF"));
 	}
 
 	MacroDao dao = (MacroDao)SpringUtils.getBean("MacroDAO");

@@ -1011,6 +1011,12 @@ function changeSite(sel) {
 							<%} else { %>
 								<option value="OTN "><bean:message key="oscar.billing.CA.ON.billingON.OB.SLIcode.OTN" /></option>
 							<%}%>
+							
+							<%if (SxmlMisc.getXmlContent(rs.getString("comments"),"xml_p_sli").trim().equals("PDF")) {%>
+								<option selected value="PDF "><bean:message key="oscar.billing.CA.ON.billingON.OB.SLIcode.PDF" /></option>
+							<%} else { %>
+								<option value="PDF "><bean:message key="oscar.billing.CA.ON.billingON.OB.SLIcode.PDF" /></option>
+							<%}%>
 							</select>
 				   		</td>
 					</tr>
@@ -1028,6 +1034,7 @@ function changeSite(sel) {
 						<option value="IHF "><bean:message key="oscar.billing.CA.ON.billingON.OB.SLIcode.IHF" /></option>
 						<option value="OFF "><bean:message key="oscar.billing.CA.ON.billingON.OB.SLIcode.OFF" /></option>
 						<option value="OTN "><bean:message key="oscar.billing.CA.ON.billingON.OB.SLIcode.OTN" /></option>
+						<option value="PDF "><bean:message key="oscar.billing.CA.ON.billingON.OB.SLIcode.PDF" /></option>
 					</select>
 				    </td>
 				</tr>
