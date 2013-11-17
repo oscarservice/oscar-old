@@ -705,10 +705,24 @@ function displayForumview(){
 	    }
 
 function openzeisswin(demoId, studyDate){
-	var url = "bbfexe:// -username <%=forumUser%> -password <%=forumPwd%> -patientId " + demoId;
-	url += " -examDate " + studyDate + " hh";
-    window.open(url); 
-   }
+	var params = "-username <%=forumUser%> -password <%=forumPwd%> -patientId " + demoId +  " -examDate " + studyDate + " hh";
+	var npXLPlugin = navigator.mimeTypes["application/oscar-forumViewer-plugin"];
+	if (npXLPlugin) {
+		var xlPlugin = document.getElementById("forumViewerPlugin");
+		if (!xlPlugin) {
+			xlPlugin = document.createElement("embed");
+			xlPlugin.style.visibility = "hidden";
+			xlPlugin.type = "application/oscar-forumViewer-plugin";
+			xlPlugin.width = 0;
+			xlPlugin.height = 0;
+			xlPlugin.id = "forumViewerPlugin";
+			document.body.appendChild(xlPlugin);
+		}
+		xlPlugin.foo(params);
+	} else {
+		alert("There's no plugin for mime-type: application/oscar-forumViewer-plugin");
+	}
+}
 
 </script>
   </head>
