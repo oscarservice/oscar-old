@@ -170,7 +170,8 @@ public class SpecsHistoryAction extends DispatchAction {
 		}
     	SpecsHistoryDao dao = (SpecsHistoryDao)SpringUtils.getBean("SpecsHistoryDAO");
     	specs.setProvider(LoggedInInfo.loggedInInfo.get().loggedInProvider.getProviderNo());
-
+    	specs.setDoctor(LoggedInInfo.loggedInInfo.get().loggedInProvider.getLastName() + "," + LoggedInInfo.loggedInInfo.get().loggedInProvider.getFirstName());
+    	
     	if(request.getParameter("specs.id") != null && request.getParameter("specs.id").length()>0) {
     		specs.setId(Integer.parseInt(request.getParameter("specs.id")));
     	}

@@ -716,13 +716,17 @@ public class EyeformAction extends DispatchAction {
 				}
 
 				//specs history
-				List<EyeformSpecsHistory> specsHistory ;
-				if(includeCPPForPrevAppts==null || includeCPPForPrevAppts==true)
-					specsHistory = specsHistoryDao.getAllPreviousAndCurrent(demographic.getDemographicNo(),appointmentNo);
-				else
-					specsHistory = specsHistoryDao.getAllCurrent(demographic.getDemographicNo(),appointmentNo);
-				if(specsHistory.size()>0) {
-					printer.printSpecsHistory(specsHistory);
+				if(whichEyeForm != null && whichEyeForm.equals("eyeform3")){
+					
+				}else{
+					List<EyeformSpecsHistory> specsHistory ;
+					if(includeCPPForPrevAppts==null || includeCPPForPrevAppts==true)
+						specsHistory = specsHistoryDao.getAllPreviousAndCurrent(demographic.getDemographicNo(),appointmentNo);
+					else
+						specsHistory = specsHistoryDao.getAllCurrent(demographic.getDemographicNo(),appointmentNo);
+					if(specsHistory.size()>0) {
+						printer.printSpecsHistory(specsHistory);
+					}
 				}
 
 				//allergies
@@ -745,8 +749,13 @@ public class EyeformAction extends DispatchAction {
 						}
 					} else {
 */
+					if(whichEyeForm != null && whichEyeForm.equals("eyeform3")){
+						MeasurementFormatter formatter = new MeasurementFormatter(measurements);
+						printer.printEyeformMeasurements(formatter,appointmentNo);
+					}else{
 						MeasurementFormatter formatter = new MeasurementFormatter(measurements);
 						printer.printEyeformMeasurements(formatter);
+					}
 //					}
 				}
 

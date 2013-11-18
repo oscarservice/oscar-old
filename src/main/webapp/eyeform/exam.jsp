@@ -1312,24 +1312,20 @@ rowID=rowID+1;
 function hxOpen1()
 {
         var id=document.getElementById("specs.id1").value;
-        var type=document.getElementById("type001").value;  	
+        var type=document.getElementById("type001").value;  
 		var date=document.getElementById("gl_date1").value;
-		
 		var odSph=document.getElementById("odSph1").value;
 		var odCyl=document.getElementById("odCyl1").value;
         var odAxis=document.getElementById("odAxis1").value;
 		var odAdd=document.getElementById("odAdd1").value;
     	var odPrism=document.getElementById("odPrism1").value;
-		
 		var osSph=document.getElementById("osSph1").value;
 		var osCyl=document.getElementById("osCyl1").value;
 		var osAxis=document.getElementById("osAxis1").value;
         var osAdd=document.getElementById("osAdd1").value;
 		var osPrism=document.getElementById("osPrism1").value;  
-		
 		var appno=document.getElementById("appointment_no").value; 
 		var demno=document.getElementById("demographic_no").value; 
-    	
  window.open("../eyeform/glassHX.jsp?specs.id="+id+"&type="+type+"&dateStr="+date+"&odSph="+odSph+"&odCyl="+odCyl+"&odAxis="+odAxis+"&odAdd="+odAdd+"&odPrism="+odPrism+"&osSph="+osSph+"&osCyl="+osCyl+"&osAxis="+osAxis+"&osAdd="+osAdd+"&osPrism="+osPrism+"&appointment_no="+appno+"&demographic_no="+demno+"",'anwin','width=400,height=300');
 
 }
@@ -1631,7 +1627,7 @@ span.ge{
 		num1 ++;%>
 			<tr>
 			  <td>
-	             <select name="specs.type" style="width:100px;" id="type00<%=num1%>"  onchange="demo<%=num1%>()">
+	             <select name="specs.type<%=num1%>" style="width:100px;" id="type00<%=num1%>"  onchange="demo<%=num1%>()">
 	   	            <option value="distance">distance</option>
 	            	<option value="bifocal">bifocal</option>
 	            	<option value="invisible bifocal">invisible bifocal</option>
@@ -1661,7 +1657,7 @@ span.ge{
 			 <td><input type="hidden" value="save" name="method"></td>
              <td><input type="hidden" value="<%=request.getParameter("demographic_no")%>" name="specs.demographicNo" id="demographic_no"></td>
              <td><input type="hidden" value="<%= request.getParameter("appointment_no")%>" name="specs.appointmentNo" id="appointment_no"></td>
-             <td><input type="hidden" value="" name="specs.id" id="specs.id"></td>		 
+             <td><input type="hidden" value="" name="specs.id<%=num1%>" id="specs.id<%=num1%>"></td>		 
 		</tr>
 		<%}%>
 		<%
@@ -1670,7 +1666,7 @@ span.ge{
 		%>
 		<tr>
 			  <td>
-	             <select name="specs.type" style="width:100px;" id="type00<%=num1%>"  onchange="demo<%=num1%>()">
+	             <select name="specs.type<%=num1%>" style="width:100px;" id="type00<%=num1%>"  onchange="demo<%=num1%>()">
 	   	            <option value="distance">distance</option>
 	            	<option value="bifocal">bifocal</option>
 	            	<option value="invisible bifocal">invisible bifocal</option>
@@ -1700,7 +1696,7 @@ span.ge{
 			 <td><input type="hidden" value="save" name="method"></td>
              <td><input type="hidden" value="<%=request.getParameter("demographic_no")%>" name="specs.demographicNo" id="demographic_no"></td>
              <td><input type="hidden" value="<%= request.getParameter("appointment_no")%>" name="specs.appointmentNo" id="appointment_no"></td>
-             <td><input type="hidden" value="" name="specs.id" id="specs.id"></td>		 
+             <td><input type="hidden" value="" name="specs.id<%=num1%>" id="specs.id<%=num1%>"></td>		 
 		</tr>
 		<%}%>
 		<%if(specs1.size() > 0){
@@ -1768,7 +1764,7 @@ span.ge{
 			 <td><input name="specs.osSph<%=num1%>" id="osSph<%=num1%>" type="text" tabindex="39" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value29%>"/></td>
 			 <td><input name="specs.osCyl<%=num1%>" id="osCyl<%=num1%>" type="text" tabindex="40" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value30%>"/></td>
 			 <td><input name="specs.osAxis<%=num1%>"id="osAxis<%=num1%>" type="text" tabindex="41" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value31%>"/></td>
-			 <td><input name="specs.osAdd<%=num1%>" id="osAdd3" type="text" tabindex="42" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value32%>"/></td>
+			 <td><input name="specs.osAdd<%=num1%>" id="osAdd<%=num1%>" type="text" tabindex="42" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value32%>"/></td>
 			 <td><input name="specs.osPrism<%=num1%>" id="osPrism<%=num1%>" type="text" tabindex="43" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value33%>"/></td>
 			 
 			 <td><a href="javascript:void(0)" onclick="hxOpen<%=num1%>();"><img src="../images/notes.gif"  /> </a></td>
@@ -1799,14 +1795,14 @@ span.ge{
 			 </td>
 			 <td><input name="specs.odSph<%=num1%>" id="odSph<%=num1%>" type="text" tabindex="34" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value35%>"/></td>
 			 <td><input name="specs.odCyl<%=num1%>" id="odCyl<%=num1%>" type="text" tabindex="35" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value36%>"/></td>
-			 <td><input name="specs.odAxisv" id="odAxis<%=num1%>" type="text" tabindex="36" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value37%>"/></td>
+			 <td><input name="specs.odAxi<%=num1%>" id="odAxis<%=num1%>" type="text" tabindex="36" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value37%>"/></td>
 			 <td><input name="specs.odAdd<%=num1%>" id="odAdd<%=num1%>" type="text" tabindex="37" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value38%>"/></td>
 			 <td><input name="specs.odPrism<%=num1%>" id="odPrism<%=num1%>" type="text" tabindex="38" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value39%>"/></td>		
 			 <td width="8%"></td>
 			 <td><input name="specs.osSph<%=num1%>" id="osSph<%=num1%>" type="text" tabindex="39" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value40%>"/></td>
 			 <td><input name="specs.osCyl<%=num1%>" id="osCyl<%=num1%>" type="text" tabindex="40" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value41%>"/></td>
 			 <td><input name="specs.osAxis<%=num1%>"id="osAxis<%=num1%>" type="text" tabindex="41" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value42%>"/></td>
-			 <td><input name="specs.osAdd4<%=num1%>" id="osAdd<%=num1%>" type="text" tabindex="42" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value43%>"/></td>
+			 <td><input name="specs.osAdd<%=num1%>" id="osAdd<%=num1%>" type="text" tabindex="42" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value43%>"/></td>
 			 <td><input name="specs.osPrism<%=num1%>" id="osPrism<%=num1%>" type="text" tabindex="43" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value44%>"/></td>
 			 
 			 <td><a href="javascript:void(0)" onclick="hxOpen<%=num1%>();"><img src="../images/notes.gif"  /> </a></td>
@@ -1814,7 +1810,7 @@ span.ge{
 			 <td><input type="hidden" value="save" name="method"></td>
              <td><input type="hidden" value="<%=request.getParameter("demographic_no")%>" name="specs.demographicNo" id="demographic_no"></td>
              <td><input type="hidden" value="<%= request.getParameter("appointment_no")%>" name="specs.appointmentNo" id="appointment_no"></td>
-             <td><input type="hidden" value="" name="specs.id4" id="specs.id<%=num1%>"></td>	
+             <td><input type="hidden" value="" name="specs.id<%=num1%>" id="specs.id<%=num1%>"></td>	
 		</tr>
 		<%}%>
 		</table>

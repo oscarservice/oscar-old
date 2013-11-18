@@ -285,7 +285,7 @@ public class ExaminationHistoryAction extends DispatchAction {
 					}
 
 					SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-					map.put("date", formatter.format(spec.getUpdateTime()));
+					map.put("date", formatter.format(spec.getDate()));
 					glasses.add(map);
 				}
 				request.setAttribute("glasses", glasses);
