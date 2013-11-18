@@ -82,7 +82,7 @@ var signatureControl = {
 				alert("Error, missing demographic number.");
 				return;
 			}
-			element.sigHTML = options.sigHTML;
+			element.sigHTML = options.sigHTML + options.demographicNo;
 			element.signatureDisplay = options.signatureDisplay;
 			element.signatureInput = options.signatureInput;
 			element.demographicNo = options.demographicNo;
