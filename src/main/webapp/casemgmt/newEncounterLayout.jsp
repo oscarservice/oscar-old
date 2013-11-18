@@ -696,13 +696,15 @@ function doscroll(){
 	}
 
 window.onbeforeunload = onClosing;
-function displayForumview(){
-	      <% if(zeissEnable){ %>
-	          middleware.style.display='block';
-	      <% } else { %>
-	      	middleware.style.display='none';
-	      <%}%>
-	    }
+function displayForumview() {
+	if (middleware) {
+		<% if(zeissEnable){ %>
+		middleware.style.display='block';
+		<% } else { %>
+		middleware.style.display='none';
+		<%}%>
+	}
+}
 
 function openzeisswin(demoId, studyDate){
 	var params = "-username <%=forumUser%> -password <%=forumPwd%> -patientId " + demoId +  " -examDate " + studyDate + " hh";
@@ -726,7 +728,7 @@ function openzeisswin(demoId, studyDate){
 
 </script>
   </head>
-  <body id="body" style="margin:0px;" onunload="onClosing()" onload="displayForumview()">
+  <body id="body" style="margin:0px;" onunload="onClosing();displayForumview();">
 
           <div id="header">
               <tiles:insert attribute="header" />
