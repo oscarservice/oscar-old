@@ -6,6 +6,9 @@ import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
 import org.oscarehr.common.dao.DemographicDao;
 import org.oscarehr.common.model.Demographic;
+import org.oscarehr.common.model.DigitalSignature;
+import org.oscarehr.util.DigitalSignatureUtils;
+import org.oscarehr.util.LoggedInInfo;
 import org.oscarehr.util.SpringUtils;
 
 import oscar.util.UtilDateUtilities;
@@ -56,10 +59,60 @@ public class FrmAudiologyReportRecord extends FrmRecord
 	@Override
 	public int saveFormRecord(Properties props) throws SQLException
 	{
+		handleSignatures(props);
+		
 		String demographic_no = props.getProperty("demographic_no");
 		String sql = "SELECT * FROM formAudiologyReport WHERE demographic_no=" + demographic_no + " AND ID=0";
 
 		return ((new FrmRecordHelp()).saveFormRecord(props, sql));
+	}
+	
+	private void handleSignatures(Properties props)
+	{
+		if(props!=null)
+		{
+			String demographic_no = props.getProperty("demographic_no");
+			
+			boolean newSignature = false;
+			if(props.getProperty("newSignature", "false").equalsIgnoreCase("true"))
+				newSignature = true;
+			
+			if (newSignature) {
+				//for signature of 'Otolaryngologist'
+				
+				//fetch signature req id
+				String signatureRequestId1 = props.getProperty("otolaryngologist", "");
+				
+				//if value is new signature id.. means not saved in db
+				if(signatureRequestId1!=null && signatureRequestId1.indexOf("_")>0)
+				{
+					String signatureId = saveSignatureToDB(signatureRequestId1, demographic_no);
+					props.put("otolaryngologist", signatureId);
+				}
+				
+				String signatureRequestId2 = props.getProperty("audiologist_reg", "");
+				
+				if(signatureRequestId2!=null && signatureRequestId2.indexOf("_")>0)
+				{
+					String signatureId = saveSignatureToDB(signatureRequestId2, demographic_no);
+					props.put("audiologist_reg", signatureId);
+				}
+			}
+		}
+	}
+	
+	private String saveSignatureToDB(String signatureRequestId, String demographicNo)
+	{
+		String signatureId = "";
+		
+		LoggedInInfo loggedInInfo = LoggedInInfo.loggedInInfo.get();
+		DigitalSignature signature = DigitalSignatureUtils.storeDigitalSignatureFromTempFileToDB(loggedInInfo, signatureRequestId, Integer.parseInt(demographicNo));
+		if (signature != null) 
+		{ 
+			signatureId = "" + signature.getId();
+		}		
+		
+		return signatureId;
 	}
 
 	@Override

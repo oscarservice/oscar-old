@@ -1,4 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@page import="org.oscarehr.ui.servlet.ImageRenderingServlet"%>
+<%@page import="org.oscarehr.util.LoggedInInfo"%>
+<%@page import="org.oscarehr.util.DigitalSignatureUtils"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.ArrayList"%>
@@ -22,7 +25,11 @@ String cell_height_str = cell_height+"px";
 
 <script type="text/javascript" src="../js/jquery-1.7.1.min.js"></script>
 <script type="text/javascript" src="../js/jquery-ui-1.7.3.custom.min.js"></script>
+<script type="text/javascript" src="../js/html2canvas.js"></script>
+<script type="text/javascript" src="../js/jquery.plugin.html2canvas.js"></script>
+
 <link rel="stylesheet" type="text/css" href="../js/jquery_css/smoothness/jquery-ui-1.7.3.custom.css">
+
 <script>
 jQuery.noConflict();
 
@@ -52,6 +59,12 @@ jQuery(document).ready(function(){
 		 autoOpen: false,
 		 modal: true,
 		 title: "Set Value"
+	});
+	
+	jQuery( "#dialog_printing_wait" ).dialog({
+		 autoOpen: false,
+		 modal: true,
+		 title: "Please Wait"
 	});
 	
 	jQuery("#select_cell_value").change(function(){
@@ -197,14 +210,15 @@ function getImgElement(val)
 }
 
 //add value to cell
-function addCellValue()
+function addCellValue(selected_symbol)
 {
 	var spanObj = jQuery("#span_current_cell_val");
-	var selectObj = jQuery("#select_cell_value");
+	//var selectObj = jQuery("#select_cell_value");
 	
 	var current_span_val = jQuery(spanObj).html();
 	//var selected_val = jQuery(selectObj).val();
-	var selected_val = getImgElement(jQuery(selectObj).val());
+	//var selected_val = getImgElement(jQuery(selectObj).val());
+	selected_val = getImgElement(selected_symbol);
 	
 	if(current_span_val=="")
 		current_span_val = selected_val;
@@ -420,7 +434,7 @@ ul {
 	background-image: url(../images/audiologyform/other/y_label.png);
 	background-repeat: no-repeat;
 }
-#select_cell_value , #select_cell_value option
+/*#select_cell_value , #select_cell_value option
 {
 	background-repeat: no-repeat;
 	background-position: left center;
@@ -429,7 +443,7 @@ ul {
 #select_cell_value option
 {
 	height: 15px;
-}
+}*/
 
 .range_label
 {
@@ -565,7 +579,11 @@ ul {
 /* ---------------- css for middle cols (other than first/last) : end  ------------------ */
 #span_current_cell_val>img
 {
-	padding-right: 1px;
+	 margin-left: 5px;
+}
+#span_current_cell_val>img:HOVER
+{
+	 cursor: pointer;
 }
 .div2_1st_row_middle_table
 {
@@ -601,19 +619,14 @@ div.vertical-line_2{
   height: 12px;
 }
 
-#select_cell_value
-{
-	background-repeat: no-repeat;
-	background-position: left;	
-}
-#select_cell_value>option
+/*#select_cell_value>option
 {
 	background-repeat: no-repeat;
 	background-position: center;
 }
 #select_cell_value>option:HOVER {
 	background-color: red;
-}
+}*/
 
 .table_terms
 {
@@ -654,6 +667,36 @@ div.vertical-line_2{
 {
 	border-bottom: 1px solid #858687 !important;
 }
+
+
+/*#select_cell_value {
+	padding: 0 !important;
+}*/
+.right_ear_symbols li , .left_ear_symbols li{
+    background-repeat: no-repeat;
+    background-position: center;
+    float: left;
+    list-style: none outside none;
+    padding: 7px;
+    margin: 2px;
+    border: 1px solid #DBD9D9;
+    width: 7px;
+}
+.right_ear_symbols li:HOVER , .left_ear_symbols li:HOVER{
+	background-position: 3px 3px;
+	cursor: pointer;
+}
+
+ul.right_ear_symbols , ul.left_ear_symbols {
+	padding: 0 !important;
+}
+
+/*.right_ear_symbols li, .left_ear_symbols li
+{
+	background-repeat: no-repeat;
+	background-position: left;	
+}*/
+
 </style>
 
 </head>
@@ -699,6 +742,70 @@ div.vertical-line_2{
 		}
 		return ret;
 	}
+	
+	function onClickPrint()
+	{
+		//convert left/right ear tables to canvas
+		
+		jQuery( "#dialog_printing_wait" ).dialog( "open" );
+		
+		setTimeout(convertHtmlToCanvas, 300);
+		//convertHtmlToCanvas();
+		
+		//revert canvas change
+		//removeCanvasAfterPrint();
+	}
+	
+	function convertHtmlToCanvas()
+	{
+		html2canvas(jQuery(".td_table_left_ear")[0], 
+		{	
+			onrendered: function(canvas) 
+			{
+				jQuery(".td_table_left_ear>div").hide();
+                jQuery(".td_table_left_ear").append(canvas);
+				//jQuery(".td_table_left_ear").append("<img src='"+canvas.toDataURL("image/png")+"'></img>");
+				
+                html2canvas(jQuery(".td_middle_table")[0], 
+           		{	
+           			onrendered: function(canvas) 
+           			{
+           				jQuery(".td_middle_table>table").hide();
+                        jQuery(".td_middle_table").append(canvas);
+                        
+                        html2canvas(jQuery(".td_table_right_ear")[0], 
+                   		{	
+                   			onrendered: function(canvas) 
+                   			{
+                   				jQuery(".td_table_right_ear>div").hide();
+                                jQuery(".td_table_right_ear").append(canvas);
+                                
+                                jQuery(".no_print").hide();
+                                jQuery( "#dialog_printing_wait" ).dialog( "close" );
+                                
+                        		window.print();
+                        		jQuery(".no_print").show();
+                        		
+                        		removeCanvasAfterPrint();
+                   			}
+                   		});
+           			}
+           		});
+			}
+		});
+	}
+	
+	function removeCanvasAfterPrint()
+	{
+		jQuery(".td_table_left_ear>canvas").remove();
+		jQuery(".td_table_left_ear>div").show();
+
+		jQuery(".td_middle_table>canvas").remove();
+		jQuery(".td_middle_table>table").show();
+
+		jQuery(".td_table_right_ear>canvas").remove();
+		jQuery(".td_table_right_ear>div").show();
+	}
 </script>
 
 <script>
@@ -720,11 +827,19 @@ function onclick_div(x, y, divObj)
 	
 	if(txtId.indexOf("r")==0)
 	{
-		startIndex = 9;
+		/*startIndex = 9;
 		endIndex = 18;
-		selectedOptionIndex = 0;
+		selectedOptionIndex = 0;*/
+		jQuery(".right_ear_symbols").show();
+		jQuery(".left_ear_symbols").hide();
 	}
-	jQuery("#select_cell_value").find("option").show();
+	else
+	{
+		jQuery(".right_ear_symbols").hide();
+		jQuery(".left_ear_symbols").show();
+	}
+	
+	/*jQuery("#select_cell_value").find("option").show();
 	jQuery("option:selected", jQuery("#select_cell_value")).removeAttr("selected");
 	
 	var options_arr = jQuery("#select_cell_value").find("option");
@@ -736,7 +851,7 @@ function onclick_div(x, y, divObj)
 	//set 1st option's background image as a background image for the combo box
 	jQuery(options_arr[selectedOptionIndex]).attr("selected", "selected");
 	//jQuery("#select_cell_value").css("background-image", jQuery(options_arr[selectedOptionIndex]).css("background-image"));
-	jQuery("#select_cell_value").change();
+	jQuery("#select_cell_value").change();*/
 	
 	jQuery( "#span_cell_id" ).html(x+"/"+y);
 	jQuery( "#dialog_cell_value" ).dialog( "open" );
@@ -969,6 +1084,126 @@ connect_symbols = false;
 
 </script>
 
+<%
+
+String signatureRequestId1 = "", signatureRequestId2 = "";
+String existingSignatureImageRenderingUrl1 = "", existingSignatureImageRenderingUrl2 = "";
+
+//base url for new signature images
+String baseNewSignatureImageRenderingUrl = request.getContextPath()+"/imageRenderingServlet?source="+ImageRenderingServlet.Source.signature_preview.name()+"&"+DigitalSignatureUtils.SIGNATURE_REQUEST_ID_KEY+"=";
+
+//base url for signature images already stored/saved
+String baseStoredSignatureImageRenderingUrl = request.getContextPath()+"/imageRenderingServlet?source="+ImageRenderingServlet.Source.signature_stored.name()+"&digitalSignatureId=";
+
+//for signature of 'Otolaryngologist'
+if(props.getProperty("otolaryngologist", "").trim().length()>0)
+{
+	signatureRequestId1 = props.getProperty("otolaryngologist", "");
+	existingSignatureImageRenderingUrl1 = baseStoredSignatureImageRenderingUrl+signatureRequestId1;
+}
+
+//for signature of 'OAudiologist Reg. CASLPO'
+if(props.getProperty("audiologist_reg", "").trim().length()>0)
+{
+	signatureRequestId2 = props.getProperty("audiologist_reg", "");
+	existingSignatureImageRenderingUrl2 = baseStoredSignatureImageRenderingUrl+signatureRequestId2;
+}
+
+String newSignatureRequestId1=DigitalSignatureUtils.generateSignatureRequestId(LoggedInInfo.loggedInInfo.get().loggedInProvider.getProviderNo());
+
+String newSignatureRequestId2=DigitalSignatureUtils.generateSignatureRequestId(LoggedInInfo.loggedInInfo.get().loggedInProvider.getProviderNo());
+newSignatureRequestId2 = newSignatureRequestId2+"0";
+
+String newSignatureImageRenderingUrl1 = baseNewSignatureImageRenderingUrl+newSignatureRequestId1;
+String newSignatureImageRenderingUrl2 = baseNewSignatureImageRenderingUrl+newSignatureRequestId2;
+
+%>
+
+<script>
+jQuery(document).ready(function(){
+	
+	//for Otolaryngologist signature
+	if('<%=signatureRequestId1%>'!='')
+	{
+		//if signature is already saved.. then show the signature.. and hide the new signature fields
+		jQuery("#signatureShow1").show();
+		jQuery("#signatureFrame1").hide();
+	}
+	else
+	{
+		//if signature is not saved already.. then show signature creation fields.. and hide existing signature display fields
+		jQuery("#signatureShow1").hide();
+		jQuery("#signatureFrame1").show();
+	}
+	
+	//for OAudiologist Reg. CASLPO signature
+	if('<%=signatureRequestId2%>'!='')
+	{
+		//if signature is already saved.. then show the signature.. and hide the new signature fields
+		jQuery("#signatureShow2").show();
+		jQuery("#signatureFrame2").hide();
+	}
+	else
+	{
+		//if signature is not saved already.. then show signature creation fields.. and hide existing signature display fields
+		jQuery("#signatureShow2").hide();
+		jQuery("#signatureFrame2").show();
+	}
+});
+
+var counter=0;
+function afterSaveSignature(requestIdKey)
+{
+	//set hidden value as a signature id to be stored in db
+	var existingVal = document.getElementById('otolaryngologist').value;
+	if((!existingVal || existingVal==null || existingVal=='') && ('<%=newSignatureRequestId1%>'==requestIdKey))
+	{
+		document.getElementById('otolaryngologist').value='<%=newSignatureRequestId1%>';
+		
+		//refresh image after save
+		refreshSignatureImage1();
+	}
+	
+	existingVal = document.getElementById('audiologist_reg').value;
+	if((!existingVal || existingVal==null || existingVal=='') && ('<%=newSignatureRequestId2%>'==requestIdKey))
+	{
+		document.getElementById('audiologist_reg').value='<%=newSignatureRequestId2%>';
+		
+		//refresh image after save
+		refreshSignatureImage2();
+	}
+}
+
+function refreshSignatureImage1()
+{
+	counter=counter+1;
+	document.getElementById('signatureImgTag1').src='<%=newSignatureImageRenderingUrl1%>&rand='+counter;
+}
+function refreshSignatureImage2()
+{
+	counter=counter+1;
+	document.getElementById('signatureImgTag2').src='<%=newSignatureImageRenderingUrl2%>&rand='+counter;
+}
+
+//handler will be invoked on save of signature.. 
+//common handler for both signature
+function signatureHandler(e) {
+	isSignatureDirty = e.isDirty;
+	isSignatureSaved = e.isSave;
+	
+	var requestIdKey = e.requestIdKey;
+	
+	if (e.isSave) {
+		//alert("in signatureHandler save");
+		
+		afterSaveSignature(requestIdKey);
+		document.getElementById('newSignature').value = "true";
+	}
+	else {
+		document.getElementById('newSignature').value = "false";
+	}
+}
+</script>
 
 <%!
 String getImageEle(String val)
@@ -1020,12 +1255,17 @@ String getImageEle(String val)
 %>
 
 <body>
+<div id="dialog_printing_wait" align="center">
+	<span>Printing form... Please Wait</span>
+</div>
+
 <div id="dialog_cell_value" title="X= , Y=">
 	<div>Current Value (<span id="span_cell_id"></span>) : <span id="span_current_cell_val" style="font-weight: bold;"></span>
 	</div>
 	<div style="margin-top: 10px;">
-		<select id="select_cell_value" style="width: 45px; background-image: url('../images/audiologyform/r1.png'); ">
+		<!-- <select id="select_cell_value" style="width: 45px; background-image: url('../images/audiologyform/r1.png'); ">
 			<option value="r1" style="background-image: url('../images/audiologyform/r1.png');"></option>
+			<option value="r1" style="background: url('../images/audiologyform/r1.png') no-repeat;"></option>
 			<option value="r2" style="background-image: url('../images/audiologyform/r2.png');"></option>
 			<option value="r3" style="background-image: url('../images/audiologyform/r3.png');"></option>
 			<option value="r4" style="background-image: url('../images/audiologyform/r4.png');"></option>
@@ -1044,8 +1284,31 @@ String getImageEle(String val)
 			<option value="l7" style="background-image: url('../images/audiologyform/l7.png');"></option>
 			<option value="l8" style="background-image: url('../images/audiologyform/l8.png');"></option>
 			<option value="l9" style="background-image: url('../images/audiologyform/l9.png');"></option>
-		</select>
-		<input type="button" value="Add Cell Value" onclick="addCellValue();">
+		</select> -->
+		<ul class="right_ear_symbols">
+			<li value="r1" style="background-image: url('../images/audiologyform/r1.png');" onclick="addCellValue('r1');"></li>
+			<li value="r2" style="background-image: url('../images/audiologyform/r2.png');" onclick="addCellValue('r2');"></li>
+			<li value="r3" style="background-image: url('../images/audiologyform/r3.png');" onclick="addCellValue('r3');"></li>
+			<li value="r4" style="background-image: url('../images/audiologyform/r4.png');" onclick="addCellValue('r4');"></li>
+			<li value="r5" style="background-image: url('../images/audiologyform/r5.png');" onclick="addCellValue('r5');"></li>
+			<li value="r6" style="background-image: url('../images/audiologyform/r6.png');" onclick="addCellValue('r6');"></li>
+			<li value="r7" style="background-image: url('../images/audiologyform/r7.png');" onclick="addCellValue('r7');"></li>
+			<li value="r8" style="background-image: url('../images/audiologyform/r8.png');" onclick="addCellValue('r8');"></li>
+			<li value="r9" style="background-image: url('../images/audiologyform/r9.png');" onclick="addCellValue('r9');"></li>
+		</ul>
+		<ul class="left_ear_symbols">
+			<li value="l1" style="background-image: url('../images/audiologyform/l1.png');" onclick="addCellValue('l1');"></li>
+			<li value="l2" style="background-image: url('../images/audiologyform/l2.png');" onclick="addCellValue('l2');"></li>
+			<li value="l3" style="background-image: url('../images/audiologyform/l3.png');" onclick="addCellValue('l3');"></li>
+			<li value="l4" style="background-image: url('../images/audiologyform/l4.png');" onclick="addCellValue('l4');"></li>
+			<li value="l5" style="background-image: url('../images/audiologyform/l5.png');" onclick="addCellValue('l5');"></li>
+			<li value="l6" style="background-image: url('../images/audiologyform/l6.png');" onclick="addCellValue('l6');"></li>
+			<li value="l7" style="background-image: url('../images/audiologyform/l7.png');" onclick="addCellValue('l7');"></li>
+			<li value="l8" style="background-image: url('../images/audiologyform/l8.png');" onclick="addCellValue('l8');"></li>
+			<li value="l9" style="background-image: url('../images/audiologyform/l9.png');" onclick="addCellValue('l9');"></li>
+		</ul>
+		<br><br>
+		<!-- <input type="button" value="Add Cell Value" onclick="addCellValue();"> -->
 		<input type="button" value="Close" onclick="onClickCellValueDlgCancel();">		
 	</div>
 	
@@ -1066,6 +1329,11 @@ String getImageEle(String val)
 		<input type="hidden" name="submit" value="exit" />
 		<input type="hidden" name="formId" value="<%=formId%>" />
 
+		<input type="hidden" id="otolaryngologist" name="otolaryngologist" value="<%=signatureRequestId1%>" />
+		<input type="hidden" id="audiologist_reg" name="audiologist_reg" value="<%=signatureRequestId2%>" />
+		
+		<input type="hidden" id="newSignature" name="newSignature" value="false" />
+
 		<table class="Head" class="hidePrint">
 
 			<table align="center" style="border: 1px solid #B7B4AE;">
@@ -1074,10 +1342,10 @@ String getImageEle(String val)
 
 
 						<table class="outertable mytable" border="0" align="center">
-							<tr>
+							<tr class="no_print">
 								<td align="left"><input type="submit" value="Save" onclick="javascript:return onSave();" /> <input type="submit" value="Save and Exit"
 									onclick="javascript:return onSaveExit();" /> <input type="submit" value="Exit" onclick="javascript:return onExit();" /> <input
-									type="submit" value="Print" onclick="javascript:window.print();" />
+									type="button" value="Print" onclick="return onClickPrint();" />
 								</td>
 							</tr>
 							<tr>
@@ -1092,10 +1360,10 @@ String getImageEle(String val)
 													</tr>
 													<tr>
 														<td align="left">
-															<h2>AUDIOLOGY REPORT</h2></td>
+															<h1>AUDIOLOGY REPORT</h1></td>
 													</tr>
 													<tr>
-														<td style="font-size: 12px !important;font-weight: bold;">Informed consent was obtained for testing
+														<td style="font-size: 12px !important;font-weight: bold;">Informed consent obtained 
 														<input type="checkbox" id="info_consert_obtained" name="info_consert_obtained" <%=props.getProperty("info_consert_obtained", "")%>>
 														</td>
 													</tr>
@@ -1222,11 +1490,28 @@ String getImageEle(String val)
 											<td width="40%">
 												<table>
 													<tr>
+														<td>&nbsp;</td>
+													</tr>
+													<tr>
+														<td>
+															<ul style="padding-left: 20px !important;" class="ul_patient_history">
+																<li><span class="label">Otoscopy :</span> <span>Rt</span><span><input type="checkbox" <%=props.getProperty("ph_otosc_rt_clear", "")%> id="ph_otosc_rt_clear" name="ph_otosc_rt_clear">clear</span>
+																	<span><input type="checkbox" <%=props.getProperty("ph_otosc_rt_non_occ_wax", "")%> id="ph_otosc_rt_non_occ_wax" name="ph_otosc_rt_non_occ_wax">non occluding wax</span>
+																	<span><input type="checkbox" <%=props.getProperty("ph_otosc_rt_occ_wax", "")%> id="ph_otosc_rt_occ_wax" name="ph_otosc_rt_occ_wax">occluding wax</span>
+																</li>
+																<li style="list-style: none !important;"><span class="label" style="visibility: hidden;">Otoscopy :</span> <span>Lt</span><span><input type="checkbox" <%=props.getProperty("ph_otosc_lt_clear", "")%> id="ph_otosc_lt_clear" name="ph_otosc_lt_clear">clear</span>
+																	<span><input type="checkbox" <%=props.getProperty("ph_otosc_lt_non_occ_wax", "")%> id="ph_otosc_lt_non_occ_wax" name="ph_otosc_lt_non_occ_wax">non occluding wax</span>
+																	<span><input type="checkbox" <%=props.getProperty("ph_otosc_lt_occ_wax", "")%> id="ph_otosc_lt_occ_wax" name="ph_otosc_lt_occ_wax">occluding wax</span>
+																</li>
+															</ul>
+														</td>
+													</tr>
+													<tr>
 														<td align="left"><h3>Problems/needs/concerns/important to patient and family:</h3>
 														</td>
 													</tr>
 													<tr>
-														<td align="left"><textarea rows="10" cols="50" id="concerns" name="concerns" class="input1" onkeypress="return imposeMaxLength(event, this, 499);"><%=props.getProperty("concerns", "")%> </textarea>
+														<td align="left"><textarea rows="7" cols="50" id="concerns" name="concerns" class="input1" onkeypress="return imposeMaxLength(event, this, 499);"><%=props.getProperty("concerns", "")%> </textarea>
 														</td>
 													</tr>
 												</table>
@@ -1310,7 +1595,7 @@ String getImageEle(String val)
 											<td width="20px;">&nbsp;</td>
 
 											<!-- right ear -->
-											<td>
+											<td class="td_table_left_ear">
 												<div  style="position: relative;">																						
 												<table class="table_left_ear" border="0" bordercolor="#D5E4E8">
 													<%
@@ -1411,7 +1696,7 @@ String getImageEle(String val)
 												</div>												
 											</td>
 											
-											<td width="60px">
+											<td width="60px" class="td_middle_table">
 						<table class="middle_table" border="0" bordercolor="#D5E4E8">		
 						<%
 						List<String> linesTobeDrawnList = new ArrayList<String>();
@@ -1461,7 +1746,7 @@ String getImageEle(String val)
 											</td>
 
 											<!-- left ear -->
-											<td>
+											<td class="td_table_right_ear">
 												<div  style="position: relative;">
 												<table class="table_right_ear" border="0" bordercolor="#D5E4E8">
 													<%
@@ -1573,6 +1858,11 @@ String getImageEle(String val)
 													<tr>
 														<td align="left"><input type="checkbox" <%=props.getProperty("test_done_head_phones", "")%> id="test_done_head_phones" name="test_done_head_phones">Headphones</td>
 													</tr>
+													<tr>
+														<td class="label" align="left">
+															<input type="text" id="test_done_text" name="test_done_text" maxlength="49" value="<%=props.getProperty("test_done_text", "")%>">
+														</td>
+													</tr>
 												</table> <br>
 												<table>
 													<tr>
@@ -1621,7 +1911,7 @@ String getImageEle(String val)
 														<td align="left"><input type="text" id="speech_rec_1_score1" value="<%=props.getProperty("speech_rec_1_score1", "")%>" value="<%=props.getProperty("speech_rec_1_score1", "")%>" name="speech_rec_1_score1" maxlength="3">%</td>
 														<td><input type="text" id="speech_rec_1_level1" value="<%=props.getProperty("speech_rec_1_level1", "")%>" name="speech_rec_1_level1" maxlength="3">dB</td>
 														<td><input type="text" id="speech_rec_1_mask1" value="<%=props.getProperty("speech_rec_1_mask1", "")%>" name="speech_rec_1_mask1" maxlength="3" style="width: 42px !important;">dB</td>
-														<td><input type="text" id="speech_rec_1_list1" value="<%=props.getProperty("speech_rec_1_list1", "")%>" name="speech_rec_1_list1" maxlength="5" style="width: 65px !important;">
+														<td><input type="text" id="speech_rec_1_list1" value="<%=props.getProperty("speech_rec_1_list1", "")%>" name="speech_rec_1_list1" maxlength="10" style="width: 65px !important;">
 														</td>
 													</tr>
 													<tr>
@@ -1631,7 +1921,7 @@ String getImageEle(String val)
 														<td><input type="text" id="speech_rec_1_score2" value="<%=props.getProperty("speech_rec_1_score2", "")%>" name="speech_rec_1_score2" maxlength="3">%</td>
 														<td><input type="text" id="speech_rec_1_level2" value="<%=props.getProperty("speech_rec_1_level2", "")%>" name="speech_rec_1_level2" maxlength="3">dB</td>
 														<td><input type="text" id="speech_rec_1_mask2" value="<%=props.getProperty("speech_rec_1_mask2", "")%>" name="speech_rec_1_mask2" maxlength="3" style="width: 42px !important;">dB</td>
-														<td><input type="text" id="speech_rec_1_list2" value="<%=props.getProperty("speech_rec_1_list2", "")%>" name="speech_rec_1_list2" maxlength="5" style="width: 65px !important;">
+														<td><input type="text" id="speech_rec_1_list2" value="<%=props.getProperty("speech_rec_1_list2", "")%>" name="speech_rec_1_list2" maxlength="10" style="width: 65px !important;">
 														</td>
 													</tr>
 													<tr>
@@ -1664,7 +1954,7 @@ String getImageEle(String val)
 														<td><input type="text" id="speech_rec_2_score1" value="<%=props.getProperty("speech_rec_2_score1", "")%>" name="speech_rec_2_score1" maxlength="3">%</td>
 														<td><input type="text" id="speech_rec_2_level1" value="<%=props.getProperty("speech_rec_2_level1", "")%>" name="speech_rec_2_level1" maxlength="3">dB</td>
 														<td><input type="text" id="speech_rec_2_mask1" value="<%=props.getProperty("speech_rec_2_mask1", "")%>" name="speech_rec_2_mask1" maxlength="3" style="width: 42px !important;">dB</td>
-														<td><input type="text" id="speech_rec_2_list1" value="<%=props.getProperty("speech_rec_2_list1", "")%>" name="speech_rec_2_list1" maxlength="5" style="width: 65px !important;">
+														<td><input type="text" id="speech_rec_2_list1" value="<%=props.getProperty("speech_rec_2_list1", "")%>" name="speech_rec_2_list1" maxlength="10" style="width: 65px !important;">
 														</td>
 													</tr>
 													<tr>
@@ -1674,7 +1964,7 @@ String getImageEle(String val)
 														<td><input type="text" id="speech_rec_2_score2" value="<%=props.getProperty("speech_rec_2_score2", "")%>" name="speech_rec_2_score2" maxlength="3">%</td>
 														<td><input type="text" id="speech_rec_2_level2" value="<%=props.getProperty("speech_rec_2_level2", "")%>" name="speech_rec_2_level2" maxlength="3">dB</td>
 														<td><input type="text" id="speech_rec_2_mask2" value="<%=props.getProperty("speech_rec_2_mask2", "")%>" name="speech_rec_2_mask2" maxlength="3" style="width: 42px !important;">dB</td>
-														<td><input type="text" id="speech_rec_2_list2" value="<%=props.getProperty("speech_rec_2_list2", "")%>" name="speech_rec_2_list2" maxlength="5" style="width: 65px !important;">
+														<td><input type="text" id="speech_rec_2_list2" value="<%=props.getProperty("speech_rec_2_list2", "")%>" name="speech_rec_2_list2" maxlength="10" style="width: 65px !important;">
 														</td>
 													</tr>
 													<tr>
@@ -1914,7 +2204,7 @@ String getImageEle(String val)
 													<input type="checkbox" <%=props.getProperty("rr_plan_abr", "")%> id="rr_plan_abr" name="rr_plan_abr">&nbsp;ABR if clinically indicated
 												</div>
 												<div>
-													<input type="checkbox" <%=props.getProperty("rr_plan_disc_prot", "")%> id="rr_plan_disc_prot" name="rr_plan_disc_prot">&nbsp;Discussed hearing conservation/ear protection
+													<input type="checkbox" <%=props.getProperty("rr_plan_microdebridement", "")%> name="rr_plan_microdebridement" id="rr_plan_microdebridement">&nbsp;Return to physician for microdebridement
 												</div></td>
 											<td style="padding-right: 15px;" align="left">
 												<div>
@@ -1936,11 +2226,11 @@ String getImageEle(String val)
 												</div></td>
 											<td style="padding-right: 15px;" align="left">
 												<div>
-													<input type="checkbox" <%=props.getProperty("rr_plan_microdebridement", "")%> id="rr_plan_microdebridement" name="rr_plan_microdebridement">&nbsp;Return to physician for microdebridement
-												</div>
-												<div>
 													<input type="checkbox" <%=props.getProperty("rr_plan_comm_strat_disc", "")%> id="rr_plan_comm_strat_disc" name="rr_plan_comm_strat_disc">&nbsp;Communication strategies provided and
 													discussed
+												</div>
+												<div>
+													<input type="checkbox" <%=props.getProperty("rr_plan_counselled_tinnit", "")%> id="rr_plan_counselled_tinnit" name="rr_plan_counselled_tinnit">&nbsp;Counselled on tinnitus managements
 												</div>
 												<%-- <div>
 													<input type="checkbox" <%=props.getProperty("rr_plan_brochure_workshop", "")%> id="rr_plan_brochure_workshop" name="rr_plan_brochure_workshop">&nbsp;Given brochure for ways to Better
@@ -1949,9 +2239,13 @@ String getImageEle(String val)
 												<div>
 													<input type="checkbox" <%=props.getProperty("rr_plan_brochure_tinnitus", "")%> id="rr_plan_brochure_tinnitus" name="rr_plan_brochure_tinnitus">&nbsp;Given brochure for Tinnitus workshop
 												</div>
-												<div>
+												<%-- <div>
 													<input type="checkbox" <%=props.getProperty("rr_plan_no_rec", "")%> id="rr_plan_no_rec" name="rr_plan_no_rec">&nbsp;No further recommendations
-												</div></td>
+												</div> --%>
+												<div>
+													<input type="checkbox" <%=props.getProperty("rr_plan_disc_prot", "")%> id="rr_plan_disc_prot" name="rr_plan_disc_prot">&nbsp;Discussed hearing conservation/ear protection
+												</div>
+												</td>
 										</tr>
 									</table></td>
 							</tr>
@@ -1969,13 +2263,28 @@ String getImageEle(String val)
 									</table></td>
 							</tr>
 
-							<tr>
-								<td style="padding-top: 20px;">
-									<div style="text-align: right;" class="label">
-										<span style="float: right"><input style="border: 1px solid black;" type="text" id="otolaryngologist" name="otolaryngologist" maxlength="49" value="<%=props.getProperty("otolaryngologist", "")%>"> <br>Otolaryngologist</span> <span
-											style="padding-right: 10px; padding-left: 10px; float: right;"><input style="border: 1px solid black;" type="text" id="audiologist_reg" name="audiologist_reg" maxlength="49" value="<%=props.getProperty("audiologist_reg", "")%>"> <br>Audiologist Reg. CASLPO</span>
-									</div></td>
-							</tr>
+<tr>
+	<td style="padding-top: 20px;">
+		<div style="text-align: left;" class="label">
+			<span style="float: left">
+				<%-- <input style="border: 1px solid black;" type="text" id="otolaryngologist" name="otolaryngologist" maxlength="49" value="<%=props.getProperty("otolaryngologist", "")%>"> --%> 
+				<div id="signatureShow1" style="display: none;">
+					<img id="signatureImgTag1" src="<%=existingSignatureImageRenderingUrl1 %>" />
+				</div>
+				<iframe style="width:400px; height:132px;"id="signatureFrame1" src="<%= request.getContextPath() %>/signature_pad/tabletSignature.jsp?inWindow=true&<%=DigitalSignatureUtils.SIGNATURE_REQUEST_ID_KEY%>=<%=newSignatureRequestId1%>" ></iframe>
+				<br>Otolaryngologist
+			</span> 
+				
+			<span style="padding-right: 10px; padding-left: 10px; float: left;">
+				<div id="signatureShow2" style="display: none;">
+					<img id="signatureImgTag2" src="<%=existingSignatureImageRenderingUrl2 %>" />
+				</div>
+				<iframe style="width:400px; height:132px;"id="signatureFrame2" src="<%= request.getContextPath() %>/signature_pad/tabletSignature.jsp?inWindow=true&<%=DigitalSignatureUtils.SIGNATURE_REQUEST_ID_KEY%>=<%=newSignatureRequestId2%>" ></iframe>
+				<%-- <input style="border: 1px solid black;" type="text" id="audiologist_reg" name="audiologist_reg" maxlength="49" value="<%=props.getProperty("audiologist_reg", "")%>"> --%> 
+				<br>Audiologist Reg. CASLPO
+			</span>
+		</div></td>
+</tr>
 
 						</table></td>
 				</tr>
