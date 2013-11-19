@@ -1131,7 +1131,7 @@ function GetTextBottom(){
 		textBottom += SignatureHolderX
 		textBottom += "px; height:"
 		textBottom += 20
-		textBottom += "px&quot; value=&quot;Clear&quot;;\n"
+		textBottom += "px&quot; value=&quot;Clear&quot; "
 		textBottom += "onclick=&quot;Clear(this);&quot;&gt;\n"
 		textBottom += "&lt;input type=&quot;text&quot; name=&quot;SignCanvas-signature&quot; id=&quot;SignCanvas-signature&quot; style=&quot;position:absolute; display:inline; top:"
 		textBottom += SignatureHolderY+ 100
@@ -1168,7 +1168,7 @@ function GetTextBottom(){
 		textBottom += SignatureHolderX + SignatureHolderW
 		textBottom += "px; height:"
 		textBottom += SignatureHolderH
-		textBottom += "px&quot; value=&quot;Clear Signature&quot;;\n"
+		textBottom += "px&quot; value=&quot;Clear Signature&quot; "
 		textBottom += "\tonmouseover=&quot;show(this.id);&quot; onmouseout=&quot;hide(this.id);&quot; onclick=&quot;Clear();&quot;&gt;\n"
 
 		textBottom += "&lt;div id=&quot;preview&quot; style=&quot;position:absolute; left:"
@@ -1207,7 +1207,7 @@ function GetTextBottom(){
 		textBottom += SignatureHolderX1
 		textBottom += "px; height:"
 		textBottom += 20
-		textBottom += "px&quot; value=&quot;Clear&quot;;\n"
+		textBottom += "px&quot; value=&quot;Clear&quot; "
 		textBottom += "onclick=&quot;Clear(this);&quot;&gt;\n"
 		textBottom += "&lt;input type=&quot;text&quot; name=&quot;SignCanvas1-signature&quot; id=&quot;SignCanvas1-signature&quot; style=&quot;position:absolute; display:inline; top:"
 		textBottom += SignatureHolderY1+ 100
