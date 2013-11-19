@@ -1102,7 +1102,7 @@ function GetTextBottom(){
 		textBottom += SignatureHolderW;
 		textBottom += "px; height:"
 		textBottom += SignatureHolderH;
-		textBottom += "&quot; onmouseover=&quot;show(&quot;SignaturePicker&quot;);&quot; onmouseout=&quot;hide(&quot;SignaturePicker&quot;);&quot;&gt;\n"
+		textBottom += "&quot; onmouseover=&quot;show(&apos;SignaturePicker&apos;);&quot; onmouseout=&quot;hide(&apos;SignaturePicker&apos;);&quot;&gt;\n"
 		textBottom += "&lt;/div&gt;\n"
 		textBottom += "&lt;div class=&quot;DoNotPrint&quot; name=&quot;SignaturePicker&quot; id=&quot;SignaturePicker&quot; style=&quot;position:absolute; background-color:#dddddd; left:"
 		textBottom += SignatureHolderX;
@@ -1189,8 +1189,8 @@ function GetTextBottom(){
 		textBottom += "px; height:"
 		textBottom += SignatureHolderH
 		textBottom += "px&quot;\n"
-		textBottom += "		onmouseover=&quot;SetDrawOn(); show(&quot;ClearSignature&quot;);&quot;\n"
-		textBottom += "		onmouseout=&quot;SetDrawOff(); hide(&quot;ClearSignature&quot;);&quot;\n"
+		textBottom += "		onmouseover=&quot;SetDrawOn(); show(&apos;ClearSignature&apos;);&quot;\n"
+		textBottom += "		onmouseout=&quot;SetDrawOff(); hide(&apos;ClearSignature&apos;);&quot;\n"
 		textBottom += "		onmousedown=&quot;SetMouseDown();SetStart();&quot;\n"
 		textBottom += "		onmouseup=&quot;SetMouseUp();  DrawMarker();&quot;\n"
 		textBottom += "		onmousemove=&quot;DrawPreview();&quot;&gt; \n"
@@ -1249,7 +1249,7 @@ function GetTextBottom(){
 	textBottom += " releaseDirtyFlag();&quot;&gt; \n"
 	textBottom += "\t\t\t&lt;input value=&quot;Reset&quot; name=&quot;ResetButton&quot; id=&quot;ResetButton&quot; type=&quot;reset&quot;&gt; \n"
 	textBottom += "\t\t	&lt;input value=&quot;Print&quot; name=&quot;PrintButton&quot; id=&quot;PrintButton&quot; type=&quot;button&quot; onclick=&quot;formPrint();&quot;&gt; \n"
-	textBottom += "\t\t	&lt;input value=&quot;Print &amp; Submit&quot; name=&quot;PrintSubmitButton&quot; id=&quot;PrintSubmitButton&quot; type=&quot;button&quot; onclick=&quot;formPrint();releaseDirtyFlag();setTimeout(&quot;SubmitButton.click()&quot;,1000);&quot;&gt; \n"
+	textBottom += "\t\t	&lt;input value=&quot;Print &amp; Submit&quot; name=&quot;PrintSubmitButton&quot; id=&quot;PrintSubmitButton&quot; type=&quot;button&quot; onclick=&quot;formPrint();releaseDirtyFlag();setTimeout(&apos;SubmitButton.click()&apos;,1000);&quot;&gt; \n"
 	if(document.getElementById('DefaultCheckmark').checked){
 		textBottom += "\t\t	&lt;input name=&quot;DrawCheckmark&quot; id=&quot;DrawCheckmark&quot; type=&quot;checkbox&quot; checked&gt;"
 		textBottom += "&lt;span style=&quot;font-family:sans-serif; font-size:12px;&quot;&gt;Draw Checkmarks&lt;/span&gt; \n"
