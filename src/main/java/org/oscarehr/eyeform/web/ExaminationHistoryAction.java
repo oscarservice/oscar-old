@@ -223,6 +223,9 @@ public class ExaminationHistoryAction extends DispatchAction {
 				}
 				for(EyeformSpecsHistory spec:specs){
 					Map<String,String> map = new HashMap<String,String>();
+					if(spec.getDate() == null){
+						continue;
+					}
 					if(spec.getOdSph() != null){
 						map.put("gl_rs",spec.getOdSph());
 					}else{
