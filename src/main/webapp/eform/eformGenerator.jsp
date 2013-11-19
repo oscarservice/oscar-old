@@ -643,10 +643,10 @@ function GetTextTop(){
 	if (document.getElementById('preCheckGender').checked){
 		textTop += "&lt;script type=&quot;text/javascript&quot; language=&quot;javascript&quot;&gt;\n"
 		textTop += "function checkGender(){\n"
-		textTop += "\t if (document.getElementById('PatientGender').value == 'M'){\n"
-		textTop += "\t document.getElementById('Male').checked = true;\n"
-		textTop += "\t }else if (document.getElementById('PatientGender').value == 'F'){\n"
-		textTop += "\t document.getElementById('Female').checked = true;\n"
+		textTop += "\t if (document.getElementById(&quot;PatientGender&quot;).value == &quot;M&quot;){\n"
+		textTop += "\t document.getElementById(&quot;Male&quot;).checked = true;\n"
+		textTop += "\t }else if (document.getElementById(&quot;PatientGender&quot;).value == &quot;F&quot;){\n"
+		textTop += "\t document.getElementById(&quot;Female&quot;).checked = true;\n"
 		textTop += "\t}\n }\n"
 		textTop += "&lt;/script&gt;\n\n"
 	}
@@ -688,10 +688,10 @@ function GetTextTop(){
 		<% } else { %> //
 		textTop += "&lt;script language=&quot;javascript&quot;&gt;\n"
 		textTop += "function show(x){\n"
-		textTop += "\tdocument.getElementById(x).style.display = 'block';\n"
+		textTop += "\tdocument.getElementById(x).style.display = &quot;block&quot;;\n"
 		textTop += "}\n"
 		textTop += "function hide(x){\n"
-		textTop += "\tdocument.getElementById(x).style.display = 'none';\n"
+		textTop += "\tdocument.getElementById(x).style.display = &quot;none&quot;;\n"
 		textTop += "}\n"
 		textTop += "&lt;/script&gt;\n\n"
 		<% } %>
@@ -702,7 +702,7 @@ function GetTextTop(){
 	//when printing checkmarks, need to move checkmark canvas to the front.
 	//After printing, need to move canvas to the back, so that you can interact with form inputs again
 	if(document.getElementById('DefaultCheckmark').checked){
-		textTop += "\t if (document.getElementById('DrawCheckmark').checked){ \n"
+		textTop += "\t if (document.getElementById(&quot;DrawCheckmark&quot;).checked){ \n"
 		textTop += "\t\t	printCheckboxes();\n"
 		textTop += "\t }else{\n"
 	}
@@ -787,7 +787,7 @@ function GetTextTop(){
 			var ListItemArr =  ListItem.split('|')
 			var UserName = ListItemArr[0];
 			var FileName = ListItemArr[1];
-			textTop +="\timages[" + i + "]='$%7Boscar_image_path%7D" + FileName + "'\n"
+			textTop +="\timages[" + i + "]=&quot;$%7Boscar_image_path%7D" + FileName + "&quot;\n"
 		}
 		textTop += "\t// start preloading\n"
 		textTop += "\tfor(i=0; i&lt;=images.length; i++){\n"
@@ -796,9 +796,9 @@ function GetTextTop(){
 		textTop += "}\n\n"
 		textTop += "function reloadSignature(){\n"
 		textTop += "\tpreloadImg();\n"
-		textTop += "\tvar SubmittedBy = document.getElementById('SubmittedBy').value;\n"
+		textTop += "\tvar SubmittedBy = document.getElementById(&quot;SubmittedBy&quot;).value;\n"
 		textTop += "\tif (!SubmittedBy){\n"
-		textTop += "\t\tSignForm('current_user');\n"
+		textTop += "\t\tSignForm(&quot;current_user&quot;);\n"
 		textTop += "\t} else {\n"
 		textTop += "\t\tSignForm(SubmittedBy);\n"
 		textTop += "\t}\n"
@@ -806,11 +806,11 @@ function GetTextTop(){
 		textTop += "}\n\n"
 
 		textTop += "function SignForm(SignBy){\n"
-		textTop += "\tvar SignatureHolder = document.getElementById('SignatureHolder');\n"
-		textTop += "\tvar DoctorName = document.getElementById('DoctorName').value;\n"
-		textTop += "\tvar CurrentUserName = document.getElementById('CurrentUserName').value;\n"
+		textTop += "\tvar SignatureHolder = document.getElementById(&quot;SignatureHolder&quot;);\n"
+		textTop += "\tvar DoctorName = document.getElementById(&quot;DoctorName&quot;).value;\n"
+		textTop += "\tvar CurrentUserName = document.getElementById(&quot;CurrentUserName&quot;).value;\n"
 
-		textTop += "\t\tif(SignBy == 'doctor'){\n"
+		textTop += "\t\tif(SignBy == &quot;doctor&quot;){\n"
 		var List = document.getElementsByName('UserSignatureListItem');
 		for (i=0; i<List.length;i++){
 			var ListItem = List[i].innerHTML;
@@ -818,37 +818,37 @@ function GetTextTop(){
 			var UserName = ListItemArr[0];
 			var FileName = ListItemArr[1];
 			if (i <1){
-				textTop += "\t\t\tif (DoctorName.indexOf('" + UserName + "') &gt;= 0){\n"
-				textTop += "\t\t\t\tSignatureHolder.innerHTML = &quot;&lt;img id='SignatureImage' src='$%7Boscar_image_path%7D" + FileName + "'&gt;&quot;;\n"
+				textTop += "\t\t\tif (DoctorName.indexOf(&quot;" + UserName + "&quot;) &gt;= 0){\n"
+				textTop += "\t\t\t\tSignatureHolder.innerHTML = &quot;&lt;img id=&quot;SignatureImage&quot; src=&quot;$%7Boscar_image_path%7D" + FileName + "&quot;&gt;&quot;;\n"
 			} else if (i>=1){
-				textTop += "\t\t\t}else if(DoctorName.indexOf('" + UserName + "') &gt;= 0){\n"
-				textTop += "\t\t\t\tSignatureHolder.innerHTML = &quot;&lt;img id='SignatureImage' src='$%7Boscar_image_path%7D" + FileName + "'&gt;&quot;;\n"
+				textTop += "\t\t\t}else if(DoctorName.indexOf(&quot;" + UserName + "&quot;) &gt;= 0){\n"
+				textTop += "\t\t\t\tSignatureHolder.innerHTML = &quot;&lt;img id=&quot;SignatureImage&quot; src=&quot;$%7Boscar_image_path%7D" + FileName + "&quot;&gt;&quot;;\n"
 			}
 		}
 		textTop += "\t\t\t} else {\n"
-		textTop += "\t\t\t\tSignatureHolder.innerHTML = &quot;&lt;div id='SignatureImage'&gt;&lt;/div&gt;&quot;;\n"
+		textTop += "\t\t\t\tSignatureHolder.innerHTML = &quot;&lt;div id=&quot;SignatureImage&quot;&gt;&lt;/div&gt;&quot;;\n"
 		textTop += "\t\t\t}\n"
-		textTop += "\t\t\tdocument.getElementById('SubmittedBy').value = SignBy;\n"
-		textTop += "\t\t}else if (SignBy == 'current_user'){\n"
+		textTop += "\t\t\tdocument.getElementById(&quot;SubmittedBy&quot;).value = SignBy;\n"
+		textTop += "\t\t}else if (SignBy == &quot;current_user&quot;){\n"
 		for (i=0; i<List.length;i++){
 			var ListItem = List[i].innerHTML
 			var ListItemArr =  ListItem.split('|')
 			var UserName = ListItemArr[0];
 			var FileName = ListItemArr[1];
 			if (i<1){
-				textTop += "\t\t\tif (CurrentUserName.indexOf('" + UserName + "') &gt;= 0){\n"
-				textTop += "\t\t\t\tSignatureHolder.innerHTML = &quot;&lt;img id='SignatureImage' src='$%7Boscar_image_path%7D" + FileName + "'&gt;&quot;;\n"
+				textTop += "\t\t\tif (CurrentUserName.indexOf(&quot;" + UserName + "&quot;) &gt;= 0){\n"
+				textTop += "\t\t\t\tSignatureHolder.innerHTML = &quot;&lt;img id=&quot;SignatureImage&quot; src=&quot;$%7Boscar_image_path%7D" + FileName + "&quot;&gt;&quot;;\n"
 			} else if (i>=1){
-				textTop += "\t\t\t}else if(CurrentUserName.indexOf('" + UserName + "') &gt;= 0){\n"
-				textTop += "\t\t\t\tSignatureHolder.innerHTML = &quot;&lt;img id='SignatureImage' src='$%7Boscar_image_path%7D" + FileName + "'&gt;&quot;;\n"
+				textTop += "\t\t\t}else if(CurrentUserName.indexOf(&quot;" + UserName + "&quot;) &gt;= 0){\n"
+				textTop += "\t\t\t\tSignatureHolder.innerHTML = &quot;&lt;img id=&quot;SignatureImage&quot; src=&quot;$%7Boscar_image_path%7D" + FileName + "&quot;&gt;&quot;;\n"
 			}
 		}
 		textTop += "\t\t\t} else {\n"
-		textTop += "\t\t\t\tSignatureHolder.innerHTML = &quot;&lt;div id='SignatureImage'&gt;&lt;/div&gt;&quot;;\n"
+		textTop += "\t\t\t\tSignatureHolder.innerHTML = &quot;&lt;div id=&quot;SignatureImage&quot;&gt;&lt;/div&gt;&quot;;\n"
 		textTop += "\t\t\t}\n"
-		textTop += "\t\t\tdocument.getElementById('SubmittedBy').value = SignBy;\n"
-		textTop += "\t\t}else if (SignBy == 'none'){\n"
-		textTop += "\t\t\tSignatureHolder.innerHTML = &quot;&lt;div id='SignatureImage'&gt;&lt;/div&gt;&quot;;\n"
+		textTop += "\t\t\tdocument.getElementById(&quot;SubmittedBy&quot;).value = SignBy;\n"
+		textTop += "\t\t}else if (SignBy == &quot;none&quot;){\n"
+		textTop += "\t\t\tSignatureHolder.innerHTML = &quot;&lt;div id=&quot;SignatureImage&quot;&gt;&lt;/div&gt;&quot;;\n"
 		textTop += "\t\t}\n"
 		textTop += "\t\tresizeSignature();\n"
 
@@ -856,14 +856,14 @@ function GetTextTop(){
 
 		textTop += "function resizeSignature(){\n"
 		textTop += "\t//resize signature image to fit inside SignatureHolder\n"
-		textTop += "\tif (document.getElementById('SignatureImage')){\n"
+		textTop += "\tif (document.getElementById(&quot;SignatureImage&quot;)){\n"
 
-		textTop += "\t\tvar Holder = document.getElementById('SignatureHolder')\n"
-		textTop += "\t\tvar Image = document.getElementById('SignatureImage')\n"
-		textTop += "\t\tvar HolderW = parseInt(document.getElementById('SignatureHolder').style.width);\n"
-		textTop += "\t\tvar HolderH = parseInt(document.getElementById('SignatureHolder').style.height);\n"
-		textTop += "\t\tvar ImageW = document.getElementById('SignatureImage').width;\n"
-		textTop += "\t\tvar ImageH = document.getElementById('SignatureImage').height;\n"
+		textTop += "\t\tvar Holder = document.getElementById(&quot;SignatureHolder&quot;)\n"
+		textTop += "\t\tvar Image = document.getElementById(&quot;SignatureImage&quot;)\n"
+		textTop += "\t\tvar HolderW = parseInt(document.getElementById(&quot;SignatureHolder&quot;).style.width);\n"
+		textTop += "\t\tvar HolderH = parseInt(document.getElementById(&quot;SignatureHolder&quot;).style.height);\n"
+		textTop += "\t\tvar ImageW = document.getElementById(&quot;SignatureImage&quot;).width;\n"
+		textTop += "\t\tvar ImageH = document.getElementById(&quot;SignatureImage&quot;).height;\n"
 		textTop += "\t\tif (ImageW &gt; HolderW){\n"
 		textTop += "\t\t\tImage.style.width = HolderW;\n"
 		textTop += "\t\t\tvar NewH = (HolderW * (ImageH/ImageW));\n"
@@ -889,16 +889,16 @@ function GetTextTop(){
 	if (document.getElementById('AddSignature').checked){
 		textTop += "&lt;script type=&quot;text/javascript&quot;&gt;\n"
 		textTop += "function reorderSignature(){\n"
-		textTop += "\tdocument.getElementById('BGImage').style.zIndex = '-10';\n"
+		textTop += "\tdocument.getElementById(&quot;BGImage&quot;).style.zIndex = &quot;-10&quot;;\n"
 	}
 		
 	if (document.getElementById('AutoSign').checked){
-		textTop += "\tdocument.getElementById('SignatureHolder').style.zIndex = '-9';\n"
-		textTop += "\tdocument.getElementById('SignatureImage').style.zIndex = '-8';\n"
+		textTop += "\tdocument.getElementById(&quot;SignatureHolder&quot;).style.zIndex = &quot;-9&quot;;\n"
+		textTop += "\tdocument.getElementById(&quot;SignatureImage&quot;).style.zIndex = &quot;-8&quot;;\n"
 	}
 	if (document.getElementById('DrawSign').checked|| document.getElementById('DrawSign1').checked){
-		textTop += "\tdocument.getElementById('preview').style.zIndex = '-7';\n"
-		textTop += "\tdocument.getElementById('SignCanvas').style.zIndex = '-6';\n\n"
+		textTop += "\tdocument.getElementById(&quot;preview&quot;).style.zIndex = &quot;-7&quot;;\n"
+		textTop += "\tdocument.getElementById(&quot;SignCanvas&quot;).style.zIndex = &quot;-6&quot;;\n\n"
 	}
 	if (document.getElementById('AddSignature').checked){
 		textTop += "}\n"
@@ -926,7 +926,7 @@ function GetTextTop(){
 	<% } %>
 	textTop += "&quot;&gt;\n"
 	//<img> background image
-	textTop += "&lt;img id='BGImage' src=&quot;$%7Boscar_image_path%7D";
+	textTop += "&lt;img id=&quot;BGImage&quot; src=&quot;$%7Boscar_image_path%7D";
 	textTop += document.getElementById('imageName').value;
 	textTop += "&quot; style=&quot;position: absolute; left: 0px; top: 0px; width:"
 	textTop += BGWidth;
@@ -1102,7 +1102,7 @@ function GetTextBottom(){
 		textBottom += SignatureHolderW;
 		textBottom += "px; height:"
 		textBottom += SignatureHolderH;
-		textBottom += "&quot; onmouseover=&quot;show('SignaturePicker');&quot; onmouseout=&quot;hide('SignaturePicker');&quot;&gt;\n"
+		textBottom += "&quot; onmouseover=&quot;show(&quot;SignaturePicker&quot;);&quot; onmouseout=&quot;hide(&quot;SignaturePicker&quot;);&quot;&gt;\n"
 		textBottom += "&lt;/div&gt;\n"
 		textBottom += "&lt;div class=&quot;DoNotPrint&quot; name=&quot;SignaturePicker&quot; id=&quot;SignaturePicker&quot; style=&quot;position:absolute; background-color:#dddddd; left:"
 		textBottom += SignatureHolderX;
@@ -1131,7 +1131,7 @@ function GetTextBottom(){
 		textBottom += SignatureHolderX
 		textBottom += "px; height:"
 		textBottom += 20
-		textBottom += "px&quot; value='Clear';\n"
+		textBottom += "px&quot; value=&quot;Clear&quot;;\n"
 		textBottom += "onclick=&quot;Clear(this);&quot;&gt;\n"
 		textBottom += "&lt;input type=&quot;text&quot; name=&quot;SignCanvas-signature&quot; id=&quot;SignCanvas-signature&quot; style=&quot;position:absolute; display:inline; top:"
 		textBottom += SignatureHolderY+ 100
@@ -1168,7 +1168,7 @@ function GetTextBottom(){
 		textBottom += SignatureHolderX + SignatureHolderW
 		textBottom += "px; height:"
 		textBottom += SignatureHolderH
-		textBottom += "px&quot; value='Clear Signature';\n"
+		textBottom += "px&quot; value=&quot;Clear Signature&quot;;\n"
 		textBottom += "\tonmouseover=&quot;show(this.id);&quot; onmouseout=&quot;hide(this.id);&quot; onclick=&quot;Clear();&quot;&gt;\n"
 
 		textBottom += "&lt;div id=&quot;preview&quot; style=&quot;position:absolute; left:"
@@ -1189,8 +1189,8 @@ function GetTextBottom(){
 		textBottom += "px; height:"
 		textBottom += SignatureHolderH
 		textBottom += "px&quot;\n"
-		textBottom += "		onmouseover=&quot;SetDrawOn(); show('ClearSignature');&quot;\n"
-		textBottom += "		onmouseout=&quot;SetDrawOff(); hide('ClearSignature');&quot;\n"
+		textBottom += "		onmouseover=&quot;SetDrawOn(); show(&quot;ClearSignature&quot;);&quot;\n"
+		textBottom += "		onmouseout=&quot;SetDrawOff(); hide(&quot;ClearSignature&quot;);&quot;\n"
 		textBottom += "		onmousedown=&quot;SetMouseDown();SetStart();&quot;\n"
 		textBottom += "		onmouseup=&quot;SetMouseUp();  DrawMarker();&quot;\n"
 		textBottom += "		onmousemove=&quot;DrawPreview();&quot;&gt; \n"
@@ -1207,7 +1207,7 @@ function GetTextBottom(){
 		textBottom += SignatureHolderX1
 		textBottom += "px; height:"
 		textBottom += 20
-		textBottom += "px&quot; value='Clear';\n"
+		textBottom += "px&quot; value=&quot;Clear&quot;;\n"
 		textBottom += "onclick=&quot;Clear(this);&quot;&gt;\n"
 		textBottom += "&lt;input type=&quot;text&quot; name=&quot;SignCanvas1-signature&quot; id=&quot;SignCanvas1-signature&quot; style=&quot;position:absolute; display:inline; top:"
 		textBottom += SignatureHolderY1+ 100
@@ -1249,7 +1249,7 @@ function GetTextBottom(){
 	textBottom += " releaseDirtyFlag();&quot;&gt; \n"
 	textBottom += "\t\t\t&lt;input value=&quot;Reset&quot; name=&quot;ResetButton&quot; id=&quot;ResetButton&quot; type=&quot;reset&quot;&gt; \n"
 	textBottom += "\t\t	&lt;input value=&quot;Print&quot; name=&quot;PrintButton&quot; id=&quot;PrintButton&quot; type=&quot;button&quot; onclick=&quot;formPrint();&quot;&gt; \n"
-	textBottom += "\t\t	&lt;input value=&quot;Print &amp; Submit&quot; name=&quot;PrintSubmitButton&quot; id=&quot;PrintSubmitButton&quot; type=&quot;button&quot; onclick=&quot;formPrint();releaseDirtyFlag();setTimeout('SubmitButton.click()',1000);&quot;&gt; \n"
+	textBottom += "\t\t	&lt;input value=&quot;Print &amp; Submit&quot; name=&quot;PrintSubmitButton&quot; id=&quot;PrintSubmitButton&quot; type=&quot;button&quot; onclick=&quot;formPrint();releaseDirtyFlag();setTimeout(&quot;SubmitButton.click()&quot;,1000);&quot;&gt; \n"
 	if(document.getElementById('DefaultCheckmark').checked){
 		textBottom += "\t\t	&lt;input name=&quot;DrawCheckmark&quot; id=&quot;DrawCheckmark&quot; type=&quot;checkbox&quot; checked&gt;"
 		textBottom += "&lt;span style=&quot;font-family:sans-serif; font-size:12px;&quot;&gt;Draw Checkmarks&lt;/span&gt; \n"
@@ -1261,7 +1261,7 @@ function GetTextBottom(){
 	if (document.getElementById('DefaultCheckmark').checked){
 		textBottom += "&lt;script type=&quot;text/javascript&quot;&gt;\n"
 		textBottom += "&lt;!-- Drawing in checkmarks --&gt;\n"
-		textBottom += "var chkcnv = document.getElementById('chkCanvas');\n"
+		textBottom += "var chkcnv = document.getElementById(&quot;chkCanvas&quot;);\n"
 		textBottom += "var chkjg = new jsGraphics(chkcnv);\n"
 		textBottom += "var chkcnvLeft = parseInt(chkcnv.style.left);\n"
 		textBottom += "var chkcnvTop = parseInt(chkcnv.style.top);\n"
@@ -1271,7 +1271,7 @@ function GetTextBottom(){
 		textBottom += "var offset = 6;\n"
 		textBottom += "var x = parseInt(x) + offset;\n"
 		textBottom += "var y = parseInt(y) + offset;\n"
-		textBottom += "chkjg.setColor('black');\n"
+		textBottom += "chkjg.setColor(&quot;black&quot;);\n"
 		textBottom += "chkjg.setStroke(3);\n"
 		textBottom += "\t	// draws checkmark\n"
 		textBottom += "\t	var x1 = x;\n"
@@ -1287,7 +1287,7 @@ function GetTextBottom(){
 		textBottom += "function replaceCheckmarks(){\n"
 		textBottom += "var f = document.getElementById(&quot;FormName&quot;);\n"
 		textBottom += "	\t for (var i=0;i&lt;f.length;i++){\n"
-		textBottom += "	\t\t	if ((f.elements[i].type == 'checkbox') &amp;&amp; (f.elements[i].checked)){\n"
+		textBottom += "	\t\t	if ((f.elements[i].type == &quot;checkbox&quot;) &amp;&amp; (f.elements[i].checked)){\n"
 		textBottom += "	\t\t		var a = f.elements[i].style.left;\n"
 		textBottom += "	\t\t		var b = f.elements[i].style.top;\n"
 		textBottom += "	\t\t		drawCheckmark(a,b);\n"
