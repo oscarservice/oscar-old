@@ -394,21 +394,25 @@ public class ReportHelper {
 			List<Measurement> ms = measurementDao.findByType(demoId, idents);
 			if(ms.size()>0) {
 				Measurement m = ms.get(0);
-				double val = Double.valueOf(m.getDataField());
-				if(val >= 90) {
-					r.setCkdStage1(r.getCkdStage1()+1);
-				}
-				if(val >=60 && val <= 89) {
-					r.setCkdStage2(r.getCkdStage2()+1);
-				}
-				if(val >=30 && val <= 59) {
-					r.setCkdStage3(r.getCkdStage3()+1);
-				}
-				if(val >=15 && val <=29) {
-					r.setCkdStage4(r.getCkdStage4()+1);
-				}
-				if(val < 15) {
-					r.setCkdStage5(r.getCkdStage5()+1);
+				try {
+					double val = Double.parseDouble(m.getDataField());
+					if(val >= 90) {
+						r.setCkdStage1(r.getCkdStage1()+1);
+					}
+					if(val >=60 && val <= 89) {
+						r.setCkdStage2(r.getCkdStage2()+1);
+					}
+					if(val >=30 && val <= 59) {
+						r.setCkdStage3(r.getCkdStage3()+1);
+					}
+					if(val >=15 && val <=29) {
+						r.setCkdStage4(r.getCkdStage4()+1);
+					}
+					if(val < 15) {
+						r.setCkdStage5(r.getCkdStage5()+1);
+					}
+				} catch (NumberFormatException nfe) {
+					continue;
 				}
 			}
 		}

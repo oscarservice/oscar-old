@@ -46,7 +46,7 @@ public class ORNPreImplementationReportThread extends Thread {
 	public void run() {
 		try {
 		ReportDataContainer r = ReportHelper.getPreImplementationReportData();
-		ORNPreImplementationReportLogDao oRNPreImplementationReportLogDao = SpringUtils.getBean(ORNPreImplementationReportLogDao.class);
+		ORNPreImplementationReportLogDao oRNPreImplementationReportLogDao = (ORNPreImplementationReportLogDao) SpringUtils.getBean("ORNPreImplementationReportLogDao");
 			JAXBContext context = JAXBContext.newInstance(ReportDataContainer.class);
 		    Marshaller m = context.createMarshaller();
 		    m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);

@@ -42,7 +42,7 @@
 
 	DecimalFormat df = new DecimalFormat("0.00");
 	String id = request.getParameter("id");
-	ORNPreImplementationReportLogDao dao = SpringUtils.getBean(ORNPreImplementationReportLogDao.class);
+	ORNPreImplementationReportLogDao dao = (ORNPreImplementationReportLogDao) SpringUtils.getBean("ORNPreImplementationReportLogDao");
 	ORNPreImplementationReportLog report = dao.find(Integer.parseInt(id));
 	if(report != null) {
 		JAXBContext context = JAXBContext.newInstance(ReportDataContainer.class);
