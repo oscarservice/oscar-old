@@ -66,6 +66,7 @@ public class NoteDisplayNonNote implements NoteDisplay {
 			date = (Date) eform.get("formDateAsDate");			
 		} catch (Exception e) {
 			MiscUtils.getLogger().info(e.toString());
+			
 		}
 		
 		note = eform.get("formName") + " : " + eform.get("formSubject");

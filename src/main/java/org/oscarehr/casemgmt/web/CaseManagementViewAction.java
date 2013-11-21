@@ -2721,7 +2721,7 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
 								findRemoteNote(
 										(CachedDemographicNoteCompositePk) entry
 												.getId(), remoteNotes)));
-					} else if (entry.getType().equals("eform")) {
+					} /*else if (entry.getType().equals("eform")) {
 						HashMap<String, ? extends Object> eform = findEform((String) entry.getId(), eForms);
 						if (eform != null) {
 							notesToDisplay1.add(new NoteDisplayNonNote(eform));
@@ -2732,7 +2732,7 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
 					} else if (entry.getType().equals("invoice")) {
 						notesToDisplay1.add(new NoteDisplayNonNote(findInvoice(
 								(Integer) entry.getId(), invoices)));
-					} else if (entry.getType().equals("group_note")) {
+					}*/ else if (entry.getType().equals("group_note")) {
 						CaseManagementNote note = findNote(
 								((Integer) entry.getId()).longValue(), groupNotes);
 						NoteDisplayLocal disp = new NoteDisplayLocal(note);
