@@ -2722,8 +2722,10 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
 										(CachedDemographicNoteCompositePk) entry
 												.getId(), remoteNotes)));
 					} else if (entry.getType().equals("eform")) {
-						notesToDisplay1.add(new NoteDisplayNonNote(findEform(
-								(String) entry.getId(), eForms)));
+						HashMap<String, ? extends Object> eform = findEform((String) entry.getId(), eForms);
+						if (eform != null) {
+							notesToDisplay1.add(new NoteDisplayNonNote(eform));
+						}
 					} else if (entry.getType().equals("encounter_form")) {
 						notesToDisplay1.add(new NoteDisplayNonNote(findPatientForm(
 								(String[]) entry.getId(), allPatientForms)));
