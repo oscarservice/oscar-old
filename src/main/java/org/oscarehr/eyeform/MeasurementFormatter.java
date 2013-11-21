@@ -66,7 +66,7 @@ public class MeasurementFormatter {
 	public String getVisionAssessment(Map<String,Boolean> includeMap) {
 		StringBuilder sb = new StringBuilder();
 	
-        if((eyeform != null) && (eyeform.equals("eyeform3"))){
+        if("eyeform3".equals(eyeform)){
         	if(includeMap.get("Distance vision (sc)") != null && this.getVisionAssessmentDistanceVision_sc().length()>0){
     			sb.append("Distance vision (sc) ");
     			sb.append(this.getVisionAssessmentDistanceVision_sc());
@@ -398,7 +398,7 @@ public class MeasurementFormatter {
 			sb.append("Face ");
 			sb.append(this.getFace());
 		}
-		if((eyeform != null) && (!eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			if(includeMap.get("Upper lid") != null && this.getUpperLid().length()>0) {
 				sb.append("Upper lid ");
 				sb.append(this.getUpperLid());
@@ -514,7 +514,7 @@ public class MeasurementFormatter {
 			sb.append("Cranial nerve VII function ");
 			sb.append(this.getCNVii());
 		}
-		if((eyeform != null) && (eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			if(includeMap.get("Bells phenomenon") != null && this.getBells().length()>0) {
 				sb.append("Bell's phenomenon ");
 				sb.append(this.getBells());
@@ -868,7 +868,7 @@ public class MeasurementFormatter {
 	
 	public String getManifestDistance() {
 		StringBuilder sb = new StringBuilder();
-		if((eyeform != null) && (eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			if(isPresent("v_rds")) {		
 				sb.append("[" +getValue("v_rds")+ "]");
 			}
@@ -937,7 +937,7 @@ public class MeasurementFormatter {
 	
 	public String getManifestNear() {
 		StringBuilder sb = new StringBuilder();	
-		if((eyeform != null) && (eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			if(isPresent("v_rns")) {					
 				sb.append("[" +getValue("v_rns")+ "]");
 			}
@@ -1000,7 +1000,7 @@ public class MeasurementFormatter {
 	//TODO: No ADD HERE?
 	public String getCycloplegicRefraction() {
 		StringBuilder sb = new StringBuilder();
-		if((eyeform != null) && (eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			if(isPresent("v_rcs")) {				
 				sb.append("[" +getValue("v_rcs")+ "]");
 			}
@@ -1084,7 +1084,7 @@ public class MeasurementFormatter {
 	
 	public String getNCT() {
 		StringBuilder sb = new StringBuilder();		
-		if((eyeform != null) && (eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			Date d1 = null;
 			Date d2 = null;
 			if(isPresent("iop_rn")){
@@ -1156,7 +1156,7 @@ public class MeasurementFormatter {
 	
 	public String getApplanation() {		
 		StringBuilder sb = new StringBuilder();
-		if((eyeform != null) && (eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			Date d1 = null;
 			Date d2 = null;
 			if(isPresent("iop_ra")){
@@ -1227,7 +1227,7 @@ public class MeasurementFormatter {
 	
 	public String getCCT() {
 		StringBuilder sb = new StringBuilder();
-		if((eyeform != null) && (eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			if(isPresent("cct_r")) {
 				sb.append("OD ");		
 				sb.append("[" +getValue("cct_r")+ "]");
@@ -1304,7 +1304,7 @@ public class MeasurementFormatter {
 	
 	public String getColourVision() {
 		StringBuilder sb = new StringBuilder();	
-		if((eyeform != null) && (eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			if(isPresent("o_rcolour")) {
 				sb.append("OD ");		
 				sb.append("[" +getValue("o_rcolour")+ "]");		
@@ -1332,7 +1332,7 @@ public class MeasurementFormatter {
 	
 	public String getPupil() {
 		StringBuilder sb = new StringBuilder();
-		if((eyeform != null) && (eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			if(isPresent("o_rpupil")) {
 				sb.append("OD ");		
 				sb.append("[" +getValue("o_rpupil")+ "]");		
@@ -1360,7 +1360,7 @@ public class MeasurementFormatter {
 	
 	public String getAmslerGrid() {
 		StringBuilder sb = new StringBuilder();	
-		if((eyeform != null) && (eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			if(isPresent("o_ramsler")) {
 				sb.append("OD ");		
 				sb.append("[" +getValue("o_ramsler")+ "]");		
@@ -1388,7 +1388,7 @@ public class MeasurementFormatter {
 	
 	public String getPAM() {
 		StringBuilder sb = new StringBuilder();
-		if((eyeform != null) && (eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			if(isPresent("o_rpam")) {
 				sb.append("OD ");		
 				sb.append("[" +getValue("o_rpam")+ "]");		
@@ -1416,7 +1416,7 @@ public class MeasurementFormatter {
 	
 	public String getConfrontation() {
 		StringBuilder sb = new StringBuilder();	
-		if((eyeform != null) && (eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			if(isPresent("o_rconf")) {
 				sb.append("OD ");		
 				sb.append("[" +getValue("o_rconf")+ "]");		
@@ -1664,7 +1664,7 @@ public class MeasurementFormatter {
 	
 	public String getCornea() {
 		StringBuilder sb = new StringBuilder();	
-		if((eyeform != null) && (eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			if(isPresent("a_rk")) {
 				sb.append("OD ");		
 				sb.append("[" +getValue("a_rk")+ "]");		
@@ -1692,7 +1692,7 @@ public class MeasurementFormatter {
 	
 	public String getConjuctivaSclera() {
 		StringBuilder sb = new StringBuilder();
-		if((eyeform != null) && (eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			if(isPresent("a_rconj")) {
 				sb.append("OD ");		
 				sb.append("[" +getValue("a_rconj")+ "]");		
@@ -1720,7 +1720,7 @@ public class MeasurementFormatter {
 	
 	public String getAnteriorChamber() {
 		StringBuilder sb = new StringBuilder();
-		if((eyeform != null) && (eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			if(isPresent("a_rac")) {
 				sb.append("OD ");		
 				sb.append("[" +getValue("a_rac")+ "]");		
@@ -1748,7 +1748,7 @@ public class MeasurementFormatter {
 	
 	public String getAngle() {
 		StringBuilder sb = new StringBuilder();	
-		if((eyeform != null) && (eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			if(isPresent("a_rangle_1") || isPresent("a_rangle_2") || isPresent("a_rangle_3") || isPresent("a_rangle_4") || isPresent("a_rangle_5")) {			
 				sb.append("OD ");
 				sb.append(getValue("[" +"a_rangle_3") + "]");
@@ -1912,7 +1912,7 @@ public class MeasurementFormatter {
 
 	public String getIris() {
 		StringBuilder sb = new StringBuilder();
-		if((eyeform != null) && (eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			if(isPresent("a_riris")) {
 				sb.append("OD ");		
 				sb.append("[" +getValue("a_riris")+"]");		
@@ -1940,7 +1940,7 @@ public class MeasurementFormatter {
 	
 	public String getLens() {
 		StringBuilder sb = new StringBuilder();
-		if((eyeform != null) && (eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			if(isPresent("a_rlens")) {
 				sb.append("OD ");		
 				sb.append("[" +getValue("a_rlens")+"]");		
@@ -1968,7 +1968,7 @@ public class MeasurementFormatter {
 	
 	public String getDisc() {
 		StringBuilder sb = new StringBuilder();
-		if((eyeform != null) && (eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			if(isPresent("p_rdisc")) {
 				sb.append("OD ");		
 				sb.append("[" +getValue("p_rdisc")+"]");		
@@ -1996,7 +1996,7 @@ public class MeasurementFormatter {
 	
 	public String getCdRatio() {
 		StringBuilder sb = new StringBuilder();
-		if((eyeform != null) && (eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			if(isPresent("p_rcd")) {
 				sb.append("OD ");		
 				sb.append("[" +getValue("p_rcd")+"]");		
@@ -2024,7 +2024,7 @@ public class MeasurementFormatter {
 	
 	public String getMacula() {
 		StringBuilder sb = new StringBuilder();	
-		if((eyeform != null) && (eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			if(isPresent("p_rmac")) {
 				sb.append("OD ");		
 				sb.append("[" +getValue("p_rmac")+"]");		
@@ -2052,7 +2052,7 @@ public class MeasurementFormatter {
 	
 	public String getRetina() {
 		StringBuilder sb = new StringBuilder();
-		if((eyeform != null) && (eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			if(isPresent("p_rret")) {
 				sb.append("OD ");		
 				sb.append("[" +getValue("p_rret")+"]");		
@@ -2080,7 +2080,7 @@ public class MeasurementFormatter {
 	
 	public String getVitreous() {
 		StringBuilder sb = new StringBuilder();	
-		if((eyeform != null) && (eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			if(isPresent("p_rvit")) {
 				sb.append("OD ");		
 				sb.append("[" +getValue("p_rvit")+"]");		
@@ -2108,7 +2108,7 @@ public class MeasurementFormatter {
 	
 	public String getFace() {
 		StringBuilder sb = new StringBuilder();	
-		if((eyeform != null) && (eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			if(isPresent("ext_rface")) {
 				sb.append("Right side ");		
 				sb.append("["+getValue("ext_rface")+"]");		
@@ -2136,7 +2136,7 @@ public class MeasurementFormatter {
 	
 	public String getUpperLid() {
 		StringBuilder sb = new StringBuilder();
-		if((eyeform != null) && (eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			if(isPresent("ext_rul")) {
 				sb.append("OD ");		
 				sb.append("["+getValue("ext_rul")+"]");		
@@ -2164,7 +2164,7 @@ public class MeasurementFormatter {
 	
 	public String getLowerLid() {
 		StringBuilder sb = new StringBuilder();	
-		if((eyeform != null) && (eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			if(isPresent("ext_rll")) {
 				sb.append("OD ");		
 				sb.append("["+getValue("ext_rll")+"]");		
@@ -2192,7 +2192,7 @@ public class MeasurementFormatter {
 	
 	public String getPunctum() {
 		StringBuilder sb = new StringBuilder();	
-		if((eyeform != null) && (eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			if(isPresent("ext_rpunc")) {
 				sb.append("OD ");		
 				sb.append("["+getValue("ext_rpunc")+"]");		
@@ -2220,7 +2220,7 @@ public class MeasurementFormatter {
 	
 	public String getLacrimalLake() {
 		StringBuilder sb = new StringBuilder();	
-		if((eyeform != null) && (eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			if(isPresent("ext_rlake")) {
 				sb.append("OD ");		
 				sb.append("["+getValue("ext_rlake")+"]");		
@@ -2248,7 +2248,7 @@ public class MeasurementFormatter {
 	
 	public String getLacrimalIrrigation() {
 		StringBuilder sb = new StringBuilder();		
-		if((eyeform != null) && (eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			if(isPresent("ext_rirrig")) {
 				sb.append("OD ");		
 				sb.append("["+getValue("ext_rirrig")+"]");		
@@ -2276,7 +2276,7 @@ public class MeasurementFormatter {
 	
 	public String getNLD() {
 		StringBuilder sb = new StringBuilder();		
-		if((eyeform != null) && (eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			if(isPresent("ext_rnld")) {
 				sb.append("OD ");		
 				sb.append("["+getValue("ext_rnld")+"]");		
@@ -2304,7 +2304,7 @@ public class MeasurementFormatter {
 	
 	public String getDyeDisappearance() {
 		StringBuilder sb = new StringBuilder();	
-		if((eyeform != null) && (eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			if(isPresent("ext_rdye")) {
 				sb.append("OD ");		
 				sb.append("["+getValue("ext_rdye")+"]");		
@@ -2332,7 +2332,7 @@ public class MeasurementFormatter {
 	
 	public String getMarginReflexDistance() {
 		StringBuilder sb = new StringBuilder();	
-		if((eyeform != null) && (eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			if(isPresent("lid_rmrd")) {
 				sb.append("OD ");		
 				sb.append("["+getValue("lid_rmrd")+"]");		
@@ -2360,7 +2360,7 @@ public class MeasurementFormatter {
 	
 	public String getLevatorFunction() {
 		StringBuilder sb = new StringBuilder();	
-		if((eyeform != null) && (eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			if(isPresent("lid_rlev")) {
 				sb.append("OD ");		
 				sb.append("["+getValue("lid_rlev")+"]");		
@@ -2388,7 +2388,7 @@ public class MeasurementFormatter {
 	
 	public String getInferiorScleralShow() {
 		StringBuilder sb = new StringBuilder();	
-		if((eyeform != null) && (eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			if(isPresent("lid_riss")) {
 				sb.append("OD ");		
 				sb.append("["+getValue("lid_riss")+"]");		
@@ -2416,7 +2416,7 @@ public class MeasurementFormatter {
 	
 	public String getCNVii() {
 		StringBuilder sb = new StringBuilder();	
-		if((eyeform != null) && (eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			if(isPresent("lid_rcn7")) {
 				sb.append("OD ");		
 				sb.append("["+getValue("lid_rcn7")+"]");		
@@ -2444,7 +2444,7 @@ public class MeasurementFormatter {
 	
 	public String getBlink() {
 		StringBuilder sb = new StringBuilder();	
-		if((eyeform != null) && (eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			if(isPresent("lid_rblink")) {
 				sb.append("OD ");		
 				sb.append("["+getValue("lid_rblink")+"]");		
@@ -2472,7 +2472,7 @@ public class MeasurementFormatter {
 	
 	public String getBells() {
 		StringBuilder sb = new StringBuilder();
-		if((eyeform != null) && (eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			if(isPresent("lid_rbell")) {
 				sb.append("OD ");		
 				sb.append("["+getValue("lid_rbell")+"]");		
@@ -2515,7 +2515,7 @@ public class MeasurementFormatter {
 	
 	public String getLagophthalmos() {
 		StringBuilder sb = new StringBuilder();	
-		if((eyeform != null) && (eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			if(isPresent("lid_rlag")) {
 				sb.append("OD ");		
 				sb.append("["+getValue("lid_rlag")+"]");		
@@ -2543,7 +2543,7 @@ public class MeasurementFormatter {
 	
 	public String getHertel() {
 		StringBuilder sb = new StringBuilder();	
-		if((eyeform != null) && (eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			if(isPresent("ext_rhertel")) {
 				sb.append("OD ");		
 				sb.append("["+getValue("ext_rhertel")+"]");		
@@ -2571,7 +2571,7 @@ public class MeasurementFormatter {
 	
 	public String getRetropulsion() {
 		StringBuilder sb = new StringBuilder();
-		if((eyeform != null) && (eyeform.equals("eyeform3"))){
+		if("eyeform3".equals(eyeform)){
 			if(isPresent("ext_rretro")) {
 				sb.append("OD ");		
 				sb.append("["+getValue("ext_rretro")+"]");		

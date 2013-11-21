@@ -165,7 +165,7 @@ function saveFlags() {
  <%
 	oscar.OscarProperties props1 = oscar.OscarProperties.getInstance();
 	String impression_history_show = props1.getProperty("cme_js", "eyeform3");
-	if((impression_history_show!= null) && (impression_history_show.equals("eyeform3"))){
+	if("eyeform3".equals(impression_history_show)){
 %>
            <input value="Impression History" onclick="popupPage(500,900,'Impressionhistory1','<c:out value="${ctx}"/>/eyeform/Impression_History.jsp')" id="stickler1" style="color: black;" type="button"> 
    <%} %>

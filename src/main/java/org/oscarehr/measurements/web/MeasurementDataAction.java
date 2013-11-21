@@ -132,7 +132,7 @@ public class MeasurementDataAction extends DispatchAction {
 				}
 				oscar.OscarProperties props1 = oscar.OscarProperties.getInstance();
 			    String eyeform = props1.getProperty("cme_js");
-				if((eyeform != null) && (eyeform.equals("eyeform3"))){
+				if("eyeform3".equals(eyeform)){
 					if(key.equals("iop_ra") || key.equals("iop_la")) {
 						if(applanationTs == null) {
 							applanationTs = value.getDateObserved();

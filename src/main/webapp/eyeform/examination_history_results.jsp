@@ -118,7 +118,7 @@
 					<tr>
 						<td>Start Date:</td>
 						<td>
-							<%if((eyeform != null) && (eyeform.equals("eyeform3"))){%>
+							<%if("eyeform3".equals(eyeform)){%>
 							<input type="text" class="plain" name="sdate" id="sdate" size="12" onfocus="this.blur()" readonly="readonly" value=""/>
 							<%}else{%>
 			 				<input type="text" class="plain" name="sdate" id="sdate" size="12" onfocus="this.blur()" readonly="readonly" value="<%=sdate%>"/>
@@ -139,7 +139,7 @@
 						<td></td>
 						<td>
 							<input type="submit" onclick="this.form.refPage.value=null" value="Search"/>
-							<%if((eyeform != null) && (eyeform.equals("eyeform3"))){%>
+							<%if("eyeform3".equals(eyeform)){%>
 							<!--<input type="button" onclick="allsubmit();" value="Alls" />-->
 							<%}%>
 						</td>
@@ -147,7 +147,7 @@
 				</table>
 			</tr>
 	 	</table>
-<%if((eyeform != null) && (!eyeform.equals("eyeform3"))){%>
+<%if("eyeform3".equals(eyeform)){%>
 		<h5>Simple field history:</h5>
 		<table class="display" style="width:20%">
 		<tr style="background-color: rgb(204, 204, 255);">
@@ -197,7 +197,7 @@
 			%>
 </table>
 <%}%>
-<%if((eyeform != null) && (eyeform.equals("eyeform3"))){%>
+<%if("eyeform3".equals(eyeform)){%>
 <table width="100%" cellpadding="1" cellspacing="4" border="0">
 <%if(fieldList.contains("Glasses Rx")){%>
 <tr>

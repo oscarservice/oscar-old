@@ -776,7 +776,7 @@ jQuery(document).ready(function() {
 					<table>
 						<tr>
                		<td>
-						<%if((eyeform != null) && (eyeform.equals("eyeform3"))){%>
+						<%if("eyeform3".equals(eyeform)){%>
 							<select name="fromlist1" multiple="multiple" size="9" ondblclick="addSection1(document.eyeForm.elements['fromlist1'],document.eyeForm.elements['fromlist2']);">
 						<%}else{%>
                 			<select name="fromlist1" multiple="multiple" size="9" ondblclick="addSection(document.eyeForm.elements['fromlist1'],document.eyeForm.elements['fromlist2']);">
@@ -787,7 +787,7 @@ jQuery(document).ready(function() {
                 			</select>
                 		</td>
                 		<td valign="middle">
-							<%if((eyeform != null) && (eyeform.equals("eyeform3"))){%>
+							<%if("eyeform3".equals(eyeform)){%>
 							<input type="button" value=">>" onclick="addSection1(document.eyeForm.elements['fromlist1'],document.eyeForm.elements['fromlist2']);"/>
 							<%}else{%>
                 			<input type="button" value=">>" onclick="addSection(document.eyeForm.elements['fromlist1'],document.eyeForm.elements['fromlist2']);"/>
