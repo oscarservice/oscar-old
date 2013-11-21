@@ -2658,7 +2658,7 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
 				}
 			}
 		}
-		if(eyeform.equals("eyeform3")){
+		if((eyeform != null) && (eyeform.equals("eyeform3"))){
 	    	ArrayList<NoteDisplay> notesToDisplay1 = new ArrayList<NoteDisplay>();
 			if (entries.size() > 0) {
 				// figure out what we need to retrieve

@@ -50,6 +50,8 @@ import org.oscarehr.util.LoggedInInfo;
 import org.oscarehr.util.MiscUtils;
 import org.oscarehr.util.SpringUtils;
 
+import oscar.OscarProperties;
+
 import oscar.oscarEncounter.oscarMeasurements.dao.MeasurementsDao;
 import oscar.oscarEncounter.oscarMeasurements.model.Measurements;
 
@@ -126,6 +128,24 @@ public class MeasurementDataAction extends DispatchAction {
 						nctTs = value.getDateObserved();
 					} else if(value.getDateObserved().after(nctTs)) {
 						nctTs = value.getDateObserved();
+					}
+				}
+				oscar.OscarProperties props1 = oscar.OscarProperties.getInstance();
+			    String eyeform = props1.getProperty("cme_js");
+				if((eyeform != null) && (eyeform.equals("eyeform3"))){
+					if(key.equals("iop_ra") || key.equals("iop_la")) {
+						if(applanationTs == null) {
+							applanationTs = value.getDateObserved();
+						} else if(value.getDateObserved().after(applanationTs)) {
+							applanationTs = value.getDateObserved();
+						}
+					}
+					if(key.equals("iop_rn") || key.equals("iop_ln")) {
+						if(nctTs == null) {
+							nctTs = value.getDateObserved();
+						} else if(value.getDateObserved().after(nctTs)) {
+							nctTs = value.getDateObserved();
+						}
 					}
 				}
 			}

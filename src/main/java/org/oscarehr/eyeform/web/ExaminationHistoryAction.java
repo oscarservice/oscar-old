@@ -173,7 +173,7 @@ public class ExaminationHistoryAction extends DispatchAction {
 		endDate = cal.getTime();
 		
 		SpecsHistoryDao dao = (SpecsHistoryDao)SpringUtils.getBean("SpecsHistoryDAO");
-		if(!eyeform.equals("eyeform3")){
+		if((eyeform != null) && (!eyeform.equals("eyeform3"))){
 
 			//simple fields
 			//exclude complex ones ar,k,manifest_refraction,cycloplegic_refraction, angle, EOM
@@ -211,7 +211,7 @@ public class ExaminationHistoryAction extends DispatchAction {
 			request.setAttribute("refPage", Integer.parseInt(refPage));
 	    }
 		
-		if(eyeform.equals("eyeform3")){
+		if((eyeform != null) && (eyeform.equals("eyeform3"))){
 			if(fieldList.contains("Glasses Rx")){
 				List<Map<String,String>> glasses = new ArrayList<Map<String,String>>();
 				List<EyeformSpecsHistory> specs = null;
