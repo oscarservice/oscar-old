@@ -147,7 +147,7 @@
 				</table>
 			</tr>
 	 	</table>
-<%if("eyeform3".equals(eyeform)){%>
+<%if(!"eyeform3".equals(eyeform)){%>
 		<h5>Simple field history:</h5>
 		<table class="display" style="width:20%">
 		<tr style="background-color: rgb(204, 204, 255);">
