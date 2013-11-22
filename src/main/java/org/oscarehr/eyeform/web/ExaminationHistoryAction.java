@@ -173,7 +173,7 @@ public class ExaminationHistoryAction extends DispatchAction {
 		endDate = cal.getTime();
 		
 		SpecsHistoryDao dao = (SpecsHistoryDao)SpringUtils.getBean("SpecsHistoryDAO");
-		if("eyeform3".equals(eyeform)){
+		if(!"eyeform3".equals(eyeform)){
 
 			//simple fields
 			//exclude complex ones ar,k,manifest_refraction,cycloplegic_refraction, angle, EOM
