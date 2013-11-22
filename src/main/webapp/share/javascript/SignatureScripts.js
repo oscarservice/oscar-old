@@ -43,7 +43,8 @@ function getElementIdPrefix(which) {
 
 function SetMouseDown(which){
 	var divId = getElementIdPrefix(which);
-	if ("SignCanvas" == divId) {
+	var index = getScriptelSignatureIndex(which);
+	if (!divId || "SignCanvas" == divId || index == 1) {
 		MouseDown = true;
 	} else {
 		MouseDown1 = true;
@@ -52,7 +53,8 @@ function SetMouseDown(which){
 
 function SetMouseUp(which){
 	var divId = getElementIdPrefix(which);
-	if ("SignCanvas" == divId) {
+	var index = getScriptelSignatureIndex(which);
+	if (!divId || "SignCanvas" == divId || index == 1) {
 		MouseDown = false;
 	} else {
 		MouseDown1 = false;
@@ -62,7 +64,8 @@ function SetMouseUp(which){
 
 function SetDrawOn(which){
 	var divId = getElementIdPrefix(which);
-	if ("SignCanvas" == divId) {
+	var index = getScriptelSignatureIndex(which);
+	if (!divId || "SignCanvas" == divId || index == 1) {
 		DrawSwitch = true;
 	} else {
 		DrawSwitch1 = true;
@@ -71,7 +74,8 @@ function SetDrawOn(which){
 
 function SetDrawOff(which){
 	var divId = getElementIdPrefix(which);
-	if ("SignCanvas" == divId) {
+	var index = getScriptelSignatureIndex(which);
+	if (!divId || "SignCanvas" == divId || index == 1) {
 		DrawSwitch = false;
 	} else {
 		DrawSwitch1 = false;
@@ -86,7 +90,8 @@ function RoundTo(n, d){
 
 function SetStart(which){
 	var divId = getElementIdPrefix(which);
-	if ("SignCanvas" == divId) {
+	var index = getScriptelSignatureIndex(which);
+	if (!divId || "SignCanvas" == divId || index == 1) {
 		x0 = (mousex - cnvLeft);
     	y0 = (mousey - cnvTop);
 	} else {
@@ -98,9 +103,9 @@ function SetStart(which){
 
 function GetXY(which, x, y){
     var t = StrokeThickness;
-	
 	var divId = getElementIdPrefix(which);
-	if ("SignCanvas" == divId) {
+	var index = getScriptelSignatureIndex(which);
+	if (!divId || "SignCanvas" == divId || index == 1) {
 		var l = Xposition.length - 1; //l = last position
 	    var h = Math.sqrt(Math.pow((Xposition[l] - x), 2) + Math.pow((Yposition[l] - y), 2)) //calc hypotenuse
 	    if (Xposition.length < 2) {
@@ -131,7 +136,8 @@ function GetXY(which, x, y){
 
 function ClearXY(which){
 	var divId = getElementIdPrefix(which);
-	if ("SignCanvas" == divId) {
+	var index = getScriptelSignatureIndex(which);
+	if (!divId || "SignCanvas" == divId || index == 1) {
 		Xposition = [];
     	Yposition = [];
 	} else {
@@ -163,7 +169,8 @@ function StrToArr(Str, s){
 
 function AddFreehand(which, canvas, x, y, StrokeColor){
 	var divId = getElementIdPrefix(which);
-	if ("SignCanvas" == divId) {
+	var index = getScriptelSignatureIndex(which);
+	if (!divId || "SignCanvas" == divId || index == 1) {
 		var X = Xposition;
 	    var Y = Yposition;
 	    jg.setColor(StrokeColor);
@@ -206,7 +213,8 @@ function DrawFreehand(which, canvas, X, Y, StrokeColor){
     var StrY = ArrToStr(Y, ':');
     var Parameter = "Freehand" + "|" + StrX + "|" + StrY + "|" + StrokeColor;
 	var divId = getElementIdPrefix(which);
-	if ("SignCanvas" == divId) {
+	var index = getScriptelSignatureIndex(which);
+	if (!divId || "SignCanvas" == divId || index == 1) {
 		DrawData.push(Parameter);
     	document.getElementById(divId + "-DrawData").value = DrawData;
 	} else {
@@ -217,7 +225,8 @@ function DrawFreehand(which, canvas, X, Y, StrokeColor){
 
 function DrawMarker(which){
 	var divId = getElementIdPrefix(which);
-	if ("SignCanvas" == divId) {
+	var index = getScriptelSignatureIndex(which);
+	if (!divId || "SignCanvas" == divId || index == 1) {
 		if (DrawSwitch) {
 	        var x = parseInt(mousex - cnvLeft);
 	        var y = parseInt(mousey - cnvTop);
@@ -241,7 +250,8 @@ function DrawMarker(which){
 function DrawPreview(which){
 	var divId = getElementIdPrefix(which);
 	var x = 0, y = 0;
-	if ("SignCanvas" == divId) {
+	var index = getScriptelSignatureIndex(which);
+	if (!divId || "SignCanvas" == divId || index == 1) {
 		x = parseInt(mousex - cnvLeft);
 		y = parseInt(mousey - cnvTop);
 		if (MouseDown) {
@@ -265,11 +275,12 @@ function DrawPreview(which){
 function RedrawImage(which, RedrawParameter){
 	var divId = getElementIdPrefix(which);
     var DrawingType = RedrawParameter[0];
+	var index = getScriptelSignatureIndex(which);
     if (DrawingType == "Freehand") {
         var X = StrToArr(RedrawParameter[1], ':');
         var Y = StrToArr(RedrawParameter[2], ':');
         StrokeColor = RedrawParameter[3];
-		if ("SignCanvas" == divId) {
+		if (!divId || "SignCanvas" == divId || index == 1) {
 			DrawFreehand(which, jg, X, Y, StrokeColor);			
 		} else {
 			DrawFreehand(which, jg1, X, Y, StrokeColor);
@@ -279,7 +290,8 @@ function RedrawImage(which, RedrawParameter){
 
 function Undo(which){
     var divId = getElementIdPrefix(which);
-    if ("SignCanvas" == divId) {
+	var index = getScriptelSignatureIndex(which);
+    if (!divId || "SignCanvas" == divId || index == 1) {
         jg.clear();
 		TempData = DrawData;
 	    DrawData = new Array();
@@ -304,7 +316,8 @@ function Undo(which){
 
 function Clear(which){
     var divId = getElementIdPrefix(which);
-    if ("SignCanvas" == divId) {
+	var index = getScriptelSignatureIndex(which);
+    if (!divId || "SignCanvas" == divId || index == 1) {
         jg.clear();
 		TempData = new Array();
 	    DrawData = new Array();
@@ -332,7 +345,8 @@ function Clear(which){
 
 function ClearExceptSubmit(which){
     var divId = getElementIdPrefix(which);
-    if ("SignCanvas" == divId) {
+	var index = getScriptelSignatureIndex(which);
+    if (!divId || "SignCanvas" == divId || index == 1) {
         jg.clear();
 		TempData = new Array();
 	    DrawData = new Array();
@@ -355,16 +369,19 @@ function ClearExceptSubmit(which){
 }
 
 function SubmitImage(){
-	$("div.sig").each(function(){
-		EncodeData(this);
-	});
+	if ($("div.sig") != null) {
+		$("div.sig").each(function(){
+			EncodeData(this);
+		})
+	};
 }
 
 function EncodeData(which){
     var packed = ""; // Initialize packed or we get the word 'undefined'
     //Converting image data in array into a string
 	var divId = getElementIdPrefix(which);
-    if ("SignCanvas" == divId) {
+	var index = getScriptelSignatureIndex(which);
+    if (!divId || "SignCanvas" == divId || index == 1) {
 		for (i = 0; (i < DrawData.length); i++) {
 	        if (i > 0) {
 	            packed += ","; // each set of data separated by comma
@@ -389,7 +406,8 @@ function EncodeData(which){
 }
 function RecallImage(which){
 	var divId = getElementIdPrefix(which);
-    if ("SignCanvas" == divId) {
+	var index = getScriptelSignatureIndex(which);
+    if (!divId || "SignCanvas" == divId || index == 1) {
 		for (i = 0; (i < TempData.length); i++) {
 	        var Parameters = new Array();
 	        Parameters = TempData[i].split("|");
@@ -414,7 +432,8 @@ function DecodeData(which){
     for (i = 0; (i < data.length); i++) {
         data[i] = unescape(data[i]);
     }
-	if ("SignCanvas" == divId) {
+	var index = getScriptelSignatureIndex(which);
+	if (!divId || "SignCanvas" == divId || index == 1) {
 		TempData = data;
     	DrawData = new Array();
 	} else {
@@ -442,8 +461,10 @@ function DecodeData(which){
 }
 
 function ReloadImage(){
-	$("div.sig").each(function() {
-		DecodeData(this);
-    	RecallImage(this);
-	})
+	if ($("div.sig") != null) {
+		$("div.sig").each(function() {
+			DecodeData(this);
+	    	RecallImage(this);
+		})
+	}
 }

@@ -126,10 +126,19 @@ public class EFormUtil {
 		formSubject = org.apache.commons.lang.StringEscapeUtils.escapeSql(formSubject);
 		fileName = org.apache.commons.lang.StringEscapeUtils.escapeSql(fileName);
 		roleType = org.apache.commons.lang.StringEscapeUtils.escapeSql(roleType);
-		if (creator == null) creator = "NULL";
-		else creator = "'" + creator + "'";
-		if (roleType == null) roleType = "NULL";
-		else roleType = "'" + roleType + "'";
+		if (creator == null) {
+			creator = "NULL";
+		}
+		
+		// why add single quote mark around creator? Removed the single quote mark by lingmin.zhou 2013-11-22?
+		// else creator = "'" + creator + "'";
+		
+		if (roleType == null) {
+			roleType = "NULL";
+		}
+		
+		// why add single quote mark around roleTye? Removed the single quote mark by lingmin.zhou 2013-11-22
+		//else roleType = "'" + roleType + "'";
 		
 		org.oscarehr.common.model.EForm eform = new org.oscarehr.common.model.EForm();
 		eform.setFormName(formName);
