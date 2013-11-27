@@ -1451,6 +1451,7 @@ function GetTextBottom(){
 		textBottom += "\tvar jg1 = null;\n";
 		textBottom += "\tvar cnvLeft1 = 0;\n";
 		textBottom += "\tvar cnvTop1 = 0;\n";
+		textBottom += "\tvar contextPath = &quot;&quot;;\n";
 		
 		/*
 		function gup(name, url) {
@@ -1629,13 +1630,13 @@ function GetTextBottom(){
 		textBottom += "\t\t// Used to submit the form using Ajax.\n";
 		textBottom += "\t\tjQuery.ajax({\n";
 		textBottom += "\t\t\ttype: &quot;POST&quot;,\n";
-		textBottom += "\t\t\turl: &quot;<%=request.getContextPath()%>/signature_pad/uploadSignature.jsp&quot;,\n";
+		textBottom += "\t\t\turl: contextPath + &quot;/signature_pad/uploadSignature.jsp&quot;,\n";
 		textBottom += "\t\t\tdata: jQuery(&quot;#signatureForm&quot;, subDoc).serialize(),\n";
 		textBottom += "\t\t\tsuccess: function(data) {\n";
 		textBottom += "\t\t\t\tvar savedId = jQuery(jQuery(data.trim())[0]).val();\n";
 		textBottom += "\t\t\t\tvar img = document.getElementById(divId + &quot;-img&quot;);\n";
 		textBottom += "\t\t\t\tif (img != null) {\n";
-		textBottom += "\t\t\t\t\timg.setAttribute(&quot;src&quot;, &quot;<%=request.getContextPath()%>/imageRenderingServlet?source=signature_stored&digitalSignatureId=&quot; + savedId + &quot;&r=107&quot;);\n";
+		textBottom += "\t\t\t\t\timg.setAttribute(&quot;src&quot;, contextPath + &quot;/imageRenderingServlet?source=signature_stored&digitalSignatureId=&quot; + savedId + &quot;&r=107&quot;);\n";
 		textBottom += "\t\t\t\t\tdocument.getElementById(divId + &quot;-imgSavedId&quot;).value=savedId;\n";
 		textBottom += "\t\t\t\t\tshowScriptelSignature(which);\n";
 		textBottom += "\t\t\t\t}\n";
@@ -1734,6 +1735,7 @@ function GetTextBottom(){
 			var reg = /\/(\S+)?\/share\/javascript/;
 			var result = reg.exec(jsPath);
 			if (result.length == 2) {
+				contextPath=result[1];
 				var imgPath = "/" + result[1] + "/imageRenderingServlet?source=signature_stored&r=107&digitalSignatureId=";
 				jQuery("div[type='ScriptelSignatureBox']").each(function(){
 					var savedId = document.getElementById(this.id + "-imgSavedId").value;
@@ -1742,6 +1744,8 @@ function GetTextBottom(){
 						showScriptelSignature(this);
 					}
 				});
+			} else {
+				alert("Error: Can't get context path!!");
 			}
 		}
 		*/
@@ -1750,6 +1754,7 @@ function GetTextBottom(){
 		textBottom += "\t\tvar reg = /\\/(\\S+)?\\/share\\/javascript/;\n";
 		textBottom += "\t\tvar result = reg.exec(jsPath);\n";
 		textBottom += "\t\tif (result.length == 2) {\n";
+		textBottom += "\t\t\tcontextPath = &quot;/&quot; + result[1];\n";
 		textBottom += "\t\t\tvar imgPath = &quot;/&quot; + result[1] + &quot;/imageRenderingServlet?source=signature_stored&r=107&digitalSignatureId=&quot;;\n";
 		textBottom += "\t\t\tjQuery(&quot;div[type=\\&quot;ScriptelSignatureBox\\&quot;]&quot;).each(function(){\n";
 		textBottom += "\t\t\t\tvar savedId = document.getElementById(this.id + &quot;-imgSavedId&quot;).value;\n";
@@ -1758,7 +1763,9 @@ function GetTextBottom(){
 		textBottom += "\t\t\t\t\tshowScriptelSignature(this);\n";
 		textBottom += "\t\t\t\t}\n";
 		textBottom += "\t\t\t});\n";
-		textBottom += "\t\t}\n";
+		textBottom += "\t\t} else {\n";
+		textBottom += "\t\t\talert(&quot;Error: Can't get context path!!&quot;);\n";
+		textBottom += "\t\t}\n;";
 		textBottom += "\t}\n\n";
 				
 		
