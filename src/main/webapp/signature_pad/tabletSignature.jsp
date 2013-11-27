@@ -87,30 +87,31 @@ var contextPath = "<%=request.getContextPath() %>";
     	return false;
     	}
     var timeroutHandle = null;
-    var timerIntervalHandle = null;
+    //var timerIntervalHandle = null;
     function clearRefreshInterval() {
-    	if (timerIntervalHandle != null) {
+    	/*if (timerIntervalHandle != null) {
     	  clearInterval(timerIntervalHandle);
-    	}
+    	}*/
     	if (timeroutHandle != null) {
     		clearTimeout(timeroutHandle);
     	}
-		
+    	showSignature();
     }
+
     function onkeyuphdlr(){
     	if (timeroutHandle != null) {
     		clearTimeout(timeroutHandle);
-    	} else {
+    	}/* else {
     		if (null == timerIntervalHandle) {
     		  timerIntervalHandle = setInterval(showSignature, 50);
     		}
-    	}
-    	timeroutHandle = setTimeout(clearRefreshInterval, 100);
+    	}*/
+    	timeroutHandle = setTimeout(clearRefreshInterval, 10);
     }
+
     function myreflush(){
     	window.location.reload();
-    	
-    	}
+   	}
 
  </script>
 
@@ -124,7 +125,7 @@ var contextPath = "<%=request.getContextPath() %>";
 </div>
 
 <form onsubmit="return submitSignature();" action="<%=request.getContextPath() %>/signature_pad/uploadSignature.jsp" id="signatureForm" method="POST">
-	<input type="text" name="signature" id="signature"  onkeyup="onkeyuphdlr()" style="position: absolute; top: 104px;left: 200px;"/>
+	<input type="text" name="signature" id="signature"  onkeyup="onkeyuphdlr();" style="position: absolute; top: 104px;left: 200px;"/>
   <input id="draw-sig" type="submit" value="import" style="position: absolute; top: 103px;left: 360px; display:none;"/>
   <input id="clear-sig" type="submit" value="Clear"style="position: absolute; top: 103px;left: 428px;display:none;"/><br />
 	<input type="hidden" id="signatureImage" name="signatureImage" value="" />
