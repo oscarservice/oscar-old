@@ -987,11 +987,16 @@ function GetTextTop(){
 	//if freehand signature, initialize mouse scripts and reload previous freehand signature
 	<% if(OscarProperties.getInstance().getBooleanProperty("eform_signature_scriptel_enabled","true")){ %>
 	if (document.getElementById('FreehandSign').checked || document.getElementById('ScriptelSign').checked){
+		textTop += "init();";
+		if (document.getElementById('FreehandSign').checked) {
+			textTop += "ReloadImage();";
+		}
+	}
 	<%} else {%>
 	if (document.getElementById('FreehandSign').checked){
-	<%}%>
 		textTop += "init();ReloadImage();";
 	}
+	<%}%>
 	<% } %>
 	textTop += "&quot;&gt;\n";
 	//<img> background image
@@ -1145,22 +1150,28 @@ function GetTextMiddle(P){
 		var inputName = P[5];
 		
 		//<input type="hidden" name="SignCanvas-TempData" id="SignCanvas-TempData">
+		/*
 		m = "&lt;input type=&quot;hidden&quot; name=&quot;";
 		m += inputName + "-TempData&quot; id=&quot;" + inputName + "-TempData&quot; ";
 		m += "/&gt;\n";
+		*/
 		
 		//<input type="hidden" name="SignCanvas-DrawData" id="SignCanvas-DrawData">
+		/*
 		m += "&lt;input type=&quot;hidden&quot; name=&quot;";
 		m += inputName + "-DrawData&quot; id=&quot;" + inputName + "-DrawData&quot; ";
 		m += "/&gt;\n";
+		*/
 		
 		//<input type="hidden" name="SignCanvas-SubmitData" id="SignCanvas-SubmitData">
+		/*
 		m += "&lt;input type=&quot;hidden&quot; name=&quot;";
 		m += inputName + "-SubmitData&quot; id=&quot;" + inputName + "-SubmitData&quot; ";
 		m += "/&gt;\n";
+		*/
 		
 		//<img id="SignCanvas-img" name="SignCanvas-img" src="" style="position:absolute; display:none; lefx:141px; top:277px; width:100px; height:20px;" onclick=""/>
-		m += "&lt;img id=&quot;" + inputName + "-img&quot; ";
+		m = "&lt;img id=&quot;" + inputName + "-img&quot; ";
 		m += "name=&quot;" + inputName + "-img&quot; ";
 		m += "src=&quot;&quot; ";
 		m += "style=&quot;position:absolute; display:none; left:" + x0 + "px; top:" + y0 + "px; width:" + width + "px; height:" + height + "px;&quot; ";
@@ -1211,11 +1222,14 @@ function GetTextMiddle(P){
 		m += "index=&quot;" + index + "&quot; ";
 		m += "class=&quot;sig&quot; ";
 		m += "style=&quot;position:absolute; width:0px; height:0px; &quot;\n";
+		/*
 		m += "onmouseover=&quot;SetDrawOn(this)&quot;\n";
 		m += "onmouseout=&quot;SetDrawOff(this);&quot;\n";
 		m += "onmousedown=&quot;SetMouseDown(this);SetStart(this);&quot;\n";
 		m += "onmouseup=&quot;SetMouseUp(this); DrawMarker(this);&quot;\n";
-		m += "onmousemove=&quot;DrawPreview(this);&quot;&gt;\n";
+		m += "onmousemove=&quot;DrawPreview(this);&quot;";
+		*/
+		m += "&gt;\n";
 		m += "&lt;/div&gt;\n"
 	}
 
@@ -1272,6 +1286,7 @@ function GetTextBottom(){
 
 	//Freehand Signature
 	if (document.getElementById('FreehandSign').checked){
+		/*
 		textBottom += "&lt;input type=&quot;hidden&quot; name=&quot;SignCanvas-TempData&quot; id=&quot;SignCanvas-TempData&quot;&gt;\n";
 		textBottom += "&lt;input type=&quot;hidden&quot; name=&quot;SignCanvas-DrawData&quot; id=&quot;SignCanvas-DrawData&quot;&gt;\n";
 		textBottom += "&lt;input type=&quot;hidden&quot; name=&quot;SignCanvas-SubmitData&quot; id=&quot;SignCanvas-SubmitData&quot;&gt;\n";
@@ -1306,10 +1321,8 @@ function GetTextBottom(){
 		textBottom += " onmouseup=&quot;SetMouseUp(this); DrawMarker(this);&quot;\n";
 		textBottom += " onmousemove=&quot;DrawPreview(this);&quot;&gt; \n";
 		textBottom += "&lt;/div&gt;\n";
-	} 
+		*/
 	
-	// Freehand drawing
-	if (document.getElementById('FreehandSign').checked){
 		textBottom += "&lt;input type=&quot;hidden&quot; name=&quot;TempData&quot; id=&quot;TempData&quot;&gt;\n"
 		textBottom += "&lt;input type=&quot;hidden&quot; name=&quot;DrawData&quot; id=&quot;DrawData&quot;&gt;\n"
 		textBottom += "&lt;input type=&quot;hidden&quot; name=&quot;SubmitData&quot; id=&quot;SubmitData&quot;&gt;\n"
@@ -1363,7 +1376,7 @@ function GetTextBottom(){
 	<%} else {%>
 	if (document.getElementById('FreehandSign').checked){
 	<%}%>
-		textBottom += " SubmitImage();";
+		textBottom += "SubmitImage();";
 	}
 	<% } %>
 	textBottom += " releaseDirtyFlag();&quot;&gt; \n";
@@ -1437,21 +1450,27 @@ function GetTextBottom(){
 		textBottom += "&lt;div id=&quot;signatureInput&quot;&gt; &lt;/div&gt;\n";
 		
 		textBottom += "&lt;!-- scriptel signature scripts --&gt;\n";
-		textBottom += "&lt;script type=&quot;text/javascript&quot; src=&quot;$%7Boscar_javascript_path%7DSignatureScripts.js&quot;&gt;&lt;/script&gt;\n";
+		/*textBottom += "&lt;script type=&quot;text/javascript&quot; src=&quot;$%7Boscar_javascript_path%7DSignatureScripts.js&quot;&gt;&lt;/script&gt;\n";*/
 	    textBottom += "&lt;script type=&quot;text/javascript&quot; src=&quot;$%7Boscar_javascript_path%7Djquery/jquery-1.4.2.js&quot;&gt;&lt;/script&gt;\n";
 	    textBottom += "&lt;script type=&quot;text/javascript&quot; src=&quot;$%7Boscar_javascript_path%7Deforms/signatureControl.jsp&quot;&gt;&lt;/script&gt;\n";
 	    textBottom += "&lt;script type=&quot;text/javascript&quot; src=&quot;$%7Boscar_javascript_path%7Dsignature.js&quot;&gt;&lt;/script&gt;\n";
 		textBottom += "&lt;script type=&quot;text/javascript&quot;&gt;\n";
 		
-		textBottom += "\tvar cnv = null;\n";
-		textBottom += "\tvar jg = null;\n";
-		textBottom += "\tvar cnvLeft = 0;\n";
-		textBottom += "\tvar cnvTop = 0;\n";
-		textBottom += "\tvar cnv1 = null;\n";
-		textBottom += "\tvar jg1 = null;\n";
-		textBottom += "\tvar cnvLeft1 = 0;\n";
-		textBottom += "\tvar cnvTop1 = 0;\n";
+		textBottom += "\tvar size = getScriptelSignatureCount();\n";
+		textBottom += "\tvar cnv = new Array(size);\n";
+		textBottom += "\tvar jg = new Array(size);\n";
+		textBottom += "\tvar cnvLeft = new Array(size);\n";
+		textBottom += "\tvar cnvTop = new Array(size);\n";
 		textBottom += "\tvar contextPath = &quot;&quot;;\n";
+		
+		/*
+		function getScriptelSignatureCount() {
+			return jQuery("div[type='ScriptelSignatureBox']").length;
+		}
+		*/
+		textBottom += "\tfunction getScriptelSignatureCount() {\n";
+		textBottom += "\t\treturn jQuery(&quot;div[type=\\&quot;ScriptelSignatureBox\\&quot;]&quot;).length;\n";
+		textBottom += "\t}\n\n";
 		
 		/*
 		function gup(name, url) {
@@ -1483,7 +1502,31 @@ function GetTextBottom(){
 		textBottom += "\t\t\treturn results[1];\n";
 		textBottom += "\t\t\}\n";
 		textBottom += "\t}\n";
-
+		
+		/*
+		function getElementIdPrefix(which) {
+			if (undefined == which || null == which) {
+				return "";
+			}
+			var prefixId = which.id.substr(0, which.id.indexOf("-"));
+			if (0 == prefixId.length) {
+				prefixId = which.id;
+			}
+			return prefixId;
+		}
+		*/
+		textBottom += "\tfunction getElementIdPrefix(which) {\n;";
+		textBottom += "\t\tif (undefined == which || null == which) {\n";
+		textBottom += "\t\t\treturn &quot;&quot;;\n";
+		textBottom += "\t\t}\n";
+		textBottom += "\t\tvar prefixId = which.id.substr(0, which.id.indexOf(&quot;-&quot;));\n";
+		textBottom += "\t\tif (0 == prefixId.length) {\n";
+		textBottom += "\t\t\tprefixId = which.id;\n";
+		textBottom += "\t\t}\n";
+		textBottom += "\t\treturn prefixId;\n";
+		textBottom += "\t}\n\n";
+		
+		
 		/*
 		$(function() {
 			$("div.sig").scriptelSigCap();
@@ -1496,24 +1539,15 @@ function GetTextBottom(){
 			});
 			
 			jQuery("div[type='ScriptelSignatureBox']").each(function(){
-				if (this.getAttribute("index") == 1) {
-					cnv = this;
-					if (cnv != null) {
-						jg = new jsGraphics(cnv);
-						cnvLeft = parseInt(cnv.style.left);
-						cnvTop = parseInt(cnv.style.top);
-						jg.setPrintable(true);
+				var index = this.getAttribute("index");
+				if (index != undefined && index != null) {
+					cnv[index - 1] = this;
+					if (this != null) {
+						jg[index - 1] = new jsGraphics(this);
+						cnvLeft[index - 1] = parseInt(cnv[index - 1].style.left);
+						cnvTop[index - 1] = parseInt(cnv[index - 1].style.top);
+						jg[index - 1].setPrintable(true);
 					}
-				} else if (this.getAttribute("index") == 2) {
-					cnv1 = this;
-					if (cnv1 != null){
-						jg1 = new jsGraphics(cnv1);
-						cnvLeft1 = parseInt(cnv1.style.left);
-						cnvTop1 = parseInt(cnv1.style.top);
-						jg1.setPrintable(true);
-					}
-				} else {
-					return false;
 				}
 			});
 
@@ -1548,24 +1582,15 @@ function GetTextBottom(){
 		textBottom += "\t\t});\n\n";
 		
 		textBottom += "\t\tjQuery(&quot;div[type=\\&quot;ScriptelSignatureBox\\&quot;]&quot;).each(function(){\n";
-		textBottom += "\t\t\tif (this.getAttribute(&quot;index&quot;) == 1) {\n";
-		textBottom += "\t\t\t\tcnv = this;\n";
-		textBottom += "\t\t\t\tif (cnv != null) {\n";
-		textBottom += "\t\t\t\t\tjg = new jsGraphics(cnv);\n";
-		textBottom += "\t\t\t\t\tcnvLeft = parseInt(cnv.style.left);\n";
-		textBottom += "\t\t\t\t\tcnvTop = parseInt(cnv.style.top);\n";
-		textBottom += "\t\t\t\t\tjg.setPrintable(true);\n";
+		textBottom += "\t\t\tvar index = this.getAttribute(&quot;index&quot;);\n";
+		textBottom += "\t\t\tif (index != undefined && index != null) {\n";
+		textBottom += "\t\t\t\tcnv[index - 1] = this;\n";
+		textBottom += "\t\t\t\tif (cnv[index - 1] != null) {\n";
+		textBottom += "\t\t\t\t\tjg[index - 1] = new jsGraphics(cnv[index - 1]);\n";
+		textBottom += "\t\t\t\t\tcnvLeft[index - 1] = parseInt(cnv[index - 1].style.left);\n";
+		textBottom += "\t\t\t\t\tcnvTop[index - 1] = parseInt(cnv[index - 1].style.top);\n";
+		textBottom += "\t\t\t\t\tjg[index - 1].setPrintable(true);\n";
 		textBottom += "\t\t\t\t}\n";
-		textBottom += "\t\t\t} else if (this.getAttribute(&quot;index&quot;) == 2) {\n"
-		textBottom += "\t\t\t\tcnv1 = this;\n";
-		textBottom += "\t\t\t\tif (cnv1 != null){\n";
-		textBottom += "\t\t\t\t\tjg1 = new jsGraphics(cnv1);\n";
-		textBottom += "\t\t\t\t\tcnvLeft1 = parseInt(cnv1.style.left);\n";
-		textBottom += "\t\t\t\t\tcnvTop1 = parseInt(cnv1.style.top);\n";
-		textBottom += "\t\t\t\t\tjg1.setPrintable(true);\n";
-		textBottom += "\t\t\t\t}\n";
-		textBottom += "\t\t\t} else {\n";
-		textBottom += "\t\t\t\treturn false;\n";
 		textBottom += "\t\t\t}\n";
 		textBottom += "\t\t});\n";
 		
@@ -1578,8 +1603,8 @@ function GetTextBottom(){
 		textBottom += "\t\t\t\tsigHTML:&quot;../signature_pad/tabletSignature.jsp?inWindow=true&saveToDB=true&demographicNo=&quot;,\n";
 		textBottom += "\t\t\t\tdemographicNo:demographicNo,\n";
 		textBottom += "\t\t\t\trefreshImage: function (e) {\n";
-		textBottom += "\t\t\t\t\tvar html = &quot;&lt;img src=&apos;&quot;+e.storedImageUrl+&quot;&r=&quot;+ Math.floor(Math.random()*1001) +&quot;&apos;&gt;&lt;/img&gt;&quot;;\n";
-		textBottom += "\t\t\t\t\tdoHtml(html);\n";
+		//textBottom += "\t\t\t\t\tvar html = &quot;&lt;img src=&apos;&quot;+e.storedImageUrl+&quot;&r=&quot;+ Math.floor(Math.random()*1001) +&quot;&apos;&gt;&lt;/img&gt;&quot;;\n";
+		//textBottom += "\t\t\t\t\tdoHtml(html);\n";
 		textBottom += "\t\t\t\t},\n";
 		textBottom += "\t\t\t\tsignatureInput: &quot;#signatureInput&quot;\n";
 		textBottom += "\t\t\t});\n";
@@ -1608,13 +1633,13 @@ function GetTextBottom(){
 			// Used to submit the form using Ajax.
 			jQuery.ajax({
 				type: "POST",
-				url: "/oscar-test/signature_pad/uploadSignature.jsp",
+				url: contextPath + "/signature_pad/uploadSignature.jsp",
 				data: jQuery("#signatureForm", subDoc).serialize(),
 				success: function(data) {
 					var savedId = jQuery(jQuery(data.trim())[0]).val();
 					var img = document.getElementById(divId + "-img");
 					if (img != null) {
-						img.setAttribute("src", "/oscar-test/imageRenderingServlet?source=signature_stored&digitalSignatureId=" + savedId + "&r=107");
+						img.setAttribute("src", contextPath + "/imageRenderingServlet?source=signature_stored&digitalSignatureId=" + savedId + "&r=107");
 						showScriptelSignature(which);
 					}
 				}
@@ -1704,24 +1729,32 @@ function GetTextBottom(){
 		/*
 		function clearScriptelSignature(which) {
 			var divId = getElementIdPrefix(which);
+			var index = getScriptelSignatureIndex(which);
 			document.getElementById(divId + "-img").src = "";
 			document.getElementById(divId + "-img").setAttribute("savedId", "0");
 			document.getElementById(divId + "-showSig").style.display = "none";
-			Clear(which);
+			jg[index - 1].clear();
+		    //document.getElementById(divId + "-TempData").value = "";
+		    //document.getElementById(divId + "-DrawData").value = "";
+			document.getElementById(divId + "-signature").value = "";
 		}
 		*/
 		textBottom += "\tfunction clearScriptelSignature(which) {\n";
 		textBottom += "\t\tvar divId = getElementIdPrefix(which);\n";
+		textBottom += "\t\tvar index = getScriptelSignatureIndex(which);\n";
 		textBottom += "\t\tdocument.getElementById(divId + &quot;-img&quot;).src = &quot;&quot;;\n";
 		textBottom += "\t\tdocument.getElementById(divId + &quot;-imgSavedId&quot;).value = &quot;0&quot;;\n";
 		textBottom += "\t\tdocument.getElementById(divId + &quot;-showSig&quot;).style.display = &quot;none&quot;;\n";
-		textBottom += "\t\tClear(which, getScriptelSignatureIndex(which));\n";
+		textBottom += "\t\tjg[index - 1].clear();\n";
+		//textBottom += "\t\tdocument.getElementById(divId + &quot;-TempData&quot;).value = &quot;&quot;;\n";
+		//textBottom += "\t\tdocument.getElementById(divId + &quot;-DrawData&quot;).value = &quot;&quot;;\n";
+		textBottom += "\t\tdocument.getElementById(divId + &quot;-signature&quot;).value = &quot;&quot;;\n";
 		textBottom += "\t}\n\n";
 		
 		/*
 		function getScriptelSignatureIndex(which) {
 			var divId = getElementIdPrefix(which);
-			return document.getElementById(divId + "-ClearSignature").index;
+			return document.getElementById(divId).getAttribute("index");
 		}
 		*/
 		textBottom += "\tfunction getScriptelSignatureIndex(which) {\n";
@@ -1765,9 +1798,21 @@ function GetTextBottom(){
 		textBottom += "\t\t\t});\n";
 		textBottom += "\t\t} else {\n";
 		textBottom += "\t\t\talert(&quot;Error: Can't get context path!!&quot;);\n";
-		textBottom += "\t\t}\n;";
+		textBottom += "\t\t}\n";
 		textBottom += "\t}\n\n";
-				
+		
+		/*
+		function SubmitImage() {
+			jQuery("div[type='ScriptelSignatureBox']").each(function(){
+				document.getElementById(this.id + "-showSig").value = "";
+			}
+		}
+		*/
+		textBottom += "\tfunction SubmitImage() {\n";
+		textBottom += "\t\tjQuery(&quot;div[type=\\&quot;ScriptelSignatureBox\\&quot;]&quot;).each(function(){\n";
+		textBottom += "\t\t\tdocument.getElementById(this.id + &quot;-signature&quot;).value = &quot;&quot;;\n";
+		textBottom += "\t\t});\n";
+		textBottom += "\t}\n\n";
 		
 		textBottom += "&lt;/script&gt;\n\n";
 	} 
@@ -3190,7 +3235,7 @@ function _CompInt(x, y)
 			<input type="radio" name="SignatureType" id="ScriptelSign" value="ScriptelSign" onclick="show('Section4ca'); hide('Section4aa'); hide('Section4ab'); hide('Section4ba');"><span><bean:message key="eFormGenerator.signautreScriptelPad" /><span>
 		</div>
 		<div id="Section4ca" style="display:none">
-			<input type="button" name="AddSignatureBox3" id="AddSignatureBox3" style="width:400px" value="Click here, then drag a box to signature with scriptel pad" onclick="SetSwitchOn('ScriptelSignature');">
+			<input type="button" name="AddSignatureBox3" id="AddSignatureBox3" style="width:420px" value="Click here, then drag a box to signature with scriptel pad" onclick="SetSwitchOn('ScriptelSignature');">
 			<!-- <input type="radio" id="DrawScriptelSign" style="display:none"> -->
 		</div>
 		<%} %>
