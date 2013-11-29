@@ -357,12 +357,12 @@ public class RenalAction extends DispatchAction {
 	public ActionForward submitPreimplementationReport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)  {
 		
 		String providerNo = LoggedInInfo.loggedInInfo.get().loggedInProvider.getProviderNo();
-		
+		MiscUtils.getLogger().info("CKD Pre-Implementation Report starts now!");
 		ORNPreImplementationReportThread t = new ORNPreImplementationReportThread();
 		t.setProviderNo(providerNo);
 		t.start();
 		
-		
+		MiscUtils.getLogger().info("CKD Pre-Implementation Report is done!");
 		return null;
 		
 	}
