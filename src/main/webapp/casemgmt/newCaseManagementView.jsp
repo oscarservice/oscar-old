@@ -66,7 +66,7 @@
 <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request" />
 
 	<div id="cppBoxes">
-		<div id="divR1" style="width: 100%; height: 75px; margin: 0px; background-color: #FFFFFF;">
+		<div id="divR1" style="width: 100%; height: 112px; margin: 0px; background-color: #FFFFFF;">
 			<!-- social history -->		
 			<div id="divR1I1" class="topBox" 
 				style="float: left; width: 49%; margin-left: 3px; height: inherit;">
