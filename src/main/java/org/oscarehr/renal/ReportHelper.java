@@ -226,11 +226,12 @@ public class ReportHelper {
 			if(m.getDataField().indexOf("/") == -1) {
 				continue;
 			}
-			String[] bp = m.getDataField().split("/");
-			
-			
-			if(Integer.parseInt(bp[0]) > 140 || Integer.parseInt(bp[1]) > 90) {
-				bpPatients.put(m.getDemographicId(), true);
+			String[] bp = m.getDataField().split("/");			
+		
+			if( bp.length>1 ) {
+				if(Integer.parseInt(bp[0]) > 140 || Integer.parseInt(bp[1]) > 90 ) {
+					bpPatients.put(m.getDemographicId(), true);
+				}
 			}
 		}
 		for(Integer demographicNo:bpPatients.keySet()) {
@@ -308,9 +309,10 @@ public class ReportHelper {
 			}
 			String[] bp = m.getDataField().split("/");
 			
-			
-			if(Integer.parseInt(bp[0]) > 140 || Integer.parseInt(bp[1]) > 90) {
-				bpPatients.put(m.getDemographicId(), true);
+			if(bp.length>1) {
+				if(Integer.parseInt(bp[0]) > 140 || Integer.parseInt(bp[1]) > 90) {
+					bpPatients.put(m.getDemographicId(), true);
+				}
 			}
 		}
 		for(Integer demographicNo:bpPatients.keySet()) {
@@ -474,8 +476,10 @@ public class ReportHelper {
 			for(Measurement dbp:dbps) {
 				if(dbp.getDataField().indexOf("/")!=-1) {
 					String[] parts = dbp.getDataField().split("/");
-					if(Integer.parseInt(parts[0]) >= 140 || Integer.parseInt(parts[1]) >= 90) {
-						r.setBpAndDrugs(r.getBpAndDrugs()+1);
+					if(parts.length>1) {
+						if(Integer.parseInt(parts[0]) >= 140 || Integer.parseInt(parts[1]) >= 90) {
+							r.setBpAndDrugs(r.getBpAndDrugs()+1);
+						}
 					}
 				}
 			}
@@ -490,10 +494,12 @@ public class ReportHelper {
 			for(Measurement m:measurementDao.findByType(dn, "BP")) {
 				String bp = m.getDataField();
 				String[] parts = bp.split("/");
-				if(Integer.parseInt(parts[0]) <= 130 && Integer.parseInt(parts[1]) <= 80) {
-					metTarget=true;
+				if(parts.length>1) {
+					if(Integer.parseInt(parts[0]) <= 130 && Integer.parseInt(parts[1]) <= 80) {
+						metTarget=true;
+					}
+					break;
 				}
-				break;
 			}
 			
 			if(metTarget) {
