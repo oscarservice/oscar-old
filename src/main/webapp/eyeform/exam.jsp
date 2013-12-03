@@ -315,7 +315,7 @@ span.ge{
 </style>
 
 <span style="font-size:10px">
-	<a id="save_measurements" href="javascript:void(0)"  onclick="document.getElementById('hxForm').submit();">[Save Measurements]</a>
+	<a id="save_measurements" href="#">[Save Measurements]</a>
 </span>
 <span style="float:right;font-size:10px">
 	<a href="javascript:void(0);" onclick="expandAll();">[expand all sections]</a>&nbsp;
