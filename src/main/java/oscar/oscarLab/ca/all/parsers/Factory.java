@@ -66,8 +66,11 @@ public final class Factory {
 			Hl7TextMessageDao hl7TextMessageDao = (Hl7TextMessageDao) SpringUtils.getBean("hl7TextMessageDao");
 			Hl7TextMessage hl7TextMessage = hl7TextMessageDao.find(Integer.parseInt(segmentID));
 
-			String type = hl7TextMessage.getType();
+			String type = hl7TextMessage.getType();			
 			String hl7Body = new String(Base64.decodeBase64(hl7TextMessage.getBase64EncodedeMessage()), MiscUtils.ENCODING);
+			if(type!=null && "EPSILON".equalsIgnoreCase(type)) {
+				hl7Body=hl7Body.replace("|P||", "|P|2.3|");  //If there is no version code in MHL lab hl7 file, add default 2.3 here. Otherwise it will fail on parsing.
+			}	
 			return getHandler(type, hl7Body);
 		} catch (Exception e) {
 			logger.error("Could not retrieve lab for segmentID(" + segmentID + ")", e);

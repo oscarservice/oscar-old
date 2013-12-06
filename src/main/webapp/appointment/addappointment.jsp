@@ -609,12 +609,10 @@ function pasteAppt(multipleSameDayGroupAppt) {
 				    String colo = bMultisites
 				                                        ? ApptUtil.getColorFromLocation(sites, loc)
 				                                        : bMoreAddr? ApptUtil.getColorFromLocation(props.getProperty("scheduleSiteID", ""), props.getProperty("scheduleSiteColor", ""),loc) : "white";
-					 if (bMultisites) {
+					 
 			%>
 				    <INPUT TYPE="button" NAME="typeButton" VALUE="<bean:message key="Appointment.formType"/>" onClick="openTypePopup()">
-			<% } else { %>
-				    <div class="label"><bean:message key="Appointment.formType"/>:</div>
-			<% } %>
+			
 
             <div class="input">
                 <INPUT TYPE="TEXT" NAME="type"
