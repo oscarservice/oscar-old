@@ -112,7 +112,7 @@ public class JdbcBillingClaimImpl {
 			BillingItemData val = (BillingItemData) lVal.get(i);
 			String sql = "insert into billing_on_item values(\\N, " + id + ", '" + val.transc_id + "', '" + val.rec_id
 					+ "', '" + val.service_code + "', '" + val.fee + "', '" + val.ser_num + "', '" + val.service_date
-					+ "', '" + val.dx + "', '" + val.dx1 + "', '" + val.dx2 + "', '" + val.status+"', \\N ,'"+val.paid+"','"+val.refund+"','"+val.discount+"',"+1+")";
+					+ "', '" + val.dx + "', '" + val.dx1 + "', '" + val.dx2 + "', '" + val.status+"', \\N ,'"+val.paid+"','"+val.refund+"','"+val.discount+"','"+1+"')";
 			retval = dbObj.saveBillingRecord(sql);
 			if (0 == retval) {
 				_logger.error("addItemRecord(sql = " + sql + ")");
@@ -123,7 +123,7 @@ public class JdbcBillingClaimImpl {
 		return (retval != 0);
 	}
 
-	private void addCreate3rdInvoiceTrans(BillingClaimHeader1Data billHeader, List<BillingItemData> billItemList, int paymentId) {
+	private void addCreate3rdInvoiceTrans(BillingClaimHeader1Data billHeader, List<BillingItemData> billItemList, int paymentId,String paymenttypeId) {
 		if (billItemList.size() < 1) {
 			return;
 		}
@@ -162,7 +162,8 @@ public class JdbcBillingClaimImpl {
 			sqlBuf.append("'" + billItem.getDiscount() + "',"); // service_code_discount
 			sqlBuf.append("'" + billItem.getDx() + "',"); // dx_code
 			sqlBuf.append("'" + billHeader.getComment() + "',"); // billing_notes
-			sqlBuf.append("'" + BillingDataHlp.ACTION_TYPE.C.name() + "'"); // action_type
+			sqlBuf.append("'" + BillingDataHlp.ACTION_TYPE.C.name() + "',"); // action_type
+			sqlBuf.append("'" + paymenttypeId + "'");//paymenttypeId
 			sqlBuf.append("),");
 		}
 		sqlBuf.deleteCharAt(sqlBuf.length() - 1);
@@ -213,7 +214,8 @@ public class JdbcBillingClaimImpl {
 			sqlBuf.append("'',"); // service_code_discount
 			sqlBuf.append("'" + billItem.getDx() + "',"); // dx_code
 			sqlBuf.append("'" + billHeader.getComment() + "',"); // billing_notes
-			sqlBuf.append("'" + BillingDataHlp.ACTION_TYPE.C.name() + "'"); // action_type
+			sqlBuf.append("'" + BillingDataHlp.ACTION_TYPE.C.name() + "',"); // action_type
+			sqlBuf.append("'" + 1 + "'");//paymenttypeId
 			sqlBuf.append("),");
 		}
 		sqlBuf.deleteCharAt(sqlBuf.length() - 1);
@@ -245,7 +247,7 @@ public class JdbcBillingClaimImpl {
 			String sql = "insert into billing_on_ext values(\\N, " + id + "," + demoNo + ", '" + temp[i] + "', '"
 					+ val + "', '" + dateTime + "', '1' )";
 			retval = dbObj.updateDBRecord(sql);
-			if(i == 3) paymentSumParam = mVal.get(temp[i]); // total_payment
+			if(i == 3) paymentSumParam = mVal.get("total_payment"); // total_payment
 			else if(i == 7) paymentDateParam = mVal.get(temp[i]); // paymentDate
 			else if(i == 8) paymentTypeParam = mVal.get(temp[i]); // paymentMethod
 			if (!retval) {
@@ -281,7 +283,7 @@ public class JdbcBillingClaimImpl {
 		    	payment.setBillingOnCheader1(ch1);
 		    //	payment.setBillingPaymentType(type);
 		    	billingONPaymentDao.persist(payment);
-		    	addCreate3rdInvoiceTrans((BillingClaimHeader1Data) vecObj.get(0), (List<BillingItemData>)vecObj.get(1), payment.getId());
+		    	addCreate3rdInvoiceTrans((BillingClaimHeader1Data) vecObj.get(0), (List<BillingItemData>)vecObj.get(1), payment.getId(),paymentTypeParam);
 	    	}
         }
 		return retval;

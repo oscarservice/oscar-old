@@ -92,7 +92,7 @@ public class JdbcBillingCorrection {
 		String sql = "update billing_on_item set transc_id='" + val.transc_id + "', rec_id='" + val.rec_id
 				+ "', service_code='" + val.service_code + "', fee='" + val.fee + "', ser_num='" + val.ser_num
 				+ "', service_date='" + val.service_date + "', dx='" + val.dx + "', dx1='" + val.dx1 + "', dx2='"
-				+ val.dx2 + "', status='" + val.status + "' where id=" + val.id;
+				+ val.dx2 + "', status='" + val.status + "', paid='" + val.paid + "', refund='" + val.refund + "', discount='" + val.discount + "' where id=" + val.id;
 		_logger.info("updateBillingOneItem(sql = " + sql + ")");
 		retval = dbObj.updateDBRecord(sql);
 		if (!retval) {
@@ -101,6 +101,8 @@ public class JdbcBillingCorrection {
 		}
 		return retval;
 	}
+	
+
 	
 	public int addRepoOneItem(BillingItemData val) {
 		int retval = 0;
@@ -391,7 +393,7 @@ public class JdbcBillingCorrection {
 	public void addBillingTransaction(BillingItemData obj,String payProgram){
 		String sql = "insert into billing_on_transaction(ch1_id,payment_id,pay_program,payment_date,service_code,service_code_num,service_code_invoiced,service_code_paid,service_code_refund,service_code_discount,status) values( " + obj.ch1_id + ", '" + 0 + "', '" +payProgram 
 				+ "', \\N, '" + obj.service_code + "', '" + obj.ser_num + "', '" + obj.fee
-				+ "', '" + obj.paid + "', '" + obj.refund + "', '" + obj.discount+"','"+obj.status+"')";
+				+ "', '" + obj.paid + "', '" + obj.refund + "', '" + obj.discount+"','"+obj.status+"','"+1+"')";
 		dbObj.saveBillingRecord(sql);
 	}
 	
@@ -428,7 +430,8 @@ public class JdbcBillingCorrection {
 		sqlBuf.append("'',"); // service_code_discount
 		sqlBuf.append("'" + billItem.getDx() + "',"); // dx_code
 		sqlBuf.append("'" + billHeader.getComment() + "',"); // billing_notes
-		sqlBuf.append("'" + BillingDataHlp.ACTION_TYPE.C.name() + "'"); // action_type
+		sqlBuf.append("'" + BillingDataHlp.ACTION_TYPE.C.name() + "',"); // action_type
+		sqlBuf.append("'" + 1 + "'");//paymenttypeId
 		sqlBuf.append(")");
 		dbObj.saveBillingRecord(sqlBuf.toString());
 	}
@@ -466,7 +469,8 @@ public class JdbcBillingCorrection {
 		sqlBuf.append("'',"); // service_code_discount
 		sqlBuf.append("'" + billItem.getDx() + "',"); // dx_code
 		sqlBuf.append("'" + billHeader.getComment() + "',"); // billing_notes
-		sqlBuf.append("'" + BillingDataHlp.ACTION_TYPE.U.name() + "'"); // action_type
+		sqlBuf.append("'" + BillingDataHlp.ACTION_TYPE.U.name() + "',"); // action_type
+		sqlBuf.append("'" + 1 + "'");//paymenttypeId
 		sqlBuf.append(")");
 		dbObj.saveBillingRecord(sqlBuf.toString());
 	}
@@ -486,7 +490,7 @@ public class JdbcBillingCorrection {
 		sqlBuf.append("'" + billHeader.getProvince() + "',"); // province
 		sqlBuf.append("'" + billHeader.getMan_review() + "',"); // man_review
 		sqlBuf.append("'" + billHeader.getBilling_date() + "',"); // billing_date
-		sqlBuf.append("'" + billHeader.getStatus() + "',"); // status
+		sqlBuf.append("'" + BillingDataHlp.BILLINGFILE_STATUS_DELETED + "',"); // status
 		sqlBuf.append("'" + billHeader.getPay_program() + "',"); // pay_program
 		sqlBuf.append("'" + billHeader.getPayee() + "',"); // paymentType
 		sqlBuf.append("'" + billHeader.getFacilty_num() + "',"); // facility_num
@@ -504,7 +508,8 @@ public class JdbcBillingCorrection {
 		sqlBuf.append("'',"); // service_code_discount
 		sqlBuf.append("'" + billItem.getDx() + "',"); // dx_code
 		sqlBuf.append("'" + billHeader.getComment() + "',"); // billing_notes
-		sqlBuf.append("'" + BillingDataHlp.ACTION_TYPE.D.name() + "'"); // action_type
+		sqlBuf.append("'" + BillingDataHlp.ACTION_TYPE.D.name() + "',"); // action_type
+		sqlBuf.append("'" + 1 + "'");//paymenttypeId
 		sqlBuf.append(")");
 		dbObj.saveBillingRecord(sqlBuf.toString());
 	}

@@ -50,7 +50,10 @@ import org.oscarehr.billing.CA.model.BillingPaymentType;
 import org.oscarehr.common.dao.BillingONCHeader1Dao;
 
 import oscar.oscarBilling.ca.on.dao.BillingOnItemDao;
+import oscar.oscarBilling.ca.on.data.BillingClaimHeader1Data;
+import oscar.oscarBilling.ca.on.data.JdbcBillingCorrection;
 import oscar.oscarBilling.ca.on.model.BillingOnItem;
+import oscar.oscarBilling.ca.on.pageUtil.BillingCorrectionPrep;
 
 /**
  * 
@@ -66,6 +69,8 @@ public class BillingONPaymentsAction extends DispatchAction {
 	private BillingClaimDAO billingClaimDAO;
 	private BillingONExtDao billingONExtDao;
 	private BillingONCHeader1Dao billingONCHeader1Dao;
+	
+
 
 	// private SiteDao siteDao;
 	// private ProviderDao providerDao;
@@ -125,6 +130,16 @@ public class BillingONPaymentsAction extends DispatchAction {
 		int size = Integer.parseInt(request.getParameter("size"));
 		int billNo = Integer.parseInt(request.getParameter("billingNo"));
 		int paymentid = 1;
+		
+		//BillingONPayment payment1ist = billingOnItemDao.getIdByBillingNo(billNo).get(0);
+		//int payment_id=payment1ist.getId()+1;
+	
+		
+		BillingCorrectionPrep bObj = new BillingCorrectionPrep();
+		List lObj = bObj.getBillingClaimHeaderObj(request.getParameter("billingNo"));
+		BillingClaimHeader1Data ch1Obj = (BillingClaimHeader1Data) lObj.get(0);
+		String updateProviderNo=ch1Obj.getProviderNo();
+		
 		for (int i = 0; i < size; i++) {
 			String pay_ref = request.getParameter("pay_ref" + i);
 			String discount = request.getParameter("discount" + i);
@@ -138,11 +153,17 @@ public class BillingONPaymentsAction extends DispatchAction {
 					payments.add(pay_ref);
 					discounts.add(discount);
 					billingOnItemDao.updateItemPayment(item, pay_ref, discount);
+					//billingOnItemDao.addUpdateOneBillItemTrans(ch1Obj, item, updateProviderNo,pay_ref, discount,payment_id);
+					billingOnItemDao.addUpdateOneBillItemTrans(ch1Obj, item, updateProviderNo, pay_ref, discount);
 				} else if ("refund".equals(request.getParameter("sel" + i))) {
-					discounts.add(item.getDiscount().toString());
-					payments.add(item.getPaid().toString());
+					String discount1=item.getDiscount().toString();
+					String payment1=item.getPaid().toString();
+					discounts.add(discount1);
+					payments.add(payment1);
 					refunds.add(pay_ref);
 					billingOnItemDao.updateItemRefund(item, pay_ref);
+					billingOnItemDao.addUpdateOneBillItemTransForRefund(ch1Obj, item, updateProviderNo, payment1, discount1, pay_ref);
+
 				}
 				
 				billingOnItemDao.updatePaymentId(item,paymentid);
@@ -243,6 +264,7 @@ public class BillingONPaymentsAction extends DispatchAction {
 	//	billingONExtDao.setExtItem(billingNo, ch1.getDemographic_no(),
 		//		BillingONExtDao.KEY_PAY_METHOD, payment.getBillingPaymentType()
 			//			.getPaymentType(), curDate, '1');
+		
 
 		return listPayments(actionMapping, actionForm, request, response);
 
