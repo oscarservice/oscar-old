@@ -1188,25 +1188,27 @@ function GetTextMiddle(P){
 		m += "onclick=&quot;showScriptelSignature(this);&quot; ";
 		m += "/&gt;\n";
 		
-	//	 <div type="ScriptelSignatureBox" id="SignCanvas" class="sig" style="position:absolute; left:71px; top:177px; width:500px; height:100px"
+	//	 <div type="ScriptelSignatureBox" id="SignCanvas" class="sig" index="1" style="position:absolute; left:71px; top:177px; width:500px; height:100px"
 	//	 onmouseover="SetDrawOn(this); "
 	//	 onmouseout="SetDrawOff(this); "
 	//	 onmousedown="SetMouseDown(this);SetStart(this);"
 	//	 onmouseup="SetMouseUp(this); DrawMarker(this);"
 	//	 onmousemove="DrawPreview(this);"> 
+	// <canvas hidden="" width="500" height="100" 
+	// id="ScriptelSignatureBox2-canvas" cursor="pointer" 
+	// style="position:absolute;top:0;left:0;"></canvas>
 	//	</div>
 		var index = getSignatureIndex(InputType, inputName);
 		m += "&lt;div type=&quot;" + scriptelSigBox + "&quot; id=&quot;" + inputName + "&quot; ";
+		m += "class=&quot;sig&quot; ";
 		m += "index=&quot;" + index + "&quot; ";
 		m += "style=&quot;position:absolute; width:0px; height:0px; &quot;\n";
-		/*
-		m += "onmouseover=&quot;SetDrawOn(this)&quot;\n";
-		m += "onmouseout=&quot;SetDrawOff(this);&quot;\n";
-		m += "onmousedown=&quot;SetMouseDown(this);SetStart(this);&quot;\n";
-		m += "onmouseup=&quot;SetMouseUp(this); DrawMarker(this);&quot;\n";
-		m += "onmousemove=&quot;DrawPreview(this);&quot;";
-		*/
 		m += "&gt;\n";
+		//m += "&lt;canvas id=&quot;" + inputName + "-canvas&quot; ";
+		//m += "hidden=&quot;true&quot; ";
+		//m += "style=&quot;position:absolute; top:0px; left:0px; width:500px; height:100px;&quot; ";
+		//m += "cursor=&quot;pointer&quot; &gt;\n";
+		//m += "&lt/canvas&gt;\n"
 		m += "&lt;/div&gt;\n"
 	} else if (InputType == freehandSigBox) {
 		var x0 = parseInt(P[1]);
@@ -1321,7 +1323,7 @@ function GetTextBottom(){
 	}
 
 	//Freehand Signature
-	if (document.getElementById('FreehandSign').checked){
+	//if (document.getElementById('FreehandSign').checked){
 		/*
 		textBottom += "&lt;input type=&quot;hidden&quot; name=&quot;SignCanvas-TempData&quot; id=&quot;SignCanvas-TempData&quot;&gt;\n";
 		textBottom += "&lt;input type=&quot;hidden&quot; name=&quot;SignCanvas-DrawData&quot; id=&quot;SignCanvas-DrawData&quot;&gt;\n";
@@ -1397,7 +1399,7 @@ function GetTextBottom(){
 		textBottom += "		onmousemove=&quot;DrawPreview();&quot;&gt; \n";
 		textBottom += "&lt;/div&gt;\n";
 		*/
-	}	
+	//}	
 	<% } %>
 
 	//bottom submit boxes
@@ -1500,7 +1502,7 @@ function GetTextBottom(){
 		
 		textBottom += "&lt;!-- scriptel signature scripts --&gt;\n";
 	    textBottom += "&lt;script type=&quot;text/javascript&quot; src=&quot;$%7Boscar_javascript_path%7Deforms/signatureControl.jsp&quot;&gt;&lt;/script&gt;\n";
-	    //textBottom += "&lt;script type=&quot;text/javascript&quot; src=&quot;$%7Boscar_javascript_path%7Dsignature.js&quot;&gt;&lt;/script&gt;\n";
+	    textBottom += "&lt;script type=&quot;text/javascript&quot; src=&quot;$%7Boscar_javascript_path%7Dsignature.js&quot;&gt;&lt;/script&gt;\n";
 		textBottom += "&lt;script type=&quot;text/javascript&quot;&gt;\n";
 		
 		textBottom += "\tvar size = getSignatureCount(&quot;" + scriptelSigBox + "&quot;);\n";
@@ -1543,7 +1545,7 @@ function GetTextBottom(){
 		
 		/*
 		$(function() {
-			//$("div.sig").scriptelSigCap();
+			$("div.sig").scriptelSigCap();
 			//$("input.sig").click(function() {
 			//	window.console.log(this.id)
 			//	var divId = getElementIdPrefix(this);
@@ -1586,7 +1588,7 @@ function GetTextBottom(){
 		});
 		*/
 		textBottom += "\t$(function() {\n";
-		//textBottom += "\t\t$(&quot;div.sig&quot;).scriptelSigCap();\n";
+		textBottom += "\t\t$(&quot;div.sig&quot;).scriptelSigCap();\n";
 		//textBottom += "\t\t$(&quot;input.sig&quot;).click(function() {\n";
 		//textBottom += "\t\t\twindow.console.log(this.id)\n";
 		//textBottom += "\t\t\tvar divId = getElementIdPrefix(this);\n";
@@ -1634,7 +1636,7 @@ function GetTextBottom(){
 		textBottom += "\t\treturn false;\n";
 		textBottom += "\t}\n\n";
 		
-		textBottom += "\tvar timerRefreshCanvas = null;\n";
+		//textBottom += "\tvar timerRefreshCanvas = null;\n";
 		textBottom += "\tvar timerDetectInputStop = null;\n\n";
 		
 		/*function saveCanvas() {
@@ -1689,22 +1691,23 @@ function GetTextBottom(){
 		textBottom += "\t\t\tclearTimeout(timerDetectInputStop);\n";
 		textBottom += "\t\t\ttimerDetectInputStop = null;\n";
 		textBottom += "\t\t}\n";
-		textBottom += "\t\tif (null != timerRefreshCanvas) {\n";
-		textBottom += "\t\t\tclearInterval(timerRefreshCanvas);\n";
-		textBottom += "\t\t\ttimerRefreshCanvas = null;\n";
-		textBottom += "\t\t}\n"
+		//textBottom += "\t\tif (null != timerRefreshCanvas) {\n";
+		//textBottom += "\t\t\tclearInterval(timerRefreshCanvas);\n";
+		//textBottom += "\t\t\ttimerRefreshCanvas = null;\n";
+		//textBottom += "\t\t}\n"
+		textBottom += "\t\tshowSignature(which);\n";
 		textBottom += "\t\tsaveCanvas(which);\n";
 		textBottom += "\t}\n\n"
 		
 		textBottom += "\tfunction onkeyuphdlr(which){\n";
-		textBottom += "\t\tif (null == timerRefreshCanvas) {\n";
-		textBottom += "\t\t\ttimerRefreshCanvas = setInterval(function(){showSignature(which);}, 50);\n";
-		textBottom += "\t\t}\n"
+		//textBottom += "\t\tif (null == timerRefreshCanvas) {\n";
+		//textBottom += "\t\t\ttimerRefreshCanvas = setInterval(function(){showSignature(which);}, 50);\n";
+		//textBottom += "\t\t}\n"
 		textBottom += "\t\tif (null != timerDetectInputStop) {\n";
 		textBottom += "\t\t\tclearTimeout(timerDetectInputStop);\n";
 		textBottom += "\t\t}\n";
 		textBottom += "\t\ttimerDetectInputStop = setTimeout(function(){stopInput(which);}, 100);\n";
-		textBottom += "\t}\n";
+		textBottom += "\t}\n\n";
 		
 		/*
 		function showScriptelSignature(which) {
