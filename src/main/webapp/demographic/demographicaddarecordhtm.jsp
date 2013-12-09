@@ -1009,7 +1009,7 @@ div.sites td{
   ResultSet rsdemo = addDemoBean.queryResults("search_provider");
   while (rsdemo.next()) {
 %>
-					<option value="<%=rsdemo.getString("provider_no")%>"><%=Misc.getShortStr( (rsdemo.getString("last_name")+","+rsdemo.getString("first_name")),"",12)%></option>
+					<option value="<%=rsdemo.getString("provider_no")%>"><%=Misc.getShortStr( (rsdemo.getString("last_name")+","+rsdemo.getString("first_name")),"",20)%></option>
 					<%
   }
   rsdemo.close();
