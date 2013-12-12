@@ -33,6 +33,10 @@
 <%@page import="oscar.oscarEncounter.pageUtil.*,oscar.oscarEncounter.data.*,java.util.List,org.oscarehr.eyeform.model.EyeformSpecsHistory"%>
 <%@ page import="org.oscarehr.util.*"%>
 <%@ page import="org.oscarehr.eyeform.dao.*"%>
+<%@ page import="oscar.oscarEncounter.oscarMeasurements.dao.MeasurementsDao"%>
+<%@ page import="oscar.oscarEncounter.oscarMeasurements.model.Measurements"%>
+<%@ page import="java.util.*"%>
+
 <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
 <link rel="stylesheet" href="<c:out value="${ctx}"/>/oscarEncounter/encounterStyles.css" type="text/css">
 
@@ -117,6 +121,7 @@
 	String glass_show = "style=\"display:none\"";
 	int num = 0;
 	int num1 = 0;
+	int num_tab = 33;
 	if(specs.size() > 0){
 		value1 = specs.get(0).getDateStr();
 		value2 = specs.get(0).getOdSph();
@@ -181,6 +186,66 @@
 		glass_show = "";
 		num ++;
 	}
+	/*
+	MeasurementsDao measurementsDao = (MeasurementsDao) SpringUtils.getBean("measurementsDao");
+	List<Measurements> measurementList = measurementsDao.getMeasurements(Integer.parseInt(demo));
+	boolean in_v3 = false;
+	String v2_type[] = {"od_ar_sph","od_ar_cyl","od_ar_axis","os_ar_sph","os_ar_cyl","os_ar_axis","od_k1","od_k2","od_k2_axis","os_k1","os_k2","os_k2_axis","od_sc_distance","od_cc_distance","od_ph_distance","os_sc_distance","os_cc_distance","os_ph_distance","od_sc_near","od_cc_near","os_sc_near","os_cc_near",
+	"od_manifest_refraction_sph","od_manifest_refraction_cyl","od_manifest_refraction_axis","od_manifest_distance","os_manifest_refraction_sph","os_manifest_refraction_cyl","os_manifest_refraction_axis","os_manifest_distance","od_cycloplegic_refraction_sph","od_cycloplegic_refraction_cyl","od_cycloplegic_refraction_axis","od_cycloplegic_distance","os_cycloplegic_refraction_sph","os_cycloplegic_refraction_cyl","os_cycloplegic_refraction_axis","os_cycloplegic_distance","od_iop_nct","os_iop_nct","od_iop_applanation","os_iop_applanation","od_cct","os_cct","od_color_vision","od_pupil","od_amsler_grid","od_pam","od_confrontation","os_color_vision","os_pupil","os_amsler_grid","os_pam","os_confrontation",
+	"EOM","od_cornea","od_conjuctiva_sclera","od_anterior_chamber","od_angle_up","od_angle_middle0","od_angle_middle1","od_angle_middle2","od_angle_down","od_iris","od_lens","os_cornea","os_conjuctiva_sclera","os_anterior_chamber","os_angle_up","os_angle_middle0","os_angle_middle1","os_angle_middle2","os_angle_down","os_iris","os_lens","od_disc","od_cd_ratio_horizontal","od_macula","od_retina","od_vitreous","os_disc","os_cd_ratio_horizontal","os_macula","os_retina","os_vitreous","od_face","od_upper_lid","od_lower_lid","od_punctum","od_lacrimal_lake","os_face","os_upper_lid","os_lower_lid","os_punctum","os_lacrimal_lake","od_lacrimal_irrigation","od_nld","od_dye_disappearance","os_lacrimal_irrigation","os_nld","os_dye_disappearance",
+	"od_mrd","od_levator_function","od_inferior_scleral_show","od_cn_vii","od_blink","od_bells","od_lagophthalmos","os_mrd","os_levator_function","os_inferior_scleral_show","os_cn_vii","os_blink","os_bells","os_lagophthalmos","od_hertel","od_retropulsion","os_hertel","os_retropulsion"};
+	String v3_type[] = {"v_rs","v_rc","v_rx","v_ls","v_lc","v_lx","v_rk1","v_rk2","v_rkx","v_lk1","v_lk2","v_lkx","v_rdsc","v_rdcc","v_rph","v_ldsc","v_ldcc","v_lph","v_rnsc","v_rncc","v_lnsc","v_lncc",
+	"v_rds","v_rdc","v_rdx","v_rdv","v_lds","v_ldc","v_ldx","v_ldv","v_rcs","v_rcc","v_rcx","v_rcv","v_lcs","v_lcc","v_lcx","v_lcv","iop_rn","iop_ln","iop_ra","iop_la","cct_r","cct_l","o_rcolour","o_rpupil","o_ramsler","o_rpam","o_rconf","o_lcolour","o_lpupil","o_lamsler","o_lpam","o_lconf",
+	"v_stereo","a_rk","a_rconj","a_rac","a_rangle_1","a_rangle_2","a_rangle_3","a_rangle_4","a_rangle_5","a_riris","a_rlens","a_lk","a_lconj","a_lac","a_langle_1","a_langle_2","a_langle_3","a_langle_4","a_langle_5","a_liris","a_llens","p_rdisc","p_rcd","p_rmac","p_rret","p_rvit","p_ldisc","p_lcd","p_lmac","p_lret","p_lvit","ext_rface","ext_rul","ext_rll","ext_rpunc","ext_rlake","ext_lface","ext_lul","ext_lll","ext_lpunc","ext_llake","ext_rirrig","ext_rnld","ext_rdye","ext_lirrig","ext_lnld","ext_ldye",
+	"lid_rmrd","lid_rlev","lid_riss","lid_rcn7","lid_rblink","lid_rbell","lid_rlag","lid_lmrd","lid_llev","lid_liss","lid_lcn7","lid_lblink","lid_lbell","lid_llag","ext_rhertel","ext_rretro","ext_lhertel","ext_lretro"};
+	Map<String,String> map = new HashMap<String,String>();
+	if("eyeform3".equals(eyeform)){
+		for(int i = 0;i < v2_type.length ; i ++ ){
+			for(Measurements key1:measurementList) {
+				if(v2_type[i].equals(key1.getType())){
+					in_v3 = false;
+					for(Measurements key2:measurementList) {
+						if(v3_type[i].equals(key2.getType())){
+							Date d1 = null;
+							Date d2 = null;
+							d1 = key1.getDateObserved();
+							d2 = key2.getDateObserved();
+							if(d1.after(d2)){
+								map.put(v3_type[i],key1.getDataField());
+								if(v3_type[i].equals("iop_rn") || v3_type[i].equals("iop_ln")){
+									map.put("nct_ts",key1.getDateObserved().toString());
+								}
+								if(v3_type[i].equals("iop_ra") || v3_type[i].equals("iop_la")){
+									map.put("applanation_ts",key1.getDateObserved().toString());
+								}
+							}else{
+								map.put(v3_type[i],key2.getDataField());
+								if(v3_type[i].equals("iop_rn") || v3_type[i].equals("iop_ln")){
+									map.put("nct_ts",key2.getDateObserved().toString());
+								}
+								if(v3_type[i].equals("iop_ra") || v3_type[i].equals("iop_la")){
+									map.put("applanation_ts",key2.getDateObserved().toString());
+								}
+							}
+							in_v3 = true;
+							break;
+						}
+					}
+					if(!in_v3){
+						map.put(v3_type[i],key1.getDataField());
+						if(v2_type[i].equals("od_iop_nct") || v2_type[i].equals("os_iop_nct")){
+							map.put("nct_ts",key1.getDateObserved().toString());
+						}
+						if(v2_type[i].equals("od_iop_applanation") || v2_type[i].equals("os_iop_applanation")){
+							map.put("applanation_ts",key1.getDateObserved().toString());
+						}
+						in_v3 = false;
+					}
+				}			
+			}
+		}
+	}
+	*/
 %>
 
 <script>
@@ -1155,11 +1220,11 @@ function setAnterior_od(){
 	setfieldvalue("a_rk","clear");
 	setfieldvalue("a_rconj","white");
 	setfieldvalue("a_rac","deep and quiet");
-	setfieldvalue("a_rangle_1","open");
-	setfieldvalue("a_rangle_2","open");
-	setfieldvalue("a_rangle_3","open");
-	setfieldvalue("a_rangle_4","open");
-	setfieldvalue("a_rangle_5","open");
+	setfieldvalue("a_rangle_1","");
+	setfieldvalue("a_rangle_2","");
+	setfieldvalue("a_rangle_3","");
+	setfieldvalue("a_rangle_4","");
+	setfieldvalue("a_rangle_5","");
 	setfieldvalue("a_riris","normal");
 	setfieldvalue("a_rlens","clear");
 }
@@ -1181,11 +1246,11 @@ function setAnterior_os(){
 	setfieldvalue("a_lk","clear");
 	setfieldvalue("a_lconj","white");
 	setfieldvalue("a_lac","deep and quiet");
-	setfieldvalue("a_langle_1","open");
-	setfieldvalue("a_langle_2","open");
-	setfieldvalue("a_langle_3","open");
-	setfieldvalue("a_langle_4","open");
-	setfieldvalue("a_langle_5","open");
+	setfieldvalue("a_langle_1","");
+	setfieldvalue("a_langle_2","");
+	setfieldvalue("a_langle_3","");
+	setfieldvalue("a_langle_4","");
+	setfieldvalue("a_langle_5","");
 	setfieldvalue("a_liris","normal");
 	setfieldvalue("a_llens","clear");
 }
@@ -1257,56 +1322,61 @@ if(Number(document.getElementById("shownum").value) == 0){
 }
 function insRow()
 {
+	var tab_num = 0;
+	var row = rowID -1;
+	tab_num = document.getElementById("osPrism"+row.toString()).tabIndex + 2;
+	if(rowID<5){
+		var rowNo=rowID;
+		var x=document.getElementById('myTable').insertRow(rowID+1);
+		var h1=x.insertCell(0);
+		var h2=x.insertCell(1);
+		var h3=x.insertCell(2);
+		var h4=x.insertCell(3);
+		var h5=x.insertCell(4);
+		var h6=x.insertCell(5);
+		var h7=x.insertCell(6);
+		var h8=x.insertCell(7);
+		var h9=x.insertCell(8);
+		var h10=x.insertCell(9);
+		var h11=x.insertCell(10);
+		var h12=x.insertCell(11);
+		var h13=x.insertCell(12);
+		var h14=x.insertCell(13);
+		var h15=x.insertCell(14);
+		var h16=x.insertCell(15);
 
-if(rowID<5){
-var rowNo=rowID;
-var x=document.getElementById('myTable').insertRow(rowID+1);
-var h1=x.insertCell(0);
-var h2=x.insertCell(1);
-var h3=x.insertCell(2);
-var h4=x.insertCell(3);
-var h5=x.insertCell(4);
-var h6=x.insertCell(5);
-var h7=x.insertCell(6);
-var h8=x.insertCell(7);
-var h9=x.insertCell(8);
-var h10=x.insertCell(9);
-var h11=x.insertCell(10);
-var h12=x.insertCell(11);
-var h13=x.insertCell(12);
-var h14=x.insertCell(13);
-var h15=x.insertCell(14);
-var h16=x.insertCell(15);
-var h17=x.insertCell(16);
-var h18=x.insertCell(17);
-var h19=x.insertCell(18);
+		h1.innerHTML="<div><select style='width:100px;' name='specs.type"+rowNo+"' id='type00"+rowNo+"'><option value='distance'>distance</option><option value='bifocal'>bifocal</option><option value='invis bfocal'>invis bfocal</option><option value='reading'>reading</option></select></div>";
+		h2.innerHTML="<div><input name='specs.odSph"+rowNo+"' id='odSph"+rowNo+"' type='text' tabindex='"+tab_num+"' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
+		tab_num ++;
+		h3.innerHTML="<div><input name='specs.odCyl"+rowNo+"' id='odCyl"+rowNo+"' type='text' tabindex='"+tab_num+"' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
+		tab_num ++;
+		h4.innerHTML="<div><input name='specs.odAxis"+rowNo+"' id='odAxis"+rowNo+"' type='text' tabindex='"+tab_num+"' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
+		tab_num ++;
+		h5.innerHTML="<div><input name='specs.odAdd"+rowNo+"' id='odAdd"+rowNo+"' type='text' tabindex='"+tab_num+"' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
+		tab_num ++;
+		h6.innerHTML="<div><input name='specs.odPrism"+rowNo+"' id='odPrism"+rowNo+"' type='text' tabindex='"+tab_num+"' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
+		tab_num ++;
+		h7.innerHTML="<div  width='8%'></div>";
+		h8.innerHTML="<div><input name='specs.osSph"+rowNo+"' id='osSph"+rowNo+"' type='text' tabindex='"+tab_num+"' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
+		tab_num ++;
+		h9.innerHTML="<div><input name='specs.osCyl"+rowNo+"' id='osCyl"+rowNo+"' type='text' tabindex='"+tab_num+"' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
+		tab_num ++;
+		h10.innerHTML="<div><input name='specs.osAxis"+rowNo+"' id='osAxis"+rowNo+"' type='text' tabindex='"+tab_num+"' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
+		tab_num ++;
+		h11.innerHTML="<div><input name='specs.osAdd"+rowNo+"' id='osAdd"+rowNo+"' type='text' tabindex='"+tab_num+"' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
+		tab_num ++;
+		h12.innerHTML="<div><input name='specs.osPrism"+rowNo+"' id='osPrism"+rowNo+"' type='text' tabindex='"+tab_num+"' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
+		tab_num ++;
+		h13.innerHTML="<div><input name='specs.dateStr"+rowNo+"'  type='text' tabindex='"+tab_num+"' class='examfieldgrey' size='10'  id='gl_date"+rowNo+"' onfocus='whiteField(this);'></div>";
+		h14.innerHTML="<div  width='1%'><img src='"+ctx+"/images/cal.gif' id='pdate_cal"+rowNo+"'></div>";
+		h15.innerHTML="<div><a href='javascript:void(0)' onclick='hxOpen"+rowNo+"();'><img src='../images/notes.gif' /> </a></div>";
+		h16.innerHTML="<div><input type='hidden' value='' name='specs.id"+rowNo+"' id='specs.id"+rowNo+"'></div>";
 
 
-h1.innerHTML="<div><select style='width:100px;' name='specs.type"+rowNo+"' id='type00"+rowNo+"'><option value='distance'>distance</option><option value='bifocal'>bifocal</option><option value='invisible bifocal'>invisible bifocal</option><option value='reading'>reading</option></select></div>";
-h2.innerHTML="<div><input name='specs.dateStr"+rowNo+"'  type='text' tabindex='33' class='examfieldgrey' size='10'  id='gl_date"+rowNo+"' onfocus='whiteField(this);'></div>";
-h3.innerHTML="<div  width='1%'><img src='"+ctx+"/images/cal.gif' id='pdate_cal"+rowNo+"'></div>";
-h4.innerHTML="<div><input name='specs.odSph"+rowNo+"' id='odSph"+rowNo+"' type='text' tabindex='34' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
-h5.innerHTML="<div><input name='specs.odCyl"+rowNo+"' id='odCyl"+rowNo+"' type='text' tabindex='35' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
-h6.innerHTML="<div><input name='specs.odAxis"+rowNo+"' id='odAxis"+rowNo+"' type='text' tabindex='36' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
-h7.innerHTML="<div><input name='specs.odAdd"+rowNo+"' id='odAdd"+rowNo+"' type='text' tabindex='37' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
-h8.innerHTML="<div><input name='specs.odPrism"+rowNo+"' id='odPrism"+rowNo+"' type='text' tabindex='38' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
-h9.innerHTML="<div  width='8%'></div>";
-h10.innerHTML="<div><input name='specs.osSph"+rowNo+"' id='osSph"+rowNo+"' type='text' tabindex='39' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
-h11.innerHTML="<div><input name='specs.osCyl"+rowNo+"' id='osCyl"+rowNo+"' type='text' tabindex='40' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
-h12.innerHTML="<div><input name='specs.osAxis"+rowNo+"' id='osAxis"+rowNo+"' type='text' tabindex='41' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
-h13.innerHTML="<div><input name='specs.osAdd"+rowNo+"' id='osAdd"+rowNo+"' type='text' tabindex='42' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
-h14.innerHTML="<div><input name='specs.osPrism"+rowNo+"' id='osPrism"+rowNo+"' type='text' tabindex='43' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
-h15.innerHTML="<div><a href='javascript:void(0)' onclick='hxOpen"+rowNo+"();'><img src='../images/notes.gif' /> </a></div>";
-h16.innerHTML="<div><input type='hidden' value='save' name='method'></div>";
-h17.innerHTML="<div><input type='hidden' value="+<%=request.getParameter("demographic_no")%>+" name='specs.demographicNo'></div>";
-h18.innerHTML="<div><input type='hidden' value="+<%=request.getParameter("appointment_no")%>+" name='specs.appointmentNo'></div>";
-h19.innerHTML="<div><input type='hidden' value='' name='specs.id"+rowNo+"' id='specs.id"+rowNo+"'></div>";
-
-
-Calendar.setup({ inputField : "gl_date"+rowNo, ifFormat : "%Y-%m-%d", showsTime :false, button : "pdate_cal"+rowNo, singleClick : true, step : 1 });
- 
-rowID=rowID+1;
-}
+		Calendar.setup({ inputField : "gl_date"+rowNo, ifFormat : "%Y-%m-%d", showsTime :false, button : "pdate_cal"+rowNo, singleClick : true, step : 1 });
+		 
+		rowID=rowID+1;
+	}
 }
 
 function hxOpen1()
@@ -1503,7 +1573,6 @@ span.ge{
 
 
 </style>
-
 <span style="font-size:10px">
 	<a id="save_measurements" href="javascript:void(0)"  onclick="document.getElementById('hxForm').submit();">[Save Measurements]</a>
 </span>
@@ -1588,6 +1657,9 @@ span.ge{
 	 <input type="hidden" id="note3" value="<%=note3%>" />
 	 <input type="hidden" id="note4" value="<%=note4%>" />
 	 <input type="hidden" id="shownum" value="<%=num%>" />
+	 
+	 <input type="hidden" value="<%=request.getParameter("demographic_no")%>" name="specs.demographicNo" id="demographic_no">
+     <input type="hidden" value="<%= request.getParameter("appointment_no")%>" name="specs.appointmentNo" id="appointment_no">
 </div>	
 			
 	
@@ -1596,32 +1668,34 @@ span.ge{
 		<table class="exam" width="100%" id="myTable">
 		 
 		<tr>
-			<td width="10%"><a href="javascript:void(0)" tabindex="258" onclick="copyglasses();return false;">[copy]</a></td>
-			<td width="8%"></td>
-			<td width="1%"></td>
+			<td width="10%"><a href="javascript:void(0)" tabindex="33" onclick="copyglasses();return false;">[copy]</a></td>
+			
 			<td colspan="5" width="36%">OD</td>
 			<td width="8%"></td>
 			<td colspan="5"width="36%">OS</td>
+			<td width="8%"></td>
+			<td width="1%"></td>
+			<td width="1%"></td>
 		</tr>
 		<tr>
 		    <td >Type</td>
-			<td>Date
 			
-			</td>	
-			
-			
-			<td width="8%"></td>
-			<td>S</td>
-			<td>C</td>
-			<td>X</td>
+			<td>s</td>
+			<td>c</td>
+			<td>x</td>
 			<td>Add</td>
 			<td>prism</td>
 			<td width="8%"></td>
-			<td>S</td>
-			<td>C</td>
-			<td>X</td>
+			<td>s</td>
+			<td>c</td>
+			<td>x</td>
 			<td>Add</td>
 			<td>prism</td>
+			
+			<td>Date</td>				
+			<td width="8%"></td>
+			
+			<td></td>
 		</tr>
 		<%if(num == 0){
 		num1 ++;%>
@@ -1630,33 +1704,29 @@ span.ge{
 	             <select name="specs.type<%=num1%>" style="width:100px;" id="type00<%=num1%>"  onchange="demo<%=num1%>()">
 	   	            <option value="distance">distance</option>
 	            	<option value="bifocal">bifocal</option>
-	            	<option value="invisible bifocal">invisible bifocal</option>
+	            	<option value="invis bfocal">invis bfocal</option>
 	                <option value="reading">reading</option>
 	            </select>
 	         </td>
-             <td><input name="specs.dateStr<%=num1%>"  type="text" tabindex="33" class="examfieldgrey" size="10"  id="gl_date<%=num1%>" onfocus="whiteField(this);" value="<%=value1%>"/>		 </td>			 
+             
+			 </td>
+			 <td><input name="specs.odSph<%=num1%>" id="odSph<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value2%>"/></td>
+			 <td><input name="specs.odCyl<%=num1%>" id="odCyl<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value3%>"/></td>
+			 <td><input name="specs.odAxis<%=num1%>" id="odAxis<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value4%>"/></td>
+			 <td><input name="specs.odAdd<%=num1%>" id="odAdd<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value5%>"/></td>
+			 <td><input name="specs.odPrism<%=num1%>" id="odPrism<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value6%>"/></td>		
+			 <td width="8%"></td>
+			 <td><input name="specs.osSph<%=num1%>" id="osSph<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value7%>"/></td>
+			 <td><input name="specs.osCyl<%=num1%>" id="osCyl<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value8%>"/></td>
+			 <td><input name="specs.osAxis<%=num1%>"id="osAxis<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value9%>"/></td>
+			 <td><input name="specs.osAdd<%=num1%>" id="osAdd<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value10%>"/></td>
+			 <td><input name="specs.osPrism<%=num1%>" id="osPrism<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value11%>"/></td>
+			 <td><input name="specs.dateStr<%=num1%>"  type="text" tabindex="<%=num_tab ++%>" class="examfieldgrey" size="10"  id="gl_date<%=num1%>" onfocus="whiteField(this);" value="<%=value1%>"/>		 </td>			 
 			 <td width="8%"><img src="<%=request.getContextPath()%>/images/cal.gif" id="pdate_cal<%=num1%>">
 			 <script type="text/javascript">
 				Calendar.setup({ inputField : "gl_date<%=num1%>", ifFormat : "%Y-%m-%d", showsTime :false, button : "pdate_cal<%=num1%>", singleClick : true, step : 1 });
 			</script>
-			 </td>
-			 <td><input name="specs.odSph<%=num1%>" id="odSph<%=num1%>" type="text" tabindex="34" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value2%>"/></td>
-			 <td><input name="specs.odCyl<%=num1%>" id="odCyl<%=num1%>" type="text" tabindex="35" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value3%>"/></td>
-			 <td><input name="specs.odAxis<%=num1%>" id="odAxis<%=num1%>" type="text" tabindex="36" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value4%>"/></td>
-			 <td><input name="specs.odAdd<%=num1%>" id="odAdd<%=num1%>" type="text" tabindex="37" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value5%>"/></td>
-			 <td><input name="specs.odPrism<%=num1%>" id="odPrism<%=num1%>" type="text" tabindex="38" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value6%>"/></td>		
-			 <td width="8%"></td>
-			 <td><input name="specs.osSph<%=num1%>" id="osSph<%=num1%>" type="text" tabindex="39" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value7%>"/></td>
-			 <td><input name="specs.osCyl<%=num1%>" id="osCyl<%=num1%>" type="text" tabindex="40" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value8%>"/></td>
-			 <td><input name="specs.osAxis<%=num1%>"id="osAxis<%=num1%>" type="text" tabindex="41" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value9%>"/></td>
-			 <td><input name="specs.osAdd<%=num1%>" id="osAdd<%=num1%>" type="text" tabindex="42" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value10%>"/></td>
-			 <td><input name="specs.osPrism<%=num1%>" id="osPrism<%=num1%>" type="text" tabindex="43" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value11%>"/></td>
-			 
 			 <td><a href="javascript:void(0)" onclick="hxOpen<%=num1%>();"><img src="../images/notes.gif"  /> </a></td>
-			 
-			 <td><input type="hidden" value="save" name="method"></td>
-             <td><input type="hidden" value="<%=request.getParameter("demographic_no")%>" name="specs.demographicNo" id="demographic_no"></td>
-             <td><input type="hidden" value="<%= request.getParameter("appointment_no")%>" name="specs.appointmentNo" id="appointment_no"></td>
              <td><input type="hidden" value="" name="specs.id<%=num1%>" id="specs.id<%=num1%>"></td>		 
 		</tr>
 		<%}%>
@@ -1669,33 +1739,29 @@ span.ge{
 	             <select name="specs.type<%=num1%>" style="width:100px;" id="type00<%=num1%>"  onchange="demo<%=num1%>()">
 	   	            <option value="distance">distance</option>
 	            	<option value="bifocal">bifocal</option>
-	            	<option value="invisible bifocal">invisible bifocal</option>
+	            	<option value="invis bfocal">invis bfocal</option>
 	                <option value="reading">reading</option>
 	            </select>
 	         </td>
-             <td><input name="specs.dateStr<%=num1%>"  type="text" tabindex="33" class="examfieldgrey" size="10"  id="gl_date<%=num1%>" onfocus="whiteField(this);" value="<%=value1%>"/>		 </td>			 
+             
+			 <td><input name="specs.odSph<%=num1%>" id="odSph<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value2%>"/></td>
+			 <td><input name="specs.odCyl<%=num1%>" id="odCyl<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value3%>"/></td>
+			 <td><input name="specs.odAxis<%=num1%>" id="odAxis<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value4%>"/></td>
+			 <td><input name="specs.odAdd<%=num1%>" id="odAdd<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value5%>"/></td>
+			 <td><input name="specs.odPrism<%=num1%>" id="odPrism<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value6%>"/></td>		
+			 <td width="8%"></td>
+			 <td><input name="specs.osSph<%=num1%>" id="osSph<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value7%>"/></td>
+			 <td><input name="specs.osCyl<%=num1%>" id="osCyl<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value8%>"/></td>
+			 <td><input name="specs.osAxis<%=num1%>"id="osAxis<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value9%>"/></td>
+			 <td><input name="specs.osAdd<%=num1%>" id="osAdd<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value10%>"/></td>
+			 <td><input name="specs.osPrism<%=num1%>" id="osPrism<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value11%>"/></td>
+			 <td><input name="specs.dateStr<%=num1%>"  type="text" tabindex="<%=num_tab ++%>" class="examfieldgrey" size="10"  id="gl_date<%=num1%>" onfocus="whiteField(this);" value="<%=value1%>"/>		 </td>			 
 			 <td width="8%"><img src="<%=request.getContextPath()%>/images/cal.gif" id="pdate_cal<%=num1%>">
 			 <script type="text/javascript">
 				Calendar.setup({ inputField : "gl_date<%=num1%>", ifFormat : "%Y-%m-%d", showsTime :false, button : "pdate_cal<%=num1%>", singleClick : true, step : 1 });
 			</script>
 			 </td>
-			 <td><input name="specs.odSph<%=num1%>" id="odSph<%=num1%>" type="text" tabindex="34" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value2%>"/></td>
-			 <td><input name="specs.odCyl<%=num1%>" id="odCyl<%=num1%>" type="text" tabindex="35" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value3%>"/></td>
-			 <td><input name="specs.odAxis<%=num1%>" id="odAxis<%=num1%>" type="text" tabindex="36" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value4%>"/></td>
-			 <td><input name="specs.odAdd<%=num1%>" id="odAdd<%=num1%>" type="text" tabindex="37" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value5%>"/></td>
-			 <td><input name="specs.odPrism<%=num1%>" id="odPrism<%=num1%>" type="text" tabindex="38" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value6%>"/></td>		
-			 <td width="8%"></td>
-			 <td><input name="specs.osSph<%=num1%>" id="osSph<%=num1%>" type="text" tabindex="39" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value7%>"/></td>
-			 <td><input name="specs.osCyl<%=num1%>" id="osCyl<%=num1%>" type="text" tabindex="40" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value8%>"/></td>
-			 <td><input name="specs.osAxis<%=num1%>"id="osAxis<%=num1%>" type="text" tabindex="41" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value9%>"/></td>
-			 <td><input name="specs.osAdd<%=num1%>" id="osAdd<%=num1%>" type="text" tabindex="42" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value10%>"/></td>
-			 <td><input name="specs.osPrism<%=num1%>" id="osPrism<%=num1%>" type="text" tabindex="43" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value11%>"/></td>
-			 
 			 <td><a href="javascript:void(0)" onclick="hxOpen<%=num1%>();"><img src="../images/notes.gif"  /> </a></td>
-			 
-			 <td><input type="hidden" value="save" name="method"></td>
-             <td><input type="hidden" value="<%=request.getParameter("demographic_no")%>" name="specs.demographicNo" id="demographic_no"></td>
-             <td><input type="hidden" value="<%= request.getParameter("appointment_no")%>" name="specs.appointmentNo" id="appointment_no"></td>
              <td><input type="hidden" value="" name="specs.id<%=num1%>" id="specs.id<%=num1%>"></td>		 
 		</tr>
 		<%}%>
@@ -1707,33 +1773,29 @@ span.ge{
 	             <select name="specs.type<%=num1%>" style="width:100px;" id="type00<%=num1%>"  onchange="demo<%=num1%>()">
 	   	            <option value="distance">distance</option>
 	            	<option value="bifocal" selected>bifocal</option>
-	            	<option value="invisible bifocal">invisible bifocal</option>
+	            	<option value="invis bfocal">invis bfocal</option>
 	                <option value="reading">reading</option>
 	            </select>
 	         </td>
-             <td><input name="specs.dateStr<%=num1%>"  type="text" tabindex="33" class="examfieldgrey" size="10"  id="gl_date<%=num1%>" onfocus="whiteField(this);" value="<%=value12%>"/>		 </td>			 
+             
+			 <td><input name="specs.odSph<%=num1%>" id="odSph<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value13%>"/></td>
+			 <td><input name="specs.odCyl<%=num1%>" id="odCyl<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value14%>"/></td>
+			 <td><input name="specs.odAxis<%=num1%>" id="odAxis<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value15%>"/></td>
+			 <td><input name="specs.odAdd<%=num1%>" id="odAdd<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value16%>"/></td>
+			 <td><input name="specs.odPrism<%=num1%>" id="odPrism<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value17%>"/></td>		
+			 <td width="8%"></td>
+			 <td><input name="specs.osSph<%=num1%>" id="osSph<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value18%>"/></td>
+			 <td><input name="specs.osCyl<%=num1%>" id="osCyl<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value19%>"/></td>
+			 <td><input name="specs.osAxis<%=num1%>"id="osAxis<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value20%>"/></td>
+			 <td><input name="specs.osAdd<%=num1%>" id="osAdd<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value21%>"/></td>
+			 <td><input name="specs.osPrism<%=num1%>" id="osPrism<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value22%>"/></td>
+			 <td><input name="specs.dateStr<%=num1%>"  type="text" tabindex="<%=num_tab ++%>" class="examfieldgrey" size="10"  id="gl_date<%=num1%>" onfocus="whiteField(this);" value="<%=value12%>"/>		 </td>			 
 			 <td width="8%"><img src="<%=request.getContextPath()%>/images/cal.gif" id="pdate_cal<%=num1%>">
 			 <script type="text/javascript">
 				Calendar.setup({ inputField : "gl_date<%=num1%>", ifFormat : "%Y-%m-%d", showsTime :false, button : "pdate_cal<%=num1%>", singleClick : true, step : 1 });
 			</script>
 			 </td>
-			 <td><input name="specs.odSph<%=num1%>" id="odSph<%=num1%>" type="text" tabindex="34" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value13%>"/></td>
-			 <td><input name="specs.odCyl<%=num1%>" id="odCyl<%=num1%>" type="text" tabindex="35" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value14%>"/></td>
-			 <td><input name="specs.odAxis<%=num1%>" id="odAxis<%=num1%>" type="text" tabindex="36" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value15%>"/></td>
-			 <td><input name="specs.odAdd<%=num1%>" id="odAdd<%=num1%>" type="text" tabindex="37" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value16%>"/></td>
-			 <td><input name="specs.odPrism<%=num1%>" id="odPrism<%=num1%>" type="text" tabindex="38" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value17%>"/></td>		
-			 <td width="8%"></td>
-			 <td><input name="specs.osSph<%=num1%>" id="osSph<%=num1%>" type="text" tabindex="39" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value18%>"/></td>
-			 <td><input name="specs.osCyl<%=num1%>" id="osCyl<%=num1%>" type="text" tabindex="40" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value19%>"/></td>
-			 <td><input name="specs.osAxis<%=num1%>"id="osAxis<%=num1%>" type="text" tabindex="41" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value20%>"/></td>
-			 <td><input name="specs.osAdd<%=num1%>" id="osAdd<%=num1%>" type="text" tabindex="42" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value21%>"/></td>
-			 <td><input name="specs.osPrism<%=num1%>" id="osPrism<%=num1%>" type="text" tabindex="43" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value22%>"/></td>
-			 
 			 <td><a href="javascript:void(0)" onclick="hxOpen<%=num1%>();"><img src="../images/notes.gif"  /> </a></td>
-			 
-			 <td><input type="hidden" value="save" name="method"></td>
-             <td><input type="hidden" value="<%=request.getParameter("demographic_no")%>" name="specs.demographicNo" id="demographic_no"></td>
-             <td><input type="hidden" value="<%= request.getParameter("appointment_no")%>" name="specs.appointmentNo" id="appointment_no"></td>
              <td><input type="hidden" value="" name="specs.id<%=num1%>" id="specs.id<%=num1%>"></td>	
 		</tr>
 		<%}%>
@@ -1745,33 +1807,29 @@ span.ge{
 	             <select name="specs.type<%=num1%>" style="width:100px;" id="type00<%=num1%>"  onchange="demo<%=num1%>()">
 	   	            <option value="distance">distance</option>
 	            	<option value="bifocal">bifocal</option>
-	            	<option value="invisible bifocal" selected>invisible bifocal</option>
+	            	<option value="invis bfocal" selected>invis bfocal</option>
 	                <option value="reading">reading</option>
 	            </select>
 	         </td>
-             <td><input name="specs.dateStr<%=num1%>"  type="text" tabindex="33" class="examfieldgrey" size="10"  id="gl_date<%=num1%>" onfocus="whiteField(this);" value="<%=value23%>"/>		 </td>			 
+             
+			 <td><input name="specs.odSph<%=num1%>" id="odSph<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value24%>"/></td>
+			 <td><input name="specs.odCyl<%=num1%>" id="odCyl<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value25%>"/></td>
+			 <td><input name="specs.odAxis<%=num1%>" id="odAxis<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value26%>"/></td>
+			 <td><input name="specs.odAdd<%=num1%>" id="odAdd<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value27%>"/></td>
+			 <td><input name="specs.odPrism<%=num1%>" id="odPrism<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value28%>"/></td>		
+			 <td width="8%"></td>
+			 <td><input name="specs.osSph<%=num1%>" id="osSph<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value29%>"/></td>
+			 <td><input name="specs.osCyl<%=num1%>" id="osCyl<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value30%>"/></td>
+			 <td><input name="specs.osAxis<%=num1%>"id="osAxis<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value31%>"/></td>
+			 <td><input name="specs.osAdd<%=num1%>" id="osAdd<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value32%>"/></td>
+			 <td><input name="specs.osPrism<%=num1%>" id="osPrism<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value33%>"/></td>
+			 <td><input name="specs.dateStr<%=num1%>"  type="text" tabindex="<%=num_tab ++%>" class="examfieldgrey" size="10"  id="gl_date<%=num1%>" onfocus="whiteField(this);" value="<%=value23%>"/>		 </td>			 
 			 <td width="8%"><img src="<%=request.getContextPath()%>/images/cal.gif" id="pdate_cal<%=num1%>">
 			 <script type="text/javascript">
 				Calendar.setup({ inputField : "gl_date<%=num1%>", ifFormat : "%Y-%m-%d", showsTime :false, button : "pdate_cal<%=num1%>", singleClick : true, step : 1 });
 			</script>
 			 </td>
-			 <td><input name="specs.odSph<%=num1%>" id="odSph<%=num1%>" type="text" tabindex="34" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value24%>"/></td>
-			 <td><input name="specs.odCyl<%=num1%>" id="odCyl<%=num1%>" type="text" tabindex="35" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value25%>"/></td>
-			 <td><input name="specs.odAxis<%=num1%>" id="odAxis<%=num1%>" type="text" tabindex="36" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value26%>"/></td>
-			 <td><input name="specs.odAdd<%=num1%>" id="odAdd<%=num1%>" type="text" tabindex="37" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value27%>"/></td>
-			 <td><input name="specs.odPrism<%=num1%>" id="odPrism<%=num1%>" type="text" tabindex="38" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value28%>"/></td>		
-			 <td width="8%"></td>
-			 <td><input name="specs.osSph<%=num1%>" id="osSph<%=num1%>" type="text" tabindex="39" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value29%>"/></td>
-			 <td><input name="specs.osCyl<%=num1%>" id="osCyl<%=num1%>" type="text" tabindex="40" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value30%>"/></td>
-			 <td><input name="specs.osAxis<%=num1%>"id="osAxis<%=num1%>" type="text" tabindex="41" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value31%>"/></td>
-			 <td><input name="specs.osAdd<%=num1%>" id="osAdd<%=num1%>" type="text" tabindex="42" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value32%>"/></td>
-			 <td><input name="specs.osPrism<%=num1%>" id="osPrism<%=num1%>" type="text" tabindex="43" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value33%>"/></td>
-			 
 			 <td><a href="javascript:void(0)" onclick="hxOpen<%=num1%>();"><img src="../images/notes.gif"  /> </a></td>
-			 
-			 <td><input type="hidden" value="save" name="method"></td>
-             <td><input type="hidden" value="<%=request.getParameter("demographic_no")%>" name="specs.demographicNo" id="demographic_no"></td>
-             <td><input type="hidden" value="<%= request.getParameter("appointment_no")%>" name="specs.appointmentNo" id="appointment_no"></td>
              <td><input type="hidden" value="" name="specs.id<%=num1%>" id="specs.id<%=num1%>"></td>	
 		</tr>
 		<%}%>
@@ -1783,33 +1841,29 @@ span.ge{
 	             <select name="specs.type<%=num1%>" style="width:100px;" id="type00<%=num1%>"  onchange="demo<%=num1%>()">
 	   	            <option value="distance">distance</option>
 	            	<option value="bifocal">bifocal</option>
-	            	<option value="invisible bifocal">invisible bifocal</option>
+	            	<option value="invis bfocal">invis bfocal</option>
 	                <option value="reading" selected>reading</option>
 	            </select>
 	         </td>
-             <td><input name="specs.dateStr<%=num1%>"  type="text" tabindex="33" class="examfieldgrey" size="10"  id="gl_date<%=num1%>" onfocus="whiteField(this);" value="<%=value34%>"/>		 </td>			 
+             
+			 <td><input name="specs.odSph<%=num1%>" id="odSph<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value35%>"/></td>
+			 <td><input name="specs.odCyl<%=num1%>" id="odCyl<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value36%>"/></td>
+			 <td><input name="specs.odAxi<%=num1%>" id="odAxis<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value37%>"/></td>
+			 <td><input name="specs.odAdd<%=num1%>" id="odAdd<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value38%>"/></td>
+			 <td><input name="specs.odPrism<%=num1%>" id="odPrism<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value39%>"/></td>		
+			 <td width="8%"></td>
+			 <td><input name="specs.osSph<%=num1%>" id="osSph<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value40%>"/></td>
+			 <td><input name="specs.osCyl<%=num1%>" id="osCyl<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value41%>"/></td>
+			 <td><input name="specs.osAxis<%=num1%>"id="osAxis<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value42%>"/></td>
+			 <td><input name="specs.osAdd<%=num1%>" id="osAdd<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value43%>"/></td>
+			 <td><input name="specs.osPrism<%=num1%>" id="osPrism<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value44%>"/></td>
+			 <td><input name="specs.dateStr<%=num1%>"  type="text" tabindex="<%=num_tab ++%>" class="examfieldgrey" size="10"  id="gl_date<%=num1%>" onfocus="whiteField(this);" value="<%=value34%>"/>		 </td>			 
 			 <td width="8%"><img src="<%=request.getContextPath()%>/images/cal.gif" id="pdate_cal<%=num1%>">
 			 <script type="text/javascript">
 				Calendar.setup({ inputField : "gl_date<%=num1%>", ifFormat : "%Y-%m-%d", showsTime :false, button : "pdate_cal<%=num1%>", singleClick : true, step : 1 });
 			</script>
 			 </td>
-			 <td><input name="specs.odSph<%=num1%>" id="odSph<%=num1%>" type="text" tabindex="34" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value35%>"/></td>
-			 <td><input name="specs.odCyl<%=num1%>" id="odCyl<%=num1%>" type="text" tabindex="35" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value36%>"/></td>
-			 <td><input name="specs.odAxi<%=num1%>" id="odAxis<%=num1%>" type="text" tabindex="36" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value37%>"/></td>
-			 <td><input name="specs.odAdd<%=num1%>" id="odAdd<%=num1%>" type="text" tabindex="37" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value38%>"/></td>
-			 <td><input name="specs.odPrism<%=num1%>" id="odPrism<%=num1%>" type="text" tabindex="38" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value39%>"/></td>		
-			 <td width="8%"></td>
-			 <td><input name="specs.osSph<%=num1%>" id="osSph<%=num1%>" type="text" tabindex="39" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value40%>"/></td>
-			 <td><input name="specs.osCyl<%=num1%>" id="osCyl<%=num1%>" type="text" tabindex="40" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value41%>"/></td>
-			 <td><input name="specs.osAxis<%=num1%>"id="osAxis<%=num1%>" type="text" tabindex="41" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value42%>"/></td>
-			 <td><input name="specs.osAdd<%=num1%>" id="osAdd<%=num1%>" type="text" tabindex="42" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value43%>"/></td>
-			 <td><input name="specs.osPrism<%=num1%>" id="osPrism<%=num1%>" type="text" tabindex="43" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value44%>"/></td>
-			 
 			 <td><a href="javascript:void(0)" onclick="hxOpen<%=num1%>();"><img src="../images/notes.gif"  /> </a></td>
-			 
-			 <td><input type="hidden" value="save" name="method"></td>
-             <td><input type="hidden" value="<%=request.getParameter("demographic_no")%>" name="specs.demographicNo" id="demographic_no"></td>
-             <td><input type="hidden" value="<%= request.getParameter("appointment_no")%>" name="specs.appointmentNo" id="appointment_no"></td>
              <td><input type="hidden" value="" name="specs.id<%=num1%>" id="specs.id<%=num1%>"></td>	
 		</tr>
 		<%}%>
@@ -1829,7 +1883,7 @@ span.ge{
 <td>
 <div class="slidey">
 	 <div class="title">
-            <a style="font-weight: bold;color:black;text-decoration:none;font-size:12px" href="javascript:void(0)" tabindex="44" id="a_22" onclick="togglediv(this);">Vision Assessment:</a>
+            <a style="font-weight: bold;color:black;text-decoration:none;font-size:12px" href="javascript:void(0)" tabindex="77" id="a_22" onclick="togglediv(this);">Vision Assessment:</a>
             <!--
             <span>&nbsp;&nbsp;</span>
 
@@ -1856,7 +1910,7 @@ span.ge{
             		<td>ph</td>
 					<td></td>
             		<td>sc</td>
-            		<td>Cc</td>
+            		<td>cc</td>
             		<td>ph</td>
             		<td></td>
 					<td></td>
@@ -1866,44 +1920,44 @@ span.ge{
             	</tr>
             	<tr>
             		<td class="label">Dist</td>
-            		<td><input type="text" tabindex="45" maxlength="8" class="examfieldgrey" size="8" measurement="v_rdsc" onfocus="whiteField(this);"/></td>
-            		<td><input type="text" tabindex="46" maxlength="8" class="examfieldgrey" size="8" measurement="v_rdcc" onfocus="whiteField(this);"/></td>
-            		<td><input type="text" tabindex="47" maxlength="8" class="examfieldgrey" size="8" measurement="v_rph" onfocus="whiteField(this);"/></td>
+            		<td><input type="text" tabindex="78" maxlength="8" class="examfieldgrey" size="8" measurement="v_rdsc" onfocus="whiteField(this);"/></td>
+            		<td><input type="text" tabindex="79" maxlength="8" class="examfieldgrey" size="8" measurement="v_rdcc" onfocus="whiteField(this);"/></td>
+            		<td><input type="text" tabindex="80" maxlength="8" class="examfieldgrey" size="8" measurement="v_rph" onfocus="whiteField(this);"/></td>
 					<td></td>
-            		<td><input type="text" tabindex="48" maxlength="8" class="examfieldgrey" size="8" measurement="v_ldsc" onfocus="whiteField(this);"/></td>
-            		<td><input type="text" tabindex="49" maxlength="8" class="examfieldgrey" size="8" measurement="v_ldcc" onfocus="whiteField(this);"/></td>
-            		<td><input type="text" tabindex="50" maxlength="8" class="examfieldgrey" size="8" measurement="v_lph" onfocus="whiteField(this);"/></td>
+            		<td><input type="text" tabindex="81" maxlength="8" class="examfieldgrey" size="8" measurement="v_ldsc" onfocus="whiteField(this);"/></td>
+            		<td><input type="text" tabindex="82" maxlength="8" class="examfieldgrey" size="8" measurement="v_ldcc" onfocus="whiteField(this);"/></td>
+            		<td><input type="text" tabindex="83" maxlength="8" class="examfieldgrey" size="8" measurement="v_lph" onfocus="whiteField(this);"/></td>
 					<td></td>
-            		<td colspan="2">Dist <input type="text" tabindex="59" maxlength="8" class="examfieldgrey" size="8" measurement="v_dsc" onfocus="whiteField(this);"/></td>
-            		<td><input type="text" tabindex="60" maxlength="8" class="examfieldgrey" size="8" measurement="v_dcc" onfocus="whiteField(this);"/></td>
+            		<td colspan="2">Dist <input type="text" tabindex="84" maxlength="8" class="examfieldgrey" size="8" measurement="v_dsc" onfocus="whiteField(this);"/></td>
+            		<td><input type="text" tabindex="85" maxlength="8" class="examfieldgrey" size="8" measurement="v_dcc" onfocus="whiteField(this);"/></td>
 					<td></td>
             	</tr>
             	<tr>
             		<td class="label">Int</td>
-            		<td><input type="text" tabindex="51" maxlength="8" class="examfieldgrey" size="8" measurement="v_risc" onfocus="whiteField(this);"/></td>
-            		<td><input type="text" tabindex="52" maxlength="8" class="examfieldgrey" size="8" measurement="v_ricc" onfocus="whiteField(this);"/></td>
+            		<td><input type="text" tabindex="86" maxlength="8" class="examfieldgrey" size="8" measurement="v_risc" onfocus="whiteField(this);"/></td>
+            		<td><input type="text" tabindex="87" maxlength="8" class="examfieldgrey" size="8" measurement="v_ricc" onfocus="whiteField(this);"/></td>
             		<td></td>
 					<td></td>
-            		<td><input type="text" tabindex="53" maxlength="8" class="examfieldgrey" size="8" measurement="v_lisc" onfocus="whiteField(this);"/></td>
-            		<td><input type="text" tabindex="54" maxlength="8" class="examfieldgrey" size="8" measurement="v_licc" onfocus="whiteField(this);"/></td>
+            		<td><input type="text" tabindex="88" maxlength="8" class="examfieldgrey" size="8" measurement="v_lisc" onfocus="whiteField(this);"/></td>
+            		<td><input type="text" tabindex="89" maxlength="8" class="examfieldgrey" size="8" measurement="v_licc" onfocus="whiteField(this);"/></td>
             		<td></td>
 					<td></td>
-            		<td colspan="2">Int &nbsp&nbsp<input type="text" tabindex="61" maxlength="8" class="examfieldgrey" size="8" measurement="v_isc" onfocus="whiteField(this);"/></td>
-            		<td><input type="text" tabindex="62" maxlength="8" class="examfieldgrey" size="8" measurement="v_icc" onfocus="whiteField(this);"/></td>
+            		<td colspan="2">Int &nbsp&nbsp<input type="text" tabindex="90" maxlength="8" class="examfieldgrey" size="8" measurement="v_isc" onfocus="whiteField(this);"/></td>
+            		<td><input type="text" tabindex="91" maxlength="8" class="examfieldgrey" size="8" measurement="v_icc" onfocus="whiteField(this);"/></td>
 					<td></td>
             	</tr>
             	<tr>
             		<td class="label">Near</td>
-            		<td><input type="text" tabindex="55" maxlength="8" class="examfieldgrey" size="8" measurement="v_rnsc" onfocus="whiteField(this);"/></td>
-            		<td><input type="text" tabindex="56" maxlength="8" class="examfieldgrey" size="8" measurement="v_rncc" onfocus="whiteField(this);"/></td>
+            		<td><input type="text" tabindex="92" maxlength="8" class="examfieldgrey" size="8" measurement="v_rnsc" onfocus="whiteField(this);"/></td>
+            		<td><input type="text" tabindex="93" maxlength="8" class="examfieldgrey" size="8" measurement="v_rncc" onfocus="whiteField(this);"/></td>
             		<td></td>
 					<td></td>
-            		<td><input type="text" tabindex="57" maxlength="8" class="examfieldgrey" size="8" measurement="v_lnsc" onfocus="whiteField(this);"/></td>
-            		<td><input type="text" tabindex="58" maxlength="8" class="examfieldgrey" size="8" measurement="v_lncc" onfocus="whiteField(this);"/></td>
+            		<td><input type="text" tabindex="94" maxlength="8" class="examfieldgrey" size="8" measurement="v_lnsc" onfocus="whiteField(this);"/></td>
+            		<td><input type="text" tabindex="95" maxlength="8" class="examfieldgrey" size="8" measurement="v_lncc" onfocus="whiteField(this);"/></td>
             		<td></td>
 					<td></td>
-            		<td colspan="2">Near <input type="text" tabindex="63" maxlength="8" class="examfieldgrey" size="8" measurement="v_nsc" onfocus="whiteField(this);"/></td>
-            		<td><input type="text" tabindex="64" maxlength="8" class="examfieldgrey" size="8" measurement="v_ncc" onfocus="whiteField(this);"/></td>
+            		<td colspan="2">Near <input type="text" tabindex="96" maxlength="8" class="examfieldgrey" size="8" measurement="v_nsc" onfocus="whiteField(this);"/></td>
+            		<td><input type="text" tabindex="97" maxlength="8" class="examfieldgrey" size="8" measurement="v_ncc" onfocus="whiteField(this);"/></td>
 					<td></td>
             	</tr>
             </table>
@@ -1917,7 +1971,7 @@ span.ge{
 <td>
 <div class="slidey">
 	<div class="title">
-        <a style="font-weight: bold;color:black;text-decoration:none;font-size:12px" tabindex="65" href="javascript:void(0)" id="a_23" onclick="togglediv(this);">Vision Measurement:</a>
+        <a style="font-weight: bold;color:black;text-decoration:none;font-size:12px" tabindex="98" href="javascript:void(0)" id="a_23" onclick="togglediv(this);">Vision Measurement:</a>
         <span>&nbsp;&nbsp;</span>
 		<!--
     	<a href="javascript:void(0)" tabindex="66" onclick="clearPretest();return false;">[PRINT Rx]</a>   
@@ -1929,12 +1983,12 @@ span.ge{
     			<td width="8%"></td>
     			<td colspan="4" width="32%">OD
     				<span>&nbsp;&nbsp;</span>
-    				<a href="javascript:void(0)" tabindex="66" onclick="clearMeasurement_od();return false;">[clear]</a>
+    				<a href="javascript:void(0)" tabindex="99" onclick="clearMeasurement_od();return false;">[clear]</a>
     			</td>
 				<td width="6%"></td>
     			<td colspan="4" width="32%">OS
     				<span>&nbsp;&nbsp;</span>
-    				<a href="javascript:void(0)" tabindex="67" onclick="clearMeasurement_os();return false;">[clear]</a>
+    				<a href="javascript:void(0)" tabindex="100" onclick="clearMeasurement_os();return false;">[clear]</a>
     			</td>
 				<td width="6%"></td>
     			<td colspan="2" width="16%">OU</td>
@@ -1955,16 +2009,16 @@ span.ge{
     		</tr>
     		<tr>
     			<td>K</td>
-    			<td><input type="text"  tabindex="68" maxlength="8" class="examfieldgrey" size="8" measurement="v_rk1" onfocus="whiteField(this);"/></td>
-    			<td><input type="text"  tabindex="69" maxlength="8" class="examfieldgrey" size="8" measurement="v_rk2" onfocus="whiteField(this);"/></td>
-    			<td><input type="text"  tabindex="70" maxlength="8" class="examfieldgrey" size="8" measurement="v_rkx" onfocus="whiteField(this);"/></td>
+    			<td><input type="text"  tabindex="101" maxlength="8" class="examfieldgrey" size="8" measurement="v_rk1" onfocus="whiteField(this);"/></td>
+    			<td><input type="text"  tabindex="102" maxlength="8" class="examfieldgrey" size="8" measurement="v_rk2" onfocus="whiteField(this);"/></td>
+    			<td><input type="text"  tabindex="103" maxlength="8" class="examfieldgrey" size="8" measurement="v_rkx" onfocus="whiteField(this);"/></td>
 				<td></td>
-    			<td><input type="text"  tabindex="71" maxlength="8" class="examfieldgrey" size="8" measurement="v_lk1" onfocus="whiteField(this);"/></td>				
-    			<td><input type="text"  tabindex="72" maxlength="8" class="examfieldgrey" size="8" measurement="v_lk2" onfocus="whiteField(this);"/></td>
-    			<td><input type="text"  tabindex="73" maxlength="8" class="examfieldgrey" size="8" measurement="v_lkx" onfocus="whiteField(this);"/></td>
+    			<td><input type="text"  tabindex="104" maxlength="8" class="examfieldgrey" size="8" measurement="v_lk1" onfocus="whiteField(this);"/></td>				
+    			<td><input type="text"  tabindex="105" maxlength="8" class="examfieldgrey" size="8" measurement="v_lk2" onfocus="whiteField(this);"/></td>
+    			<td><input type="text"  tabindex="106" maxlength="8" class="examfieldgrey" size="8" measurement="v_lkx" onfocus="whiteField(this);"/></td>
 				<td></td>
     			<td>Fly</td>
-    			<td><input type="text"  tabindex="74" maxlength="8" class="examfieldgrey" size="8" measurement="v_fly" onfocus="whiteField(this);"/></td>
+    			<td><input type="text"  tabindex="142" maxlength="8" class="examfieldgrey" size="8" measurement="v_fly" onfocus="whiteField(this);"/></td>
     		</tr>
     		<tr>
     			<td></td>
@@ -1979,78 +2033,79 @@ span.ge{
     			<td>VA</td>
 				<td></td>
     			<td>Stereo</td>
-    			<td><input type="text"  tabindex="75" maxlength="8" class="examfieldgrey" size="8" measurement="v_stereo" onfocus="whiteField(this);"/></td>
+    			<td><input type="text"  tabindex="143" maxlength="8" class="examfieldgrey" size="8" measurement="v_stereo" onfocus="whiteField(this);"/></td>
     		</tr>
     		<tr>
     			<td>AR
     				<span>&nbsp;&nbsp;</span>
-    				<a href="javascript:void(0)" tabindex="67" onclick="copyar();return false;">[copy]</a>
+    				<a href="javascript:void(0)" tabindex="115" onclick="copyar();return false;">[copy]</a>
     			</td>
-    			<td><input type="text"  tabindex="76" maxlength="8" class="examfieldgrey" size="8" measurement="v_rs" onfocus="whiteField(this);"/></td>
-    			<td><input type="text"  tabindex="77" maxlength="8" class="examfieldgrey" size="8" measurement="v_rc" onfocus="whiteField(this);"/></td>
-    			<td><input type="text"  tabindex="78" maxlength="8" class="examfieldgrey" size="8" measurement="v_rx" onfocus="whiteField(this);"/></td>
-    			<td><input type="text"  tabindex="79" maxlength="8" class="examfieldgrey" size="8" measurement="v_rar" onfocus="whiteField(this);"/></td>
+    			<td><input type="text"  tabindex="107" maxlength="8" class="examfieldgrey" size="8" measurement="v_rs" onfocus="whiteField(this);"/></td>
+    			<td><input type="text"  tabindex="108" maxlength="8" class="examfieldgrey" size="8" measurement="v_rc" onfocus="whiteField(this);"/></td>
+    			<td><input type="text"  tabindex="109" maxlength="8" class="examfieldgrey" size="8" measurement="v_rx" onfocus="whiteField(this);"/></td>
+    			<td><input type="text"  tabindex="110" maxlength="8" class="examfieldgrey" size="8" measurement="v_rar" onfocus="whiteField(this);"/></td>
 				<td></td>
-    			<td><input type="text"  tabindex="80" maxlength="8" class="examfieldgrey" size="8" measurement="v_ls" onfocus="whiteField(this);"/></td>
-    			<td><input type="text"  tabindex="81" maxlength="8" class="examfieldgrey" size="8" measurement="v_lc" onfocus="whiteField(this);"/></td>
-    			<td><input type="text"  tabindex="82" maxlength="8" class="examfieldgrey" size="8" measurement="v_lx" onfocus="whiteField(this);"/></td>
-    			<td><input type="text"  tabindex="83" maxlength="8" class="examfieldgrey" size="8" measurement="v_lar" onfocus="whiteField(this);"/></td>
+    			<td><input type="text"  tabindex="111" maxlength="8" class="examfieldgrey" size="8" measurement="v_ls" onfocus="whiteField(this);"/></td>
+    			<td><input type="text"  tabindex="112" maxlength="8" class="examfieldgrey" size="8" measurement="v_lc" onfocus="whiteField(this);"/></td>
+    			<td><input type="text"  tabindex="113" maxlength="8" class="examfieldgrey" size="8" measurement="v_lx" onfocus="whiteField(this);"/></td>
+    			<td><input type="text"  tabindex="114" maxlength="8" class="examfieldgrey" size="8" measurement="v_lar" onfocus="whiteField(this);"/></td>
 				<td></td>
     			<td colspan="2"></td>
     		</tr>
     		<tr>
     			<td>M (dist)
     				<span>&nbsp;&nbsp;</span>
-    				<a href="javascript:void(0)" tabindex="67" onclick="paste_mdist();return false;">[paste]</a>
+    				<a href="javascript:void(0)" tabindex="115" onclick="paste_mdist();return false;">[paste]</a>
     			</td>
-    			<td><input type="text"  tabindex="84" maxlength="8" class="examfieldgrey" size="8" measurement="v_rds" onfocus="whiteField(this);"/></td>
-    			<td><input type="text"  tabindex="85" maxlength="8" class="examfieldgrey" size="8" measurement="v_rdc" onfocus="whiteField(this);"/></td>
-    			<td><input type="text"  tabindex="86" maxlength="8" class="examfieldgrey" size="8" measurement="v_rdx" onfocus="whiteField(this);"/></td>
-    			<td><input type="text"  tabindex="87" maxlength="8" class="examfieldgrey" size="8" measurement="v_rdv" onfocus="whiteField(this);"/></td>
+    			<td><input type="text"  tabindex="116" maxlength="8" class="examfieldgrey" size="8" measurement="v_rds" onfocus="whiteField(this);"/></td>
+    			<td><input type="text"  tabindex="117" maxlength="8" class="examfieldgrey" size="8" measurement="v_rdc" onfocus="whiteField(this);"/></td>
+    			<td><input type="text"  tabindex="118" maxlength="8" class="examfieldgrey" size="8" measurement="v_rdx" onfocus="whiteField(this);"/></td>
+    			<td><input type="text"  tabindex="119" maxlength="8" class="examfieldgrey" size="8" measurement="v_rdv" onfocus="whiteField(this);"/></td>
 				<td></td>
-    			<td><input type="text"  tabindex="88" maxlength="8" class="examfieldgrey" size="8" measurement="v_lds" onfocus="whiteField(this);"/></td>
-    			<td><input type="text"  tabindex="89" maxlength="8" class="examfieldgrey" size="8" measurement="v_ldc" onfocus="whiteField(this);"/></td>
-    			<td><input type="text"  tabindex="90" maxlength="8" class="examfieldgrey" size="8" measurement="v_ldx" onfocus="whiteField(this);"/></td>
-    			<td><input type="text"  tabindex="91" maxlength="8" class="examfieldgrey" size="8" measurement="v_ldv" onfocus="whiteField(this);"/></td>
+    			<td><input type="text"  tabindex="120" maxlength="8" class="examfieldgrey" size="8" measurement="v_lds" onfocus="whiteField(this);"/></td>
+    			<td><input type="text"  tabindex="121" maxlength="8" class="examfieldgrey" size="8" measurement="v_ldc" onfocus="whiteField(this);"/></td>
+    			<td><input type="text"  tabindex="122" maxlength="8" class="examfieldgrey" size="8" measurement="v_ldx" onfocus="whiteField(this);"/></td>
+    			<td><input type="text"  tabindex="123" maxlength="8" class="examfieldgrey" size="8" measurement="v_ldv" onfocus="whiteField(this);"/></td>
 				<td></td>
     			<td>Dist</td>
-    			<td><input type="text"  tabindex="92" maxlength="8" class="examfieldgrey" size="8" measurement="v_dv" onfocus="whiteField(this);"/></td>
+    			<td><input type="text"  tabindex="144" maxlength="8" class="examfieldgrey" size="8" measurement="v_dv" onfocus="whiteField(this);"/></td>
+    		</tr>
+			<tr>
+    			<td>Cyclo
+    				<span>&nbsp;&nbsp;</span>
+    				<a href="javascript:void(0)" tabindex="124" onclick="paste_Cyclo();return false;">[paste]</a>
+    			</td>
+    			<td><input type="text"  tabindex="125" maxlength="8" class="examfieldgrey" size="8" measurement="v_rcs" onfocus="whiteField(this);"/></td>
+    			<td><input type="text"  tabindex="126" maxlength="8" class="examfieldgrey" size="8" measurement="v_rcc" onfocus="whiteField(this);"/></td>
+    			<td><input type="text"  tabindex="127" maxlength="8" class="examfieldgrey" size="8" measurement="v_rcx" onfocus="whiteField(this);"/></td>
+    			<td><input type="text"  tabindex="128" maxlength="8" class="examfieldgrey" size="8" measurement="v_rcv" onfocus="whiteField(this);"/></td>
+				<td></td>
+    			<td><input type="text"  tabindex="129" maxlength="8" class="examfieldgrey" size="8" measurement="v_lcs" onfocus="whiteField(this);"/></td>
+    			<td><input type="text"  tabindex="130" maxlength="8" class="examfieldgrey" size="8" measurement="v_lcc" onfocus="whiteField(this);"/></td>
+    			<td><input type="text"  tabindex="131" maxlength="8" class="examfieldgrey" size="8" measurement="v_lcx" onfocus="whiteField(this);"/></td>
+    			<td><input type="text"  tabindex="132" maxlength="8" class="examfieldgrey" size="8" measurement="v_lcv" onfocus="whiteField(this);"/></td>
+				<td></td>
+    			<td colspan="2"></td>
     		</tr>
     		<tr>
     			<td>M (near)
     				<span>&nbsp;&nbsp;</span>
-    				<a href="javascript:void(0)" tabindex="67" onclick="paste_mnear();return false;">[paste]</a>
+    				<a href="javascript:void(0)" tabindex="133" onclick="paste_mnear();return false;">[paste]</a>
     			</td>
-    			<td><input type="text"  tabindex="93" maxlength="8" class="examfieldgrey" size="8" measurement="v_rns" onfocus="whiteField(this);"/></td>
-    			<td><input type="text"  tabindex="94" maxlength="8" class="examfieldgrey" size="8" measurement="v_rnc" onfocus="whiteField(this);"/></td>
-    			<td><input type="text"  tabindex="95" maxlength="8" class="examfieldgrey" size="8" measurement="v_rnx" onfocus="whiteField(this);"/></td>
-    			<td><input type="text"  tabindex="96" maxlength="8" class="examfieldgrey" size="8" measurement="v_rnv" onfocus="whiteField(this);"/></td>
+    			<td><input type="text"  tabindex="134" maxlength="8" class="examfieldgrey" size="8" measurement="v_rns" onfocus="whiteField(this);"/></td>
+    			<td><input type="text"  tabindex="135" maxlength="8" class="examfieldgrey" size="8" measurement="v_rnc" onfocus="whiteField(this);"/></td>
+    			<td><input type="text"  tabindex="136" maxlength="8" class="examfieldgrey" size="8" measurement="v_rnx" onfocus="whiteField(this);"/></td>
+    			<td><input type="text"  tabindex="137" maxlength="8" class="examfieldgrey" size="8" measurement="v_rnv" onfocus="whiteField(this);"/></td>
 				<td></td>
-    			<td><input type="text"  tabindex="97" maxlength="8" class="examfieldgrey" size="8" measurement="v_lns" onfocus="whiteField(this);"/></td>
-    			<td><input type="text"  tabindex="98" maxlength="8" class="examfieldgrey" size="8" measurement="v_lnc" onfocus="whiteField(this);"/></td>
-    			<td><input type="text"  tabindex="99" maxlength="8" class="examfieldgrey" size="8" measurement="v_lnx" onfocus="whiteField(this);"/></td>
-    			<td><input type="text"  tabindex="100" maxlength="8" class="examfieldgrey" size="8" measurement="v_lnv" onfocus="whiteField(this);"/></td>
+    			<td><input type="text"  tabindex="138" maxlength="8" class="examfieldgrey" size="8" measurement="v_lns" onfocus="whiteField(this);"/></td>
+    			<td><input type="text"  tabindex="139" maxlength="8" class="examfieldgrey" size="8" measurement="v_lnc" onfocus="whiteField(this);"/></td>
+    			<td><input type="text"  tabindex="140" maxlength="8" class="examfieldgrey" size="8" measurement="v_lnx" onfocus="whiteField(this);"/></td>
+    			<td><input type="text"  tabindex="141" maxlength="8" class="examfieldgrey" size="8" measurement="v_lnv" onfocus="whiteField(this);"/></td>
 				<td></td>
     			<td>Near</td>
-    			<td><input type="text"  tabindex="101" maxlength="8" class="examfieldgrey" size="8" measurement="v_nv" onfocus="whiteField(this);"/></td>
+    			<td><input type="text"  tabindex="145" maxlength="8" class="examfieldgrey" size="8" measurement="v_nv" onfocus="whiteField(this);"/></td>
     		</tr>
-    		<tr>
-    			<td>Cyclo
-    				<span>&nbsp;&nbsp;</span>
-    				<a href="javascript:void(0)" tabindex="67" onclick="paste_Cyclo();return false;">[paste]</a>
-    			</td>
-    			<td><input type="text"  tabindex="102" maxlength="8" class="examfieldgrey" size="8" measurement="v_rcs" onfocus="whiteField(this);"/></td>
-    			<td><input type="text"  tabindex="103" maxlength="8" class="examfieldgrey" size="8" measurement="v_rcc" onfocus="whiteField(this);"/></td>
-    			<td><input type="text"  tabindex="104" maxlength="8" class="examfieldgrey" size="8" measurement="v_rcx" onfocus="whiteField(this);"/></td>
-    			<td><input type="text"  tabindex="105" maxlength="8" class="examfieldgrey" size="8" measurement="v_rcv" onfocus="whiteField(this);"/></td>
-				<td></td>
-    			<td><input type="text"  tabindex="106" maxlength="8" class="examfieldgrey" size="8" measurement="v_lcs" onfocus="whiteField(this);"/></td>
-    			<td><input type="text"  tabindex="107" maxlength="8" class="examfieldgrey" size="8" measurement="v_lcc" onfocus="whiteField(this);"/></td>
-    			<td><input type="text"  tabindex="108" maxlength="8" class="examfieldgrey" size="8" measurement="v_lcx" onfocus="whiteField(this);"/></td>
-    			<td><input type="text"  tabindex="109" maxlength="8" class="examfieldgrey" size="8" measurement="v_lcv" onfocus="whiteField(this);"/></td>
-				<td></td>
-    			<td colspan="2"></td>
-    		</tr>
+    		
     	</table>
     </div>
 </div>
@@ -2062,7 +2117,7 @@ span.ge{
 <td>
 <div class="slidey">
 	 <div class="title">
-		<a style="font-weight: bold;color:black;text-decoration:none;font-size:12px" tabindex="110" href="javascript:void(0)" id="a_24" onclick="togglediv(this);">Refractive:</a>
+		<a style="font-weight: bold;color:black;text-decoration:none;font-size:12px" tabindex="146" href="javascript:void(0)" id="a_24" onclick="togglediv(this);">Refractive:</a>
 		
 	</div>
 	<div id="s_24" class="slideblock">       	
@@ -2084,9 +2139,9 @@ span.ge{
 			</tr>
 			<tr>
 				<td class="label">Dominance</td>				
-				<td><input type="text" tabindex="111" maxlength="10" size="10" measurement="ref_rdom" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+				<td><input type="text" tabindex="147" maxlength="10" size="10" measurement="ref_rdom" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
 				<td></td>
-				<td><input type="text" tabindex="111" maxlength="10" size="10" measurement="ref_ldom" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+				<td><input type="text" tabindex="148" maxlength="10" size="10" measurement="ref_ldom" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
 				<td></td>
 				<td></td>
 				<td></td>
@@ -2099,9 +2154,9 @@ span.ge{
 			</tr>
 			<tr>
 				<td class="label">Pupil dim</td>
-				<td><input type="text" tabindex="111" maxlength="10" size="10" measurement="ref_rpdim" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+				<td><input type="text" tabindex="149" maxlength="10" size="10" measurement="ref_rpdim" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
 				<td></td>
-				<td><input type="text" tabindex="112" maxlength="10" size="10" measurement="ref_lpdim" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+				<td><input type="text" tabindex="150" maxlength="10" size="10" measurement="ref_lpdim" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
 				<td></td>
 				<td></td>
 				<td></td>
@@ -2114,9 +2169,9 @@ span.ge{
 			</tr>
 			<tr>
 				<td class="label">Kappa</td>
-				<td><input type="text" tabindex="113" maxlength="10" size="10" measurement="ref_rkappa" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+				<td><input type="text" tabindex="151" maxlength="10" size="10" measurement="ref_rkappa" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
 				<td></td>
-				<td><input type="text" tabindex="114" maxlength="10" size="10" measurement="ref_lkappa" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+				<td><input type="text" tabindex="152" maxlength="10" size="10" measurement="ref_lkappa" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
 				<td></td>
 				<td></td>
 				<td></td>
@@ -2129,9 +2184,9 @@ span.ge{
 			</tr>
 			<tr>
 				<td class="label">W2W</td>
-				<td><input type="text" tabindex="115" maxlength="10" size="10" measurement="ref_rw2w" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+				<td><input type="text" tabindex="153" maxlength="10" size="10" measurement="ref_rw2w" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
 				<td></td>
-				<td><input type="text" tabindex="116" maxlength="10" size="10" measurement="ref_lw2w" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+				<td><input type="text" tabindex="154" maxlength="10" size="10" measurement="ref_lw2w" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
 				<td></td>
 				<td></td>
 				<td></td>
@@ -2153,7 +2208,7 @@ span.ge{
 <td>
 <div class="slidey">
 	<div class="title">
-		<a style="font-weight: bold;color:black;text-decoration:none;font-size:12px" href="javascript:void(0)" tabindex="117" id="a_25" onclick="togglediv(this);">IOP:</a>
+		<a style="font-weight: bold;color:black;text-decoration:none;font-size:12px" href="javascript:void(0)" tabindex="155" id="a_25" onclick="togglediv(this);">IOP:</a>
 
 	</div>
 	<div id="s_25" class="slideblock">
@@ -2175,9 +2230,9 @@ span.ge{
 			</tr>
 			<tr>
 				<td width="8%" nowrap="nowrap" class="label">NCT(<span id="nct_ts"></span>)</td>
-				<td width="8%"><input type="text" tabindex="118" maxlength="10" size="10" measurement="iop_rn" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+				<td width="8%"><input type="text" tabindex="156" maxlength="10" size="10" measurement="iop_rn" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
 				<td width="8%"></td>
-				<td width="8%"><input type="text" tabindex="119" maxlength="10" size="10" measurement="iop_ln" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+				<td width="8%"><input type="text" tabindex="157" maxlength="10" size="10" measurement="iop_ln" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
 				<td width="8%"></td>
 				<td width="8%"></td>
 				<td width="8%"></td>
@@ -2190,9 +2245,9 @@ span.ge{
 			</tr>
 			<tr>
 				<td width="8%" class="label">Applanation(<span id="applanation_ts"></span>)</td>
-				<td width="8%"><input type="text" tabindex="121" maxlength="10" size="10" measurement="iop_ra" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+				<td width="8%"><input type="text" tabindex="158" maxlength="10" size="10" measurement="iop_ra" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
 				<td width="8%"></td>
-				<td width="8%"><input type="text" tabindex="122" maxlength="10" size="10" measurement="iop_la" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+				<td width="8%"><input type="text" tabindex="159" maxlength="10" size="10" measurement="iop_la" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
 				<td width="8%"></td>
 				<td width="8%"></td>
 				<td width="8%"></td>
@@ -2205,9 +2260,9 @@ span.ge{
 			</tr>
 			<tr>
 				<td width="8%" class="label">CCT</td>
-				<td width="8%"><input type="text" tabindex="124" maxlength="10" size="10" measurement="cct_r" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+				<td width="8%"><input type="text" tabindex="160" maxlength="10" size="10" measurement="cct_r" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
 				<td width="8%"></td>
-				<td width="8%"><input type="text" tabindex="125" maxlength="10" size="10" measurement="cct_l" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+				<td width="8%"><input type="text" tabindex="161" maxlength="10" size="10" measurement="cct_l" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
 				<td width="8%"></td>
 				<td width="8%"></td>
 				<td width="8%"></td>
@@ -2229,7 +2284,7 @@ span.ge{
 <td>
 <div class="slidey">
 	<div class="title">
-		<a style="font-weight: bold;color:black;text-decoration:none;font-size:12px" tabindex="126" href="javascript:void(0)" id="a_26" onclick="togglediv(this);">Other Exam:</a>
+		<a style="font-weight: bold;color:black;text-decoration:none;font-size:12px" tabindex="162" href="javascript:void(0)" id="a_26" onclick="togglediv(this);">Other Exam:</a>
 
 	</div>
 	<div id="s_26" class="slideblock">
@@ -2237,47 +2292,53 @@ span.ge{
 		<tr>
 			<td width="8%"></td>
 			<td width="24%" colspan="3">OD</td>
+			<td width="4%"></td>
 			<td width="24%" colspan="3">OS</td>
 			<td width="8%"></td>
 			<td width="32%" colspan="4">OU</td>
-			<td width="8%"></td>
+			<td width="4%"></td>
 		</tr>
 		<tr>
 			<td class="label">Colour vision</td>
-			<td colspan="3"><input type="text" tabindex="127" maxlength="50" size="30" measurement="o_rcolour" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-			<td colspan="3"><input type="text" tabindex="128" maxlength="50" size="30" measurement="o_lcolour" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+			<td colspan="3"><input type="text" tabindex="163" maxlength="50" size="30" measurement="o_rcolour" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+			<td width="4%"></td>
+			<td colspan="3"><input type="text" tabindex="164" maxlength="50" size="30" measurement="o_lcolour" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
 			<td></td>
-			<td colspan="4">Maddox &nbsp; &nbsp;<input type="text" tabindex="129" maxlength="50" size="26" measurement="o_mad" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+			<td colspan="4">Maddox &nbsp; &nbsp;<input type="text" tabindex="173" maxlength="50" size="26" measurement="o_mad" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
 			<td></td>
 		</tr>
 		<tr>
 			<td class="label">Pupil</td>
-			<td colspan="3"><input type="text" tabindex="130" maxlength="50" size="30" measurement="o_rpupil" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-			<td colspan="3"><input type="text" tabindex="131" maxlength="50" size="30" measurement="o_lpupil" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+			<td colspan="3"><input type="text" tabindex="165" maxlength="50" size="30" measurement="o_rpupil" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+			<td width="4%"></td>
+			<td colspan="3"><input type="text" tabindex="166" maxlength="50" size="30" measurement="o_lpupil" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
 			<td ></td>
-			<td colspan="4">Bagolini &nbsp; &nbsp;<input type="text" tabindex="132" maxlength="50" size="26" measurement="o_bag" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+			<td colspan="4">Bagolini &nbsp; &nbsp;<input type="text" tabindex="174" maxlength="50" size="26" measurement="o_bag" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
 			<td ></td>
 		</tr>
 		<tr>
 			<td class="label">Amsler grid</td>
-			<td colspan="3"><input type="text" tabindex="133" maxlength="50" size="30" maxlength="50" measurement="o_ramsler" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-			<td colspan="3"><input type="text" tabindex="134" maxlength="50" size="30" measurement="o_lamsler" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+			<td colspan="3"><input type="text" tabindex="167" maxlength="50" size="30" maxlength="50" measurement="o_ramsler" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+			<td width="4%"></td>
+			<td colspan="3"><input type="text" tabindex="168" maxlength="50" size="30" measurement="o_lamsler" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
 			<td ></td>
-			<td colspan="4">W4D(dist)&nbsp;<input type="text" tabindex="135" maxlength="50" size="26" maxlength="50" measurement="o_w4dd" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+			<td colspan="4">W4D(dist)&nbsp;<input type="text" tabindex="175" maxlength="50" size="26" maxlength="50" measurement="o_w4dd" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
 			<td ></td>
 		</tr>
 		<tr>
 			<td class="label">PAM</td>
-			<td colspan="3"><input type="text" tabindex="136" maxlength="50" size="30" measurement="o_rpam" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-			<td colspan="3"><input type="text" tabindex="137" maxlength="50" size="30" measurement="o_lpam" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+			<td colspan="3"><input type="text" tabindex="169" maxlength="50" size="30" measurement="o_rpam" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+			<td width="4%"></td>
+			<td colspan="3"><input type="text" tabindex="170" maxlength="50" size="30" measurement="o_lpam" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
 			<td ></td>
-			<td colspan="4">W4D(near)<input type="text" tabindex="138" maxlength="50" size="26" measurement="o_w4dn" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+			<td colspan="4">W4D(near)<input type="text" tabindex="176" maxlength="50" size="26" measurement="o_w4dn" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
 			<td ></td>
 		</tr>
 		<tr>
 			<td class="label">Confrontation</td>
-			<td colspan="3"><input type="text" tabindex="139" maxlength="50" size="30" measurement="o_rconf" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-			<td colspan="3"><input type="text" tabindex="140" maxlength="50" size="30" measurement="o_lconf" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+			<td colspan="3"><input type="text" tabindex="171" maxlength="50" size="30" measurement="o_rconf" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+			<td width="4%"></td>
+			<td colspan="3"><input type="text" tabindex="172" maxlength="50" size="30" measurement="o_lconf" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
 			<td ></td>
 			<td colspan="4"></td>
 			<td ></td>
@@ -2293,60 +2354,60 @@ span.ge{
 <td>
 	<div class="slidey">
 		 <div class="title">
-            <a style="font-weight: bold;color:black;text-decoration:none;font-size:12px" tabindex="141" href="javascript:void(0)" id="a_27" onclick="togglediv(this);">Duction/Diplopia:</a>
+            <a style="font-weight: bold;color:black;text-decoration:none;font-size:12px" tabindex="177" href="javascript:void(0)" id="a_27" onclick="togglediv(this);">Duction/Diplopia:</a>
 			
         </div>
         <div id="s_27" class="slideblock">
         <table class="exam" width="100%">
         	<tr>
-			<td width="8%"></td>
+			<td width="4%"></td>
         	<td colspan="2" width="25%">OD
-        		<a href="javascript:void(0)" tabindex="142" onclick="setDuc_od();return false;">[normal]</a>
-            	<a href="javascript:void(0)" tabindex="143" onclick="clearDuc_od();return false;">[clear]</a>
+        		<a href="javascript:void(0)" tabindex="178" onclick="setDuc_od();return false;">[normal]</a>
+            	<a href="javascript:void(0)" tabindex="179" onclick="clearDuc_od();return false;">[clear]</a>
         	</td>
-			
+			<td width="4%"></td>
         	<td colspan="2" width="25%">OS
-        		<a href="javascript:void(0)" tabindex="144" onclick="setDuc_os();return false;">[normal]</a>
-            	<a href="javascript:void(0)" tabindex="145" onclick="clearDuc_os();return false;">[clear]</a>
+        		<a href="javascript:void(0)" tabindex="180" onclick="setDuc_os();return false;">[normal]</a>
+            	<a href="javascript:void(0)" tabindex="181" onclick="clearDuc_os();return false;">[clear]</a>
         	</td>
 			<td ></td>
         	<td colspan="2" width="25%">OU
-        		<a href="javascript:void(0)" tabindex="146" onclick="setDuc_ou();return false;">[normal]</a>
-            	<a href="javascript:void(0)" tabindex="147" onclick="clearDuc_ou();return false;">[clear]</a>
+        		<a href="javascript:void(0)" tabindex="182" onclick="setDuc_ou();return false;">[normal]</a>
+            	<a href="javascript:void(0)" tabindex="183" onclick="clearDuc_ou();return false;">[clear]</a>
         	</td>
         	</tr>
         	<tr>
 				<td></td>
-        		<td><input type="text" size="14" maxlength="10" tabindex="148" measurement="duc_rur" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		<td><input type="text" size="14" maxlength="10" tabindex="149" measurement="duc_rul" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-				
-        		<td><input type="text" size="14" maxlength="10" tabindex="150" measurement="duc_lur" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		<td><input type="text" size="14" maxlength="10" tabindex="151" measurement="duc_lul" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" size="14" maxlength="10" tabindex="184" measurement="duc_rur" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" size="14" maxlength="10" tabindex="185" measurement="duc_rul" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+				<td width="4%"></td>
+        		<td><input type="text" size="14" maxlength="10" tabindex="186" measurement="duc_lur" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" size="14" maxlength="10" tabindex="187" measurement="duc_lul" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
 				<td></td>
-        		<td><input type="text" size="14" maxlength="10" tabindex="152" measurement="dip_ur" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		<td><input type="text" size="14" maxlength="10" tabindex="153" measurement="dip_u" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>       	
+        		<td><input type="text" size="14" maxlength="10" tabindex="188" measurement="dip_ur" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" size="14" maxlength="10" tabindex="189" measurement="dip_u" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>       	
         	</tr>
         	<tr>
 				<td></td>
-        		<td><input type="text" size="14" tabindex="154" maxlength="10" measurement="duc_rr" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		<td><input type="text" size="14" tabindex="155" maxlength="10" measurement="duc_rl" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		
-        		<td><input type="text" size="14" tabindex="156" maxlength="10" measurement="duc_lr" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		<td><input type="text" size="14" tabindex="157" maxlength="10" measurement="duc_ll" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" size="14" tabindex="190" maxlength="10" measurement="duc_rr" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" size="14" tabindex="191" maxlength="10" measurement="duc_rl" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td width="4%"></td>
+        		<td><input type="text" size="14" tabindex="192" maxlength="10" measurement="duc_lr" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" size="14" tabindex="193" maxlength="10" measurement="duc_ll" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
         		<td></td>
-        		<td><input type="text" size="14" tabindex="158" maxlength="10" measurement="dip_r" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		<td><input type="text" size="14" tabindex="159" maxlength="10" measurement="dip_p" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>       	
+        		<td><input type="text" size="14" tabindex="194" maxlength="10" measurement="dip_r" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" size="14" tabindex="195" maxlength="10" measurement="dip_p" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>       	
         	</tr>
         	<tr>
 				<td></td>
-        		<td><input type="text" size="14" tabindex="160" maxlength="10" measurement="duc_rdr" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		<td><input type="text" size="14" tabindex="161" maxlength="10" measurement="duc_rdl" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		
-        		<td><input type="text" size="14" tabindex="162" maxlength="10" measurement="duc_ldr" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		<td><input type="text" size="14" tabindex="163" maxlength="10" measurement="duc_ldl" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" size="14" tabindex="196" maxlength="10" measurement="duc_rdr" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" size="14" tabindex="197" maxlength="10" measurement="duc_rdl" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td width="4%"></td>
+        		<td><input type="text" size="14" tabindex="198" maxlength="10" measurement="duc_ldr" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" size="14" tabindex="199" maxlength="10" measurement="duc_ldl" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
         		<td></td>
-        		<td><input type="text" size="14" tabindex="164" maxlength="10" measurement="dip_dr" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		<td><input type="text" size="14" tabindex="165" maxlength="10" measurement="dip_d" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>       	
+        		<td><input type="text" size="14" tabindex="200" maxlength="10" measurement="dip_dr" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" size="14" tabindex="201" maxlength="10" measurement="dip_d" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>       	
         	</tr>
         </table>
         </div>
@@ -2361,33 +2422,54 @@ span.ge{
 
 	<div class="slidey">
 		 <div class="title">
-            <a style="font-weight: bold;color:black;text-decoration:none;font-size:12px" tabindex="166" href="javascript:void(0)" id="a_28" onclick="togglediv(this);">Deviation Measurement:</a>
+            <a style="font-weight: bold;color:black;text-decoration:none;font-size:12px" tabindex="202" href="javascript:void(0)" id="a_28" onclick="togglediv(this);">Deviation Measurement:</a>
 			
         </div>
         <div id="s_28" class="slideblock">
         <table class="exam" width="100%">
-        	<tr>
-        	<td rowspan="3" align="center">
-        		<a href="javascript:void(0)" tabindex="167" onclick="setDeviation();return false;">[normal]</a>
-            	<a href="javascript:void(0)" tabindex="168" onclick="clearDeviation();return false;">[clear]</a>
-        	</td>
-        	<td></td>
-        	<td><input type="text" tabindex="169" maxlength="5" measurement="dev_u" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        	<td></td>
-        	<td colspan="2">Near &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="text" tabindex="170" maxlength="5" measurement="dev_near" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        	</tr>
-        	<tr>
-        		<td><input type="text" tabindex="171" maxlength="5" measurement="dev_r" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		<td><input type="text" tabindex="172" maxlength="5" measurement="dev_p" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		<td><input type="text" tabindex="173" maxlength="5" measurement="dev_l" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		<td colspan="2">+3.00D &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="text" tabindex="174" maxlength="5" measurement="dev_plus3" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        	</tr>
-        	<tr>
-        		<td><input type="text" tabindex="175" maxlength="5" measurement="dev_rt" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		<td><input type="text" tabindex="176" maxlength="5" measurement="dev_d" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		<td><input type="text" tabindex="177" maxlength="5" measurement="dev_lt" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		<td colspan="2">Far Distance <input type="text" tabindex="178" maxlength="5" measurement="dev_far" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        	</tr>
+			<tr>
+			<td align="center">
+				<a href="javascript:void(0)" tabindex="203" onclick="setDeviation();return false;">[normal]</a>
+            	<a href="javascript:void(0)" tabindex="204" onclick="clearDeviation();return false;">[clear]</a>
+			</td>
+			<td>
+				<table>
+					<tr>
+						<td></td>
+						<td><input type="text" tabindex="205" maxlength="5" measurement="dev_u" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td><input type="text" tabindex="206" maxlength="5" measurement="dev_r" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+						<td><input type="text" tabindex="207" maxlength="5" measurement="dev_p" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+						<td><input type="text" tabindex="208" maxlength="5" measurement="dev_l" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+					</tr>
+					<tr>
+						<td><input type="text" tabindex="209" maxlength="5" measurement="dev_rt" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+						<td><input type="text" tabindex="210" maxlength="5" measurement="dev_d" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+						<td><input type="text" tabindex="211" maxlength="5" measurement="dev_lt" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+					</tr>
+				</table>
+			</td>
+			<td>
+				<table>
+					<tr>
+						<td class="label">Near</td>
+						<td><input type="text" tabindex="212" maxlength="5" measurement="dev_near" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+					</tr>
+					<tr>
+						<td class="label">+3.00D</td>
+						<td><input type="text" tabindex="213" maxlength="5" measurement="dev_plus3" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+					</tr>
+					<tr>
+						<td class="label">Far Distance</td>
+						<td><input type="text" tabindex="214" maxlength="5" measurement="dev_far" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+					</tr>
+				</table>
+			</td>
+			<td></td>
+			</tr>
+			
         </table>
         </div>
     </div>
@@ -2402,7 +2484,7 @@ span.ge{
 
 	<div class="slidey">
 		 <div class="title">
-            <a style="font-weight: bold;color:black;text-decoration:none;font-size:12px" tabindex="179" href="javascript:void(0)" id="a_29" onclick="togglediv(this);">External/Orbit:</a>
+            <a style="font-weight: bold;color:black;text-decoration:none;font-size:12px" tabindex="215" href="javascript:void(0)" id="a_29" onclick="togglediv(this);">External/Orbit:</a>
 			
         </div>
         <div id="s_29" class="slideblock">
@@ -2410,28 +2492,28 @@ span.ge{
         	<tr>
         		<td width="8%"></td>
         		<td width="46%">OD
-        			<a href="javascript:void(0)" tabindex="180" onclick="setExternal_od();return false;">[normal]</a>
-            		<a href="javascript:void(0)" tabindex="181" onclick="clearExternal_od();return false;">[clear]</a>
+        			<a href="javascript:void(0)" tabindex="216" onclick="setExternal_od();return false;">[normal]</a>
+            		<a href="javascript:void(0)" tabindex="217" onclick="clearExternal_od();return false;">[clear]</a>
         		</td>
         		<td width="46%">OS
-        			<a href="javascript:void(0)" tabindex="182" onclick="setExternal_os();return false;">[normal]</a>
-            		<a href="javascript:void(0)" tabindex="183" onclick="clearExternal_os();return false;">[clear]</a>
+        			<a href="javascript:void(0)" tabindex="218" onclick="setExternal_os();return false;">[normal]</a>
+            		<a href="javascript:void(0)" tabindex="219" onclick="clearExternal_os();return false;">[clear]</a>
         		</td>
         	</tr>
         	<tr>
         		<td class="label">Face</td>
-        		<td><input type="text" tabindex="184" size="50" measurement="ext_rface" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		<td><input type="text" tabindex="185" size="50" measurement="ext_lface" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="220" size="50" measurement="ext_rface" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="221" size="50" measurement="ext_lface" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
         	</tr>
         	<tr>
         		<td class="label">Retropulsion</td>
-        		<td><input type="text" tabindex="186" size="50" measurement="ext_rretro" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		<td><input type="text" tabindex="187" size="50" measurement="ext_lretro" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="222" size="50" measurement="ext_rretro" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="223" size="50" measurement="ext_lretro" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
         	</tr>
         	<tr>
         		<td class="label">Hertel</td>
-        		<td><input type="text" tabindex="188" size="50" measurement="ext_rhertel" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		<td><input type="text" tabindex="189" size="50" measurement="ext_lhertel" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="224" size="50" measurement="ext_rhertel" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="225" size="50" measurement="ext_lhertel" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
         	</tr>
         </table>
         </div>
@@ -2447,7 +2529,7 @@ span.ge{
 
 	<div class="slidey">
 		 <div class="title">
-            <a style="font-weight: bold;color:black;text-decoration:none;font-size:12px" tabindex="190" href="javascript:void(0)" id="a_30" onclick="togglediv(this);">Eyelid/NLD:</a>
+            <a style="font-weight: bold;color:black;text-decoration:none;font-size:12px" tabindex="226" href="javascript:void(0)" id="a_30" onclick="togglediv(this);">Eyelid/NLD:</a>
 			
         </div>
         <div id="s_30" class="slideblock">
@@ -2455,48 +2537,48 @@ span.ge{
         	<tr>
         		<td width="8%"></td>
         		<td width="46%">OD
-        			<a href="javascript:void(0)" tabindex="191" onclick="setEyelid_od();return false;">[normal]</a>
-            		<a href="javascript:void(0)" tabindex="192" onclick="clearEyelid_od();return false;">[clear]</a>
+        			<a href="javascript:void(0)" tabindex="227" onclick="setEyelid_od();return false;">[normal]</a>
+            		<a href="javascript:void(0)" tabindex="228" onclick="clearEyelid_od();return false;">[clear]</a>
         		</td>
         		<td width="46%">OS
-        			<a href="javascript:void(0)" tabindex="193" onclick="setEyelid_os();return false;">[normal]</a>
-            		<a href="javascript:void(0)" tabindex="194" onclick="clearEyelid_os();return false;">[clear]</a>
+        			<a href="javascript:void(0)" tabindex="229" onclick="setEyelid_os();return false;">[normal]</a>
+            		<a href="javascript:void(0)" tabindex="230" onclick="clearEyelid_os();return false;">[clear]</a>
         		</td>
         	</tr>
         	<tr>
         		<td class="label">Upper lid</td>
-        		<td><input type="text" tabindex="195" size="50" measurement="ext_rul" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		<td><input type="text" tabindex="196" size="50" measurement="ext_lul" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="231" size="50" measurement="ext_rul" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="232" size="50" measurement="ext_lul" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
         	</tr>
         	<tr>
         		<td class="label">Lower lid</td>
-        		<td><input type="text" tabindex="197" size="50" measurement="ext_rll" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		<td><input type="text" tabindex="198" size="50" measurement="ext_lll" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="233" size="50" measurement="ext_rll" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="234" size="50" measurement="ext_lll" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
         	</tr>
         	<tr>
         		<td class="label">Lac lake</td>
-        		<td><input type="text" tabindex="199" size="50" measurement="ext_rlake" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		<td><input type="text" tabindex="200" size="50" measurement="ext_llake" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="235" size="50" measurement="ext_rlake" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="236" size="50" measurement="ext_llake" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
         	</tr>
         	<tr>
         		<td class="label">Lac Irrig</td>
-        		<td><input type="text" tabindex="201" size="50" measurement="ext_rirrig" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		<td><input type="text" tabindex="202" size="50" measurement="ext_lirrig" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="237" size="50" measurement="ext_rirrig" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="238" size="50" measurement="ext_lirrig" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
         	</tr>
         	<tr>
         		<td class="label">Punctum</td>
-        		<td><input type="text" tabindex="203" size="50" measurement="ext_rpunc" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		<td><input type="text" tabindex="204" size="50" measurement="ext_lpunc" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="239" size="50" measurement="ext_rpunc" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="240" size="50" measurement="ext_lpunc" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
         	</tr>
         	<tr>
         		<td class="label">NLD</td>
-        		<td><input type="text" tabindex="205" size="50" measurement="ext_rnld" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		<td><input type="text" tabindex="206" size="50" measurement="ext_lnld" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="241" size="50" measurement="ext_rnld" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="242" size="50" measurement="ext_lnld" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
         	</tr>
         	<tr>
         		<td class="label">Dye Disapp</td>
-        		<td><input type="text" tabindex="207" size="50" measurement="ext_rdye" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		<td><input type="text" tabindex="208" size="50" measurement="ext_ldye" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="243" size="50" measurement="ext_rdye" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="244" size="50" measurement="ext_ldye" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
         	</tr>
         </table>
         </div>
@@ -2512,7 +2594,7 @@ span.ge{
 
 	<div class="slidey">
 		 <div class="title">
-            <a style="font-weight: bold;color:black;text-decoration:none;font-size:12px" tabindex="209" href="javascript:void(0)" id="a_31" onclick="togglediv(this);">Eyelid Measurement:</a>
+            <a style="font-weight: bold;color:black;text-decoration:none;font-size:12px" tabindex="245" href="javascript:void(0)" id="a_31" onclick="togglediv(this);">Eyelid Measurement:</a>
 			
         </div>
         <div id="s_31" class="slideblock">
@@ -2531,42 +2613,42 @@ span.ge{
      		</tr>
      		<tr>
      			<td class="label">Lid margins</td>
-     			<td colspan="2"><input type="text" tabindex="210" maxlength="50" size="23" measurement="lid_rmrd" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/>&nbsp&nbsp
-								<input type="text" tabindex="211" maxlength="50" size="24" measurement="lid_riss" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/>
+     			<td colspan="2"><input type="text" tabindex="246" maxlength="50" size="23" measurement="lid_rmrd" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/>&nbsp&nbsp
+								<input type="text" tabindex="247" maxlength="50" size="24" measurement="lid_riss" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/>
 				</td>
-     			<td colspan="2"><input type="text" tabindex="212" maxlength="50" size="23" measurement="lid_lmrd" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/>&nbsp&nbsp
-								<input type="text" tabindex="213" maxlength="50" size="24" measurement="lid_liss" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/>
+     			<td colspan="2"><input type="text" tabindex="248" maxlength="50" size="23" measurement="lid_lmrd" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/>&nbsp&nbsp
+								<input type="text" tabindex="249" maxlength="50" size="24" measurement="lid_liss" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/>
 				</td>
      		</tr>
      		<tr>
      			<td class="label">Levator Fn</td>
-     			<td colspan="2" align="center"><input type="text" size="50" tabindex="214" maxlength="50" measurement="lid_rlev" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-     			<td colspan="2" align="center"><input type="text" size="50" tabindex="215" maxlength="50" measurement="lid_llev" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+     			<td colspan="2" align="center"><input type="text" size="50" tabindex="250" maxlength="50" measurement="lid_rlev" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+     			<td colspan="2" align="center"><input type="text" size="50" tabindex="251" maxlength="50" measurement="lid_llev" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
      		</tr>
      		<tr>
      			<td class="label">Lag</td>
-     			<td colspan="2" align="center"><input type="text" size="50" tabindex="216" maxlength="50" measurement="lid_rlag" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-     			<td colspan="2" align="center"><input type="text" size="50" tabindex="217" maxlength="50" measurement="lid_llag" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+     			<td colspan="2" align="center"><input type="text" size="50" tabindex="252" maxlength="50" measurement="lid_rlag" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+     			<td colspan="2" align="center"><input type="text" size="50" tabindex="253" maxlength="50" measurement="lid_llag" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
      		</tr>
      		<tr>
      			<td class="label">Blink</td>
-     			<td colspan="2" align="center"><input type="text" size="50" tabindex="218" maxlength="50" measurement="lid_rblink" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-     			<td colspan="2" align="center"><input type="text" size="50" tabindex="219" maxlength="50" measurement="lid_lblink" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+     			<td colspan="2" align="center"><input type="text" size="50" tabindex="254" maxlength="50" measurement="lid_rblink" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+     			<td colspan="2" align="center"><input type="text" size="50" tabindex="255" maxlength="50" measurement="lid_lblink" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
      		</tr>
      		<tr>
      			<td class="label">CN VII</td>
-     			<td colspan="2" align="center"><input type="text" size="50" tabindex="220" maxlength="50" measurement="lid_rcn7" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-     			<td colspan="2" align="center"><input type="text" size="50" tabindex="221" maxlength="50" measurement="lid_lcn7" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+     			<td colspan="2" align="center"><input type="text" size="50" tabindex="256" maxlength="50" measurement="lid_rcn7" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+     			<td colspan="2" align="center"><input type="text" size="50" tabindex="257" maxlength="50" measurement="lid_lcn7" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
      		</tr>
      		<tr>
      			<td class="label">Bells</td>
-     			<td colspan="2" align="center"><input type="text" size="50" tabindex="222" maxlength="50" measurement="lid_rbell" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-     			<td colspan="2" align="center"><input type="text" size="50" tabindex="223" maxlength="50" measurement="lid_lbell" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+     			<td colspan="2" align="center"><input type="text" size="50" tabindex="258" maxlength="50" measurement="lid_rbell" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+     			<td colspan="2" align="center"><input type="text" size="50" tabindex="259" maxlength="50" measurement="lid_lbell" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
      		</tr>
      		<tr>
      			<td class="label">Schirmer</td>
-     			<td colspan="2" align="center"><input type="text" size="50" tabindex="224" maxlength="50" measurement="lid_rschirm" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-     			<td colspan="2" align="center"><input type="text" size="50" tabindex="225" maxlength="50" measurement="lid_lschirm" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+     			<td colspan="2" align="center"><input type="text" size="50" tabindex="260" maxlength="50" measurement="lid_rschirm" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+     			<td colspan="2" align="center"><input type="text" size="50" tabindex="261" maxlength="50" measurement="lid_lschirm" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
      		</tr>		
      	</table>
      	</div>
@@ -2583,7 +2665,7 @@ span.ge{
 
 	<div class="slidey">
 		 <div class="title">
-            <a style="font-weight: bold;color:black;text-decoration:none;font-size:12px" tabindex="226" href="javascript:void(0)" id="a_32" onclick="togglediv(this);">Anterior Segment:</a>
+            <a style="font-weight: bold;color:black;text-decoration:none;font-size:12px" tabindex="262" href="javascript:void(0)" id="a_32" onclick="togglediv(this);">Anterior Segment:</a>
 			
         </div>
         <div id="s_32" class="slideblock">
@@ -2591,45 +2673,45 @@ span.ge{
         	<tr>
         		<td width="8%"></td>
         		<td width="46%">OD
-        			<a href="javascript:void(0)" tabindex="227" onclick="setAnterior_od();return false;">[normal]</a>
-            		<a href="javascript:void(0)" tabindex="228" onclick="clearAnterior_od();return false;">[clear]</a>
+        			<a href="javascript:void(0)" tabindex="263" onclick="setAnterior_od();return false;">[normal]</a>
+            		<a href="javascript:void(0)" tabindex="264" onclick="clearAnterior_od();return false;">[clear]</a>
         		</td>
         		<td width="46%">OS
-        			<a href="javascript:void(0)" tabindex="229" onclick="setAnterior_os();return false;">[normal]</a>
-            		<a href="javascript:void(0)" tabindex="230" onclick="clearAnterior_os();return false;">[clear]</a>
+        			<a href="javascript:void(0)" tabindex="265" onclick="setAnterior_os();return false;">[normal]</a>
+            		<a href="javascript:void(0)" tabindex="266" onclick="clearAnterior_os();return false;">[clear]</a>
         		</td>
         	</tr>
         	<tr>
         		<td class="label">Cornea</td>
-        		<td><input type="text" tabindex="231" size="50" measurement="a_rk" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		<td><input type="text" tabindex="232" size="50" measurement="a_lk" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="267" size="50" measurement="a_rk" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="268" size="50" measurement="a_lk" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
         	</tr>
         	<tr>
         		<td class="label">Conj/Sclera</td>
-        		<td><input type="text" tabindex="233" size="50" measurement="a_rconj" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		<td><input type="text" tabindex="234" size="50" measurement="a_lconj" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="269" size="50" measurement="a_rconj" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="270" size="50" measurement="a_lconj" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
         	</tr>
         	<tr>
         		<td class="label">AC</td>
-        		<td><input type="text" tabindex="235" size="50" measurement="a_rac" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		<td><input type="text" tabindex="236" size="50" measurement="a_lac" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="271" size="50" measurement="a_rac" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="272" size="50" measurement="a_lac" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
         	</tr>
         	<tr>
 				<td class="label">Angle</td>
 				<td>
         			<table class="exam" style="width:100%">
         				<tr>
-        					<td width="100%" align="center"><input type="text" size="15" tabindex="237" measurement="a_rangle_1" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        					<td width="100%" align="center"><input type="text" size="15" tabindex="273" measurement="a_rangle_1" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
         				</tr>
         				<tr>
         					<td style="text-align:center">
-	        					<input size="15" type="text" tabindex="237" measurement="a_rangle_2" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/>
-        						<input size="15" type="text" tabindex="237" measurement="a_rangle_3" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/>
-								<input size="15" type="text" tabindex="237" measurement="a_rangle_4" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/>
+	        					<input size="15" type="text" tabindex="274" measurement="a_rangle_2" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/>
+        						<input size="15" type="text" tabindex="275" measurement="a_rangle_3" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/>
+								<input size="15" type="text" tabindex="276" measurement="a_rangle_4" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/>
         					</td>
         				</tr>
         				<tr>
-        					<td><input type="text" size="15" tabindex="237" measurement="a_rangle_5" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        					<td><input type="text" size="15" tabindex="277" measurement="a_rangle_5" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
         				</tr>
         			</table>
         		</td>
@@ -2637,32 +2719,32 @@ span.ge{
         		<td>
         			<table class="exam" style="width:100%">
         				<tr>
-        					<td width="100%" align="center"><input size="15" type="text" tabindex="237" measurement="a_langle_1" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        					<td width="100%" align="center"><input size="15" type="text" tabindex="278" measurement="a_langle_1" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
         				</tr>
 
         				<tr>
         					<td style="text-align:center">
-        						<input size="15" type="text" tabindex="237" measurement="a_langle_2" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/>
-								<input size="15" type="text" tabindex="237" measurement="a_langle_3" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/>
-								<input size="15" type="text" tabindex="237" measurement="a_langle_4" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/>
+        						<input size="15" type="text" tabindex="279" measurement="a_langle_2" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/>
+								<input size="15" type="text" tabindex="280" measurement="a_langle_3" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/>
+								<input size="15" type="text" tabindex="281" measurement="a_langle_4" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/>
         					</td>
         				</tr>
 
         				<tr>
-        					<td><input type="text" size="15" tabindex="237" measurement="a_langle_5" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        					<td><input type="text" size="15" tabindex="282" measurement="a_langle_5" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
         				</tr>
         			</table>
         		</td>
         	</tr>
         	<tr>
         		<td class="label">Iris</td>
-        		<td><input type="text" tabindex="239" size="50" measurement="a_riris" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		<td><input type="text" tabindex="240" size="50" measurement="a_liris" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="283" size="50" measurement="a_riris" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="284" size="50" measurement="a_liris" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
         	</tr>
         	<tr>
         		<td class="label">Lens</td>
-        		<td><input type="text" tabindex="241" size="50" measurement="a_rlens" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		<td><input type="text" tabindex="242" size="50" measurement="a_llens" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="285" size="50" measurement="a_rlens" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="286" size="50" measurement="a_llens" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
         	</tr>
         </table>
         </div>
@@ -2676,7 +2758,7 @@ span.ge{
 <td>
 	<div class="slidey">
 		 <div class="title">
-            <a style="font-weight: bold;color:black;text-decoration:none;font-size:12px" tabindex="243" href="javascript:void(0)" id="a_33" onclick="togglediv(this);">Posterior Segment:</a>
+            <a style="font-weight: bold;color:black;text-decoration:none;font-size:12px" tabindex="287" href="javascript:void(0)" id="a_33" onclick="togglediv(this);">Posterior Segment:</a>
 			
         </div>
         <div id="s_33" class="slideblock">
@@ -2684,38 +2766,38 @@ span.ge{
         	<tr>
         		<td width="8%"></td>
         		<td width="46%">OD
-        			<a href="javascript:void(0)" tabindex="244" onclick="setPosterior_od();return false;">[normal]</a>
-            		<a href="javascript:void(0)" tabindex="245" onclick="clearPosterior_od();return false;">[clear]</a>
+        			<a href="javascript:void(0)" tabindex="288" onclick="setPosterior_od();return false;">[normal]</a>
+            		<a href="javascript:void(0)" tabindex="289" onclick="clearPosterior_od();return false;">[clear]</a>
         		</td>
         		<td width="46%">OS
-        			<a href="javascript:void(0)" tabindex="246" onclick="setPosterior_os();return false;">[normal]</a>
-            		<a href="javascript:void(0)" tabindex="247" onclick="clearPosterior_os();return false;">[clear]</a>
+        			<a href="javascript:void(0)" tabindex="290" onclick="setPosterior_os();return false;">[normal]</a>
+            		<a href="javascript:void(0)" tabindex="291" onclick="clearPosterior_os();return false;">[clear]</a>
         		</td>
         	</tr>
         	<tr>
         		<td class="label">Disc</td>
-        		<td><input type="text" tabindex="248" size="50" measurement="p_rdisc" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		<td><input type="text" tabindex="249" size="50" measurement="p_ldisc" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="292" size="50" measurement="p_rdisc" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="293" size="50" measurement="p_ldisc" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
         	</tr>
         	<tr>
         		<td class="label">C/D ratio</td>
-        		<td><input type="text" tabindex="250" size="50" measurement="p_rcd" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		<td><input type="text" tabindex="251" size="50" measurement="p_lcd" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="294" size="50" measurement="p_rcd" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="295" size="50" measurement="p_lcd" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
         	</tr>
         	<tr>
         		<td class="label">Macula</td>
-        		<td><input type="text" tabindex="252" size="50" measurement="p_rmac" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		<td><input type="text" tabindex="253" size="50" measurement="p_lmac" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="296" size="50" measurement="p_rmac" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="297" size="50" measurement="p_lmac" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
         	</tr>
         	<tr>
         		<td class="label">Retina</td>
-        		<td><input type="text" tabindex="254" size="50" measurement="p_rret" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		<td><input type="text" tabindex="255" size="50" measurement="p_lret" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="298" size="50" measurement="p_rret" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="299" size="50" measurement="p_lret" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
         	</tr>
         	<tr>
         		<td class="label">Vitreous</td>
-        		<td><input type="text" tabindex="256" size="50" measurement="p_rvit" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		<td><input type="text" tabindex="257" size="50" measurement="p_lvit" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="300" size="50" measurement="p_rvit" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="301" size="50" measurement="p_lvit" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
         	</tr>
         </table>
         </div>

@@ -226,11 +226,100 @@
 		String gl_lp = glasses.get("gl_lp");
 		String gl_date = glasses.get("gl_date");
 		String gl_note = glasses.get("gl_note");
+	
 %>
-		<td style="word-break:break-all"><span class="title1">(<%=date_str%>)&nbsp;  &nbsp;Glasses Rx </span>
-		OD[<%=gl_rs%>][<%=gl_rc%>]X [<%=gl_rx%>]add [<%=gl_ra%>]prism [<%=gl_rp%>];OS[<%=gl_ls%>][<%=gl_lc%>]X [<%=gl_lx%>]add [<%=gl_la%>]prism [<%=gl_lp%>];date: [<%=gl_date%>]note:[<%=gl_note%>].
-		</td>
-</tr>	
+		<td style="word-break:break-all"><span class="title1">(<%=date_str%>)&nbsp; &nbsp;</span>
+<%
+		if((gl_rs.length() > 0) || (gl_rc.length() > 0) || (gl_rx.length() > 0) || (gl_ra.length() > 0) || (gl_rp.length() > 0)){
+%>		
+		OD
+<%		
+		if(gl_rs.length() > 0){		
+%>
+		[<%=gl_rs%>]
+<%
+		}
+		if(gl_rc.length() > 0){
+%>
+		[<%=gl_rc%>]
+<%
+		}if(gl_rx.length() > 0){
+%>
+		X [<%=gl_rx%>]
+<%
+		}
+%>	
+<%
+		if(gl_ra.length() > 0){
+%>
+		add [<%=gl_ra%>]
+<%
+		}
+%>	
+<%
+		if(gl_rp.length() > 0){
+%>
+		prism [<%=gl_rp%>]
+<%
+		}
+%>
+<%
+	}
+%>	
+
+<%
+	if((gl_ls.length() > 0) || (gl_lc.length() > 0) || (gl_lx.length() > 0) || (gl_la.length() > 0) || (gl_lp.length() > 0)){
+%>
+		OS
+<%
+		if(gl_ls.length() > 0){
+%>
+		[<%=gl_ls%>] 
+<%
+		}if(gl_lc.length() > 0){
+%>	
+		[<%=gl_lc%>]
+<%
+		}if(gl_lx.length() > 0){
+%>
+		X [<%=gl_lx%>]
+<%
+		}
+%>
+<%
+		if(gl_la.length() > 0){
+%>
+		add [<%=gl_la%>]
+<%
+		}
+%>	
+<%
+		if(gl_lp.length() > 0){
+%>
+		prism [<%=gl_lp%>]
+<%
+		}
+%>
+<%
+	}
+%>	
+
+<%
+		if(gl_date.length() > 0){
+%>
+		date: [<%=gl_date%>]
+<%
+		}
+%>	
+<%
+		if(gl_note.length() > 0){
+%>
+		note: [<%=gl_note%>].
+<%
+		}
+%>	
+</td>
+	</tr>	
 <%		
 		}
 	}
@@ -257,10 +346,32 @@ if(fieldList.contains("Distance vision (sc)")){
 		String v_rdsc = distance.get("v_rdsc");
 		String v_ldsc = distance.get("v_ldsc");
 		String v_dsc = distance.get("v_dsc");
+		if((v_rdsc.length() > 0) || (v_ldsc.length() > 0) || (v_dsc.length() > 0)){
 %>
 		<span class="title1">Distance vision (sc)</span>
-			OD [<%=v_rdsc%>];OS [<%=v_ldsc%>];OU [<%=v_dsc%>].
+<%		
+		if(v_rdsc.length() > 0){
+%>
+			OD [<%=v_rdsc%>];
 <%
+		}
+%>
+<%
+		if(v_ldsc.length() > 0){
+%>
+			OS [<%=v_ldsc%>];
+<%
+		}
+%>
+<%
+		if(v_dsc.length() > 0){
+%>
+			OU [<%=v_dsc%>].
+<%
+		}
+%>
+<%
+		}
 	}
 %>
 <%	
@@ -268,20 +379,57 @@ if(fieldList.contains("Distance vision (sc)")){
 		String v_rdcc = distance.get("v_rdcc");
 		String v_ldcc = distance.get("v_ldcc");
 		String v_dcc = distance.get("v_dcc");
+		if((v_rdcc.length() > 0) || (v_ldcc.length() > 0) || (v_dcc.length() > 0)){
 %>
 		<span class="title1">Distance vision (cc) </span>
-		OD [<%=v_rdcc%>];OS [<%=v_ldcc%>];OU [<%=v_dcc%>].
 <%
+		if(v_rdcc.length() > 0){
+%>
+		OD [<%=v_rdcc%>];
+<%
+		}
+%>
+<%
+		if(v_ldcc.length() > 0){
+%>
+			OS [<%=v_ldcc%>];
+<%
+		}
+%>
+<%
+		if(v_dcc.length() > 0){
+%>
+			OU [<%=v_dcc%>].
+<%
+		}
+%>	
+<%
+		}
 	}
 %>
 <%	
 	if(fieldList.contains("Distance vision (ph)")){	
 		String v_rph = distance.get("v_rph");
 		String v_lph = distance.get("v_lph");
+		if((v_rph.length() > 0) || (v_lph.length() > 0)){
 %>
 		<span class="title1">Distance vision (ph) </span>
-		OD [<%=v_rph%>];OS [<%=v_lph%>];
 <%
+		if(v_rph.length() > 0){
+%>
+		OD [<%=v_rph%>];
+<%
+		}
+%>
+<%
+		if(v_lph.length() > 0){
+%>
+			OS [<%=v_lph%>];
+<%
+		}
+%>	
+<%
+		}
 	}
 %>
 <%	
@@ -289,10 +437,33 @@ if(fieldList.contains("Distance vision (sc)")){
 		String v_risc = distance.get("v_risc");
 		String v_lisc = distance.get("v_lisc");
 		String v_isc = distance.get("v_isc");
+		if((v_risc.length() > 0) || (v_lisc.length() > 0) || (v_isc.length() > 0) ){
 %>
 		<span class="title1">Intermediate vision (sc) </span>
-		OD [<%=v_risc%>];OS [<%=v_lisc%>];OU [<%=v_isc%>].
 <%
+		if(v_risc.length() > 0){
+%>
+		OD [<%=v_risc%>];
+<%
+		}
+%>
+<%
+		if(v_lisc.length() > 0){
+%>
+			OS [<%=v_lisc%>];
+<%
+		}
+%>
+<%
+		if(v_isc.length() > 0){
+%>
+			OU [<%=v_isc%>].
+<%
+		}
+%>	
+
+<%
+		}
 	}
 %>
 <%	
@@ -300,10 +471,33 @@ if(fieldList.contains("Distance vision (sc)")){
 		String v_ricc = distance.get("v_ricc");
 		String v_licc = distance.get("v_licc");
 		String v_icc = distance.get("v_icc");
+		if((v_ricc.length() > 0) || (v_licc.length() > 0) || (v_icc.length() > 0) ){
 %>
-		<span class="title1">Intermediate vision (sc) </span>
-		OD [<%=v_ricc%>];OS [<%=v_licc%>];OU [<%=v_icc%>].
+		<span class="title1">Intermediate vision (cc) </span>
 <%
+		if(v_ricc.length() > 0){
+%>
+		OD [<%=v_ricc%>];
+<%
+		}
+%>
+<%
+		if(v_licc.length() > 0){
+%>
+			OS [<%=v_licc%>];
+<%
+		}
+%>
+<%
+		if(v_icc.length() > 0){
+%>
+			OU [<%=v_icc%>].
+<%
+		}
+%>	
+
+<%
+		}
 	}
 %>
 <%	
@@ -311,10 +505,32 @@ if(fieldList.contains("Distance vision (sc)")){
 		String v_rnsc = distance.get("v_rnsc");
 		String v_lnsc = distance.get("v_lnsc");
 		String v_nsc = distance.get("v_nsc");
+		if( (v_rnsc.length() > 0) || (v_lnsc.length() > 0) || (v_nsc.length() > 0) ){
 %>
 		<span class="title1">Near vision (sc) </span>
-		OD [<%=v_rnsc%>];OS [<%=v_lnsc%>];OU [<%=v_nsc%>].
 <%
+		if(v_rnsc.length() > 0){
+%>
+		OD [<%=v_rnsc%>];
+<%
+		}
+%>
+<%
+		if(v_lnsc.length() > 0){
+%>
+			OS [<%=v_lnsc%>];
+<%
+		}
+%>
+<%
+		if(v_nsc.length() > 0){
+%>
+			OU [<%=v_nsc%>].
+<%
+		}
+%>	
+<%
+		}
 	}
 %>
 <%	
@@ -322,16 +538,40 @@ if(fieldList.contains("Distance vision (sc)")){
 		String v_rncc = distance.get("v_rncc");
 		String v_lncc = distance.get("v_lncc");
 		String v_ncc = distance.get("v_ncc");
+		if((v_rncc.length() > 0) || (v_lncc.length() > 0) || (v_ncc.length() > 0) ){
 %>
 		<span class="title1">Near vision (cc) </span>
-		OD [<%=v_rncc%>];OS [<%=v_lncc%>];OU [<%=v_ncc%>].
+<%	
+		if(v_rncc.length() > 0){
+%>
+		OD [<%=v_rncc%>];
 <%
+		}
+%>
+<%
+		if(v_lncc.length() > 0){
+%>
+			OS [<%=v_lncc%>];
+<%
+		}
+%>
+<%
+		if(v_ncc.length() > 0){
+%>
+			OU [<%=v_ncc%>].
+<%
+		}
+%>	
+
+<%
+		}
 	}
 %>
 </td>
 </tr>
 <%		
-	}}
+	}
+}
 %>
 <tr><td>&nbsp;</td></tr>
 <%
@@ -353,22 +593,31 @@ if(fieldList.contains("Fly test")){
 <%	
 		if(fieldList.contains("Fly test")){		
 		String v_fly = fly.get("v_fly");
+		if(v_fly.length() > 0){
 %>
 		<span class="title1">Fly test </span>
 		[<%=v_fly%>].
+<%
+		}
+%>
 <%
 	}
 %>
 <%	
 		if(fieldList.contains("Stereo-acuity")){	
 		String v_stereo = fly.get("v_stereo");
+		if(v_stereo.length() > 0){
 %>
 		<span class="title1">Stereo-acuity </span>
 		[<%=v_stereo%>].
-</td>
+<%
+		}
+%>
+
 <%
 	}
 %>
+</td>
 </tr>
 <%		
 	}}
@@ -398,10 +647,53 @@ if(fieldList.contains("Keratometry")){
 		String v_lk1 = keratometry_str.get("v_lk1");
 		String v_lk2 = keratometry_str.get("v_lk2");
 		String v_lkx = keratometry_str.get("v_lkx");
+		if((v_rk1.length() > 0) || (v_rk2.length() > 0) || (v_rkx.length() > 0) || (v_lk1.length() > 0) || (v_lk2.length() > 0) || (v_lkx.length() > 0) ){
 %>
 		<span class="title1">Keratometry </span>
-		OD [<%=v_rk1%>]x [<%=v_rk2%>]@ [<%=v_rkx%>];OS [<%=v_lk1%>]x [<%=v_lk2%>]@ [<%=v_lkx%>].
 <%
+		if(v_rk1.length() > 0){
+%>
+		OD [<%=v_rk1%>]
+<%
+		}
+%>
+<%
+		if(v_rk2.length() > 0){
+%>
+		x [<%=v_rk2%>]
+<%
+		}
+%>
+<%
+		if(v_rkx.length() > 0){
+%>
+		@ [<%=v_rkx%>];
+<%
+		}
+%>
+<%
+		if(v_lk1.length() > 0){
+%>
+		OS [<%=v_lk1%>]
+<%
+		}
+%>
+<%
+		if(v_lk2.length() > 0){
+%>
+		x [<%=v_lk2%>]
+<%
+		}
+%>
+<%
+		if(v_lkx.length() > 0){
+%>
+		@ [<%=v_lkx%>].
+<%
+		}
+%>
+<%
+		}
 	}
 %>	
 <%	
@@ -414,10 +706,53 @@ if(fieldList.contains("Keratometry")){
 		String v_lc = keratometry_str.get("v_lc");
 		String v_lx = keratometry_str.get("v_lx");
 		String v_lar = keratometry_str.get("v_lar");
+		if((v_rs.length() > 0) || (v_rc.length() > 0) || (v_rx.length() > 0) || (v_rar.length() > 0) || (v_ls.length() > 0) || (v_lc.length() > 0) || (v_lx.length() > 0) || (v_lar.length() > 0) ){
 %>
 		<span class="title1">Auto-refraction </span>
-		OD [<%=v_rs%>][<%=v_rc%>]x [<%=v_rx%>]([<%=v_rar%>]);OS [<%=v_ls%>][<%=v_lc%>]x [<%=v_lx%>]([<%=v_lar%>]).
 <%
+		if((v_rs.length() > 0) || (v_rc.length() > 0)){
+%>
+		OD [<%=v_rs%>][<%=v_rc%>]
+<%
+		}
+%>
+<%
+		if(v_rx.length() > 0){
+%>
+		x [<%=v_rx%>]
+<%
+		}
+%>
+<%
+		if(v_rar.length() > 0){
+%>
+		([<%=v_rar%>]);
+<%
+		}
+%>
+<%
+		if((v_ls.length() > 0) || (v_lc.length() > 0)){
+%>
+		OS [<%=v_ls%>][<%=v_lc%>]
+<%
+		}
+%>
+<%
+		if(v_lx.length() > 0){
+%>
+		x [<%=v_lx%>]
+<%
+		}
+%>
+<%
+		if(v_lar.length() > 0){
+%>
+		([<%=v_lar%>]).
+<%
+		}
+%>
+<%
+		}
 	}
 %>	
 <%	
@@ -431,10 +766,60 @@ if(fieldList.contains("Keratometry")){
 		String v_ldx = keratometry_str.get("v_ldx");
 		String v_ldv = keratometry_str.get("v_ldv");
 		String v_dist = keratometry_str.get("v_dist");
+		if((v_rds.length() > 0) || (v_rdc.length() > 0) || (v_rdx.length() > 0) || (v_rdv.length() > 0) || (v_lds.length() > 0) || (v_ldc.length() > 0) || (v_ldx.length() > 0) || (v_ldv.length() > 0) || (v_dist.length() > 0)){
 %>
 		<span class="title1">Manifest distance </span>
-		OD [<%=v_rds%>][<%=v_rdc%>]x [<%=v_rdx%>]([<%=v_rdv%>]);OS [<%=v_lds%>][<%=v_ldc%>]x [<%=v_ldx%>]([<%=v_ldv%>]);OU [<%=v_dist%>].
+<%	
+		if((v_rds.length() > 0) || (v_rdc.length() > 0)){
+%>
+		OD [<%=v_rds%>][<%=v_rdc%>]
 <%
+		}
+%>
+<%
+		if(v_rdx.length() > 0){
+%>
+		x [<%=v_rdx%>]
+<%
+		}
+%>
+<%
+		if(v_rdv.length() > 0){
+%>
+		([<%=v_rdv%>]);
+<%
+		}
+%>
+<%
+		if((v_lds.length() > 0) || (v_ldc.length() > 0)){
+%>
+		OS [<%=v_lds%>][<%=v_ldc%>]
+<%
+		}
+%>
+<%
+		if(v_ldx.length() > 0){
+%>
+		x [<%=v_ldx%>]
+<%
+		}
+%>
+<%
+		if(v_ldv.length() > 0){
+%>
+		([<%=v_ldv%>]);
+<%
+		}
+%>
+<%
+		if(v_dist.length() > 0){
+%>
+		OU [<%=v_dist%>].
+<%
+		}
+%>
+<%
+		}
 	}
 %>	
 <%	
@@ -448,10 +833,60 @@ if(fieldList.contains("Keratometry")){
 		String v_lnx = keratometry_str.get("v_lnx");
 		String v_lnv = keratometry_str.get("v_lnv");
 		String v_near = keratometry_str.get("v_near");
+		if((v_rns.length() > 0) || (v_rnc.length() > 0) || (v_rnx.length() > 0) || (v_rnv.length() > 0) || (v_lns.length() > 0) || (v_lnc.length() > 0) || (v_lnx.length() > 0) || (v_lnv.length() > 0) || (v_near.length() > 0)){
 %>
 		<span class="title1">Manifest near </span>
-		OD [<%=v_rns%>][<%=v_rnc%>]x [<%=v_rnx%>]([<%=v_rnv%>]);OS [<%=v_lns%>][<%=v_lnc%>]x [<%=v_lnx%>]([<%=v_lnv%>]);OU [<%=v_near%>].
+<%		
+		if((v_rns.length() > 0) || (v_rnc.length() > 0)){
+%>
+		OD [<%=v_rns%>][<%=v_rnc%>]
 <%
+		}
+%>
+<%
+		if(v_rnx.length() > 0){
+%>
+		x [<%=v_rnx%>]
+<%
+		}
+%>
+<%
+		if(v_rnv.length() > 0){
+%>
+		([<%=v_rnv%>]);
+<%
+		}
+%>
+<%
+		if((v_lns.length() > 0) || (v_lnc.length() > 0)){
+%>
+		OS [<%=v_lns%>][<%=v_lnc%>]
+<%
+		}
+%>
+<%
+		if(v_lnx.length() > 0){
+%>
+		x [<%=v_lnx%>]
+<%
+		}
+%>
+<%
+		if(v_lnv.length() > 0){
+%>
+		([<%=v_lnv%>]);
+<%
+		}
+%>
+<%
+		if(v_near.length() > 0){
+%>
+		OU [<%=v_near%>].
+<%
+		}
+%>
+<%
+		}
 	}
 %>
 <%	
@@ -464,10 +899,53 @@ if(fieldList.contains("Keratometry")){
 		String v_lcc = keratometry_str.get("v_lcc");
 		String v_lcx = keratometry_str.get("v_lcx");
 		String v_lcv = keratometry_str.get("v_lcv");
+		if((v_rcs.length() > 0) || (v_rcc.length() > 0) || (v_rcx.length() > 0) || (v_rcv.length() > 0) || (v_lcs.length() > 0) || (v_lcc.length() > 0) || (v_lcx.length() > 0) || (v_lcv.length() > 0) ){
 %>
 		<span class="title1">Cycloplegic refraction </span>
-		OD [<%=v_rcs%>][<%=v_rcc%>]x [<%=v_rcx%>]([<%=v_rcv%>]);OS [<%=v_lcs%>][<%=v_lcc%>]x [<%=v_lcx%>]([<%=v_lcv%>]).
 <%
+		if((v_rcs.length() > 0) || (v_rcc.length() > 0)){
+%>
+		OD [<%=v_rcs%>][<%=v_rcc%>]
+<%
+		}
+%>
+<%
+		if(v_rcx.length() > 0){
+%>
+		x [<%=v_rcx%>]
+<%
+		}
+%>
+<%
+		if(v_rcv.length() > 0){
+%>
+		([<%=v_rcv%>]);
+<%
+		}
+%>
+<%
+		if((v_lcs.length() > 0) || (v_lcc.length() > 0)){
+%>
+		OS [<%=v_lcs%>][<%=v_lcc%>]
+<%
+		}
+%>
+<%
+		if(v_lcx.length() > 0){
+%>
+		x [<%=v_lcx%>]
+<%
+		}
+%>
+<%
+		if(v_lcv.length() > 0){
+%>
+		([<%=v_lcv%>]).
+<%
+		}
+%>
+<%
+		}
 	}
 %>
 </td>	
@@ -495,10 +973,35 @@ if(fieldList.contains("NCT")){
 		String iop_rn = nct_str.get("iop_rn");
 		String iop_ln = nct_str.get("iop_ln");
 		String iop_ntime = nct_str.get("iop_ntime");
+		if(iop_ntime == null){
+			iop_ntime = "";
+		}
+		if((iop_rn.length() > 0) || (iop_ln.length() > 0) || (iop_ntime.length() > 0) ){
 %>
 		<span class="title1">NCT </span>
-		OD [<%=iop_rn%>];OS [<%=iop_ln%>];([<%=iop_ntime%>]).
 <%
+		if(iop_rn.length() > 0){
+%>
+		OD [<%=iop_rn%>];
+<%
+		}
+%>
+<%		
+		if(iop_ln.length() > 0){
+%>
+		OS [<%=iop_ln%>];
+<%
+		}
+%>	
+<%		
+		if(iop_ntime.length() > 0){
+%>
+		([<%=iop_ntime%>]).
+<%
+		}
+%>		
+<%
+		}
 	}
 %>	
 <%	
@@ -509,23 +1012,60 @@ if(fieldList.contains("NCT")){
 		if(iop_atime == null){
 			iop_atime = "";
 		}
+		if((iop_ra.length() > 0) || (iop_la.length() > 0) || (iop_atime.length() > 0)){
 %>
 		<span class="title1">Applanation  </span>
-		OD [<%=iop_ra%>];OS [<%=iop_la%>];([<%=iop_atime%>]).	
+<%		
+		if(iop_ra.length() > 0){
+%>
+		OD [<%=iop_ra%>];
 <%
+		}
+%>
+<%		
+		if(iop_la.length() > 0){
+%>
+		OS [<%=iop_la%>];
+<%
+		}
+%>	
+<%		
+		if(iop_atime.length() > 0){
+%>
+		([<%=iop_atime%>]).
+<%
+		}
+%>		
+<%
+		}
 	}
 %>
 <%	
 	if(fieldList.contains("Central corneal thickness")){		
 		String cct_r = nct_str.get("cct_r");
 		String cct_l = nct_str.get("cct_l");
+		if((cct_r.length() > 0) || (cct_l.length() > 0)){
 %>
 		<span class="title1">Central corneal thickness </span>
-		OD [<%=cct_r%>]microns;OS [<%=cct_l%>]microns.
 <%
-	}
+		if(cct_r.length() > 0){
 %>
-</td>		
+		OD [<%=cct_r%>]microns;
+<%
+		}
+%>
+<%		
+		if(cct_l.length() > 0){
+%>
+		OS [<%=cct_l%>]microns.
+<%
+		}
+%>		
+<%
+		}
+	}
+%>	
+</td>	
 </tr>
 <%}}%>
 <tr><td>&nbsp;</td></tr>
@@ -550,28 +1090,76 @@ if(fieldList.contains("Dominance")){
 		
 		String ref_rdom = dominance_str.get("ref_rdom");
 		String ref_ldom = dominance_str.get("ref_ldom");
+		if((ref_rdom.length() > 0) || (ref_ldom.length() > 0)){
 %>
-		<span class="title1">Dominance </span>OD [<%=ref_rdom%>];OS [<%=ref_ldom%>].
+		<span class="title1">Dominance </span>
 <%
+		if(ref_rdom.length() > 0){
+%>
+		OD [<%=ref_rdom%>];
+<%
+		}
+%>
+<%		
+		if(ref_ldom.length() > 0){
+%>
+		OS [<%=ref_ldom%>].
+<%
+		}
+%>		
+<%
+		}
 	}
 %>	
 <%	
 	if(fieldList.contains("Mesopic pupil size")){		
 		String ref_rpdim = dominance_str.get("ref_rpdim");
 		String ref_lpdim = dominance_str.get("ref_lpdim");
+		if((ref_rpdim.length() > 0) || (ref_lpdim.length() > 0)){
 %>
-		<span class="title1">Mesopic pupil size </span>OD [<%=ref_rpdim%>];OS [<%=ref_lpdim%>].
+		<span class="title1">Mesopic pupil size </span>
 <%
+		if(ref_rpdim.length() > 0){
+%>
+		OD [<%=ref_rpdim%>];
+<%
+		}
+%>
+<%		
+		if(ref_lpdim.length() > 0){
+%>
+		OS [<%=ref_lpdim%>].
+<%
+		}
+%>
+<%
+		}
 	}
 %>
 <%	
 		if(fieldList.contains("Angle Kappa")){		
 		String ref_rkappa = dominance_str.get("ref_rkappa");
 		String ref_lkappa = dominance_str.get("ref_lkappa");
+		if((ref_rkappa.length() > 0) || (ref_lkappa.length() > 0)){
 %>
 		<span class="title1">Angle Kappa </span>
-		OD [<%=ref_rkappa%>];OS [<%=ref_lkappa%>].	
 <%
+		if(ref_rkappa.length() > 0){
+%>
+		OD [<%=ref_rkappa%>];
+<%
+		}
+%>
+<%		
+		if(ref_lkappa.length() > 0){
+%>
+		OS [<%=ref_lkappa%>].
+<%
+		}
+%>		
+
+<%
+		}
 	}
 %>
 </td>
@@ -598,85 +1186,177 @@ if(fieldList.contains("Colour vision")){
 		if(fieldList.contains("Colour vision")){		
 		String o_rcolour = colour.get("o_rcolour");
 		String o_lcolour = colour.get("o_lcolour");
+		if((o_rcolour.length() > 0) || (o_lcolour.length() > 0)){
 %>
 		<span class="title1">Colour vision </span>
-		OD [<%=o_rcolour%>];OS [<%=o_lcolour%>].	
 <%
+		if(o_rcolour.length() > 0){
+%>
+		OD [<%=o_rcolour%>];
+<%
+		}
+%>
+<%		
+		if(o_lcolour.length() > 0){
+%>
+		OS [<%=o_lcolour%>].
+<%
+		}
+%>		
+<%
+		}
 	}
 %>
 <%	
 	if(fieldList.contains("Pupil")){		
 		String o_rpupil = colour.get("o_rpupil");
 		String o_lpupil = colour.get("o_lpupil");
+		if((o_rpupil.length() > 0) || (o_lpupil.length() > 0)){
 %>
 		<span class="title1">Pupil </span>
-		OD [<%=o_rpupil%>];OS [<%=o_lpupil%>].
 <%
+		if(o_rpupil.length() > 0){
+%>
+		OD [<%=o_rpupil%>];
+<%
+		}
+%>
+<%		
+		if(o_lpupil.length() > 0){
+%>
+		OS [<%=o_lpupil%>].
+<%
+		}
+%>		
+<%
+		}
 	}
 %>
 <%	
 	if(fieldList.contains("Amsler grid")){		
 		String o_ramsler = colour.get("o_ramsler");
 		String o_lamsler = colour.get("o_lamsler");
+		if((o_ramsler.length() > 0) || (o_lamsler.length() > 0)){
 %>
 		<span class="title1">Amsler grid </span>
-		OD [<%=o_ramsler%>];OS [<%=o_lamsler%>].
 <%
+		if(o_ramsler.length() > 0){
+%>
+		OD [<%=o_ramsler%>];
+<%
+		}
+%>
+<%		
+		if(o_lamsler.length() > 0){
+%>
+		OS [<%=o_lamsler%>].
+<%
+		}
+%>		
+<%
+		}
 	}
 %>
 <%	
 		if(fieldList.contains("Potential acuity meter")){		
 		String o_rpam = colour.get("o_rpam");
 		String o_lpam = colour.get("o_lpam");
+		if((o_rpam.length() > 0) || (o_lpam.length() > 0)){
 %>
 		<span class="title1">Potential acuity meter </span>
-		OD [<%=o_rpam%>];OS [<%=o_lpam%>].
 <%
+		if(o_rpam.length() > 0){
+%>
+		OD [<%=o_rpam%>];
+<%
+		}
+%>
+<%		
+		if(o_lpam.length() > 0){
+%>
+		OS [<%=o_lpam%>].
+<%
+		}
+%>		
+<%
+		}
 	}
 %>
 <%	
 	if(fieldList.contains("Confrontation fields")){		
 		String o_rconf = colour.get("o_rconf");
 		String o_lconf = colour.get("o_lconf");
+		if((o_rconf.length() > 0) || (o_lconf.length() > 0)){
 %>
 		<span class="title1">Confrontation fields </span>
-		OD [<%=o_rconf%>];OS [<%=o_lconf%>].
 <%
+		if(o_rconf.length() > 0){
+%>
+		OD [<%=o_rconf%>];
+<%
+		}
+%>
+<%		
+		if(o_lconf.length() > 0){
+%>
+		OS [<%=o_lconf%>].
+<%
+		}
+%>		
+<%
+		}
 	}
 %>
 <%	
 	if(fieldList.contains("Maddox rod")){		
 		String o_mad = colour.get("o_mad");
+		if(o_mad.length() > 0){
 %>
 		<span class="title1">Maddox rod </span>
 		[<%=o_mad%>].
+<%
+		}
+%>
 <%
 	}
 %>	
 <%	
 	if(fieldList.contains("Bagolini test")){		
 		String o_bag = colour.get("o_bag");
+		if(o_bag.length() > 0){
 %>
 		<span class="title1">Bagolini test </span>
 		[<%=o_bag%>].
+<%
+		}
+%>
 <%
 	}
 %>
 <%	
 	if(fieldList.contains("Worth 4 Dot (distance)")){		
 		String o_w4dd = colour.get("o_w4dd");
+		if(o_w4dd.length() > 0){
 %>
 		<span class="title1">Worth 4 Dot (distance) </span>
 		[<%=o_w4dd%>].
+<%
+		}
+%>
 <%
 	}
 %>
 <%	
 	if(fieldList.contains("Worth 4 Dot (near)")){		
 		String o_w4dn = colour.get("o_w4dn");
+		if(o_w4dn.length() > 0){
 %>
 		<span class="title1">Worth 4 Dot (near) </span>
 		[<%=o_w4dn%>].
+<%
+		}
+%>
+
 <%
 	}
 %>
@@ -721,97 +1401,219 @@ if(fieldList.contains("DUCTION/DIPLOPIA TESTING")){
 		String date_str = ductlion_str.get("date");
 %>
 <tr>
-			<td style="white-space:nowrap">
-			<table cellpadding="0" cellspacing="0" border="0">
-			<tr>
+<td style="white-space:nowrap">
+<table cellpadding="0" cellspacing="0" border="0">
+<tr>
+<%
+		if((duc_rur.length() > 0) || (duc_rul.length() > 0) || (duc_rr.length() > 0) || (duc_rl.length() > 0) || (duc_rdr.length() > 0) || (duc_rdl.length() > 0)){
+%>			
 			<td>
 			OD<span class="title1">(<%= date_str%>)</span>		
 			
 			<table>
 			<tr>
 				<td>
+<%				
+					if(duc_rur.length() > 0){
+%>
 					[<%=duc_rur%>]
+<%
+				}
+%>
 				</td>
 				<td>
+<%				
+					if(duc_rul.length() > 0){
+%>
 					[<%=duc_rul%>]
+<%
+				}
+%>
 				</td>
 			</tr>
 			<tr>
 				<td>
+<%				
+					if(duc_rr.length() > 0){
+%>
 					[<%=duc_rr%>]
+<%
+				}
+%>
 				</td>
 				<td>
+<%				
+					if(duc_rl.length() > 0){
+%>
 					[<%=duc_rl%>]
+<%
+				}
+%>
 				</td>
 			</tr>
 			<tr>
 				<td>
+<%				
+					if(duc_rdr.length() > 0){
+%>
 					[<%=duc_rdr%>]
+<%
+				}
+%>
 				</td>
 				<td>
+<%				
+					if(duc_rdl.length() > 0){
+%>
 					[<%=duc_rdl%>]
+<%
+				}
+%>
 				</td>
 			</tr>
 			</table>
 			</td>
+<%
+		}
+		if((duc_lur.length() > 0) || (duc_lul.length() > 0) || (duc_lr.length() > 0) || (duc_ll.length() > 0) || (duc_ldr.length() > 0) || (duc_ldl.length() > 0)){
+%>
 			<td>
 			OS<span class="title1">(<%= date_str%>)</span>
 			<table>
 			<tr>
 				<td>
+<%
+				if(duc_lur.length() > 0){
+%>
 					[<%=duc_lur%>]
+<%
+				}
+%>
 				</td>
 				<td>
+<%
+				if(duc_lul.length() > 0){
+%>
 					[<%=duc_lul%>]
+<%
+				}
+%>
 				</td>
 			</tr>
 			<tr>
 				<td>
+<%
+				if(duc_lr.length() > 0){
+%>
 					[<%=duc_lr%>]
+<%
+				}
+%>
 				</td>
 				<td>
+<%
+				if(duc_ll.length() > 0){
+%>
 					[<%=duc_ll%>]
+<%
+				}
+%>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					[<%=duc_ll%>]
+<%
+				if(duc_ldr.length() > 0){
+%>
+					[<%=duc_ldr%>]
+<%
+				}
+%>
 				</td>
 				<td>
+<%
+				if(duc_ldl.length() > 0){
+%>
 					[<%=duc_ldl%>]
+<%
+				}
+%>
 				</td>
 			</tr>
 			</table>
 			</td>
+<%
+		}
+		if((dip_ur.length() > 0) || (dip_u.length() > 0) || (dip_r.length() > 0) || (dip_p.length() > 0) || (dip_dr.length() > 0) || (dip_d.length() > 0)){
+%>
 			<td>
 			OU<span class="title1">(<%= date_str%>)</span>
 			<table>
 			<tr>
 				<td>
+<%
+				if(dip_ur.length() > 0){
+%>
 					[<%=dip_ur%>]
+<%
+				}
+%>
 				</td>
 				<td>
+<%
+				if(dip_u.length() > 0){
+%>
 					[<%=dip_u%>]
+<%
+				}
+%>
 				</td>
 			</tr>
 			<tr>
 				<td>
+<%
+				if(dip_r.length() > 0){
+%>
 					[<%=dip_r%>]
+<%
+				}
+%>
 				</td>
 				<td>
+<%
+				if(dip_p.length() > 0){
+%>
 					[<%=dip_p%>]
+<%
+				}
+%>
 				</td>
 			</tr>
 			<tr>
 				<td>
+<%
+				if(dip_dr.length() > 0){
+%>
 					[<%=dip_dr%>]
+<%
+				}
+%>
 				</td>
 				<td>
+<%
+				if(dip_d.length() > 0){
+%>
 					[<%=dip_d%>]
+<%
+				}
+%>
 				</td>
 			</tr>
 			</table>
 			</td>
+<%
+		}
+%>
 			</tr>
 			</table>
 			</td>
@@ -837,91 +1639,101 @@ if(fieldList.contains("Primary gaze")){
 <%
 	if(fieldList.contains("Primary gaze")){
 		String dev_p = primary_str.get("dev_p");
+		if(dev_p.length() > 0){
 %>
 		<span class="title1">Primary gaze </span>
 			[<%=dev_p%>].
-<% 
+<%   	}
 	}
 %>
 <%
 	if(fieldList.contains("Up gaze")){
 		String dev_u = primary_str.get("dev_u");
+		if(dev_u.length() > 0){
 %>
 		<span class="title1">Up gaze </span>
 			[<%=dev_u%>].
-<%
+<%   	}
 	}
 %>
 <%
 	if(fieldList.contains("Down gaze")){
 		String dev_d = primary_str.get("dev_d");
+		if(dev_d.length() > 0){
 %>
 		<span class="title1">Down gaze </span>
 			[<%=dev_d%>].
-<%
+<%   	}
 	}
 %>
 <%
 	if(fieldList.contains("Right gaze")){
 		String dev_r = primary_str.get("dev_r");
+		if(dev_r.length() > 0){
 %>
 		<span class="title1">Right gaze </span>
 			[<%=dev_r%>].
-<%
+<%   	}
 	}
 %>
 <%
 	if(fieldList.contains("Left gaze")){
 		String dev_l = primary_str.get("dev_l");
+		if(dev_l.length() > 0){
 %>
 		<span class="title1">Left  gaze </span>
 			[<%=dev_l%>].
-<%
+<%   	}
 	}
 %>
 <%
 	if(fieldList.contains("Right head tilt")){
 		String dev_rt = primary_str.get("dev_rt");
+		if(dev_rt.length() > 0){
 %>
 		<span class="title1">Right head tilt </span>
 			[<%=dev_rt%>].
-<%
+<%   	}
 	}
 %>
 <%
 	if(fieldList.contains("Left head tilt")){
 		String dev_lt = primary_str.get("dev_lt");
+		if(dev_lt.length() > 0){
 %>
 		<span class="title1">Left head tilt </span>
 			[<%=dev_lt%>].
-<%
+<%   	}
 	}
 %>
 <%
 	if(fieldList.contains("Near")){
 		String dev_near = primary_str.get("dev_near");
+		if(dev_near.length() > 0){
 %>
 		<span class="title1">Near </span>
 			[<%=dev_near%>].
-<%
+<%   	}
 	}
 %>
 <%
 	if(fieldList.contains("Near with +3D add")){
 		String dev_plus3 = primary_str.get("dev_plus3");
+		if(dev_plus3.length() > 0){
 %>
 		<span class="title1">Near with +3D add </span>
 			[<%=dev_plus3%>].
-<%
+<%   	}
 	}
 %>
 <%
 	if(fieldList.contains("Far distance")){
 		String dev_far = primary_str.get("dev_far");
+		if(dev_far.length() > 0){
 %>
 		<span class="title1">Far distance </span>
 			[<%=dev_far%>].
-<%
+<%   	}
 	}
 %>
 </td>
@@ -948,30 +1760,75 @@ if(fieldList.contains("Retropulsion")){
 	if(fieldList.contains("Face")){
 		String ext_rface = retropulsion_str.get("ext_rface");
 		String ext_lface = retropulsion_str.get("ext_lface");	
+		if((ext_rface.length() > 0) || (ext_lface.length() > 0)){
 %>
 		<span class="title1">Face </span>
-			Right side[<%=ext_rface%>];Left  side[<%=ext_lface%>].
 <%
+			if(ext_rface.length() > 0){
+%>
+			Right side[<%=ext_rface%>];
+<%   		
+			}
+%>
+<%
+			if(ext_lface.length() > 0){
+%>
+			Left  side[<%=ext_lface%>].
+<%   		}
+
+%>
+<%
+		}
 	}
 %>
 <%
 	if(fieldList.contains("Retropulsion")){
 		String ext_rretro = retropulsion_str.get("ext_rretro");
 		String ext_lretro = retropulsion_str.get("ext_lretro");	
+		if((ext_rretro.length() > 0) || (ext_lretro.length() > 0)){
 %>
 		<span class="title1">Retropulsion </span>
-			OD [<%=ext_rretro%>];OS [<%=ext_lretro%>].
 <%
+			if(ext_rretro.length() > 0){
+%>
+			OD [<%=ext_rretro%>];
+<%   		
+			}
+%>
+<%
+			if(ext_lretro.length() > 0){
+%>
+			OS [<%=ext_lretro%>].
+<%   		}
+
+%>
+<%
+		}
 	}
 %>
 <%
 	if(fieldList.contains("Hertel")){
 		String ext_rhertel = retropulsion_str.get("ext_rhertel");
 		String ext_lhertel = retropulsion_str.get("ext_lhertel");	
+		if((ext_rhertel.length() > 0) || (ext_lhertel.length() > 0)){
 %>
 		<span class="title1">Hertel </span>
-			OD [<%=ext_rhertel%>];OS [<%=ext_lhertel%>].
 <%
+			if(ext_rhertel.length() > 0){
+%>
+			OD [<%=ext_rhertel%>];
+<%   		
+			}
+%>
+<%
+			if(ext_lhertel.length() > 0){
+%>
+			OS [<%=ext_lhertel%>].
+<%   		}
+
+%>
+<%
+		}
 	}
 %>
 </td>
@@ -998,70 +1855,175 @@ if(fieldList.contains("Upper lid")){
 	if(fieldList.contains("Upper lid")){
 		String ext_rul = upper_str.get("ext_rul");
 		String ext_lul = upper_str.get("ext_lul");	
+		if((ext_rul.length() > 0) || (ext_lul.length() > 0)){
 %>
 		<span class="title1">Upper lid </span>
-		OD [<%=ext_rul%>];OS [<%=ext_lul%>].
 <%
+			if(ext_rul.length() > 0){
+%>
+			OD [<%=ext_rul%>];
+<%   		
+			}
+%>
+<%
+			if(ext_lul.length() > 0){
+%>
+			OS [<%=ext_lul%>].
+<%   		}
+
+%>
+<%
+		}
 	}
 %>
 <%
 	if(fieldList.contains("Lower lid")){
 		String ext_rll = upper_str.get("ext_rll");
 		String ext_lll = upper_str.get("ext_lll");	
+		if((ext_rll.length() > 0) || (ext_lll.length() > 0)){
 %>
 		<span class="title1">Lower lid </span>
-			OD [<%=ext_rll%>];OS [<%=ext_lll%>].
 <%
+			if(ext_rll.length() > 0){
+%>
+			OD [<%=ext_rll%>];
+<%   		
+			}
+%>
+<%
+			if(ext_lll.length() > 0){
+%>
+			OS [<%=ext_lll%>].
+<%   		}
+
+%>
+<%
+		}
 	}
 %>
 <%
 	if(fieldList.contains("Lacrimal lake")){
 		String ext_rlake = upper_str.get("ext_rlake");
 		String ext_llake = upper_str.get("ext_llake");	
+		if((ext_rlake.length() > 0) || (ext_llake.length() > 0)){
 %>
 		<span class="title1">Lacrimal lake </span>
-			OD [<%=ext_rlake%>];OS [<%=ext_llake%>].
 <%
+			if(ext_rlake.length() > 0){
+%>
+			OD [<%=ext_rlake%>];
+<%   		
+			}
+%>
+<%
+			if(ext_llake.length() > 0){
+%>
+			OS [<%=ext_llake%>].
+<%   		}
+
+%>
+<%
+		}
 	}
 %>
 <%
 	if(fieldList.contains("Lacrimal irrigation")){
 		String ext_rirrig = upper_str.get("ext_rirrig");
 		String ext_lirrig = upper_str.get("ext_lirrig");	
+		if((ext_rirrig.length() > 0) || (ext_lirrig.length() > 0)){
 %>
 		<span class="title1">Lacrimal irrigation </span>
-			OD [<%=ext_rirrig%>];OS [<%=ext_lirrig%>].
 <%
+			if(ext_rirrig.length() > 0){
+%>
+			OD [<%=ext_rirrig%>];
+<%   		
+			}
+%>
+<%
+			if(ext_lirrig.length() > 0){
+%>
+			OS [<%=ext_lirrig%>].
+<%   		}
+
+%>
+<%
+		}
 	}
 %>
 <%
 	if(fieldList.contains("Punctum")){
 		String ext_rpunc = upper_str.get("ext_rpunc");
 		String ext_lpunc = upper_str.get("ext_lpunc");	
+		if((ext_rpunc.length() > 0) || (ext_lpunc.length() > 0)){
 %>
 		<span class="title1">Punctum  </span>
-			OD [<%=ext_rpunc%>];OS [<%=ext_lpunc%>].
 <%
+			if(ext_rpunc.length() > 0){
+%>
+			OD [<%=ext_rpunc%>];
+<%   		
+			}
+%>
+<%
+			if(ext_lpunc.length() > 0){
+%>
+			OS [<%=ext_lpunc%>].
+<%   		}
+
+%>
+<%
+		}
 	}
 %>
 <%
 	if(fieldList.contains("Nasolacrimal duct")){
 		String ext_rnld = upper_str.get("ext_rnld");
 		String ext_lnld = upper_str.get("ext_lnld");	
+		if((ext_rnld.length() > 0) || (ext_lnld.length() > 0)){
 %>
 		<span class="title1">Nasolacrimal duct  </span>
-			OD [<%=ext_rnld%>];OS [<%=ext_lnld%>].
 <%
+			if(ext_rnld.length() > 0){
+%>
+			OD [<%=ext_rnld%>];
+<%   		
+			}
+%>
+<%
+			if(ext_lnld.length() > 0){
+%>
+			OS [<%=ext_lnld%>].
+<%   		}
+
+%>
+<%
+		}
 	}
 %>
 <%
 	if(fieldList.contains("Dye disappearance")){
 		String ext_rdye = upper_str.get("ext_rdye");
 		String ext_ldye = upper_str.get("ext_ldye");	
+		if((ext_rdye.length() > 0) || (ext_ldye.length() > 0)){
 %>
 		<span class="title1">Dye disappearance  </span>
-			OD [<%=ext_rdye%>];OS [<%=ext_ldye%>].
 <%
+			if(ext_rdye.length() > 0){
+%>
+			OD [<%=ext_rdye%>];
+<%   		
+			}
+%>
+<%
+			if(ext_ldye.length() > 0){
+%>
+			OS [<%=ext_ldye%>].
+<%   		}
+
+%>
+<%
+		}
 	}
 %>
 </td>
@@ -1088,80 +2050,200 @@ if(fieldList.contains("Margin reflex distance")){
 	if(fieldList.contains("Margin reflex distance")){
 		String lid_rmrd = margin_str.get("lid_rmrd");
 		String lid_lmrd = margin_str.get("lid_lmrd");	
+		if((lid_rmrd.length() > 0) || (lid_lmrd.length() > 0)){
 %>
 		<span class="title1">Margin reflex distance  </span>
-			OD [<%=lid_rmrd%>];OS [<%=lid_lmrd%>].
 <%
+			if(lid_rmrd.length() > 0){
+%>
+			OD [<%=lid_rmrd%>];
+<%   		
+			}
+%>
+<%
+			if(lid_lmrd.length() > 0){
+%>
+			OS [<%=lid_lmrd%>].
+<%   		}
+
+%>
+<%
+		}
 	}
 %>
 <%
 	if(fieldList.contains("Inferior scleral show")){
 		String lid_riss = margin_str.get("lid_riss");
 		String lid_liss = margin_str.get("lid_liss");	
+		if((lid_riss.length() > 0) || (lid_liss.length() > 0)){
 %>
 		<span class="title1">Inferior scleral show </span> 
-			OD [<%=lid_riss%>];OS [<%=lid_liss%>].
 <%
+			if(lid_riss.length() > 0){
+%>
+			OD [<%=lid_riss%>];
+<%   		
+			}
+%>
+<%
+			if(lid_liss.length() > 0){
+%>
+			OS [<%=lid_liss%>].
+<%   		}
+
+%>
+<%
+		}
 	}
 %>
 <%
 	if(fieldList.contains("Levator function")){
 		String lid_rlev = margin_str.get("lid_rlev");
 		String lid_llev = margin_str.get("lid_llev");	
+		if((lid_rlev.length() > 0) || (lid_llev.length() > 0)){
 %>
 		<span class="title1">Levator function  </span>
-		OD [<%=lid_rlev%>];OS [<%=lid_llev%>].
 <%
+			if(lid_rlev.length() > 0){
+%>
+			OD [<%=lid_rlev%>];
+<%   		
+			}
+%>
+<%
+			if(lid_llev.length() > 0){
+%>
+			OS [<%=lid_llev%>].
+<%   		}
+
+%>
+<%
+		}
 	}
 %>
 <%
 	if(fieldList.contains("Lagophthalmos")){
 		String lid_rlag = margin_str.get("lid_rlag");
 		String lid_llag = margin_str.get("lid_llag");	
+		if((lid_rlag.length() > 0) || (lid_llag.length() > 0)){
 %>
 		<span class="title1">Lagophthalmos  </span>
-			OD [<%=lid_rlag%>];OS [<%=lid_llag%>].
 <%
+			if(lid_rlag.length() > 0){
+%>
+			OD [<%=lid_rlag%>];
+<%   		
+			}
+%>
+<%
+			if(lid_llag.length() > 0){
+%>
+			OS [<%=lid_llag%>].
+<%   		}
+
+%>
+<%
+		}
 	}
 %>
 <%
 	if(fieldList.contains("Blink reflex")){
 		String lid_rblink = margin_str.get("lid_rblink");
 		String lid_lblink = margin_str.get("lid_lblink");	
+		if((lid_rblink.length() > 0) || (lid_lblink.length() > 0)){
 %>
 		<span class="title1">Blink reflex  </span>
-			OD [<%=lid_rblink%>];OS [<%=lid_lblink%>].
 <%
+			if(lid_rblink.length() > 0){
+%>
+			OD [<%=lid_rblink%>];
+<%   		
+			}
+%>
+<%
+			if(lid_lblink.length() > 0){
+%>
+			OS [<%=lid_lblink%>].
+<%   		}
+
+%>
+<%
+		}
 	}
 %>
 <%
 	if(fieldList.contains("Cranial Nerve VII function")){
 		String lid_rcn7 = margin_str.get("lid_rcn7");
 		String lid_lcn7 = margin_str.get("lid_lcn7");	
+		if((lid_rcn7.length() > 0) || (lid_lcn7.length() > 0)){
 %>
 		<span class="title1">Cranial Nerve VII function  </span>
-			OD [<%=lid_rcn7%>];OS [<%=lid_lcn7%>].
 <%
+			if(lid_rcn7.length() > 0){
+%>
+			OD [<%=lid_rcn7%>];
+<%   		
+			}
+%>
+<%
+			if(lid_lcn7.length() > 0){
+%>
+			OS [<%=lid_lcn7%>].
+<%   		}
+
+%>
+<%
+		}
 	}
 %>
 <%
 	if(fieldList.contains("Bells phenomenon")){
 		String lid_rbell = margin_str.get("lid_rbell");
 		String lid_lbell = margin_str.get("lid_lbell");	
+		if((lid_rbell.length() > 0) || (lid_lbell.length() > 0)){
 %>
 		<span class="title1">Bell's phenomenon  </span>
-			OD [<%=lid_rbell%>];OS [<%=lid_lbell%>].
 <%
+			if(lid_rbell.length() > 0){
+%>
+			OD [<%=lid_rbell%>];
+<%   		
+			}
+%>
+<%
+			if(lid_lbell.length() > 0){
+%>
+			OS [<%=lid_lbell%>].
+<%   		}
+
+%>
+<%
+		}
 	}
 %>
 <%
 	if(fieldList.contains("Schirmer test")){
 		String lid_rschirm = margin_str.get("lid_rschirm");
 		String lid_lschirm = margin_str.get("lid_lschirm");	
+		if((lid_rschirm.length() > 0) || (lid_lschirm.length() > 0)){
 %>
 		<span class="title1">Schirmer test  </span>
-			OD [<%=lid_rschirm%>];OS [<%=lid_lschirm%>].
 <%
+			if(lid_rschirm.length() > 0){
+%>
+			OD [<%=lid_rschirm%>];
+<%   		
+			}
+%>
+<%
+			if(lid_lschirm.length() > 0){
+%>
+			OS [<%=lid_lschirm%>].
+<%   		}
+
+%>
+<%
+		}
 	}
 %>
 </td>
@@ -1188,30 +2270,75 @@ if(fieldList.contains("Cornea")){
 	if(fieldList.contains("Cornea")){
 		String a_rk = cornea_str.get("a_rk");
 		String a_lk = cornea_str.get("a_lk");	
+		if((a_rk.length() > 0) || (a_lk.length() > 0)){
 %>
 		<span class="title1">Cornea  </span>
-			OD [<%=a_rk%>];OS [<%=a_lk%>].
 <%
+			if(a_rk.length() > 0){
+%>
+			OD [<%=a_rk%>];
+<%   		
+			}
+%>
+<%
+			if(a_lk.length() > 0){
+%>
+			OS [<%=a_lk%>].
+<%   	
+		}
+%>
+<%
+		}
 	}
 %>
 <%
 	if(fieldList.contains("Conjunctiva/Sclera")){
 		String a_rconj = cornea_str.get("a_rconj");
 		String a_lconj = cornea_str.get("a_lconj");	
+		if((a_rconj.length() > 0) || (a_lconj.length() > 0)){
 %>
 		<span class="title1">Conjunctiva/Sclera  </span>
-			OD [<%=a_rconj%>];OS [<%=a_lconj%>].
 <%
+			if(a_rconj.length() > 0){
+%>
+			OD [<%=a_rconj%>];
+<%   		
+			}
+%>
+<%
+			if(a_lconj.length() > 0){
+%>
+			OS [<%=a_lconj%>].
+<%   		
+			}
+%>
+<%
+		}
 	}
 %>
 <%
 	if(fieldList.contains("Anterior chamber")){
 		String a_rac = cornea_str.get("a_rac");
 		String a_lac = cornea_str.get("a_lac");	
+		if((a_rac.length() > 0) || (a_lac.length() > 0)){
 %>
 		<span class="title1">Anterior chamber  </span>
-			OD [<%=a_rac%>];OS [<%=a_lac%>].
 <%
+			if(a_rac.length() > 0){
+%>
+			OD [<%=a_rac%>];
+<%   		
+			}
+%>
+<%
+			if(a_lac.length() > 0){
+%>
+			OS [<%=a_lac%>].
+<%   		
+			}
+%>
+<%
+		}
 	}
 %>
 <%
@@ -1228,7 +2355,101 @@ if(fieldList.contains("Cornea")){
 		String a_langle_5 = cornea_str.get("a_langle_5");	
 %>
 		<span class="title1">Angle </span>
-			OD [<%=a_rangle_3%>] (superior[<%=a_rangle_1%>] nasal[<%=a_rangle_4%>] inferior[<%=a_rangle_5%>] temporal[<%=a_rangle_2%>]);OS [<%=a_langle_3%>] (superior[<%=a_langle_1%>] nasal[<%=a_langle_2%>] inferior[<%=a_langle_5%>] temporal[<%=a_langle_4%>]).
+<%
+		if((a_rangle_1.length() > 0) || (a_rangle_2.length() > 0) || (a_rangle_3.length() > 0) || (a_rangle_4.length() > 0) || (a_rangle_5.length() > 0)){
+%>		
+<%
+			if(a_rangle_3.length() > 0){
+%>
+			[<%=a_rangle_3%>]
+<%   		
+			}
+			if((a_rangle_1.length() > 0) || (a_rangle_2.length() > 0) || (a_rangle_4.length() > 0) || (a_rangle_5.length() > 0)){
+%>
+			(
+<%			
+				if(a_rangle_1.length() > 0){
+%>
+					superior[<%=a_rangle_1%>]
+<%
+				}
+%>
+<%
+				if(a_rangle_4.length() > 0){
+%>
+					nasal[<%=a_rangle_4%>]
+<%
+				}
+%>
+<%
+				if(a_rangle_5.length() > 0){
+%>
+					inferior[<%=a_rangle_5%>]
+<%
+				}
+%>
+<%
+				if(a_rangle_2.length() > 0){
+%>
+					temporal[<%=a_rangle_2%>];
+<%
+				}
+%>
+			)
+<%
+			}
+%>
+			;
+<%
+			}
+			if((a_langle_1.length() > 0) || (a_langle_2.length() > 0) || (a_langle_3.length() > 0) || (a_langle_4.length() > 0) || (a_langle_5.length() > 0)){
+%>			
+			OS
+<%			
+				if(a_langle_3.length() > 0){
+%>
+					[<%=a_langle_3%>]
+<%   		
+				}
+%>
+<%
+				if((a_langle_1.length() > 0) || (a_langle_2.length() > 0) || (a_langle_4.length() > 0) || (a_langle_5.length() > 0)){
+%>
+				(
+<%		
+					if(a_langle_1.length() > 0){
+%>
+						superior[<%=a_langle_1%>]
+<%   		
+					}
+%>
+<%
+					if(a_langle_2.length() > 0){
+%>
+						nasal[<%=a_langle_2%>]
+<%   		
+					}
+%>
+<%
+					if(a_langle_5.length() > 0){
+%>
+						inferior[<%=a_langle_5%>]
+<%   		
+					}
+%>
+<%
+					if(a_langle_4.length() > 0){
+%>
+						temporal[<%=a_langle_4%>]
+<%   		
+					}
+%>
+				)
+<%			
+				}
+			}
+%>
+				.
 <%
 	}
 %>
@@ -1236,20 +2457,50 @@ if(fieldList.contains("Cornea")){
 	if(fieldList.contains("Iris")){
 		String a_riris = cornea_str.get("a_riris");
 		String a_liris = cornea_str.get("a_liris");	
+		if((a_riris.length() > 0) || (a_liris.length() > 0)){
 %>
 		<span class="title1">Iris </span>
-			OD [<%=a_riris%>];OS [<%=a_liris%>].
 <%
+			if(a_riris.length() > 0){
+%>
+			OD [<%=a_riris%>];
+<%   		
+			}
+%>
+<%
+			if(a_liris.length() > 0){
+%>
+			OS [<%=a_liris%>].
+<%   		
+			}
+%>
+<%
+		}
 	}
 %>
 <%
 	if(fieldList.contains("Lens")){
 		String a_rlens = cornea_str.get("a_rlens");
 		String a_llens = cornea_str.get("a_llens");	
+		if((a_rlens.length() > 0) || (a_llens.length() > 0)){
 %>
 		<span class="title1">Lens </span>
-			OD [<%=a_rlens%>];OS [<%=a_llens%>].
 <%
+			if(a_rlens.length() > 0){
+%>
+			OD [<%=a_rlens%>];
+<%   		
+			}
+%>
+<%
+			if(a_llens.length() > 0){
+%>
+			OS [<%=a_llens%>].
+<%   		
+			}
+%>
+<%
+		}
 	}
 %>
 </td>
@@ -1276,50 +2527,125 @@ if(fieldList.contains("Optic disc")){
 	if(fieldList.contains("Optic disc")){
 		String p_rdisc = optic_str.get("p_rdisc");
 		String p_ldisc = optic_str.get("p_ldisc");	
+		if((p_rdisc.length() > 0) || (p_ldisc.length() > 0)){
 %>
 		<span class="title1">Optic disc </span>
-			OD [<%=p_rdisc%>];OS [<%=p_ldisc%>].
 <%
+			if(p_rdisc.length() > 0){
+%>
+			OD [<%=p_rdisc%>];
+<%   		
+			}
+%>
+<%
+			if(p_ldisc.length() > 0){
+%>
+			OS [<%=p_ldisc%>].
+<%   		
+			}
+%>
+<%
+		}
 	}
 %>
 <%
 	if(fieldList.contains("C/D ratio")){
 		String p_rcd = optic_str.get("p_rcd");
 		String p_lcd = optic_str.get("p_lcd");	
+		if((p_rcd.length() > 0) || (p_lcd.length() > 0)){
 %>
 		<span class="title1">C/D ratio </span>
-			OD [<%=p_rcd%>];OS [<%=p_lcd%>].
 <%
+			if(p_rcd.length() > 0){
+%>
+			OD [<%=p_rcd%>];
+<%   		
+			}
+%>
+<%
+			if(p_lcd.length() > 0){
+%>
+			OS [<%=p_lcd%>].
+<%   		
+			}
+%>
+<%
+		}
 	}
 %>
 <%
 	if(fieldList.contains("Macula")){
 		String p_rmac = optic_str.get("p_rmac");
 		String p_lmac = optic_str.get("p_lmac");	
+		if((p_rmac.length() > 0) || (p_lmac.length() > 0)){
 %>
 		<span class="title1">Macula </span>
-			OD [<%=p_rmac%>];OS [<%=p_lmac%>].
 <%
+			if(p_rmac.length() > 0){
+%>
+			OD [<%=p_rmac%>];
+<%   		
+			}
+%>
+<%
+			if(p_lmac.length() > 0){
+%>
+			OS [<%=p_lmac%>].
+<%   		
+			}
+%>
+<%
+		}
 	}
 %>
 <%
 	if(fieldList.contains("Retina")){
 		String p_rret = optic_str.get("p_rret");
 		String p_lret = optic_str.get("p_lret");	
+		if((p_rret.length() > 0) || (p_lret.length() > 0)){
 %>
 		<span class="title1">Retina </span>
-			OD [<%=p_rret%>];OS [<%=p_lret%>].
 <%
+			if(p_rret.length() > 0){
+%>
+			OD [<%=p_rret%>];
+<%   		
+			}
+%>
+<%
+			if(p_lret.length() > 0){
+%>
+			OS [<%=p_lret%>].
+<%   		
+			}
+%>
+<%
+		}
 	}
 %>
 <%
 	if(fieldList.contains("Vitreous")){
 		String p_rvit = optic_str.get("p_rvit");
 		String p_lvit = optic_str.get("p_lvit");	
+		if((p_rvit.length() > 0) || (p_lvit.length() > 0)){
 %>
 		<span class="title1">Vitreous </span>
-			OD [<%=p_rvit%>];OS [<%=p_lvit%>].
 <%
+			if(p_rvit.length() > 0){
+%>
+			OD [<%=p_rvit%>];
+<%   		
+			}
+%>
+<%
+			if(p_lvit.length() > 0){
+%>
+			OS [<%=p_lvit%>].
+<%   		
+			}
+%>
+<%
+		}
 	}
 %>
 </td>
@@ -1332,6 +2658,18 @@ if(fieldList.contains("Optic disc")){
 %>
 </table>
 
+<%}else if("eyeform4".equals(eyeform)){%>
+<table class="display">
+<tr>
+<td><h5>Glasses History</h5>
+	<display:table name="glasses" requestURI="/eyeform/ExaminationHistory.do" class="display" style="width:100%" id="map" pagesize="5">
+		<display:column title="OD Sph" style="width:30px;white-space: nowrap;">
+			<c:out value="${map.gl_rs}"/>
+		</display:column>
+	</display:table>
+</tr>
+</td>
+</table>
 <%}else{%>
 <table class="display">
   <tr>

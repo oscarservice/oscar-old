@@ -36,7 +36,6 @@ import org.oscarehr.billing.CA.ON.model.BillingClaimHeader1;
 import org.oscarehr.billing.CA.ON.model.BillingItem;
 import org.oscarehr.casemgmt.model.CaseManagementNoteLink;
 import org.oscarehr.common.model.Provider;
-import org.oscarehr.util.MiscUtils;
 import org.oscarehr.util.SpringUtils;
 
 import oscar.oscarEncounter.data.EctFormData.PatientForm;
@@ -64,9 +63,6 @@ public class NoteDisplayNonNote implements NoteDisplay {
 			date = (formatter.parse((String)eform.get("formDate") + " " + (String)eform.get("formTime")));
 		}catch(ParseException e) {
 			date = (Date) eform.get("formDateAsDate");			
-		} catch (Exception e) {
-			MiscUtils.getLogger().info(e.toString());
-			
 		}
 		
 		note = eform.get("formName") + " : " + eform.get("formSubject");

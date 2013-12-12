@@ -243,14 +243,14 @@ function saveFlags() {
            
             <td nowrap="nowrap" width="40%">
             
-           <input tabindex="251" value="Generate Note" onclick="saveEyeformNote();return false;" id="stickler0" style="color: black;" type="button">			
+           <input tabindex="302" value="Generate Note" onclick="saveEyeformNote();return false;" id="stickler0" style="color: black;" type="button">			
            &nbsp;
            <b>Send tickler to:</b>
 
             
             
 
-	        <select name="front" tabindex="250" class="special2" id="ticklerRecip">
+	        <select name="front" tabindex="303" class="special2" id="ticklerRecip">
 	        	<c:forEach var="item" items="${internalList}">
             		<option value="<c:out value="${item.providerNo}"/>"><c:out value="${item.formattedName}"/></option>
             	</c:forEach>           
@@ -260,7 +260,7 @@ function saveFlags() {
     
            </td>
            <td width="15%" nowrap="nowrap">            
-			<input tabindex="251" value="Send Tickler" onclick="saveNoteAndSendTickler();return false;" id="stickler" style="color: black;" type="button">
+			<input tabindex="304" value="Send Tickler" onclick="saveNoteAndSendTickler();return false;" id="stickler" style="color: black;" type="button">
 			 
             </td>
             <td width="45%"></td>

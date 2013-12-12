@@ -53,7 +53,6 @@ public class MeasurementFormatter {
 	public String getGlasseshistory(Map<String,Boolean> includeMap,int app_no){
 		StringBuilder sb = new StringBuilder();
 		if(includeMap.get("Glasses Rx") != null && this.getGlassesRx(app_no).length()>0){
-			//sb.append("Glasses Rx ");
 			sb.append(this.getGlassesRx(app_no));
 		}
 			
@@ -72,27 +71,27 @@ public class MeasurementFormatter {
     			sb.append(this.getVisionAssessmentDistanceVision_sc());
     		}
     		if(includeMap.get("Distance vision (cc)") != null && this.getVisionAssessmentDistanceVision_cc().length()>0){
-    			sb.append("Distance vision (cc) ");
+    			sb.append("\nDistance vision (cc) ");
     			sb.append(this.getVisionAssessmentDistanceVision_cc());
     		}
     		if(includeMap.get("Distance vision (ph)") != null && this.getVisionAssessmentDistanceVision_ph().length()>0){
-    			sb.append("Distance vision (ph) ");
+    			sb.append("\nDistance vision (ph) ");
     			sb.append(this.getVisionAssessmentDistanceVision_ph());
     		}
     		if(includeMap.get("Intermediate vision (sc)") != null && this.getVisionAssessmentIntermediateVision_sc().length()>0){
-    			sb.append("Intermediate vision (sc) ");
+    			sb.append("\nIntermediate vision (sc) ");
     			sb.append(this.getVisionAssessmentIntermediateVision_sc());
     		}
     		if(includeMap.get("Intermediate vision (cc)") != null && this.getVisionAssessmentIntermediateVision_cc().length()>0){
-    			sb.append("Intermediate vision (cc) ");
+    			sb.append("\nIntermediate vision (cc) ");
     			sb.append(this.getVisionAssessmentIntermediateVision_cc());
     		}
     		if(includeMap.get("Near vision (sc)") != null && this.getVisionAssessmentNearVision_sc().length()>0){
-    			sb.append("Near vision (sc) ");
+    			sb.append("\nNear vision (sc) ");
     			sb.append(this.getVisionAssessmentNearVision_sc());
     		}
     		if(includeMap.get("Near vision (cc)") != null && this.getVisionAssessmentNearVision_cc().length()>0){
-    			sb.append("Near vision (cc) ");
+    			sb.append("\nNear vision (cc) ");
     			sb.append(this.getVisionAssessmentNearVision_cc());
     		}
         }else{	
@@ -139,20 +138,20 @@ public class MeasurementFormatter {
 				sb.append(this.getAutoRefraction());
 			}
 			if(includeMap.get("Keratometry") != null && this.getKeratometry().length()>0) {
-				sb.append("Keratometry ");
+				sb.append("\nKeratometry ");
 				sb.append(this.getKeratometry());
 			}
 		//}
 		if(includeMap.get("Manifest distance") != null && getManifestDistance().length()>0) {
-			sb.append("Manifest distance ");
+			sb.append("\nManifest distance ");
 			sb.append(getManifestDistance());
 		}
 		if(includeMap.get("Manifest near") != null && getManifestNear().length()>0) {
-			sb.append("Manifest near ");
+			sb.append("\nManifest near ");
 			sb.append(getManifestNear());
 		}
 		if(includeMap.get("Cycloplegic refraction") != null && this.getCycloplegicRefraction().length()>0) {
-			sb.append("Cycloplegic refraction ");
+			sb.append("\nCycloplegic refraction ");
 			sb.append(this.getCycloplegicRefraction());
 		}
 		if(sb.length()>0) {
@@ -164,11 +163,11 @@ public class MeasurementFormatter {
 	public String getStereoVision(Map<String,Boolean> includeMap){
 		StringBuilder sb = new StringBuilder();
 		if(includeMap.get("Fly test") != null && this.getFlytest().length()>0) {
-			sb.append("Fly test ");
+			sb.append("Fly test      ");
 			sb.append(this.getFlytest());
 		}
 		if(includeMap.get("Stereo-acuity") != null && this.getStereo_acuity().length()>0) {
-			sb.append("Stereo-acuity ");
+			sb.append("\nStereo-acuity ");
 			sb.append(this.getStereo_acuity());
 		}
 		if(sb.length()>0) {
@@ -185,11 +184,11 @@ public class MeasurementFormatter {
 			sb.append(this.getNCT());
 		}
 		if(includeMap.get("Applanation") != null && this.getApplanation().length()>0) {
-			sb.append("Applanation ");
+			sb.append("\nApplanation ");
 			sb.append(this.getApplanation());
 		}
 		if(includeMap.get("Central corneal thickness") != null && this.getCCT().length()>0) {
-			sb.append("Central corneal thickness ");
+			sb.append("\nCentral corneal thickness ");
 			sb.append(this.getCCT());
 		}
 		if(sb.length()>0) {
@@ -205,11 +204,11 @@ public class MeasurementFormatter {
 			sb.append(this.getDominance());
 		}
 		if(includeMap.get("Mesopic pupil size") != null && this.getMesopicPupilSize().length()>0) {
-			sb.append("Mesopic pupil size ");
+			sb.append("\nMesopic pupil size ");
 			sb.append(this.getMesopicPupilSize());
 		}
 		if(includeMap.get("Angle Kappa") != null && this.getAngleKappa().length()>0) {
-			sb.append("Angle Kappa ");
+			sb.append("\nAngle Kappa ");
 			sb.append(this.getAngleKappa());
 		}
 		if(sb.length() > 0){
@@ -226,36 +225,36 @@ public class MeasurementFormatter {
 			sb.append(this.getColourVision());
 		}
 		if(includeMap.get("Pupil") != null && this.getPupil().length()>0) {
-			sb.append("Pupil ");
+			sb.append("\nPupil ");
 			sb.append(this.getPupil());
 		}
 		if(includeMap.get("Amsler grid") != null && this.getAmslerGrid().length()>0) {
-			sb.append("Amsler grid ");
+			sb.append("\nAmsler grid ");
 			sb.append(this.getAmslerGrid());
 		}
 		if(includeMap.get("Potential acuity meter") != null && this.getPAM().length()>0) {
-			sb.append("Potential acuity meter ");
+			sb.append("\nPotential acuity meter ");
 			sb.append(this.getPAM());
 		}
 		if(includeMap.get("Confrontation fields") != null && this.getConfrontation().length()>0) {
-			sb.append("Confrontation fields ");
+			sb.append("\nConfrontation fields ");
 			sb.append(this.getConfrontation());
 		}
-			if(includeMap.get("Maddox rod") != null && this.getMaddoxrod().length()>0) {
-				sb.append("Maddox rod ");
-				sb.append(this.getMaddoxrod());
-			}
-			if(includeMap.get("Bagolini test") != null && this.getBagolinitest().length()>0) {
-				sb.append("Bagolini test ");
-				sb.append(this.getBagolinitest());
-			}
-			if(includeMap.get("Worth 4 Dot (distance)") != null && this.getW4dD().length()>0) {
-				sb.append("Worth 4 Dot (distance) ");
-				sb.append(this.getW4dD());
-			}
-			if(includeMap.get("Worth 4 Dot (near)") != null && this.getW4dN().length()>0) {
-				sb.append("Worth 4 Dot (near) ");
-				sb.append(this.getW4dN());
+		if(includeMap.get("Maddox rod") != null && this.getMaddoxrod().length()>0) {
+			sb.append("\nMaddox rod             ");
+			sb.append(this.getMaddoxrod());
+		}
+		if(includeMap.get("Bagolini test") != null && this.getBagolinitest().length()>0) {
+			sb.append("\nBagolini test          ");
+			sb.append(this.getBagolinitest());
+		}
+		if(includeMap.get("Worth 4 Dot (distance)") != null && this.getW4dD().length()>0) {
+			sb.append("\nWorth 4 Dot (distance) ");
+			sb.append(this.getW4dD());
+		}
+		if(includeMap.get("Worth 4 Dot (near)") != null && this.getW4dN().length()>0) {
+			sb.append("\nWorth 4 Dot (near)     ");
+			sb.append(this.getW4dN());
 		}
 		
 		if(sb.length()>0) {
@@ -266,8 +265,8 @@ public class MeasurementFormatter {
 
 	public String getDuctionTesting(Map<String,Boolean> includeMap){
 		StringBuilder sb = new StringBuilder();
-		if(includeMap.get("DUCTION/DIPLOPIA TESTING") != null && this.getDuction().length()>0) {
-			sb.append("DUCTION/DIPLOPIA TESTING: \n");
+		if(includeMap.get("DUCTION/DIPLOPIA") != null && this.getDuction().length()>0) {
+			sb.append("DUCTION/DIPLOPIA: \n");
 			sb.append(this.getDuction());
 		}
 		return sb.toString();
@@ -276,43 +275,43 @@ public class MeasurementFormatter {
 	public String getDeviationMeasurement(Map<String,Boolean> includeMap){ 
 		StringBuilder sb = new StringBuilder();
 		if(includeMap.get("Primary gaze") != null && this.getPrimarygaze().length()>0) {
-			sb.append("Primary gaze: ");
+			sb.append("Primary gaze:      ");
 			sb.append(this.getPrimarygaze());
 		}
 		if(includeMap.get("Up gaze") != null && this.getUpgaze().length()>0) {
-			sb.append("Up gaze: ");
+			sb.append("\nUp gaze:           ");
 			sb.append(this.getUpgaze());
 		}
 		if(includeMap.get("Down gaze") != null && this.getDowngaze().length()>0) {
-			sb.append("Down gaze: ");
+			sb.append("\nDown gaze:         ");
 			sb.append(this.getDowngaze());
 		}
 		if(includeMap.get("Right gaze") != null && this.getRightgaze().length()>0) {
-			sb.append("Right gaze: ");
+			sb.append("\nRight gaze:        ");
 			sb.append(this.getRightgaze());
 		}
 		if(includeMap.get("Left gaze") != null && this.getLeftgaze().length()>0) {
-			sb.append("Left gaze: ");
+			sb.append("\nLeft gaze:         ");
 			sb.append(this.getLeftgaze());
 		}
 		if(includeMap.get("Right head tilt") != null && this.getRighthead().length()>0) {
-			sb.append("Right head tilt: ");
+			sb.append("\nRight head tilt:   ");
 			sb.append(this.getRighthead());
 		}
 		if(includeMap.get("Left head tilt") != null && this.getLefthead().length()>0) {
-			sb.append("Right head tilt: ");
+			sb.append("\nLeft head tilt:    ");
 			sb.append(this.getLefthead());
 		}
 		if(includeMap.get("Near") != null && this.getNear().length()>0) {
-			sb.append("Near: ");
+			sb.append("\nNear:              ");
 			sb.append(this.getNear());
 		}
 		if(includeMap.get("Near with +3D add") != null && this.getNearwith().length()>0) {
-			sb.append("Near with +3D add: ");
+			sb.append("\nNear with +3D add: ");
 			sb.append(this.getNearwith());
 		}
 		if(includeMap.get("Far distance") != null && this.getFardistance().length()>0) {
-			sb.append("Far distance: ");
+			sb.append("\nFar distance:      ");
 			sb.append(this.getFardistance());
 		}
 		if(sb.length()>0) {
@@ -338,23 +337,23 @@ public class MeasurementFormatter {
 			sb.append(this.getCornea());
 		}		
 		if(includeMap.get("Conjunctiva/Sclera") != null && this.getConjuctivaSclera().length()>0) {
-			sb.append("Conjunctiva/Sclera ");
+			sb.append("\nConjunctiva/Sclera ");
 			sb.append(this.getConjuctivaSclera());
 		}
 		if(includeMap.get("Anterior chamber") != null && this.getAnteriorChamber().length()>0) {
-			sb.append("Anterior chamber ");
+			sb.append("\nAnterior chamber ");
 			sb.append(this.getAnteriorChamber());
 		}
 		if(includeMap.get("Angle") != null && this.getAngle().length()>0) {
-			sb.append("Angle ");
+			sb.append("\nAngle ");
 			sb.append(this.getAngle());
 		}
 		if(includeMap.get("Iris") != null && this.getIris().length()>0) {
-			sb.append("Iris ");
+			sb.append("\nIris ");
 			sb.append(this.getIris());
 		}
 		if(includeMap.get("Lens") != null && this.getLens().length()>0) {
-			sb.append("Lens ");
+			sb.append("\nLens ");
 			sb.append(this.getLens());
 		}
 		
@@ -371,11 +370,11 @@ public class MeasurementFormatter {
 			sb.append(this.getDisc());
 		}
 		if(includeMap.get("C/D ratio") != null && this.getCdRatio().length()>0) {
-			sb.append("C/D ratio ");
+			sb.append("\nC/D ratio ");
 			sb.append(this.getCdRatio());
 		}	
 		if(includeMap.get("Macula") != null && this.getMacula().length()>0) {
-			sb.append("Macula ");
+			sb.append("\nMacula ");
 			sb.append(this.getMacula());
 		}	
 		if(includeMap.get("Retina") != null && this.getRetina().length()>0) {
@@ -383,7 +382,7 @@ public class MeasurementFormatter {
 			sb.append(this.getRetina());
 		}	
 		if(includeMap.get("Vitreous") != null && this.getVitreous().length()>0) {
-			sb.append("Vitreous ");
+			sb.append("\nVitreous ");
 			sb.append(this.getVitreous());
 		}	
 		if(sb.length()>0) {
@@ -398,7 +397,7 @@ public class MeasurementFormatter {
 			sb.append("Face ");
 			sb.append(this.getFace());
 		}
-		if("eyeform3".equals(eyeform)){
+		if(!"eyeform3".equals(eyeform)){
 			if(includeMap.get("Upper lid") != null && this.getUpperLid().length()>0) {
 				sb.append("Upper lid ");
 				sb.append(this.getUpperLid());
@@ -415,14 +414,24 @@ public class MeasurementFormatter {
 				sb.append("Lacrimal lake ");
 				sb.append(this.getLacrimalLake());
 			}
-		}
-		if(includeMap.get("Retropulsion") != null && this.getRetropulsion().length()>0) {
-			sb.append("Retropulsion ");
-			sb.append(this.getRetropulsion());
-		}
-		if(includeMap.get("Hertel") != null && this.getHertel().length()>0) {
-			sb.append("Hertel ");
-			sb.append(this.getHertel());
+		}else if("eyeform3".equals(eyeform)){
+			if(includeMap.get("Retropulsion") != null && this.getRetropulsion().length()>0) {
+				sb.append("\nRetropulsion ");
+				sb.append(this.getRetropulsion());
+			}
+			if(includeMap.get("Hertel") != null && this.getHertel().length()>0) {
+				sb.append("\nHertel ");
+				sb.append(this.getHertel());
+			}
+		}else{
+			if(includeMap.get("Retropulsion") != null && this.getRetropulsion().length()>0) {
+				sb.append("Retropulsion ");
+				sb.append(this.getRetropulsion());
+			}
+			if(includeMap.get("Hertel") != null && this.getHertel().length()>0) {
+				sb.append("Hertel ");
+				sb.append(this.getHertel());
+			}
 		}
 		
 		if(sb.length()>0) {
@@ -438,27 +447,27 @@ public class MeasurementFormatter {
 			sb.append(this.getUpperLid());
 		}
 		if(includeMap.get("Lower lid") != null && this.getLowerLid().length()>0) {
-			sb.append("Lower lid ");
+			sb.append("\nLower lid ");
 			sb.append(this.getLowerLid());
 		}
 		if(includeMap.get("Lacrimal lake") != null && this.getLacrimalLake().length()>0) {
-			sb.append("Lacrimal lake ");
+			sb.append("\nLacrimal lake ");
 			sb.append(this.getLacrimalLake());
 		}
 		if(includeMap.get("Lacrimal irrigation") != null && this.getLacrimalIrrigation().length()>0) {
-			sb.append("Lacrimal irrigation ");
+			sb.append("\nLacrimal irrigation ");
 			sb.append(this.getLacrimalIrrigation());
 		}
 		if(includeMap.get("Punctum") != null && this.getPunctum().length()>0) {
-			sb.append("Punctum ");
+			sb.append("\nPunctum ");
 			sb.append(this.getPunctum());
 		}
 		if(includeMap.get("Nasolacrimal duct") != null && this.getNLD().length()>0) {
-			sb.append("Nasolacrimal duct ");
+			sb.append("\nNasolacrimal duct ");
 			sb.append(this.getNLD());
 		}
 		if(includeMap.get("Dye disappearance") != null && this.getDyeDisappearance().length()>0) {
-			sb.append("Dye disappearance ");
+			sb.append("\nDye disappearance ");
 			sb.append(this.getDyeDisappearance());
 		}
 		if(sb.length()>0) {
@@ -495,32 +504,32 @@ public class MeasurementFormatter {
 			sb.append(this.getMarginReflexDistance());
 		}
 		if(includeMap.get("Levator function") != null && this.getLevatorFunction().length()>0) {
-			sb.append("Levator function ");
+			sb.append("\nLevator function ");
 			sb.append(this.getLevatorFunction());
 		}
 		if(includeMap.get("Inferior scleral show") != null && this.getInferiorScleralShow().length()>0) {
-			sb.append("Inferior scleral show ");
+			sb.append("\nInferior scleral show ");
 			sb.append(this.getInferiorScleralShow());
 		}
 		if(includeMap.get("Lagophthalmos") != null && this.getLagophthalmos().length()>0) {
-			sb.append("Lagophthalmos ");
+			sb.append("\nLagophthalmos ");
 			sb.append(this.getLagophthalmos());
 		}
 		if(includeMap.get("Blink reflex") != null && this.getBlink().length()>0) {
-			sb.append("Blink reflex");
+			sb.append("\nBlink reflex ");
 			sb.append(this.getBlink());
 		}
 		if(includeMap.get("Cranial Nerve VII function") != null && this.getCNVii().length()>0) {
-			sb.append("Cranial nerve VII function ");
+			sb.append("\nCranial nerve VII function ");
 			sb.append(this.getCNVii());
 		}
 		if("eyeform3".equals(eyeform)){
 			if(includeMap.get("Bells phenomenon") != null && this.getBells().length()>0) {
-				sb.append("Bell's phenomenon ");
+				sb.append("\nBell's phenomenon ");
 				sb.append(this.getBells());
 			}
 			if(includeMap.get("Schirmer test") != null && this.getSchirmertest().length()>0) {
-				sb.append("Schirmer test ");
+				sb.append("\nSchirmer test ");
 				sb.append(this.getSchirmertest());
 			}
 		}else{
@@ -630,7 +639,7 @@ public class MeasurementFormatter {
 			
 		}
 		if(sb1.length() > 0){
-			sb1.insert(0, "OS ");
+			sb1.insert(0, "\n                OS ");
 			sb1.append(".");
 			sb.append(sb1);
 		}
@@ -657,10 +666,10 @@ public class MeasurementFormatter {
 		
 		StringBuilder sb1 = new StringBuilder();
 		if(isPresent("v_ls")) {			
-			sb1.append(getValue("[" +"v_ls")+ "]");
+			sb1.append("[" +getValue("v_ls")+ "]");
 		}
 		if(isPresent("v_ls")) {
-			sb1.append(getValue("[" +"v_lc")+ "]");
+			sb1.append("[" +getValue("v_lc")+ "]");
 		}
 		if(isPresent("v_lx")) {
 			sb1.append("x[" + getValue("v_lx")+ "]");
@@ -669,7 +678,7 @@ public class MeasurementFormatter {
 			sb1.append("([" + getValue("v_lar")+ "])");
 		}
 		if(sb1.length() > 0){
-			sb1.insert(0, "OS");
+			sb1.insert(0, "\n            OS");
 			sb1.append(".");
 			sb.append(sb1);
 		}
@@ -723,17 +732,17 @@ public class MeasurementFormatter {
 		if(isPresent("v_rdsc")){
 			sb.append("OD ");
 			sb.append("[" +getValue("v_rdsc")+ "]");
-			sb.append("; ");
+			sb.append(";");
 		}
 		if(isPresent("v_ldsc")){
-			sb.append("OS ");
+			sb.append("\n                     OS ");
 			sb.append("[" +getValue("v_ldsc")+ "]");
-			sb.append("; ");
+			sb.append(";");
 		}
 		if(isPresent("v_dsc")){
-			sb.append("OU ");
+			sb.append("\n                     OU ");
 			sb.append("[" +getValue("v_dsc")+ "]");
-			sb.append(". ");
+			sb.append(".");
 		}
 		return sb.toString();
 	}
@@ -742,17 +751,17 @@ public class MeasurementFormatter {
 		if(isPresent("v_rdcc")){
 			sb.append("OD ");
 			sb.append("[" +getValue("v_rdcc")+ "]");
+			sb.append(";");
 		}
-		if(isPresent("v_ldcc")){
-			sb.append("; ");
-			sb.append("OS ");
+		if(isPresent("v_ldcc")){			
+			sb.append("\n                     OS ");
 			sb.append("[" +getValue("v_ldcc")+ "]");
+			sb.append(";");
 		}
 		if(isPresent("v_dcc")){
-			sb.append("; ");
-			sb.append("OU ");
+			sb.append("\n                     OU ");
 			sb.append("[" +getValue("v_dcc")+ "]");
-			sb.append(". ");
+			sb.append(".");
 		}
 		return sb.toString();
 	}
@@ -761,12 +770,12 @@ public class MeasurementFormatter {
 		if(isPresent("v_rph")){
 			sb.append("OD ");
 			sb.append("[" +getValue("v_rph")+ "]");
-			sb.append("; ");
+			sb.append(";");
 		}
 		if(isPresent("v_lph")){
-			sb.append("OS ");
+			sb.append("\n                     OS ");
 			sb.append("[" +getValue("v_lph") + "]");
-			sb.append(". ");
+			sb.append(".");
 		}
 		return sb.toString();
 	}
@@ -775,17 +784,17 @@ public class MeasurementFormatter {
 		if(isPresent("v_risc")){
 			sb.append("OD ");
 			sb.append("[" +getValue("v_risc")+ "]");
-			sb.append("; ");
+			sb.append(";");
 		}
 		if(isPresent("v_lisc")){
-			sb.append("OS ");
+			sb.append("\n                         OS ");
 			sb.append("[" +getValue("v_lisc")+ "]");
-			sb.append("; ");
+			sb.append(";");
 		}
 		if(isPresent("v_isc")){
-			sb.append("OU ");
+			sb.append("\n                         OU ");
 			sb.append("[" +getValue("v_isc")+ "]");
-			sb.append(". ");
+			sb.append(".");
 		}
 		return sb.toString();
 	}
@@ -794,17 +803,17 @@ public class MeasurementFormatter {
 		if(isPresent("v_ricc")){
 			sb.append("OD ");
 			sb.append("[" +getValue("v_ricc")+ "]");
-			sb.append("; ");
+			sb.append(";");
 		}
 		if(isPresent("v_licc")){
-			sb.append("OS ");
+			sb.append("\n                         OS ");
 			sb.append("[" +getValue("v_licc")+ "]");
-			sb.append("; ");
+			sb.append(";");
 		}
 		if(isPresent("v_icc")){
-			sb.append("OU ");
+			sb.append("\n                         OU ");
 			sb.append("[" +getValue("v_icc")+ "]");
-			sb.append(". ");
+			sb.append(".");
 		}
 		return sb.toString();
 	}
@@ -813,17 +822,17 @@ public class MeasurementFormatter {
 		if(isPresent("v_rnsc")){
 			sb.append("OD ");
 			sb.append("[" +getValue("v_rnsc")+ "]");
-			sb.append("; ");
+			sb.append(";");
 		}
 		if(isPresent("v_lnsc")){
-			sb.append("OS ");
+			sb.append("\n                 OS ");
 			sb.append("[" +getValue("v_lnsc")+ "]");
-			sb.append("; ");
+			sb.append(";");
 		}
 		if(isPresent("v_nsc")){
-			sb.append("OU ");
+			sb.append("\n                 OU ");
 			sb.append("[" +getValue("v_nsc")+ "]");
-			sb.append(". ");
+			sb.append(".");
 		}
 		return sb.toString();
 	}
@@ -832,17 +841,17 @@ public class MeasurementFormatter {
 		if(isPresent("v_rncc")){
 			sb.append("OD ");
 			sb.append("[" +getValue("v_rncc")+ "]");
-			sb.append("; ");
+			sb.append(";");
 		}
 		if(isPresent("v_lncc")){
-			sb.append("OS ");
+			sb.append("\n                 OS ");
 			sb.append("[" +getValue("v_lncc")+ "]");
-			sb.append("; ");
+			sb.append(";");
 		}
 		if(isPresent("v_ncc")){
-			sb.append("OU ");
+			sb.append("\n                 OU ");
 			sb.append("[" +getValue("v_ncc")+ "]");
-			sb.append(". ");
+			sb.append(".");
 		}
 		return sb.toString();
 	}
@@ -880,7 +889,7 @@ public class MeasurementFormatter {
 			}
 			if(isPresent("v_rdv")) {
 				sb.append(" ([" + getValue("v_rdv") + "])");
-				sb.append("; ");
+				//sb.append("; ");
 			}
 			if(sb.length() > 0){
 				sb.append("; ");
@@ -901,12 +910,12 @@ public class MeasurementFormatter {
 				sb1.append(" ([" + getValue("v_ldv") + "])");
 			}
 			if(sb1.length() > 0){
-				sb1.insert(0, "OS ");
+				sb1.insert(0, "\n                  OS ");
 				sb1.append("; ");
 				sb.append(sb1);
 			}
 			if(isPresent("v_dist")){
-				sb.append("OU ");
+				sb.append("\n                  OU ");
 				sb.append("[" +getValue("v_dist")+ "]");
 				sb.append(".");
 			}
@@ -969,12 +978,12 @@ public class MeasurementFormatter {
 				sb1.append(" ([" + getValue("v_lnv") + "])");
 			}
 			if(sb1.length() > 0){
-				sb1.insert(0, "OS ");
+				sb1.insert(0, "\n              OS ");
 				sb1.append("; ");
 				sb.append(sb1);
 			}
 			if(isPresent("v_near")){
-				sb.append("OU ");
+				sb.append("\n              OU ");
 				sb.append("[" +getValue("v_near")+ "]");
 				sb.append(".");
 			}
@@ -1032,7 +1041,7 @@ public class MeasurementFormatter {
 				sb1.append(" ([" + getValue("v_lcv") + "])");
 			}
 			if(sb1.length() > 0){
-				sb1.insert(0, "OS ");
+				sb1.insert(0, "\n                       OS ");
 				sb1.append(". ");
 				sb.append(sb1);
 			}
@@ -1094,7 +1103,7 @@ public class MeasurementFormatter {
 				d1 = mmap.get("iop_rn").getDateObserved();
 			}
 			if(isPresent("iop_ln")){
-				sb.append("OS ");
+				sb.append("\n    OS ");
 				sb.append("[" +getValue("iop_ln")+ "]");
 				sb.append("; ");
 				d2 = mmap.get("iop_ln").getDateObserved();
@@ -1166,7 +1175,7 @@ public class MeasurementFormatter {
 				d1 = mmap.get("iop_ra").getDateObserved();
 			}
 			if(isPresent("iop_la")){
-				sb.append("OS ");
+				sb.append("\n            OS ");
 				sb.append("[" +getValue("iop_la")+ "]");
 				sb.append("; ");
 				d2 = mmap.get("iop_la").getDateObserved();
@@ -1235,7 +1244,7 @@ public class MeasurementFormatter {
 				sb.append("; ");
 			}
 			if(isPresent("cct_l")) {
-				sb.append("OS ");
+				sb.append("\n                          OS ");
 				sb.append("[" +getValue("cct_l")+ "]");
 				sb.append(" microns");
 				sb.append(".");
@@ -1265,7 +1274,7 @@ public class MeasurementFormatter {
 			sb.append("; ");
 		}
 		if(isPresent("ref_ldom")){
-			sb.append("OS ");		
+			sb.append("\n          OS ");		
 			sb.append("[" +getValue("ref_ldom")+ "]");		
 			sb.append(". ");
 		}
@@ -1280,7 +1289,7 @@ public class MeasurementFormatter {
 			sb.append("; ");
 		}
 		if(isPresent("ref_lpdim")){
-			sb.append("OS ");		
+			sb.append("\n                   OS ");		
 			sb.append("[" +getValue("ref_lpdim")+ "]");		
 			sb.append(". ");
 		}
@@ -1295,7 +1304,7 @@ public class MeasurementFormatter {
 			sb.append("; ");
 		}
 		if(isPresent("ref_lkappa")){
-			sb.append("OS ");		
+			sb.append("\n            OS ");		
 			sb.append("[" +getValue("ref_lkappa")+ "]");		
 			sb.append(". ");
 		}
@@ -1311,7 +1320,7 @@ public class MeasurementFormatter {
 				sb.append("; ");
 			}
 			if(isPresent("o_lcolour")) {
-				sb.append("OS ");
+				sb.append("\n              OS ");
 				sb.append("[" +getValue("o_lcolour")+ "]");	
 				sb.append(".");
 			}
@@ -1339,7 +1348,7 @@ public class MeasurementFormatter {
 				sb.append("; ");
 			}
 			if(isPresent("o_lpupil")) {
-				sb.append("OS ");
+				sb.append("\n      OS ");
 				sb.append("[" +getValue("o_lpupil")+ "]");	
 				sb.append(".");
 			}
@@ -1367,7 +1376,7 @@ public class MeasurementFormatter {
 				sb.append("; ");
 			}
 			if(isPresent("o_lamsler")) {
-				sb.append("OS ");
+				sb.append("\n            OS ");
 				sb.append("[" +getValue("o_lamsler")+ "]");	
 				sb.append(".");	
 			}
@@ -1395,7 +1404,7 @@ public class MeasurementFormatter {
 				sb.append("; ");
 			}
 			if(isPresent("o_lpam")) {
-				sb.append("OS ");
+				sb.append("\n                       OS ");
 				sb.append("[" +getValue("o_lpam")+ "]");	
 				sb.append(".");
 			}
@@ -1423,7 +1432,7 @@ public class MeasurementFormatter {
 				sb.append("; ");
 			}
 			if(isPresent("o_lconf")) {
-				sb.append("OS ");
+				sb.append("\n                     OS ");
 				sb.append("[" +getValue("o_lconf")+ "]");	
 				sb.append(".");	
 			}
@@ -1521,7 +1530,7 @@ public class MeasurementFormatter {
 			sb1.append("[" +getValue("duc_ldl")+ "]");
 		}
 		if(sb1.length() > 0){
-			sb1.insert(0, "OS ");
+			sb1.insert(0, "\nOS ");
 			sb1.append(".");	
 			sb.append(sb1);
 		}
@@ -1555,7 +1564,7 @@ public class MeasurementFormatter {
 			sb2.append("[" +getValue("dip_dl")+ "]");
 		}
 		if(sb2.length() > 0){
-			sb2.insert(0, "OU ");
+			sb2.insert(0, "\nOU ");
 			sb2.append(".");	
 			sb.append(sb2);
 		}
@@ -1671,7 +1680,7 @@ public class MeasurementFormatter {
 				sb.append("; ");
 			}
 			if(isPresent("a_lk")) {
-				sb.append("OS ");
+				sb.append("\n       OS ");
 				sb.append("[" +getValue("a_lk")+ "]");	
 				sb.append(".");	
 			}
@@ -1699,7 +1708,7 @@ public class MeasurementFormatter {
 				sb.append("; ");
 			}
 			if(isPresent("a_lconj")) {
-				sb.append("OS ");
+				sb.append("\n                   OS ");
 				sb.append("[" +getValue("a_lconj")+ "]");	
 				sb.append(".");
 			}
@@ -1727,7 +1736,7 @@ public class MeasurementFormatter {
 				sb.append("; ");
 			}
 			if(isPresent("a_lac")) {
-				sb.append("OS ");
+				sb.append("\n                 OS ");
 				sb.append("[" +getValue("a_lac")+ "]");	
 				sb.append(".");	
 			}
@@ -1751,7 +1760,7 @@ public class MeasurementFormatter {
 		if("eyeform3".equals(eyeform)){
 			if(isPresent("a_rangle_1") || isPresent("a_rangle_2") || isPresent("a_rangle_3") || isPresent("a_rangle_4") || isPresent("a_rangle_5")) {			
 				sb.append("OD ");
-				sb.append(getValue("[" +"a_rangle_3") + "]");
+				sb.append("[" +getValue("a_rangle_3") + "]");
 				if(isPresent("a_rangle_1") || isPresent("a_rangle_2") || isPresent("a_rangle_4") || isPresent("a_rangle_5")) {
 					sb.append(" (");
 				}
@@ -1788,8 +1797,8 @@ public class MeasurementFormatter {
 			}
 
 			if(isPresent("a_langle_1") || isPresent("a_langle_2") || isPresent("a_langle_3") || isPresent("a_langle_4") || isPresent("a_langle_5")) {			
-				sb.append("OS ");
-				sb.append(getValue("[" +"a_langle_3") + "]");
+				sb.append("\n      OS ");
+				sb.append("[" +getValue("a_langle_3") + "]");
 				if(isPresent("a_langle_1") || isPresent("a_langle_2") || isPresent("a_langle_4") || isPresent("a_langle_5")) {
 					sb.append(" (");
 				}
@@ -1919,7 +1928,7 @@ public class MeasurementFormatter {
 				sb.append("; ");
 			}
 			if(isPresent("a_liris")) {
-				sb.append("OS ");
+				sb.append("\n     OS ");
 				sb.append("[" +getValue("a_liris")+"]");	
 				sb.append(".");	
 			}
@@ -1947,7 +1956,7 @@ public class MeasurementFormatter {
 				sb.append("; ");
 			}
 			if(isPresent("a_llens")) {
-				sb.append("OS ");
+				sb.append("\n     OS ");
 				sb.append("[" +getValue("a_llens")+"]");	
 				sb.append(".");
 			}
@@ -1975,7 +1984,7 @@ public class MeasurementFormatter {
 				sb.append("; ");
 			}
 			if(isPresent("p_ldisc")) {
-				sb.append("OS ");
+				sb.append("\n           OS ");
 				sb.append("[" +getValue("p_ldisc")+"]");	
 				sb.append(".");	
 			}
@@ -2003,7 +2012,7 @@ public class MeasurementFormatter {
 				sb.append("; ");
 			}
 			if(isPresent("p_lcd")) {
-				sb.append("OS ");
+				sb.append("\n          OS ");
 				sb.append("[" +getValue("p_lcd")+"]");	
 				sb.append(".");	
 			}
@@ -2031,7 +2040,7 @@ public class MeasurementFormatter {
 				sb.append("; ");
 			}
 			if(isPresent("p_lmac")) {
-				sb.append("OS ");
+				sb.append("\n       OS ");
 				sb.append("[" +getValue("p_lmac")+"]");	
 				sb.append(".");	
 			}
@@ -2086,9 +2095,9 @@ public class MeasurementFormatter {
 				sb.append("[" +getValue("p_rvit")+"]");		
 				sb.append("; ");
 			}
-			if(isPresent("p_rvit")) {
-				sb.append("OS ");
-				sb.append("["+getValue("p_rvit")+"]");	
+			if(isPresent("p_lvit")) {
+				sb.append("\n         OS ");
+				sb.append("["+getValue("p_lvit")+"]");	
 				sb.append(".");	
 			}
 		}else{
@@ -2115,7 +2124,7 @@ public class MeasurementFormatter {
 				sb.append("; ");
 			}
 			if(isPresent("ext_lface")) {
-				sb.append("Left side ");
+				sb.append("\n     Left side ");
 				sb.append("["+getValue("ext_lface")+"]");	
 				sb.append(".");	
 			}
@@ -2143,7 +2152,7 @@ public class MeasurementFormatter {
 				sb.append("; ");
 			}
 			if(isPresent("ext_lul")) {
-				sb.append("OS ");
+				sb.append("\n          OS ");
 				sb.append("["+getValue("ext_lul")+"]");	
 				sb.append(".");	
 			}
@@ -2171,7 +2180,7 @@ public class MeasurementFormatter {
 				sb.append("; ");
 			}
 			if(isPresent("ext_lll")) {
-				sb.append("OS ");
+				sb.append("\n          OS ");
 				sb.append("["+getValue("ext_lll")+"]");	
 				sb.append(".");	
 			}
@@ -2199,7 +2208,7 @@ public class MeasurementFormatter {
 				sb.append("; ");
 			}
 			if(isPresent("ext_lpunc")) {
-				sb.append("OS ");
+				sb.append("\n        OS ");
 				sb.append("["+getValue("ext_lpunc")+"]");	
 				sb.append(".");	
 			}
@@ -2227,7 +2236,7 @@ public class MeasurementFormatter {
 				sb.append("; ");
 			}
 			if(isPresent("ext_llake")) {
-				sb.append("OS ");
+				sb.append("\n              OS ");
 				sb.append("["+getValue("ext_llake")+"]");	
 				sb.append(".");	
 			}
@@ -2255,7 +2264,7 @@ public class MeasurementFormatter {
 				sb.append("; ");
 			}
 			if(isPresent("ext_lirrig")) {
-				sb.append("OS ");
+				sb.append("\n                    OS ");
 				sb.append("["+getValue("ext_lirrig")+"]");	
 				sb.append(".");	
 			}
@@ -2283,7 +2292,7 @@ public class MeasurementFormatter {
 				sb.append("; ");
 			}
 			if(isPresent("ext_lnld")) {
-				sb.append("OS ");
+				sb.append("\n                  OS ");
 				sb.append("["+getValue("ext_lnld")+"]");	
 				sb.append(".");	
 			}
@@ -2311,7 +2320,7 @@ public class MeasurementFormatter {
 				sb.append("; ");
 			}
 			if(isPresent("ext_ldye")) {
-				sb.append("OS ");
+				sb.append("\n                  OS ");
 				sb.append("["+getValue("ext_ldye")+"]");	
 				sb.append(".");	
 			}
@@ -2339,7 +2348,7 @@ public class MeasurementFormatter {
 				sb.append("; ");
 			}
 			if(isPresent("lid_lmrd")) {
-				sb.append("OS ");
+				sb.append("\n                       OS ");
 				sb.append("["+getValue("lid_lmrd")+"]");	
 				sb.append(".");	
 			}
@@ -2367,7 +2376,7 @@ public class MeasurementFormatter {
 				sb.append("; ");
 			}
 			if(isPresent("lid_llev")) {
-				sb.append("OS ");
+				sb.append("\n                 OS ");
 				sb.append("["+getValue("lid_llev")+"]");	
 				sb.append(".");	
 			}
@@ -2395,7 +2404,7 @@ public class MeasurementFormatter {
 				sb.append("; ");
 			}
 			if(isPresent("lid_liss")) {
-				sb.append("OS ");
+				sb.append("\n                      OS ");
 				sb.append("["+getValue("lid_liss")+"]");	
 				sb.append(".");	
 			}
@@ -2423,7 +2432,7 @@ public class MeasurementFormatter {
 				sb.append("; ");
 			}
 			if(isPresent("lid_lcn7")) {
-				sb.append("OS ");
+				sb.append("\n                           OS ");
 				sb.append("["+getValue("lid_lcn7")+"]");	
 				sb.append(".");	
 			}
@@ -2451,7 +2460,7 @@ public class MeasurementFormatter {
 				sb.append("; ");
 			}
 			if(isPresent("lid_lblink")) {
-				sb.append("OS ");
+				sb.append("\n             OS ");
 				sb.append("["+getValue("lid_lblink")+"]");	
 				sb.append(".");	
 			}
@@ -2479,7 +2488,7 @@ public class MeasurementFormatter {
 				sb.append("; ");
 			}
 			if(isPresent("lid_lbell")) {
-				sb.append("OS ");
+				sb.append("\n                  OS ");
 				sb.append("["+getValue("lid_lbell")+"]");	
 				sb.append(".");	
 			}
@@ -2506,7 +2515,7 @@ public class MeasurementFormatter {
 			sb.append("; ");
 		}
 		if(isPresent("lid_lschirm")) {
-			sb.append("OS ");
+			sb.append("\n              OS ");
 			sb.append("["+getValue("lid_lschirm")+"]");	
 			sb.append(".");	
 		}
@@ -2522,7 +2531,7 @@ public class MeasurementFormatter {
 				sb.append("; ");
 			}
 			if(isPresent("lid_llag")) {
-				sb.append("OS ");
+				sb.append("\n              OS ");
 				sb.append("["+getValue("lid_llag")+"]");	
 				sb.append(".");	
 			}
@@ -2550,7 +2559,7 @@ public class MeasurementFormatter {
 				sb.append("; ");
 			}
 			if(isPresent("ext_lhertel")) {
-				sb.append("OS ");
+				sb.append("\n       OS ");
 				sb.append("["+getValue("ext_lhertel")+"]");	
 				sb.append(".");	
 			}
@@ -2578,7 +2587,7 @@ public class MeasurementFormatter {
 				sb.append("; ");
 			}
 			if(isPresent("ext_lretro")) {
-				sb.append("OS ");
+				sb.append("\n             OS ");
 				sb.append("["+getValue("ext_lretro")+"]");	
 				sb.append(".");	
 			}

@@ -1969,14 +1969,14 @@ public class EyeformAction extends DispatchAction {
     				exam.append("\n\n");
     			}
     			exam.append(tmp);
-    					
-    			tmp = formatter.getIntraocularPressure(headerMap);
+    			
+    			tmp = formatter.getRactive(headerMap);
     			if(exam.length()>0 && tmp.length()>0 ){
     				exam.append("\n\n");
     			}
     			exam.append(tmp);
     			
-    			tmp = formatter.getRactive(headerMap);
+    			tmp = formatter.getIntraocularPressure(headerMap);
     			if(exam.length()>0 && tmp.length()>0 ){
     				exam.append("\n\n");
     			}
@@ -2000,18 +2000,6 @@ public class EyeformAction extends DispatchAction {
     			}
     			exam.append(tmp);
     			
-    			tmp = formatter.getAnteriorSegment(headerMap);
-    			if(exam.length()>0 && tmp.length()>0 ){
-    				exam.append("\n\n");
-    			}
-    			exam.append(tmp);
-
-    			tmp = formatter.getPosteriorSegment(headerMap);
-    			if(exam.length()>0 && tmp.length()>0 ){
-    				exam.append("\n\n");
-    			}
-    			exam.append(tmp);
-
     			tmp = formatter.getExternalOrbit(headerMap);
     			if(exam.length()>0 && tmp.length()>0 ){
     				exam.append("\n\n");
@@ -2030,8 +2018,20 @@ public class EyeformAction extends DispatchAction {
     			}
     			exam.append(tmp);
 
+    			
+    			tmp = formatter.getAnteriorSegment(headerMap);
+    			if(exam.length()>0 && tmp.length()>0 ){
+    				exam.append("\n\n");
+    			}
+    			exam.append(tmp);
+
+    			tmp = formatter.getPosteriorSegment(headerMap);
+    			if(exam.length()>0 && tmp.length()>0 ){
+    				exam.append("\n\n");
+    			}
+    			exam.append(tmp);
+
     			response.getWriter().println(exam.toString());
-			
             }
             else{
             	exam.append(formatter.getVisionAssessment(headerMap));

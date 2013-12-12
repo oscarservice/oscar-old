@@ -156,6 +156,73 @@ public class MeasurementDataAction extends DispatchAction {
 			script.append("jQuery(\"#applanation_ts\").html('"+sdf.format(applanationTs)+"');\n");
 		if(nctTs != null)
 			script.append("jQuery(\"#nct_ts\").html('"+sdf.format(nctTs)+"');\n");
+		
+		
+		oscar.OscarProperties props1 = oscar.OscarProperties.getInstance();
+	    String eyeform = props1.getProperty("cme_js");
+		MeasurementsDao measurementsDao = (MeasurementsDao) SpringUtils.getBean("measurementsDao");
+		List<Measurements> measurementList = measurementsDao.getMeasurements(Integer.parseInt(demographicNo));
+		boolean in_v3 = false;
+		String v2_type[] = {"od_ar_sph","od_ar_cyl","od_ar_axis","os_ar_sph","os_ar_cyl","os_ar_axis","od_k1","od_k2","od_k2_axis","os_k1","os_k2","os_k2_axis","od_sc_distance","od_cc_distance","od_ph_distance","os_sc_distance","os_cc_distance","os_ph_distance","od_sc_near","od_cc_near","os_sc_near","os_cc_near",
+		"od_manifest_refraction_sph","od_manifest_refraction_cyl","od_manifest_refraction_axis","od_manifest_distance","os_manifest_refraction_sph","os_manifest_refraction_cyl","os_manifest_refraction_axis","os_manifest_distance","od_cycloplegic_refraction_sph","od_cycloplegic_refraction_cyl","od_cycloplegic_refraction_axis","od_cycloplegic_distance","os_cycloplegic_refraction_sph","os_cycloplegic_refraction_cyl","os_cycloplegic_refraction_axis","os_cycloplegic_distance","od_iop_nct","os_iop_nct","od_iop_applanation","os_iop_applanation","od_cct","os_cct","od_color_vision","od_pupil","od_amsler_grid","od_pam","od_confrontation","os_color_vision","os_pupil","os_amsler_grid","os_pam","os_confrontation",
+		"EOM","od_cornea","od_conjuctiva_sclera","od_anterior_chamber","od_angle_up","od_angle_middle0","od_angle_middle1","od_angle_middle2","od_angle_down","od_iris","od_lens","os_cornea","os_conjuctiva_sclera","os_anterior_chamber","os_angle_up","os_angle_middle0","os_angle_middle1","os_angle_middle2","os_angle_down","os_iris","os_lens","od_disc","od_cd_ratio_horizontal","od_macula","od_retina","od_vitreous","os_disc","os_cd_ratio_horizontal","os_macula","os_retina","os_vitreous","od_face","od_upper_lid","od_lower_lid","od_punctum","od_lacrimal_lake","os_face","os_upper_lid","os_lower_lid","os_punctum","os_lacrimal_lake","od_lacrimal_irrigation","od_nld","od_dye_disappearance","os_lacrimal_irrigation","os_nld","os_dye_disappearance",
+		"od_mrd","od_levator_function","od_inferior_scleral_show","od_cn_vii","od_blink","od_bells","od_lagophthalmos","os_mrd","os_levator_function","os_inferior_scleral_show","os_cn_vii","os_blink","os_bells","os_lagophthalmos","od_hertel","od_retropulsion","os_hertel","os_retropulsion"};
+		String v3_type[] = {"v_rs","v_rc","v_rx","v_ls","v_lc","v_lx","v_rk1","v_rk2","v_rkx","v_lk1","v_lk2","v_lkx","v_rdsc","v_rdcc","v_rph","v_ldsc","v_ldcc","v_lph","v_rnsc","v_rncc","v_lnsc","v_lncc",
+		"v_rds","v_rdc","v_rdx","v_rdv","v_lds","v_ldc","v_ldx","v_ldv","v_rcs","v_rcc","v_rcx","v_rcv","v_lcs","v_lcc","v_lcx","v_lcv","iop_rn","iop_ln","iop_ra","iop_la","cct_r","cct_l","o_rcolour","o_rpupil","o_ramsler","o_rpam","o_rconf","o_lcolour","o_lpupil","o_lamsler","o_lpam","o_lconf",
+		"v_stereo","a_rk","a_rconj","a_rac","a_rangle_1","a_rangle_2","a_rangle_3","a_rangle_4","a_rangle_5","a_riris","a_rlens","a_lk","a_lconj","a_lac","a_langle_1","a_langle_2","a_langle_3","a_langle_4","a_langle_5","a_liris","a_llens","p_rdisc","p_rcd","p_rmac","p_rret","p_rvit","p_ldisc","p_lcd","p_lmac","p_lret","p_lvit","ext_rface","ext_rul","ext_rll","ext_rpunc","ext_rlake","ext_lface","ext_lul","ext_lll","ext_lpunc","ext_llake","ext_rirrig","ext_rnld","ext_rdye","ext_lirrig","ext_lnld","ext_ldye",
+		"lid_rmrd","lid_rlev","lid_riss","lid_rcn7","lid_rblink","lid_rbell","lid_rlag","lid_lmrd","lid_llev","lid_liss","lid_lcn7","lid_lblink","lid_lbell","lid_llag","ext_rhertel","ext_rretro","ext_lhertel","ext_lretro"};
+		if("eyeform3".equals(eyeform)){
+			for(int i = 0;i < v2_type.length ; i ++ ){
+				for(Measurements key1:measurementList) {
+					if(v2_type[i].equals(key1.getType())){
+						in_v3 = false;
+						for(Measurements key2:measurementList) {							
+							if(v3_type[i].equals(key2.getType())){
+								Date d1 = null;
+								Date d2 = null;
+								d1 = key1.getDateObserved();
+								d2 = key2.getDateObserved();
+								if(d1.after(d2)){
+									script.append("jQuery(\"[measurement='"+v3_type[i]+"']\").val(\""+key1.getDataField().replace("\n", "\\n").replace("\"","\\\"").replace("\r","")+"\").attr({itemtime: \"" + key1.getDateEntered().getTime() + "\", appointment_no: \"" + key1.getAppointmentNo() + "\"});\n");
+									if(v3_type[i].equals("iop_rn") || v3_type[i].equals("iop_ln")){
+										nctTs = key1.getDateObserved();
+										script.append("jQuery(\"#nct_ts\").html('"+sdf.format(nctTs)+"');\n");
+									}
+									if(v3_type[i].equals("iop_ra") || v3_type[i].equals("iop_la")){
+										applanationTs = key1.getDateObserved();
+										script.append("jQuery(\"#applanation_ts\").html('"+sdf.format(applanationTs)+"');\n");
+									}
+								}else{
+									script.append("jQuery(\"[measurement='"+v3_type[i]+"']\").val(\""+key2.getDataField().replace("\n", "\\n").replace("\"","\\\"").replace("\r","")+"\").attr({itemtime: \"" + key2.getDateEntered().getTime() + "\", appointment_no: \"" + key2.getAppointmentNo() + "\"});\n");
+									if(v3_type[i].equals("iop_rn") || v3_type[i].equals("iop_ln")){
+										nctTs = key1.getDateObserved();
+										script.append("jQuery(\"#nct_ts\").html('"+sdf.format(nctTs)+"');\n");
+									}
+									if(v3_type[i].equals("iop_ra") || v3_type[i].equals("iop_la")){
+										applanationTs = key1.getDateObserved();
+										script.append("jQuery(\"#applanation_ts\").html('"+sdf.format(applanationTs)+"');\n");
+									}
+								}
+								in_v3 = true;
+							}
+						}
+						if(!in_v3){
+							script.append("jQuery(\"[measurement='"+v3_type[i]+"']\").val(\""+key1.getDataField().replace("\n", "\\n").replace("\"","\\\"").replace("\r","")+"\").attr({itemtime: \"" + key1.getDateEntered().getTime() + "\", appointment_no: \"" + key1.getAppointmentNo() + "\"});\n");
+							if(v2_type[i].equals("od_iop_nct") || v2_type[i].equals("os_iop_nct")){
+								nctTs = key1.getDateObserved();
+								script.append("jQuery(\"#nct_ts\").html('"+sdf.format(nctTs)+"');\n");
+							}
+							if(v2_type[i].equals("od_iop_applanation") || v2_type[i].equals("os_iop_applanation")){
+								applanationTs = key1.getDateObserved();
+								script.append("jQuery(\"#applanation_ts\").html('"+sdf.format(applanationTs)+"');\n");
+							}
+							in_v3 = false;
+						}
+					}			
+				}
+			}
+		}
+		
 
 		response.getWriter().print(script);
 		return null;
