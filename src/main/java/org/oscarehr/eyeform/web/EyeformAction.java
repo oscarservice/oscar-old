@@ -716,7 +716,7 @@ public class EyeformAction extends DispatchAction {
 				}
 
 				//specs history
-				if(whichEyeForm != null && whichEyeForm.equals("eyeform3")){
+				if((whichEyeForm != null) && ((whichEyeForm.equals("eyeform3"))|| ("eyeform4".equals(whichEyeForm)))){
 					
 				}else{
 					List<EyeformSpecsHistory> specsHistory ;
@@ -749,7 +749,7 @@ public class EyeformAction extends DispatchAction {
 						}
 					} else {
 */
-					if(whichEyeForm != null && whichEyeForm.equals("eyeform3")){
+					if((whichEyeForm != null) && ((whichEyeForm.equals("eyeform3")) || ("eyeform4".equals(whichEyeForm)))){
 						MeasurementFormatter formatter = new MeasurementFormatter(measurements);
 						printer.printEyeformMeasurements(formatter,appointmentNo);
 					}else{
@@ -1760,7 +1760,7 @@ public class EyeformAction extends DispatchAction {
 	           List<LabelValueBean> sections = new ArrayList<LabelValueBean>();
 	           oscar.OscarProperties props1 = oscar.OscarProperties.getInstance();
 	           String eyeform = props1.getProperty("cme_js");
-	           if("eyeform3".equals(eyeform)){
+	           if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
 	        	   sections.add(new LabelValueBean("GLASSES HISTORY","GLASSES HISTORY"));
 		           sections.add(new LabelValueBean("VISION ASSESSMENT","VISION ASSESSMENT"));
 		           sections.add(new LabelValueBean("VISION MEASUREMENT","VISION MEASUREMENT"));
@@ -1794,7 +1794,7 @@ public class EyeformAction extends DispatchAction {
 	           List<LabelValueBean> sections = new ArrayList<LabelValueBean>();
 	           oscar.OscarProperties props1 = oscar.OscarProperties.getInstance();
 	           String eyeform = props1.getProperty("cme_js");
-	           if("eyeform3".equals(eyeform)){
+	           if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
 	        	   sections.add(new LabelValueBean("Glasses Rx","Glasses Rx"));
 		           sections.add(new LabelValueBean("Distance vision (sc)","Distance vision (sc)"));
 		           sections.add(new LabelValueBean("Distance vision (cc)","Distance vision (cc)"));
@@ -1947,9 +1947,8 @@ public class EyeformAction extends DispatchAction {
 			String tmp = null;
 			oscar.OscarProperties props1 = oscar.OscarProperties.getInstance();
 			String eyeform = props1.getProperty("cme_js");
-            if("eyeform3".equals(eyeform)){
+            if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
             	tmp = formatter.getGlasseshistory(headerMap,Integer.parseInt(appointmentNo));
-
     			exam.append(tmp);
     			
     			tmp = formatter.getVisionAssessment(headerMap);

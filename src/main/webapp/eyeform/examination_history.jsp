@@ -243,7 +243,7 @@
 					<tr>
 					<td colspan=2 style="width: 100%">
 					<table>
-					<%if("eyeform3".equals(eyeform)){%>
+					<%if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){%>
 						<tr>
                		<td>
 							<select name="fromlist1" multiple="multiple" size="14" ondblclick="addSection1(document.inputForm.elements['fromlist1'],document.inputForm.elements['fromlist2']);">	
@@ -438,7 +438,7 @@
 				<tr>
 				<td colspan="1"></td>
 				<td>
-					<%if("eyeform3".equals(eyeform)){%>
+					<%if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){%>
 					<input name="" value="Submit" onclick="document.inputForm.method.value='query';" type="submit">
 					<%}else{%>
 					<input name="" value="Submit" onclick="document.inputForm.method.value='query';selectList2();" type="submit">

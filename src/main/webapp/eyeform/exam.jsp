@@ -1582,7 +1582,7 @@ span.ge{
 </span>
 
 <table border="0" width="100%">
-<%if("eyeform3".equals(eyeform)){%>
+<%if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){%>
 <% if (!glasses_hx) {%>
 <tr>
 <td>

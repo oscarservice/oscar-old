@@ -83,6 +83,16 @@ public class MeasurementsDao extends HibernateDaoSupport {
 
 		return rs;
 	}
+	
+	public List<Measurements> getMeasurements(Integer demo) {
+
+		String queryStr = "From Measurements m WHERE m.appointmentNo!=0 and m.demographicNo = " + demo + " ORDER BY type, m.dateObserved";
+		logger.debug(queryStr);
+
+		List<Measurements> rs = getHibernateTemplate().find(queryStr);
+
+		return rs;
+	}
 
 	public List<Measurements> getMeasurements(String demo, Date startDate, Date endDate) {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
