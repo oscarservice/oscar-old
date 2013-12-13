@@ -1,7 +1,7 @@
 insert into encounterForm values ('Audiology Report', '../form/formAudiologyReport.jsp?demographic_no=', 'formAudiologyReport', '0');
 
--- DROP TABLE IF EXISTS `form_audiology_rpt`;
-CREATE TABLE  `formAudiologyReport` (
+DROP TABLE IF EXISTS `form_audiology_rpt`;
+CREATE TABLE  `form_audiology_rpt` (
   `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `formEdited` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `demographic_no` int(10) unsigned DEFAULT NULL,
