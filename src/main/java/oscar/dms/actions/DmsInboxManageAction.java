@@ -621,7 +621,7 @@ public class DmsInboxManageAction extends DispatchAction {
 		}
 
 		for (LabResultData result : labdocs) {
-			if (result.getDateObj() != null) {
+			if (result!=null && result.getDateObj() != null) {
 				if (oldestLab == null || oldestLab.compareTo(result.getDateObj()) > 0)
 					oldestLab = result.getDateObj();
 				if (request.getParameter("newestDate") != null && (newestLab == null || newestLab.compareTo(result.getDateObj()) < 0))
