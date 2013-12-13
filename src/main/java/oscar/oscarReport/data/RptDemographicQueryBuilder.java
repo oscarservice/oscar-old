@@ -121,6 +121,7 @@ public class RptDemographicQueryBuilder {
         theFirstFlag = 0;
 
         boolean getprovider = false;
+        if(select !=null) {
         for (int i = 0; i < select.length ; i++){
             if( select[i].equalsIgnoreCase("provider_name") ) {
                 stringBuffer.append(" concat(p.last_name,', ',p.first_name) " + select[i] + " ");
@@ -137,7 +138,7 @@ public class RptDemographicQueryBuilder {
             }
 
         }
-
+        }
         stringBuffer.append(" from demographic d ");
         if( getprovider ) {
             stringBuffer.append(", provider p");
@@ -382,6 +383,7 @@ public class RptDemographicQueryBuilder {
               while (rs.next()) {
             	String demoNo = null;
                 java.util.ArrayList<String> tempArr  = new java.util.ArrayList<String>();
+                if(select!=null) {
                 for (int i = 0; i < select.length ; i++){
                    tempArr.add( oscar.Misc.getString(rs, select[i]) );
                    if ("demographic_no".equals(select[i])){
@@ -389,7 +391,7 @@ public class RptDemographicQueryBuilder {
                 	   MiscUtils.getLogger().debug("Demographic :"+demoNo +" is in the list");
                    }
                 }
-
+                }
                 // need to check if they were rostered at this point to this provider  (asofRosterDate is only set if this is being called from prevention reports)
                 if(demoNo != null && asofRosterDate != null && providers != null && providers.length > 0){
                 	//Only checking the first doc.  Only one should be included for finding the cumulative bonus
