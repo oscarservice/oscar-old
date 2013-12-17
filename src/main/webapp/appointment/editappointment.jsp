@@ -56,7 +56,8 @@
 	DemographicCustDao demographicCustDao = (DemographicCustDao)SpringUtils.getBean("demographicCustDao"); 
 	BillingONCHeader1Dao cheader1Dao = (BillingONCHeader1Dao)SpringUtils.getBean("billingONCHeader1Dao"); 
 	ProviderDao providerDao = (ProviderDao)SpringUtils.getBean("providerDao");
-	String demographic_nox = (String)session.getAttribute("demographic_nox");
+	//String demographic_nox = (String)session.getAttribute("demographic_nox");
+	String demographic_nox = request.getParameter("demographic_no");
 
 %>
 <%
