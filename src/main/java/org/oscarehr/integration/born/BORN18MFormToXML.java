@@ -29,11 +29,11 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.xmlbeans.XmlCalendar;
 import org.apache.xmlbeans.XmlOptions;
 import org.oscarehr.PMmodule.dao.ProviderDao;
 import org.oscarehr.casemgmt.model.CaseManagementIssue;
@@ -81,46 +81,56 @@ public class BORN18MFormToXML {
 	HashMap<String, YesNoUnknown.Enum> nddsQ = new HashMap<String, YesNoUnknown.Enum>();
 	final String[] nddsQkey = {"identifypictures","usegestures","followdirections","make4consonants","point3bodyparts","say20words","holdcupdrink","eatfingerfood","helpwithdressing","walkupstairs","walkalone","squatpickstand","pushpullwalk","stack3blocks","showaffection","pointtoshow","lookwhentalk"};
 	
-	public boolean addXmlToStream(Writer os, XmlOptions opts, Integer demographicNo, Integer rourkeFdid, Integer nddsFdid, Integer report18mFdid) throws IOException {
+	public BORN18MFormToXML(Integer demographicNo) {
 		this.demographicNo = demographicNo.toString();
+	}
+	
+	public boolean addXmlToStream(Writer os, XmlOptions opts, Integer rourkeFdid, Integer nddsFdid, Integer report18mFdid) throws IOException {
+		if (rourkeFdid==null && nddsFdid==null && report18mFdid==null) return false;
 	    
 		BORN18MEWBVBatchDocument bornBatchDocument = ca.bornontario.x18MEWBV.BORN18MEWBVBatchDocument.Factory.newInstance();
 		BORN18MEWBVBatch bornBatch = bornBatchDocument.addNewBORN18MEWBVBatch();
 		PatientInfo patientInfo = bornBatch.addNewPatientInfo();
-		
-		RBR rourke = patientInfo.addNewRBR();
-		NDDS ndds = patientInfo.addNewNDDS();
-		M18MARKERS m18Markers = patientInfo.addNewM18MARKERS();
-		
-		propulatePatientInfo(patientInfo, rourkeFdid);
-		propulateNdds(ndds, nddsFdid); //propulate Ndds must go before propulateRourke or Rourke18M will not be complete
-		propulateRourke(rourke, rourkeFdid);
-		propulateM18Markers(m18Markers, report18mFdid);
 
+		propulatePatientInfo(patientInfo, rourkeFdid);
+		if (nddsFdid!=null) propulateNdds(patientInfo.addNewNDDS(), nddsFdid);
+		if (rourkeFdid!=null) propulateRourke(patientInfo.addNewRBR(), rourkeFdid);
+		if (report18mFdid!=null) propulateM18Markers(patientInfo.addNewM18MARKERS(), report18mFdid);
+
+		//xml validation
 		XmlOptions m_validationOptions = new XmlOptions();		
 		ArrayList<Object> validationErrors = new ArrayList<Object>();
 		m_validationOptions.setErrorListener(validationErrors);
-		if(bornBatchDocument.validate(m_validationOptions)) {
-			bornBatchDocument.save(os,opts);
-			return true;
-		} else {
+		if(!bornBatchDocument.validate(m_validationOptions)) {
 			MiscUtils.getLogger().warn("forms failed validation");
 			for(Object o:validationErrors) {
 				MiscUtils.getLogger().warn(o);
 			}
 		}
-		return false;
+		bornBatchDocument.save(os,opts);
+		return true;
 	}
 	
 	private void propulatePatientInfo(PatientInfo patientInfo, Integer rourkeFdid) {
-		propulatePatientInfoFromRourke(patientInfo, rourkeFdid);
+		if (rourkeFdid!=null) propulatePatientInfoFromRourke(patientInfo, rourkeFdid);
+		else patientInfo.setBirthWeight(0); //Birth weight is mandatory
+		
 		propulatePatientInfoFromDemographic(patientInfo);
 		propulatePatientInfoFromPatientChart(patientInfo);
 		patientInfo.setOrganizationID(OscarProperties.getInstance().getProperty("born18m_orgcode"));
 	}
 	
 	private void propulatePatientInfoFromRourke(PatientInfo patientInfo, Integer rourkeFdid) {
-		EFormValue value = eformValueDao.findByFormDataIdAndKey(rourkeFdid, "head_circ");
+		//Mandatory field
+		EFormValue value = eformValueDao.findByFormDataIdAndKey(rourkeFdid, "birth_wt");
+		if (value!=null && StringUtils.filled(value.getVarValue())) {
+			patientInfo.setBirthWeight(Integer.valueOf(value.getVarValue()));
+		} else {
+			patientInfo.setBirthWeight(0);
+		}
+		//end: Mantory field
+		
+		value = eformValueDao.findByFormDataIdAndKey(rourkeFdid, "head_circ");
 		if (value!=null && StringUtils.filled(value.getVarValue())) {
 			patientInfo.setBirthHeadCirc(stringToBigDecimal(value.getVarValue()));
 		}
@@ -128,11 +138,6 @@ public class BORN18MFormToXML {
 		value = eformValueDao.findByFormDataIdAndKey(rourkeFdid, "birth_length");
 		if (value!=null && StringUtils.filled(value.getVarValue())) {
 			patientInfo.setBirthLength(stringToBigDecimal(value.getVarValue()));
-		}
-		
-		value = eformValueDao.findByFormDataIdAndKey(rourkeFdid, "birth_wt");
-		if (value!=null && StringUtils.filled(value.getVarValue())) {
-			patientInfo.setBirthWeight(Integer.valueOf(value.getVarValue()));
 		}
 		
 		value = eformValueDao.findByFormDataIdAndKey(rourkeFdid, "discharge_wt");
@@ -147,17 +152,30 @@ public class BORN18MFormToXML {
 	}
 	
 	private void propulatePatientInfoFromDemographic(PatientInfo patientInfo) {
-		patientInfo.setUniqueVendorIDSequence(demographicNo);
+		//Mandatory fields
 		Demographic demographic = demographicDao.getDemographic(demographicNo);
-		if (StringUtils.filled(demographic.getFirstName())) patientInfo.setFirstName(demographic.getFirstName());
-		if (StringUtils.filled(demographic.getLastName())) patientInfo.setLastName(demographic.getLastName());
-		if (demographic.getBirthDay()!=null) patientInfo.setDOB(demographic.getBirthDay());
+
+		patientInfo.setUniqueVendorIDSequence(demographicNo);
+		patientInfo.setFirstName(demographic.getFirstName());
+		patientInfo.setLastName(demographic.getLastName());
+		patientInfo.setDOB(new XmlCalendar(demographic.getBirthDayAsString()));
+
+		if ("M".equals(demographic.getSex())) patientInfo.setGender(Gender.M);
+		else if ("F".equals(demographic.getSex())) patientInfo.setGender(Gender.F);
+		else patientInfo.setGender(Gender.U);
 		
 		if (StringUtils.filled(demographic.getChartNo())) patientInfo.setChartNumber(demographic.getChartNo());
 		else patientInfo.setChartNumber("0");
 		
 		if (StringUtils.filled(demographic.getHin())) patientInfo.setHealthCardNum(demographic.getHin());
 		else patientInfo.setHealthCardNum("0");
+		
+		patientInfo.setHealthCardType(0);
+		if (StringUtils.filled(demographic.getHcType())) {
+			if (demographic.getHcType().equals("ON")) patientInfo.setHealthCardType(1);
+			if (demographic.getHcType().equals("QC")) patientInfo.setHealthCardType(2);
+		}
+		//end: Mandatory fields
 		
 		if (StringUtils.filled(demographic.getAddress())) patientInfo.setResidentAddressLine1(demographic.getAddress());
 		if (StringUtils.filled(demographic.getCity())) patientInfo.setResidentCity(demographic.getCity());
@@ -183,20 +201,14 @@ public class BORN18MFormToXML {
 			patientInfo.setResidentPostalCode(demographic.getPostal().replace(" ", ""));
 		}
 		
-		if (StringUtils.filled(demographic.getHcType())) {
-			if (demographic.getHcType().equals("ON")) patientInfo.setHealthCardType(1);
-			else if (demographic.getHcType().equals("QC")) patientInfo.setHealthCardType(2);
-			else patientInfo.setHealthCardType(0);
+		Provider provider = null;
+		try {
+			provider = providerDao.getProvider(demographic.getProviderNo());
+		} catch (IllegalArgumentException e) {
+			//do nothing, leave provider=null
 		}
-		if (StringUtils.filled(demographic.getSex())) {
-			if (demographic.getSex().equals("M")) patientInfo.setGender(Gender.M);
-			else if (demographic.getSex().equals("F")) patientInfo.setGender(Gender.F);
-			else patientInfo.setGender(Gender.U);
-		}
-		
-		patientInfo.setProviderNumber(demographic.getProviderNo());
-		Provider provider = providerDao.getProvider(demographic.getProviderNo());
 		if (provider!=null && StringUtils.filled(provider.getPractitionerNo())) {
+			patientInfo.setProviderNumber(demographic.getProviderNo());
 			patientInfo.setCPSONumber(provider.getPractitionerNo());
 		}
 	}
@@ -230,7 +242,7 @@ public class BORN18MFormToXML {
 		}
 		if (riskFactors!=null) {
 			if (riskFactors.length()>250) riskFactors = riskFactors.substring(0, 250);
-			patientInfo.setPartProblemsRiskFactor(riskFactors);
+			patientInfo.setPastProblemsRiskFactor(riskFactors);
 		}
 	}
 	
@@ -349,8 +361,8 @@ public class BORN18MFormToXML {
 			else if (name.equals("dental_18m_x")) rbrm18.setEducationAdviceOtherDentalCare(2);
 			else if (name.equals("reading_18m_o")) rbrm18.setEducationAdviceOtherEncourageReading(1);
 			else if (name.equals("reading_18m_x")) rbrm18.setEducationAdviceOtherEncourageReading(2);
-			else if (name.equals("socializing_18m_o")) rbrm18.setEducationAdviceOtherSocializin(1);
-			else if (name.equals("socializing_18m_x")) rbrm18.setEducationAdviceOtherSocializin(2);
+			else if (name.equals("socializing_18m_o")) rbrm18.setEducationAdviceOtherSocializing(1);
+			else if (name.equals("socializing_18m_x")) rbrm18.setEducationAdviceOtherSocializing(2);
 			else if (name.equals("toiletlearning_18m_o")) rbrm18.setEducationAdviceOtherToiletLearning(1);
 			else if (name.equals("toiletlearning_18m_x")) rbrm18.setEducationAdviceOtherToiletLearning(2);
 			else if (name.equals("weanpacifier_18m_o")) rbrm18.setEducationAdviceOtherWeanFromPacifier(1);
@@ -394,23 +406,23 @@ public class BORN18MFormToXML {
 	}
 	
 	private void propulateRourkeFromNDDS(RBRM18 rbrm18) {
-		if (nddsQ.get(nddsQkey[0]).equals(YesNoUnknown.N)) rbrm18.setDevelopmentNDDSNotAttained18M01(1);
-		if (nddsQ.get(nddsQkey[1]).equals(YesNoUnknown.N)) rbrm18.setDevelopmentNDDSNotAttained18M02(2);
-		if (nddsQ.get(nddsQkey[2]).equals(YesNoUnknown.N)) rbrm18.setDevelopmentNDDSNotAttained18M03(3);
-		if (nddsQ.get(nddsQkey[3]).equals(YesNoUnknown.N)) rbrm18.setDevelopmentNDDSNotAttained18M04(4);
-		if (nddsQ.get(nddsQkey[4]).equals(YesNoUnknown.N)) rbrm18.setDevelopmentNDDSNotAttained18M05(5);
-		if (nddsQ.get(nddsQkey[5]).equals(YesNoUnknown.N)) rbrm18.setDevelopmentNDDSNotAttained18M06(6);
-		if (nddsQ.get(nddsQkey[6]).equals(YesNoUnknown.N)) rbrm18.setDevelopmentNDDSNotAttained18M07(7);
-		if (nddsQ.get(nddsQkey[7]).equals(YesNoUnknown.N)) rbrm18.setDevelopmentNDDSNotAttained18M08(8);
-		if (nddsQ.get(nddsQkey[8]).equals(YesNoUnknown.N)) rbrm18.setDevelopmentNDDSNotAttained18M09(9);
-		if (nddsQ.get(nddsQkey[9]).equals(YesNoUnknown.N)) rbrm18.setDevelopmentNDDSNotAttained18M10(10);
-		if (nddsQ.get(nddsQkey[10]).equals(YesNoUnknown.N)) rbrm18.setDevelopmentNDDSNotAttained18M11(11);
-		if (nddsQ.get(nddsQkey[11]).equals(YesNoUnknown.N)) rbrm18.setDevelopmentNDDSNotAttained18M12(12);
-		if (nddsQ.get(nddsQkey[12]).equals(YesNoUnknown.N)) rbrm18.setDevelopmentNDDSNotAttained18M13(13);
-		if (nddsQ.get(nddsQkey[13]).equals(YesNoUnknown.N)) rbrm18.setDevelopmentNDDSNotAttained18M14(14);
-		if (nddsQ.get(nddsQkey[14]).equals(YesNoUnknown.N)) rbrm18.setDevelopmentNDDSNotAttained18M15(15);
-		if (nddsQ.get(nddsQkey[15]).equals(YesNoUnknown.N)) rbrm18.setDevelopmentNDDSNotAttained18M16(16);
-		if (nddsQ.get(nddsQkey[16]).equals(YesNoUnknown.N)) rbrm18.setDevelopmentNDDSNotAttained18M17(17);
+		if (YesNoUnknown.N.equals(nddsQ.get(nddsQkey[0]))) rbrm18.setDevelopmentNDDSNotAttained18M01(1);
+		if (YesNoUnknown.N.equals(nddsQ.get(nddsQkey[1]))) rbrm18.setDevelopmentNDDSNotAttained18M01(2);
+		if (YesNoUnknown.N.equals(nddsQ.get(nddsQkey[2]))) rbrm18.setDevelopmentNDDSNotAttained18M01(3);
+		if (YesNoUnknown.N.equals(nddsQ.get(nddsQkey[3]))) rbrm18.setDevelopmentNDDSNotAttained18M01(4);
+		if (YesNoUnknown.N.equals(nddsQ.get(nddsQkey[4]))) rbrm18.setDevelopmentNDDSNotAttained18M01(5);
+		if (YesNoUnknown.N.equals(nddsQ.get(nddsQkey[5]))) rbrm18.setDevelopmentNDDSNotAttained18M01(6);
+		if (YesNoUnknown.N.equals(nddsQ.get(nddsQkey[6]))) rbrm18.setDevelopmentNDDSNotAttained18M01(7);
+		if (YesNoUnknown.N.equals(nddsQ.get(nddsQkey[7]))) rbrm18.setDevelopmentNDDSNotAttained18M01(8);
+		if (YesNoUnknown.N.equals(nddsQ.get(nddsQkey[8]))) rbrm18.setDevelopmentNDDSNotAttained18M01(9);
+		if (YesNoUnknown.N.equals(nddsQ.get(nddsQkey[9]))) rbrm18.setDevelopmentNDDSNotAttained18M01(10);
+		if (YesNoUnknown.N.equals(nddsQ.get(nddsQkey[10]))) rbrm18.setDevelopmentNDDSNotAttained18M01(11);
+		if (YesNoUnknown.N.equals(nddsQ.get(nddsQkey[11]))) rbrm18.setDevelopmentNDDSNotAttained18M01(12);
+		if (YesNoUnknown.N.equals(nddsQ.get(nddsQkey[12]))) rbrm18.setDevelopmentNDDSNotAttained18M01(13);
+		if (YesNoUnknown.N.equals(nddsQ.get(nddsQkey[13]))) rbrm18.setDevelopmentNDDSNotAttained18M01(14);
+		if (YesNoUnknown.N.equals(nddsQ.get(nddsQkey[14]))) rbrm18.setDevelopmentNDDSNotAttained18M01(15);
+		if (YesNoUnknown.N.equals(nddsQ.get(nddsQkey[15]))) rbrm18.setDevelopmentNDDSNotAttained18M01(16);
+		if (YesNoUnknown.N.equals(nddsQ.get(nddsQkey[16]))) rbrm18.setDevelopmentNDDSNotAttained18M01(17);
 	}
 	
 	private void propulateRourkeFromImmunization(RBR rourke) {
@@ -508,14 +520,17 @@ public class BORN18MFormToXML {
 		return dateToCal(formDateTime);
 	}
 	
-	private Calendar dateToCal(Date d) {
-		if (d==null) return null;
-		
-		Calendar cal = new GregorianCalendar();
-		cal.setTime(d);
-		
-		return cal;
-	}
+	private Calendar dateToCal(Date inDate) {
+		String date = UtilDateUtilities.DateToString(inDate, "yyyy-MM-dd");
+		String time = UtilDateUtilities.DateToString(inDate, "HH:mm:ss");
+		try {
+			XmlCalendar x = new XmlCalendar(date+"T"+time);
+			return x;
+		} catch (Exception ex) {
+			XmlCalendar x = new XmlCalendar("0001-01-01T00:00:00");
+			return x;
+		}
+    }
 	
 	private Date stringToDate(String date) {
 		return UtilDateUtilities.StringToDate(date, "yyyy-MM-dd");
