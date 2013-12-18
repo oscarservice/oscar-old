@@ -391,16 +391,16 @@ public class EFormUtil {
 			rs.next();
 			// must have FID and form_name otherwise throws null pointer on the hashtable
 			curht.put("fid", rsGetString(rs, "fid"));
-			curht.put("formName", rsGetString(rs, "form_name"));
-			curht.put("formSubject", rsGetString(rs, "subject"));
-			curht.put("formFileName", rsGetString(rs, "file_name"));
+			curht.put("formName", StringUtils.replace(rsGetString(rs, "form_name"), "''", "'"));
+			curht.put("formSubject", StringUtils.replace(rsGetString(rs, "subject"), "''", "'"));
+			curht.put("formFileName", StringUtils.replace(rsGetString(rs, "file_name"), "''", "'"));
 			curht.put("formDate", rsGetString(rs, "form_date"));
 			curht.put("formTime", rsGetString(rs, "form_time"));
 			curht.put("formCreator", rsGetString(rs, "form_creator"));
-			curht.put("formHtml", rsGetString(rs, "form_html"));
+			curht.put("formHtml", StringUtils.replace(rsGetString(rs, "form_html"), "''", "'"));
 			curht.put("showLatestFormOnly", rs.getBoolean("showLatestFormOnly"));
 			curht.put("patientIndependent", rs.getBoolean("patient_independent"));
-			curht.put("roleType", rsGetString(rs, "roleType"));
+			curht.put("roleType", StringUtils.replace(rsGetString(rs, "roleType"), "''", "'"));
 			rs.close();
 		} catch (SQLException sqe) {
 			curht.put("formName", "");
