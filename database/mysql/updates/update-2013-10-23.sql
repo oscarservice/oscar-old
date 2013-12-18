@@ -28,5 +28,7 @@ CREATE TABLE `billing_on_transaction` (
   `service_code_refund` DECIMAL(10,2),
   `service_code_discount` DECIMAL(10,2),
   `dx_code` VARCHAR(3),
-  `billing_notes` VARCHAR(255)
+  `billing_notes` VARCHAR(255),
+  `action_type` char(1) DEFAULT NULL,
+  `payment_typeID` int(2) NOT NULL
 );
