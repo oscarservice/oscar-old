@@ -1799,6 +1799,9 @@ import cdsDt.PersonNameStandard.OtherNames;
                     _location[i] = StringUtils.noNull(labResultArr[i].getLaboratoryName());
                     _accession[i] = StringUtils.noNull(labResultArr[i].getAccessionNumber()); 
                     _coll_date[i] = dateFPtoString(labResultArr[i].getCollectionDateTime(), timeShiftInDays);
+                    String date1 = labResultArr[i].getCollectionDateTime().getFullDate().toString();
+                    String date2 = labResultArr[i].getLabRequisitionDateTime().getFullDateTime().toString();
+                    
                     //labResultArr[i].getCollectionDateTime() return : <cdsd:DateTime xmlns:cdsd="cds_dt" xmlns="cds" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">2007-07-24T00:00:00-05:00</cdsd:DateTime>
                     //labResultArr[i].getLabRequisitionDateTime().getFullDate() or any other mothods always return NULL.                    
                     _req_date[i] = dateFPtoString(labResultArr[i].getLabRequisitionDateTime(), timeShiftInDays);

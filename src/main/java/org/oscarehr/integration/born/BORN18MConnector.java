@@ -29,9 +29,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -39,9 +39,11 @@ import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlOptions;
 import org.oscarehr.common.dao.BornTransmissionLogDao;
 import org.oscarehr.common.dao.DemographicDao;
+import org.oscarehr.common.dao.EFormDao;
 import org.oscarehr.common.dao.EFormDataDao;
 import org.oscarehr.common.dao.EFormValueDao;
 import org.oscarehr.common.model.BornTransmissionLog;
+import org.oscarehr.common.model.EForm;
 import org.oscarehr.common.model.EFormData;
 import org.oscarehr.common.model.EFormValue;
 import org.oscarehr.util.MiscUtils;
@@ -53,44 +55,76 @@ import oscar.util.UtilDateUtilities;
 public class BORN18MConnector {
 	private final String UPLOADED_TO_BORN = "uploaded_to_BORN";
 	private final String VALUE_YES = "Yes";
-
-	private Integer rourkeFdid;
-	private Integer nddsFdid;
-	private Integer report18mFdid;
-	private Integer demographicNo;
 	
-	private BornTransmissionLogDao logDao = SpringUtils.getBean(BornTransmissionLogDao.class);
-	private DemographicDao demographicDao = SpringUtils.getBean(DemographicDao.class);
-	private EFormDataDao eformDataDao = (EFormDataDao) SpringUtils.getBean("EFormDataDao");
-	private EFormValueDao eformValueDao = (EFormValueDao) SpringUtils.getBean("EFormValueDao");
-	private Logger logger = MiscUtils.getLogger();
+	private final BornTransmissionLogDao logDao = SpringUtils.getBean(BornTransmissionLogDao.class);
+	private final DemographicDao demographicDao = SpringUtils.getBean(DemographicDao.class);
+	private final EFormDao eformDao = (EFormDao)SpringUtils.getBean("EFormDao");
+	private final EFormDataDao eformDataDao = (EFormDataDao)SpringUtils.getBean("EFormDataDao");
+	private final EFormValueDao eformValueDao = (EFormValueDao)SpringUtils.getBean("EFormValueDao");
+	private final Logger logger = MiscUtils.getLogger();
 	
-	private OscarProperties oscarProperties = OscarProperties.getInstance();
-	private String filenameStart = "BORN_" + oscarProperties.getProperty("born18m_orgcode", "") + "_18MWB_" + oscarProperties.getProperty("born18m_env", "T");
-	
-	public BORN18MConnector(Integer demographicNo) {
-		this.demographicNo = demographicNo;
-	}
-	
-	public void setRourkeFdid(Integer fdid) {
-		this.rourkeFdid = fdid;
-	}
-	
-	public void setNddsFdid(Integer fdid) {
-		this.nddsFdid = fdid;
-	}
-	
-	public void setReport18mFdid(Integer fdid) {
-		this.report18mFdid = fdid;
-	}
-	
-	
+	private final OscarProperties oscarProperties = OscarProperties.getInstance();
+	private final String filenameStart = "BORN_" + oscarProperties.getProperty("born18m_orgcode", "") + "_18MEWBV_" + oscarProperties.getProperty("born18m_env", "T");
 	
 	
 	public void updateBorn() {
-		if (rourkeFdid==null || nddsFdid==null || report18mFdid==null) return; //cannot upload data if not all 3 forms are completed
+    	String rourkeFormName = oscarProperties.getProperty("born18m_eform_rourke", "Rourke Baby Record");
+    	String nddsFormName = oscarProperties.getProperty("born18m_eform_ndds", "Nipissing District Developmental Screen");
+    	String rpt18mFormName = oscarProperties.getProperty("born18m_eform_report18m", "Summary Report: 18-month Well Baby Visit");
+    	
+		EForm rourkeForm = eformDao.findByName(rourkeFormName);
+		EForm nddsForm = eformDao.findByName(nddsFormName);
+		EForm rpt18mForm = eformDao.findByName(rpt18mFormName);
 
-		byte[] born18mXml = generateXml();
+		List<Integer> rourkeFormDemoList = new ArrayList<Integer>();
+		List<Integer> nddsFormDemoList = new ArrayList<Integer>();
+		List<Integer> rpt18mFormDemoList = new ArrayList<Integer>();
+		
+		if (rourkeForm==null) logger.error(rourkeFormName+" form not found!");
+		else buildDemoNos(rourkeForm, rourkeFormDemoList);
+		if (nddsForm==null) logger.error(nddsFormName+" form not found!");
+		else buildDemoNos(nddsForm, nddsFormDemoList);
+		if (rpt18mForm==null) logger.error(rpt18mFormName+" form not found!");
+		else buildDemoNos(rpt18mForm, rpt18mFormDemoList);
+    	
+		HashMap<Integer,Integer> rourkeFormDemoFdids = new HashMap<Integer,Integer>();
+		HashMap<Integer,Integer> nddsFormDemoFdids = new HashMap<Integer,Integer>();
+		HashMap<Integer,Integer> rpt18mFormDemoFdids = new HashMap<Integer,Integer>();
+		
+		for (Integer demoNo : rourkeFormDemoList) {
+			Integer fdid = checkRourkeDone(rourkeFormName, demoNo);
+			if (fdid!=null) rourkeFormDemoFdids.put(demoNo, fdid);
+		}
+		for (Integer demoNo : nddsFormDemoList) {
+			Integer fdid = checkNddsDone(nddsFormName, demoNo);
+			if (fdid!=null) nddsFormDemoFdids.put(demoNo, fdid);
+		}
+		for (Integer demoNo : rpt18mFormDemoList) {
+			Integer fdid = checkReport18mDone(rpt18mFormName, demoNo);
+			if (fdid!=null) rpt18mFormDemoFdids.put(demoNo, fdid);
+		}
+
+		//Upload to BORN repository
+		for (Integer demoNo : rourkeFormDemoFdids.keySet()) {
+			uploadToBorn(demoNo, rourkeFormDemoFdids.get(demoNo), nddsFormDemoFdids.get(demoNo), rpt18mFormDemoFdids.get(demoNo));
+			nddsFormDemoFdids.remove(demoNo);
+			rpt18mFormDemoFdids.remove(demoNo);
+		}
+		for (Integer demoNo : nddsFormDemoFdids.keySet()) {
+			uploadToBorn(demoNo, null, nddsFormDemoFdids.get(demoNo), rpt18mFormDemoFdids.get(demoNo));
+			rpt18mFormDemoFdids.remove(demoNo);
+		}
+		for (Integer demoNo : rpt18mFormDemoFdids.keySet()) {
+			if (hasFormUploaded(rourkeFormName, demoNo) && hasFormUploaded(nddsFormName, demoNo)) {
+				uploadToBorn(demoNo, null, null, rpt18mFormDemoFdids.get(demoNo));
+			}
+		}
+	}
+	
+
+	
+	private void uploadToBorn(Integer demographicNo, Integer rourkeFdid, Integer nddsFdid, Integer report18mFdid) {
+		byte[] born18mXml = generateXml(demographicNo, rourkeFdid, nddsFdid, report18mFdid);
 		if (born18mXml == null) return;
 		
 		BornTransmissionLog log = prepareLog();
@@ -100,98 +134,84 @@ public class BORN18MConnector {
 		String filename = filenameStart + "_" + dt + "_" + getFileSuffix(log.getId()) + ".xml";
 
 		boolean uploadOk = uploadToBORN(born18mXml, filename);
-		if (uploadOk) recordFormSent();
+		if (uploadOk) recordFormSent(demographicNo, rourkeFdid, nddsFdid, report18mFdid);
 
 		//update log filename and status (success=true/false)
 		log.setFilename(filename);
 		log.setSuccess(uploadOk);
 		logDao.merge(log);
 		
+		logger.info("Uploaded ["+filename+"]");
 		return;
 	}
-
 	
-	public boolean checkBabyNotYet18m() {
-		Calendar babyBirthday = demographicDao.getDemographic(demographicNo.toString()).getBirthDay();
-		Calendar today = new GregorianCalendar();
-		
-		if (UtilDateUtilities.getNumMonths(babyBirthday, today)<18) {
-			return true;
+	private void buildDemoNos(EForm eform, List<Integer> demoList) {
+		List<EFormData> eformDataList = eformDataDao.findByFormId(eform.getId());
+		for (EFormData eformData : eformDataList) {
+			if (!demoList.contains(eformData.getDemographicId())) demoList.add(eformData.getDemographicId());
 		}
-		return false;
 	}
 	
-	public Integer checkRourkeDone(String rourkeFormName) {
-		if (rourkeFdid==null) {
-			rourkeFdid = getFdid18m(rourkeFormName);
-			if (rourkeFdid==null) return null; //no 18M form data
-		}
+	private Integer checkRourkeDone(String rourkeFormName, Integer demographicNo) {
+		Integer fdid = getMaxFdid(rourkeFormName, demographicNo);
+		if (fdid==null) return null; //no un-uploaded form data
 		
-		EFormValue eformValue = eformValueDao.findByFormDataIdAndKey(rourkeFdid, "visit_date_18m");
+		EFormValue eformValue = eformValueDao.findByFormDataIdAndKey(fdid, "visit_date_18m");
 		if (eformValue==null) return null;
 		
 		Date visitDate = UtilDateUtilities.StringToDate(eformValue.getVarValue(), "yyyy-MM-dd");
-		if (!checkDate18m(visitDate)) return null;
+		if (!checkDate18m(visitDate, demographicNo)) return null;
 		
-		eformValue = eformValueDao.findByFormDataIdAndKey(rourkeFdid, "height_18m");
-		if (eformValue==null) return null;
-		
-		eformValue = eformValueDao.findByFormDataIdAndKey(rourkeFdid, "weight_18m");
-		if (eformValue==null) return null;
-		
-		eformValue = eformValueDao.findByFormDataIdAndKey(rourkeFdid, "headcirc_18m");
-		if (eformValue==null) return null;
-		
-		eformValue = eformValueDao.findByFormDataIdAndKey(rourkeFdid, "subject");
+		eformValue = eformValueDao.findByFormDataIdAndKey(fdid, "subject");
 		if (eformValue==null) return null;
 		
 		if (eformValue.getVarValue()!=null && eformValue.getVarValue().toLowerCase().contains("draft")) {
 			return null;
 		}
 		
-		eformValue = eformValueDao.findByFormDataIdAndKey(rourkeFdid, "visit_date_2y");
+		//check if the form is for 2-3y or 4-5y visit -> not uploading
+		eformValue = eformValueDao.findByFormDataIdAndKey(fdid, "visit_date_2y");
 		if (eformValue!=null && eformValue.getVarValue()!=null && !eformValue.getVarValue().trim().isEmpty()) {
 			return null;
 		}
 		
-		eformValue = eformValueDao.findByFormDataIdAndKey(rourkeFdid, "visit_date_4y");
+		eformValue = eformValueDao.findByFormDataIdAndKey(fdid, "visit_date_4y");
 		if (eformValue!=null && eformValue.getVarValue()!=null && !eformValue.getVarValue().trim().isEmpty()) {
 			return null;
 		}
 		
-		return rourkeFdid;
+		return fdid;
 	}
 	
-	public Integer checkNddsDone(String nddsFormName) {
-		if (nddsFdid==null) {
-			nddsFdid = getFdid18m(nddsFormName);
-			if (nddsFdid==null) return null; //no 18M form data
-		}
+	private Integer checkNddsDone(String nddsFormName, Integer demographicNo) {
+		Integer fdid = getMaxFdid(nddsFormName, demographicNo);
+		if (fdid==null) return null; //no un-uploaded form data
 		
-		EFormValue eformValue = eformValueDao.findByFormDataIdAndKey(nddsFdid, "subject");
+		EFormValue eformValue = eformValueDao.findByFormDataIdAndKey(fdid, "subject");
 		if (eformValue==null) return null;
 		
 		if (eformValue.getVarValue()!=null && eformValue.getVarValue().toLowerCase().contains("draft")) {
 			return null;
 		}
 		
-		return nddsFdid;
+		return fdid;
 	}
 	
-	public Integer checkReport18mDone(String report18mFormName) {
-		if (report18mFdid==null) {
-			report18mFdid = getFdid18m(report18mFormName);
-			if (report18mFdid==null) return null; //no 18M form data
+	private Integer checkReport18mDone(String report18mFormName, Integer demographicNo) {
+		Integer fdid = getMaxFdid(report18mFormName, demographicNo);
+		if (fdid==null) return null; //no un-uploaded form data
+		
+		EFormValue eformValue = eformValueDao.findByFormDataIdAndKey(fdid, "subject");
+		if (eformValue==null) return null;
+		
+		if (eformValue.getVarValue()!=null && eformValue.getVarValue().toLowerCase().contains("draft")) {
+			return null;
 		}
 		
-		return report18mFdid;
+		return fdid;
 	}
 	
-	
-	
-	
-	private byte[] generateXml() {
-		BORN18MFormToXML xml = new BORN18MFormToXML();
+	private byte[] generateXml(Integer demographicNo, Integer rourkeFdid, Integer nddsFdid, Integer report18mFdid) {
 		HashMap<String,String> suggestedPrefixes = new HashMap<String,String>();
 		suggestedPrefixes.put("http://www.w3.org/2001/XMLSchema-instance","xsi");
 		XmlOptions opts = new XmlOptions();
@@ -204,11 +224,12 @@ public class BORN18MConnector {
 		PrintWriter pw = null;
 		boolean xmlCreated = false;
 		
+		BORN18MFormToXML xml = new BORN18MFormToXML(demographicNo);
 		try {
 			os = new ByteArrayOutputStream();
 			pw = new PrintWriter(os, true);
 			pw.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-			xmlCreated = xml.addXmlToStream(pw, opts, demographicNo, rourkeFdid, nddsFdid, report18mFdid);
+			xmlCreated = xml.addXmlToStream(pw, opts, rourkeFdid, nddsFdid, report18mFdid);
 			
 			pw.close();
 			if (xmlCreated) return os.toByteArray();
@@ -258,8 +279,12 @@ public class BORN18MConnector {
 		return success;
 	}
 
-	private void recordFormSent() {
-		Integer[] fdids = {rourkeFdid, nddsFdid, report18mFdid};
+	private void recordFormSent(Integer demographicNo, Integer rourkeFdid, Integer nddsFdid, Integer report18mFdid) {
+		List<Integer> fdids = new ArrayList<Integer>();
+		if (rourkeFdid!=null) fdids.add(rourkeFdid);
+		if (nddsFdid!=null) fdids.add(nddsFdid);
+		if (report18mFdid!=null) fdids.add(report18mFdid);
+		
 		for (Integer fdid : fdids) {
 			Integer fid = eformDataDao.find(fdid).getFormId();
 			EFormValue eformValue = new EFormValue();
@@ -272,30 +297,42 @@ public class BORN18MConnector {
 		}
 	}
 	
-	private boolean checkDate18m(Date date) {
+	private boolean checkDate18m(Date formDate, Integer demographicNo) {
 		Calendar babyBirthday = demographicDao.getDemographic(demographicNo.toString()).getBirthDay();
 		
-		if (UtilDateUtilities.getNumMonths(babyBirthday.getTime(), date)<18) {
+		if (UtilDateUtilities.getNumMonths(babyBirthday.getTime(), formDate)<18) {
 			return false;
 		}
 		return true;
 	}
 	
-	private Integer getFdid18m(String formName) {
+	private Integer getMaxFdid(String formName, Integer demographicNo) {
 		List<EFormData> eformDatas = eformDataDao.findByDemographicIdAndFormName(demographicNo, formName);
-		if (eformDatas==null || eformDatas.isEmpty()) return null; //no form data
+		if (eformDatas==null || eformDatas.isEmpty()) {
+			logger.warn(formName+" form data not found for patient #"+demographicNo);
+			return null;
+		}
 		
 		Integer fdid = null;
 		for (EFormData eformData : eformDatas) {
 			if (fdid==null || fdid < eformData.getId()) {
-				if (checkDate18m(eformData.getFormDate())) {
-					fdid = eformData.getId();
-				}
+				fdid = eformData.getId();
 			}
-		} //fdid = max fdid with form date > 18smonths
-		
+		}
 		if (!checkUploadedToBorn(fdid)) return fdid;
 		else return null;
+	}
+	
+	private boolean hasFormUploaded(String formName, Integer demographicNo) {
+		List<EFormData> eformDatas = eformDataDao.findByDemographicIdAndFormName(demographicNo, formName);
+		if (eformDatas==null || eformDatas.isEmpty()) {
+			return false;
+		}
+		
+		for (EFormData eformData : eformDatas) {
+			if (checkUploadedToBorn(eformData.getId())) return true;
+		}
+		return false;
 	}
 	
 	private boolean checkUploadedToBorn(Integer fdid) {
