@@ -149,6 +149,8 @@ var Colour = {
 
   <!--js code for newCaseManagementView.jsp -->
   <script type="text/javascript" src="<c:out value="${ctx}/js/newCaseManagementView.js.jsp"/>"></script>
+<script type="text/javascript" src="<c:out value="${ctx}/js/ZeroClipboard.js"/>"></script>
+<script type="text/javascript" src="<c:out value="${ctx}/js/imaging_study.js"/>"></script>
 
 <% if (OscarProperties.getInstance().getBooleanProperty("note_program_ui_enabled", "true")) { %>
 	<link rel="stylesheet" href="<c:out value="${ctx}/casemgmt/noteProgram.css" />" />

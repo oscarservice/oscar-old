@@ -2581,7 +2581,9 @@
 			<forward name="success" path="/demographic/importDemoResult.jsp" />
 			<forward name="import" path="/demographic/importNewDemo.jsp" />
 		</action>
-				
+		
+		<action path="/oscarEncounter/displayImaginStudies" scope="request" type="org.springframework.web.struts.DelegatingActionProxy"></action>			
+	
 	</action-mappings>
 	<controller processorClass="org.apache.struts.tiles.TilesRequestProcessor" maxFileSize="250M" />
 	<message-resources parameter="oscarResources" null="false" />

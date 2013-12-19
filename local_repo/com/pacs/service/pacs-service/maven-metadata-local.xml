@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>com.pacs.service</groupId>
+  <artifactId>pacs-service</artifactId>
+  <version>1.0</version>
+  <versioning>
+    <versions>
+      <version>1.0</version>
+    </versions>
+    <lastUpdated>20131217160142</lastUpdated>
+  </versioning>
+</metadata>

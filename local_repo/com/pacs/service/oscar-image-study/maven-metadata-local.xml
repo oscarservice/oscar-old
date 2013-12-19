@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>com.pacs.service</groupId>
+  <artifactId>oscar-image-study</artifactId>
+  <version>1.0</version>
+  <versioning>
+    <versions>
+      <version>1.0</version>
+    </versions>
+    <lastUpdated>20131217160111</lastUpdated>
+  </versioning>
+</metadata>

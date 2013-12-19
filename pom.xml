@@ -694,7 +694,20 @@
 			<artifactId>jsch</artifactId>
 			<version>0.1.49</version>
 		</dependency>
-
+		
+		<!-- PACS IMAGE STUDY -->
+		<dependency>
+			<groupId>com.pacs.service</groupId>
+			<artifactId>oscar-image-study</artifactId>
+			<version>1.0</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.pacs.service</groupId>
+			<artifactId>pacs-service</artifactId>
+			<version>1.0</version>
+		</dependency>
+		
 		<!-- OLIS -->
 		<dependency>
 			<groupId>ca.ssha.www</groupId>
