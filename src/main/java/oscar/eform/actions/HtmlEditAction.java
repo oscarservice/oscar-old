@@ -90,7 +90,8 @@ public class HtmlEditAction extends Action {
                 request.setAttribute("success", "true");
             }
             
-            HashMap<String, Object> curht = createHashMap(fid, formName, formSubject, formFileName, formHtml, showLatestFormOnly, patientIndependent, roleType);
+            HashMap<String, Object> curht = createHashMap(fid, formName, formSubject, formFileName, 
+            		org.apache.commons.lang.StringEscapeUtils.escapeJava(formHtml), showLatestFormOnly, patientIndependent, roleType);
             request.setAttribute("submitted", curht);
             
             request.setAttribute("errors", errors);
