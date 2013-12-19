@@ -35,11 +35,11 @@
 <style type="text/css" media="print">
     BODY
     {
-        font-size:85%;
+        font-size:100%;
     }
     TABLE
     {
-        font-size:85%;
+        font-size:100%;
     }
 </style>
 
@@ -583,21 +583,12 @@ function  to2DecimalDigits(decimal)
     }
 
     function onPrint() {
-        document.forms[0].submit.value="print"; 
-//alert("formovulation.jsp/onPrint(): submit.value = " + document.forms[0].submit.value);			
+        document.forms[0].submit.value="print"; 			
 		
         var ret = checkAllDates();
         if(ret==true)
         {
-//            document.forms[0].action = "../form/createpdf?__title=Ovulation+Form&__cfgfile=bcar1PrintCfgPg1&__template=bcar1";
-//				document.all.FrmForm.action="../form/createpdf?__title=Invoice&__cfgfile=invoice&__template=invoice";
-
-//            document.forms[0].action = "../form/createpdf?__title=Ovulation+Form&__cfgfile=ovulationPrintCfgPg1&__template=bcar1";
-			  document.forms[0].action = "../form/createpdf?__title=IvfTrackSheet+Form&__cfgfile=ivfTrackSheetPrintCfgPg1&__cfgfile=ivfTrackSheetPrintCfgPg2&__template=IvfTrackSheetForm_95";
-//			  document.forms[0].action = "../form/formGrowthChartPrint.jsp?print=1&__title=GrowthCharts&__cfgfile=<//%=bGirl?"growthChartGirlPrint":"growthChartBoyPrint"%>&__cfgGraphicFile=<//%=bGirl?"growthChartGirlGraphic":"growthChartBoyGraphic"%>&__cfgGraphicFile=<//%=bGirl?"growthChartGirlGraphic2":"growthChartBoyGraphic2"%>&__template=<//%=bGirl?"growthChartGirlStatureWeight":"growthChartBoyStatureWeight"%>";
-			  
-
-//alert("formovulation.jsp/onPrint(): action = " + document.forms[0].action);			
+			document.forms[0].action = "../form/createpdf?__title=IvfTrackSheet+Form&__cfgfile=ivfTrackSheetPrintCfgPg1&__cfgfile=ivfTrackSheetPrintCfgPg2&__template=IvfTrackSheetForm_95";
             document.forms[0].target="_blank";            
         }
         return ret;
@@ -1159,7 +1150,7 @@ function sortedTextValue(num){
 			</tr>
 			<tr>
 			<td>
-			Medication Protoco:<input type="text" id="medication" name="medication" maxlength="20" value="<%=props.getProperty("medication", "")%>"/>
+			Medication Protocol:<input type="text" id="medication" name="medication" maxlength="20" value="<%=props.getProperty("medication", "")%>"/>
 			</td> 
 			</tr>
 			<tr>
@@ -1224,8 +1215,9 @@ function sortedTextValue(num){
 						</td>					
 					</tr>
 					<tr>
-						<td colspan="2" rowspan="3">
-							<textarea name="txt1" id="txt1"><%=props.getProperty("txt1", "")%></textarea>
+						<td>AMH</td>
+						<td>
+							<input type="text" id="amh" size="10" name="amh" maxlength="6" value="<%=props.getProperty("amh", "")%>"/>
 						</td>
 						<td>
 							Crinone
@@ -1235,6 +1227,9 @@ function sortedTextValue(num){
 						</td>					
 					</tr>
 					<tr>
+						<td colspan="2" rowspan="2">
+							<textarea name="txt1" id="txt1"><%=props.getProperty("txt1", "")%></textarea>
+						</td>
 						<td>
 							Endometrin
 						</td>
@@ -1283,7 +1278,7 @@ function sortedTextValue(num){
 			</tr>
 			<tr>
 			<td>
-				Patient DOB:<input type="text" id="dob" name="dob" value="<%=props.getProperty("dob", "")%>"/>
+				Patient DOB:<input type="text" id="dob" name="dob" value="<%=props.getProperty("dob", "")%>"/>&nbsp;&nbsp;&nbsp;Age:<input type="text" id="age" name="age" value="<%=props.getProperty("age", "")%>"/>
 			</td>
 			</tr>
 			<tr>
@@ -1343,7 +1338,7 @@ function sortedTextValue(num){
 			</tr>
 			<tr>
 			<td>
-				<textarea id="comment1" name="comment1" style="width: 270px; height: 91px;"><%=props.getProperty("comment1", "")%></textarea>
+				<textarea id="comment1" name="comment1" style="width: 500px; height: 120px;"><%=props.getProperty("comment1", "")%></textarea>
 			</td>
 			</tr>
 		</tbody>
@@ -1356,7 +1351,7 @@ function sortedTextValue(num){
 </tr>
 <tr>
 <td>
-<table align="center" width="100%" border="1" cellspacing="0" cellpadding="0">
+<table align="center" width="100%" border="1" cellspacing="1" cellpadding="1">
 <tbody>
 	<tr>
 		<td width="10%">Date(dd/mm/yyyy)</td>
@@ -1381,8 +1376,8 @@ function sortedTextValue(num){
 	</tr>
 	<tr>
 		<td>Cycle Day</td>
-		<td colspan="2">AF</td>
-		<td colspan="2"></td>
+		<td colspan="2">AFC</td>
+		<td colspan="2"><input type="text" style="width:2px;visibility:hidden;"/></td>
 		<td colspan="2">3</td>
 		<td colspan="2">4</td>
 		<td colspan="2">5</td>
@@ -1401,28 +1396,42 @@ function sortedTextValue(num){
 		<td colspan="2">18</td>
 	</tr>
 	<tr>
-		<td>Puregon<input type="checkbox" id="puregon" name="puregon" <%=props.getProperty("puregon", "")%> />Gonal F<input type="checkbox" id="gonal" name="gonal" <%=props.getProperty("gonal", "")%> /></td>
-		<td colspan="2"><input type="text" id="puregon1" name="puregon1" maxlength="3" size="8" value="<%=props.getProperty("puregon1", "")%>"/></td>
-		<td colspan="2"><input type="text" id="puregon2" name="puregon2" maxlength="3" size="8" value="<%=props.getProperty("puregon2", "")%>"/></td>
-		<td colspan="2"><input type="text" id="puregon3" name="puregon3" maxlength="3" size="8" value="<%=props.getProperty("puregon3", "")%>"/></td>
-		<td colspan="2"><input type="text" id="puregon4" name="puregon4" maxlength="3" size="8" value="<%=props.getProperty("puregon4", "")%>"/></td>
-		<td colspan="2"><input type="text" id="puregon5" name="puregon5" maxlength="3" size="8" value="<%=props.getProperty("puregon5", "")%>"/></td>
-		<td colspan="2"><input type="text" id="puregon6" name="puregon6" maxlength="3" size="8" value="<%=props.getProperty("puregon6", "")%>"/></td>
-		<td colspan="2"><input type="text" id="puregon7" name="puregon7" maxlength="3" size="8" value="<%=props.getProperty("puregon7", "")%>"/></td>
-		<td colspan="2"><input type="text" id="puregon8" name="puregon8" maxlength="3" size="8" value="<%=props.getProperty("puregon8", "")%>"/></td>
-		<td colspan="2"><input type="text" id="puregon9" name="puregon9" maxlength="3" size="8" value="<%=props.getProperty("puregon9", "")%>"/></td>
-		<td colspan="2"><input type="text" id="puregon10" name="puregon10" maxlength="3" size="8" value="<%=props.getProperty("puregon10", "")%>"/></td>
-		<td colspan="2"><input type="text" id="puregon11" name="puregon11" maxlength="3" size="8" value="<%=props.getProperty("puregon11", "")%>"/></td>
-		<td colspan="2"><input type="text" id="puregon12" name="puregon12" maxlength="3" size="8" value="<%=props.getProperty("puregon12", "")%>"/></td>
-		<td colspan="2"><input type="text" id="puregon13" name="puregon13" maxlength="3" size="8" value="<%=props.getProperty("puregon13", "")%>"/></td>
-		<td colspan="2"><input type="text" id="puregon14" name="puregon14" maxlength="3" size="8" value="<%=props.getProperty("puregon14", "")%>"/></td>
-		<td colspan="2"><input type="text" id="puregon15" name="puregon15" maxlength="3" size="8" value="<%=props.getProperty("puregon15", "")%>"/></td>
-		<td colspan="2"><input type="text" id="puregon16" name="puregon16" maxlength="3" size="8" value="<%=props.getProperty("puregon16", "")%>"/></td>
-		<td colspan="2"><input type="text" id="puregon17" name="puregon17" maxlength="3" size="8" value="<%=props.getProperty("puregon17", "")%>"/></td>
-		<td colspan="2"><input type="text" id="puregon18" name="puregon18" maxlength="3" size="8" value="<%=props.getProperty("puregon18", "")%>"/></td>
+	<!--	<td>Puregon<input type="checkbox" id="puregon" name="puregon" <%=props.getProperty("puregon", "")%> />Gonal F<input type="checkbox" id="gonal" name="gonal" <%=props.getProperty("gonal", "")%> /></td>	-->
+		<td>
+		<select id="pgb" name="pgb">
+			<option value="puregon" <%=props.getProperty("pgb", "").equals("puregon")? "selected" : ""%>>Puregon</option>
+			<option value="gonal" <%=props.getProperty("pgb", "").equals("gonal")? "selected" : ""%>>Gonal F</option>
+			<option value="brazelle" <%=props.getProperty("pgb", "").equals("brazelle")? "selected" : ""%>>Brazelle</option>
+		</select>
+		</td>
+		<td colspan="2"><input type="text" id="puregon1" name="puregon1" maxlength="7" size="8" value="<%=props.getProperty("puregon1", "")%>"/></td>
+		<td colspan="2"><input type="text" id="puregon2" name="puregon2" maxlength="7" size="8" value="<%=props.getProperty("puregon2", "")%>"/></td>
+		<td colspan="2"><input type="text" id="puregon3" name="puregon3" maxlength="7" size="8" value="<%=props.getProperty("puregon3", "")%>"/></td>
+		<td colspan="2"><input type="text" id="puregon4" name="puregon4" maxlength="7" size="8" value="<%=props.getProperty("puregon4", "")%>"/></td>
+		<td colspan="2"><input type="text" id="puregon5" name="puregon5" maxlength="7" size="8" value="<%=props.getProperty("puregon5", "")%>"/></td>
+		<td colspan="2"><input type="text" id="puregon6" name="puregon6" maxlength="7" size="8" value="<%=props.getProperty("puregon6", "")%>"/></td>
+		<td colspan="2"><input type="text" id="puregon7" name="puregon7" maxlength="7" size="8" value="<%=props.getProperty("puregon7", "")%>"/></td>
+		<td colspan="2"><input type="text" id="puregon8" name="puregon8" maxlength="7" size="8" value="<%=props.getProperty("puregon8", "")%>"/></td>
+		<td colspan="2"><input type="text" id="puregon9" name="puregon9" maxlength="7" size="8" value="<%=props.getProperty("puregon9", "")%>"/></td>
+		<td colspan="2"><input type="text" id="puregon10" name="puregon10" maxlength="7" size="8" value="<%=props.getProperty("puregon10", "")%>"/></td>
+		<td colspan="2"><input type="text" id="puregon11" name="puregon11" maxlength="7" size="8" value="<%=props.getProperty("puregon11", "")%>"/></td>
+		<td colspan="2"><input type="text" id="puregon12" name="puregon12" maxlength="7" size="8" value="<%=props.getProperty("puregon12", "")%>"/></td>
+		<td colspan="2"><input type="text" id="puregon13" name="puregon13" maxlength="7" size="8" value="<%=props.getProperty("puregon13", "")%>"/></td>
+		<td colspan="2"><input type="text" id="puregon14" name="puregon14" maxlength="7" size="8" value="<%=props.getProperty("puregon14", "")%>"/></td>
+		<td colspan="2"><input type="text" id="puregon15" name="puregon15" maxlength="7" size="8" value="<%=props.getProperty("puregon15", "")%>"/></td>
+		<td colspan="2"><input type="text" id="puregon16" name="puregon16" maxlength="7" size="8" value="<%=props.getProperty("puregon16", "")%>"/></td>
+		<td colspan="2"><input type="text" id="puregon17" name="puregon17" maxlength="7" size="8" value="<%=props.getProperty("puregon17", "")%>"/></td>
+		<td colspan="2"><input type="text" id="puregon18" name="puregon18" maxlength="7" size="8" value="<%=props.getProperty("puregon18", "")%>"/></td>
 	</tr>
 	<tr>
-		<td>Menopur<input type="checkbox" id="menopur" name="menopur" <%=props.getProperty("menopur", "")%>/>mhCG<input type="checkbox" id="mhcg" name="mhcg" <%=props.getProperty("mhcg", "")%>/>Luver<input type="checkbox" id="luver" name="luver" <%=props.getProperty("luver", "")%>/></td>
+	<!--	<td>Menopur<input type="checkbox" id="menopur" name="menopur" <%=props.getProperty("menopur", "")%>/>mhCG<input type="checkbox" id="mhcg" name="mhcg" <%=props.getProperty("mhcg", "")%>/>Luveris<input type="checkbox" id="luver" name="luver" <%=props.getProperty("luver", "")%>/></td>	-->
+		<td>
+		<select id="mml" name="mml">
+			<option value="menopur" <%=props.getProperty("mml", "").equals("menopur")? "selected" : ""%>>Menopur</option>
+			<option value="mhcg" <%=props.getProperty("mml", "").equals("mhcg")? "selected" : ""%>>mhCG</option>
+			<option value="luveris" <%=props.getProperty("mml", "").equals("luveris")? "selected" : ""%>>Luveris</option>
+		</select>
+		</td>
 		<td colspan="2"><input type="text" id="menopur1" name="menopur1" maxlength="3" size="8" value="<%=props.getProperty("menopur1", "")%>"/></td>
 		<td colspan="2"><input type="text" id="menopur2" name="menopur2" maxlength="3" size="8" value="<%=props.getProperty("menopur2", "")%>"/></td>
 		<td colspan="2"><input type="text" id="menopur3" name="menopur3" maxlength="3" size="8" value="<%=props.getProperty("menopur3", "")%>"/></td>
@@ -1443,7 +1452,14 @@ function sortedTextValue(num){
 		<td colspan="2"><input type="text" id="menopur18" name="menopur18" maxlength="3" size="8" value="<%=props.getProperty("menopur18", "")%>"/></td>
 	</tr>
 	<tr>
-		<td>Orgalutran<input type="checkbox" id="orgalutran" name="orgalutran" <%=props.getProperty("orgalutran", "")%>>Suprefact<input type="checkbox" id="suprefact" name="suprefact" <%=props.getProperty("suprefact", "")%>></td>
+	<!--	<td>Orgalutran<input type="checkbox" id="orgalutran" name="orgalutran" <%=props.getProperty("orgalutran", "")%>>Suprefact<input type="checkbox" id="suprefact" name="suprefact" <%=props.getProperty("suprefact", "")%>></td>	-->
+		<td>
+		<select id="osc" name="osc">
+			<option value="orgalutran" <%=props.getProperty("osc", "").equals("orgalutran")? "selected" : ""%>>Orgalutran</option>
+			<option value="suprefact" <%=props.getProperty("osc", "").equals("suprefact")? "selected" : ""%>>Suprefact</option>
+			<option value="cetrotide" <%=props.getProperty("osc", "").equals("cetrotide")? "selected" : ""%>>Cetrotide</option>
+		</select>
+		</td>
 		<td colspan="2"><input type="text" id="orgalutran1" name="orgalutran1" maxlength="5" size="8" value="<%=props.getProperty("orgalutran1", "")%>"/></td>
 		<td colspan="2"><input type="text" id="orgalutran2" name="orgalutran2" maxlength="5" size="8" value="<%=props.getProperty("orgalutran2", "")%>"/></td>
 		<td colspan="2"><input type="text" id="orgalutran3" name="orgalutran3" maxlength="5" size="8" value="<%=props.getProperty("orgalutran3", "")%>"/></td>
@@ -1464,7 +1480,7 @@ function sortedTextValue(num){
 		<td colspan="2"><input type="text" id="orgalutran18" name="orgalutran18" maxlength="5" size="8" value="<%=props.getProperty("orgalutran18", "")%>"/></td>
 	</tr>
 	<tr>
-		<td>Proges terone</td>
+		<td>Progesterone</td>
 		<td colspan="2"><input type="text" id="proges1" name="proges1" maxlength="5" size="8" value="<%=props.getProperty("proges1", "")%>"/></td>
 		<td colspan="2"><input type="text" id="proges2" name="proges2" maxlength="5" size="8" value="<%=props.getProperty("proges2", "")%>"/></td>
 		<td colspan="2"><input type="text" id="proges3" name="proges3" maxlength="5" size="8" value="<%=props.getProperty("proges3", "")%>"/></td>
@@ -3403,25 +3419,25 @@ function sortedTextValue(num){
 		<td colspan="2"><input type="text" id="endometrial18" name="endometrial18" maxlength="7" size="8" value="<%=props.getProperty("endometrial18", "")%>"/></td>
 	</tr>
 	<tr>
-		<td>Sonographer/Rom/Probe</td>
-		<td colspan="2"><input type="text" id="sonographer1" name="sonographer1" maxlength="5" size="8" value="<%=props.getProperty("sonographer1", "")%>"/></td>
-		<td colspan="2"><input type="text" id="sonographer2" name="sonographer2" maxlength="5" size="8" value="<%=props.getProperty("sonographer2", "")%>"/></td>
-		<td colspan="2"><input type="text" id="sonographer3" name="sonographer3" maxlength="5" size="8" value="<%=props.getProperty("sonographer3", "")%>"/></td>
-		<td colspan="2"><input type="text" id="sonographer4" name="sonographer4" maxlength="5" size="8" value="<%=props.getProperty("sonographer4", "")%>"/></td>
-		<td colspan="2"><input type="text" id="sonographer5" name="sonographer5" maxlength="5" size="8" value="<%=props.getProperty("sonographer5", "")%>"/></td>
-		<td colspan="2"><input type="text" id="sonographer6" name="sonographer6" maxlength="5" size="8" value="<%=props.getProperty("sonographer6", "")%>"/></td>
-		<td colspan="2"><input type="text" id="sonographer7" name="sonographer7" maxlength="5" size="8" value="<%=props.getProperty("sonographer7", "")%>"/></td>
-		<td colspan="2"><input type="text" id="sonographer8" name="sonographer8" maxlength="5" size="8" value="<%=props.getProperty("sonographer8", "")%>"/></td>
-		<td colspan="2"><input type="text" id="sonographer9" name="sonographer9" maxlength="5" size="8" value="<%=props.getProperty("sonographer9", "")%>"/></td>
-		<td colspan="2"><input type="text" id="sonographer10" name="sonographer10" maxlength="5" size="8" value="<%=props.getProperty("sonographer10", "")%>"/></td>
-		<td colspan="2"><input type="text" id="sonographer11" name="sonographer11" maxlength="5" size="8" value="<%=props.getProperty("sonographer11", "")%>"/></td>
-		<td colspan="2"><input type="text" id="sonographer12" name="sonographer12" maxlength="5" size="8" value="<%=props.getProperty("sonographer12", "")%>"/></td>
-		<td colspan="2"><input type="text" id="sonographer13" name="sonographer13" maxlength="5" size="8" value="<%=props.getProperty("sonographer13", "")%>"/></td>
-		<td colspan="2"><input type="text" id="sonographer14" name="sonographer14" maxlength="5" size="8" value="<%=props.getProperty("sonographer14", "")%>"/></td>
-		<td colspan="2"><input type="text" id="sonographer15" name="sonographer15" maxlength="5" size="8" value="<%=props.getProperty("sonographer15", "")%>"/></td>
-		<td colspan="2"><input type="text" id="sonographer16" name="sonographer16" maxlength="5" size="8" value="<%=props.getProperty("sonographer16", "")%>"/></td>
-		<td colspan="2"><input type="text" id="sonographer17" name="sonographer17" maxlength="5" size="8" value="<%=props.getProperty("sonographer17", "")%>"/></td>
-		<td colspan="2"><input type="text" id="sonographer18" name="sonographer18" maxlength="5" size="8" value="<%=props.getProperty("sonographer18", "")%>"/></td>
+		<td>Sonographer/Room/Probe</td>
+		<td colspan="2"><input type="text" id="sonographer1" name="sonographer1" maxlength="7" size="8" value="<%=props.getProperty("sonographer1", "")%>"/></td>
+		<td colspan="2"><input type="text" id="sonographer2" name="sonographer2" maxlength="7" size="8" value="<%=props.getProperty("sonographer2", "")%>"/></td>
+		<td colspan="2"><input type="text" id="sonographer3" name="sonographer3" maxlength="7" size="8" value="<%=props.getProperty("sonographer3", "")%>"/></td>
+		<td colspan="2"><input type="text" id="sonographer4" name="sonographer4" maxlength="7" size="8" value="<%=props.getProperty("sonographer4", "")%>"/></td>
+		<td colspan="2"><input type="text" id="sonographer5" name="sonographer5" maxlength="7" size="8" value="<%=props.getProperty("sonographer5", "")%>"/></td>
+		<td colspan="2"><input type="text" id="sonographer6" name="sonographer6" maxlength="7" size="8" value="<%=props.getProperty("sonographer6", "")%>"/></td>
+		<td colspan="2"><input type="text" id="sonographer7" name="sonographer7" maxlength="7" size="8" value="<%=props.getProperty("sonographer7", "")%>"/></td>
+		<td colspan="2"><input type="text" id="sonographer8" name="sonographer8" maxlength="7" size="8" value="<%=props.getProperty("sonographer8", "")%>"/></td>
+		<td colspan="2"><input type="text" id="sonographer9" name="sonographer9" maxlength="7" size="8" value="<%=props.getProperty("sonographer9", "")%>"/></td>
+		<td colspan="2"><input type="text" id="sonographer10" name="sonographer10" maxlength="7" size="8" value="<%=props.getProperty("sonographer10", "")%>"/></td>
+		<td colspan="2"><input type="text" id="sonographer11" name="sonographer11" maxlength="7" size="8" value="<%=props.getProperty("sonographer11", "")%>"/></td>
+		<td colspan="2"><input type="text" id="sonographer12" name="sonographer12" maxlength="7" size="8" value="<%=props.getProperty("sonographer12", "")%>"/></td>
+		<td colspan="2"><input type="text" id="sonographer13" name="sonographer13" maxlength="7" size="8" value="<%=props.getProperty("sonographer13", "")%>"/></td>
+		<td colspan="2"><input type="text" id="sonographer14" name="sonographer14" maxlength="7" size="8" value="<%=props.getProperty("sonographer14", "")%>"/></td>
+		<td colspan="2"><input type="text" id="sonographer15" name="sonographer15" maxlength="7" size="8" value="<%=props.getProperty("sonographer15", "")%>"/></td>
+		<td colspan="2"><input type="text" id="sonographer16" name="sonographer16" maxlength="7" size="8" value="<%=props.getProperty("sonographer16", "")%>"/></td>
+		<td colspan="2"><input type="text" id="sonographer17" name="sonographer17" maxlength="7" size="8" value="<%=props.getProperty("sonographer17", "")%>"/></td>
+		<td colspan="2"><input type="text" id="sonographer18" name="sonographer18" maxlength="7" size="8" value="<%=props.getProperty("sonographer18", "")%>"/></td>
 	</tr>
 </tbody>
 </table>
@@ -3451,7 +3467,8 @@ function sortedTextValue(num){
             <input type="submit" value="Save" onclick="javascript:return onSave('<html:rewrite page="/form/formname.do"/>');" />
 		    <input type="submit" value="Save and Exit" onclick="javascript:return onSaveExit('<html:rewrite page="/form/formname.do"/>');"/>
             <input type="submit" value="Exit" onclick="javascript:return onExit();"/>
-            <input type="submit"  value="Print" onClick="javascript:return onPrint();"/> 
+         <!--   <input type="submit"  value="Print" onClick="javascript:return onPrint();"/> 	-->
+			<input type="submit"  value="Print" onClick="javascript:window.print();"/>	
           </td>
 </tr>
 </table>

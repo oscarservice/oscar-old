@@ -47,7 +47,6 @@ import org.oscarehr.common.dao.DemographicArchiveDao;
 import org.oscarehr.common.dao.DemographicDao;
 import org.oscarehr.common.dao.EFormDataDao;
 import org.oscarehr.common.model.EFormData;
-import org.oscarehr.event.EventService;
 import org.oscarehr.util.LoggedInInfo;
 import org.oscarehr.util.MiscUtils;
 import org.oscarehr.util.SpringUtils;
@@ -202,9 +201,6 @@ public class AddEFormAction extends Action {
 
 			EFormUtil.addEFormValues(paramNames, paramValues, new Integer(fdid), new Integer(fid), new Integer(demographic_no)); //adds parsed values
 
-			//publish an EFormDataCreateEvent
-		    EventService eventService = SpringUtils.getBean(EventService.class);
-			eventService.eformDataCreated(this, eFormData.getId(), eFormData.getDemographicId(), eFormData.getFormName());
 
 			//post fdid to {eform_link} attribute
 			if (eform_link!=null) {

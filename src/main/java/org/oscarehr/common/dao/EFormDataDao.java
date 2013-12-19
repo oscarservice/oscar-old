@@ -28,6 +28,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 
 import javax.persistence.Query;
 
@@ -72,8 +73,136 @@ public class EFormDataDao extends AbstractDao<EFormData> {
 
 		return(results);
 	}
+    
+    //for integrator
+    public List<Integer> findemographicIdSinceLastDate(Date lastDate)
+	{
+    	Calendar cal1 = Calendar.getInstance();
+    	cal1.setTime(lastDate);
 
+		Query query = entityManager.createQuery("select x.demographicId from " + modelClass.getSimpleName() + " x where x.formDate > ?1 or (x.formDate= ?2 and x.formTime >= ?3)");
+		query.setParameter(1, lastDate);
+		query.setParameter(2, lastDate);
+		query.setParameter(3, lastDate);
+
+		@SuppressWarnings("unchecked")
+		List<Integer> results=query.getResultList();
+
+		return(results);
+	}
+/**
+     * @param demographicId can not be null
+     * @param current can be null for both
+     * @param patientIndependent can be null to be both
+     * @return
+     */
+    public List<EFormData> findByDemographicIdCurrentPatientIndependent(Integer demographicId, Boolean current, Boolean patientIndependent)
+	{
+    	StringBuilder sb=new StringBuilder();
+    	sb.append("select x from ");
+    	sb.append(modelClass.getSimpleName());
+    	sb.append(" x where x.demographicId=?1");
+
+    	int counter=2;
+
+    	if (current!=null)
+    	{
+    		sb.append(" and x.current=?");
+    		sb.append(counter);
+    		counter++;
+    	}
+
+    	if (patientIndependent!=null)
+    	{
+    		sb.append(" and x.patientIndependent=?");
+    		sb.append(counter);
+    		counter++;
+    	}
+
+    	String sqlCommand=sb.toString();
+
+    	logger.debug("SqlCommand="+sqlCommand);
+
+		Query query = entityManager.createQuery(sqlCommand);
+		query.setParameter(1, demographicId);
+
+    	counter=2;
+
+    	if (current!=null)
+    	{
+    		query.setParameter(counter, current);
+    		counter++;
+    	}
+
+    	if (patientIndependent!=null)
+    	{
+    		query.setParameter(counter, patientIndependent);
+    		counter++;
+    	}
+
+    	@SuppressWarnings("unchecked")
+		List<EFormData> results=query.getResultList();
+
+		return(results);
+	}
+    
     /**
+     * @param demographicId can not be null
+     * @param current can be null for both
+     * @param patientIndependent can be null to be both
+     * @return
+     */
+    public List<Map<String,Object>> findByDemographicIdCurrentPatientIndependentNoData(Integer demographicId, Boolean current, Boolean patientIndependent)
+	{
+    	StringBuilder sb=new StringBuilder();
+    	sb.append("select new map(x.id as id, x.formId as formId, x.formName as formName, x.subject as subject, x.demographicId as demographicId, x.current as current, x.formDate as formDate, x.formTime as formTime, x.providerNo as providerNo, x.patientIndependent as patientIndependent, x.roleType as roleType) from ");
+    	sb.append(modelClass.getSimpleName());
+    	sb.append(" x where x.demographicId=?1");
+
+    	int counter=2;
+
+    	if (current!=null)
+    	{
+    		sb.append(" and x.current=?");
+    		sb.append(counter);
+    		counter++;
+    	}
+
+    	if (patientIndependent!=null)
+    	{
+    		sb.append(" and x.patientIndependent=?");
+    		sb.append(counter);
+    		counter++;
+    	}
+
+    	String sqlCommand=sb.toString();
+
+    	logger.debug("SqlCommand="+sqlCommand);
+
+		Query query = entityManager.createQuery(sqlCommand);
+		query.setParameter(1, demographicId);
+
+    	counter=2;
+
+    	if (current!=null)
+    	{
+    		query.setParameter(counter, current);
+    		counter++;
+    	}
+
+    	if (patientIndependent!=null)
+    	{
+    		query.setParameter(counter, patientIndependent);
+    		counter++;
+    	}
+
+    	@SuppressWarnings("unchecked")
+		List<Map<String,Object>> results=query.getResultList();
+
+		return(results);
+	}
+
+        /**
      * @param demographicId can not be null
      * @param current can be null for both
      * @return
@@ -186,6 +315,49 @@ public class EFormDataDao extends AbstractDao<EFormData> {
 
 		return(results);
 	}
+
+public List<EFormData> findByFormId(Integer formId)
+	{
+	
+	Query query = entityManager.createQuery("select x from " + modelClass.getSimpleName() + " x where x.formId = ?1 and x.current = 1");
+		query.setParameter(1,formId);
+	
+		@SuppressWarnings("unchecked")
+		List<EFormData> results=query.getResultList();
+	
+		return results;
+	}
+    
+    public List<EFormData> findByFormIdProviderNo(List<String> providerNo, Integer formId)
+	{
+	
+	Query query = entityManager.createQuery("select x from " + modelClass.getSimpleName() + " x where x.formId = ?1 and x.providerNo in (?2) and x.current = 1");
+		//query.setParameter(1,fid);
+		query.setParameter(1,formId);
+		query.setParameter(2,providerNo);
+	
+		@SuppressWarnings("unchecked")
+		List<EFormData> results=query.getResultList();
+	
+		return results;
+	}
+
+	
+
+    public List<Integer> findFdidsByFidsAndDates(TreeSet<Integer> fids, Date dateStart, Date dateEnd)
+    {
+    	if (fids==null || fids.isEmpty()) return new ArrayList<Integer>();
+    	
+    	Query query = entityManager.createQuery("select x.id from " + modelClass.getSimpleName() + " x where x.current=1 and x.formId in (?1) and x.formDate>=?2 and x.formDate<?3");
+    	query.setParameter(1, fids);
+    	query.setParameter(2, dateStart);
+    	query.setParameter(3, dateEnd);
+    	
+    	@SuppressWarnings("unchecked")
+    	List<Integer> results=query.getResultList();
+    	
+    	return(results);
+    }
     
     public List<EFormData> findByFdids(List<Integer> ids)
 	{
@@ -252,6 +424,16 @@ public class EFormDataDao extends AbstractDao<EFormData> {
     	return efmDataList;
     }
     
+/**
+	 * Finds form data for the specified demographic record and form name
+	 * 
+	 * @param demographicNo
+	 * 		Demographic number to find the form data for
+	 * @param formName
+	 * 		Form name to find the data for
+	 * @return
+	 * 		Returns all active matching form data, ordered by creation date and time
+	 */
 	@SuppressWarnings("unchecked")
     public List<EFormData> findByDemographicIdAndFormName(Integer demographicNo, String formName) {
 		String queryString = "FROM EFormData e WHERE e.demographicId = :demographicNo AND e.formName LIKE :formName and status = '1' ORDER BY e.formDate, e.formTime DESC";

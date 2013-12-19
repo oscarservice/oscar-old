@@ -45,7 +45,7 @@ public class HtmlUploadAction extends Action {
         FormFile formHtml = fm.getFormHtml();
         try {
             String formHtmlStr = StringUtils.readFileStream(formHtml);
-            formHtmlStr = formHtmlStr.replaceAll("\\\\n", "\\\\\\\\n");
+            //formHtmlStr = formHtmlStr.replaceAll("\\\\n", "\\\\\\\\n");
             String formName = fm.getFormName();
             String roleType = fm.getRoleType();
             String subject = fm.getSubject();
