@@ -122,6 +122,22 @@ public class JdbcBillingClaimImpl {
 		}
 		return (retval != 0);
 	}
+	
+	public boolean addItemPaymentRecord(List lVal, int id,int paymentId) {
+		int retval = 0;
+		for (int i = 0; i < lVal.size(); i++) {
+			BillingItemData val = (BillingItemData) lVal.get(i);
+			String sql = "insert into billing_on_item_payment values(\\N, " + id + ", '" + paymentId + "', '" + val.id
+					+ "' , \\N,'"+val.paid+"','"+val.refund+"','"+val.discount+"')";
+			retval = dbObj.saveBillingRecord(sql);
+			if (0 == retval) {
+				_logger.error("addItemPaymentRecord(sql = " + sql + ")");
+				return false;
+			}
+			val.setId(((Integer)retval).toString());
+		}
+		return (retval != 0);
+	}
 
 	private void addCreate3rdInvoiceTrans(BillingClaimHeader1Data billHeader, List<BillingItemData> billItemList, int paymentId,String paymenttypeId) {
 		if (billItemList.size() < 1) {
@@ -146,7 +162,7 @@ public class JdbcBillingClaimImpl {
 			sqlBuf.append("'" + billHeader.getBilling_date() + "',"); // billing_date
 			sqlBuf.append("'" + billHeader.getStatus() + "',"); // status
 			sqlBuf.append("'" + billHeader.getPay_program() + "',"); // pay_program
-			sqlBuf.append("'" + billHeader.getPayee() + "',"); // paymentType
+			//sqlBuf.append("'" + billHeader.getPayee() + "',"); // paymentType
 			sqlBuf.append("'" + billHeader.getFacilty_num() + "',"); // facility_num
 			sqlBuf.append("'" + billHeader.getClinic() + "',"); // clinic
 			sqlBuf.append("'" + billHeader.getProviderNo() + "',"); // provider_no
@@ -187,7 +203,7 @@ public class JdbcBillingClaimImpl {
 			sqlBuf.append("(\\N,");
 			sqlBuf.append(billHeader.getId() + ","); // cheader1_id
 			sqlBuf.append("'',"); // paymentId
-			sqlBuf.append(billItem.getId() + ","); // billing_on_item_id
+			sqlBuf.append(0 + ","); // billing_on_item_id
 			sqlBuf.append(billHeader.getDemographic_no() + ","); // demographic_no
 			sqlBuf.append("'" + billHeader.getCreator() + "',"); // update_provider_no
 			sqlBuf.append("CURRENT_TIMESTAMP,"); // update_datetime
@@ -198,7 +214,7 @@ public class JdbcBillingClaimImpl {
 			sqlBuf.append("'" + billHeader.getBilling_date() + "',"); // billing_date
 			sqlBuf.append("'" + billHeader.getStatus() + "',"); // status
 			sqlBuf.append("'" + billHeader.getPay_program() + "',"); // pay_program
-			sqlBuf.append("'" + billHeader.getPayee() + "',"); // paymentType
+			//sqlBuf.append("'" + billHeader.getPayee() + "',"); // paymentType
 			sqlBuf.append("'" + billHeader.getFacilty_num() + "',"); // facility_num
 			sqlBuf.append("'" + billHeader.getClinic() + "',"); // clinic
 			sqlBuf.append("'" + billHeader.getProviderNo() + "',"); // provider_no
@@ -236,6 +252,7 @@ public class JdbcBillingClaimImpl {
 		String paymentSumParam = null;
 		String paymentDateParam = null;
 		String paymentTypeParam = null;
+		String provider_no=mVal.get("provider_no");
 		for (int i = 0; i < temp.length; i++) {
 			String val = mVal.get(temp[i]);
 			if ("discount".equals(temp[i])) {
@@ -281,8 +298,12 @@ public class JdbcBillingClaimImpl {
 	    		payment.setTotal_refund(new BigDecimal(0));
 				payment.setPaymentDate(paymentDate);
 		    	payment.setBillingOnCheader1(ch1);
-		    //	payment.setBillingPaymentType(type);
+		    	payment.setPaymentTypeId(paymentTypeParam);
+		    	payment.setCreator(provider_no);
+		    	
+		    	//payment.setBillingPaymentType(type);
 		    	billingONPaymentDao.persist(payment);
+		    	addItemPaymentRecord((List) vecObj.get(1), id ,payment.getId());
 		    	addCreate3rdInvoiceTrans((BillingClaimHeader1Data) vecObj.get(0), (List<BillingItemData>)vecObj.get(1), payment.getId(),paymentTypeParam);
 	    	}
         }
@@ -297,6 +318,16 @@ public class JdbcBillingClaimImpl {
 				+ "', \\N,' "+val.paid+"','"+val.refund+"','"+val.discount+"',"+1+")";
 		retval = dbObj.saveBillingRecord(sql);
 		if (retval == 0) {
+			_logger.error("addOneItemRecord(sql = " + sql + ")");
+		}
+		return retval;
+	}
+	
+	public int addOneItemPaymentRecord(BillingItemData val, int id) {
+		int retval = 0;
+		String sql = "insert into billing_on_item_payment values(\\N, " + val.ch1_id + ", '" + 0 + "', '" + id + "', \\N,' "+val.paid+"','"+val.refund+"','"+val.discount+"')";
+		retval = dbObj.saveBillingRecord(sql);
+		if (retval == 0) { 
 			_logger.error("addOneItemRecord(sql = " + sql + ")");
 		}
 		return retval;

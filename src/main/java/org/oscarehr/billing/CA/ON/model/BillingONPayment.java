@@ -37,10 +37,30 @@ public class BillingONPayment extends AbstractModel<Integer> implements Serializ
 	@ManyToOne(optional=false)
 	@JoinColumn(name="ch1_id")
 	private BillingClaimHeader1 billingONCheader1;
+	
+	private String creator;
+	private String paymentTypeId; 
 
+	
 	//@ManyToOne(optional=false)
 	//@JoinColumn(name="paymentTypeId")
 	//private BillingPaymentType billingPaymentType;
+
+	public String getPaymentTypeId() {
+		return paymentTypeId;
+	}
+
+	public void setPaymentTypeId(String paymentTypeId) {
+		this.paymentTypeId = paymentTypeId;
+	}
+
+	public String getCreator() {
+		return creator;
+	}
+
+	public void setCreator(String creator) {
+		this.creator = creator;
+	}
 
 	public BillingONPayment() {
 		super();

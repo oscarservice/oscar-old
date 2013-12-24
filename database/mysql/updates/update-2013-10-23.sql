@@ -30,5 +30,8 @@ CREATE TABLE `billing_on_transaction` (
   `dx_code` VARCHAR(3),
   `billing_notes` VARCHAR(255),
   `action_type` char(1) DEFAULT NULL,
-  `payment_typeID` int(2) NOT NULL
+  `payment_typeID` INT(2) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `ch1_id_fk` (`ch1_id`),
+  KEY `payment_id_fk` (`payment_id`)
 );

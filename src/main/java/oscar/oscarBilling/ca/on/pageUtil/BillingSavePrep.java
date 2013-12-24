@@ -58,6 +58,7 @@ public class BillingSavePrep {
 		claim1Obj.setId(((Integer)billingId).toString());
 		if (val.size() > 1) {
 			ret = dbObj.addItemRecord((List) val.get(1), billingNo);
+			//dbObj.addItemPaymentRecord((List) val.get(1), billingNo);
 			if (!ret)
 				return false;
 		} else {
@@ -194,7 +195,9 @@ public class BillingSavePrep {
 		if (val.getParameter("submit").equalsIgnoreCase("Settle")) {
 			paid = val.getParameter("total");
 		} else if (val.getParameter("submit").equalsIgnoreCase("Save & Print Invoice")
-				|| val.getParameter("submit").equalsIgnoreCase("Settle & Print Invoice")) {
+				|| val.getParameter("submit").equalsIgnoreCase("Settle & Print Invoice")
+				|| val.getParameter("submit").equalsIgnoreCase("Save")
+				|| val.getParameter("submit").equalsIgnoreCase("Save & Add Another Bill")) {
 			paid = val.getParameter("total_payment");
 		}
 		claim1Header.setPaid(paid);

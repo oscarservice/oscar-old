@@ -33,7 +33,11 @@ import java.util.Date;
  * This is the object class that relates to the program table. Any customizations belong here.
  */
 public class BillingOnItem implements Serializable {
-    private Integer id;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5136238841649376528L;
+	private Integer id;
     private Integer ch1_id;
     private String  transc_id;
     private String  rec_id;

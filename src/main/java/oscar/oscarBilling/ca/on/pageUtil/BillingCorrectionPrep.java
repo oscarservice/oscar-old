@@ -26,11 +26,14 @@ import java.util.Vector;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
+import org.oscarehr.billing.CA.ON.dao.BillingItemDao;
 import org.oscarehr.billing.CA.ON.dao.BillingONExtDao;
+import org.oscarehr.billing.CA.ON.model.BillingItem;
 import org.oscarehr.billing.CA.ON.model.BillingONExt;
 import org.oscarehr.util.MiscUtils;
 import org.oscarehr.util.SpringUtils;
 
+import oscar.oscarBilling.ca.on.dao.BillingOnItemDao;
 import oscar.oscarBilling.ca.on.data.BillingClaimHeader1Data;
 import oscar.oscarBilling.ca.on.data.BillingDataHlp;
 import oscar.oscarBilling.ca.on.data.BillingItemData;
@@ -41,13 +44,18 @@ import oscar.oscarBilling.ca.on.data.JdbcBillingCodeImpl;
 import oscar.oscarBilling.ca.on.data.JdbcBillingCorrection;
 import oscar.oscarBilling.ca.on.data.JdbcBillingPageUtil;
 import oscar.oscarBilling.ca.on.data.JdbcBillingReviewImpl;
+import oscar.oscarBilling.ca.on.model.BillingOnItem;
+
 import oscar.util.StringUtils;
 
 public class BillingCorrectionPrep {
 	private static final Logger _logger = Logger
 			.getLogger(BillingCorrectionPrep.class);
+	
+	private BillingOnItemDao billingOnItemDao;
 
 	JdbcBillingCorrection dbObj = new JdbcBillingCorrection();
+	BillingItemDao item=new BillingItemDao();
 
 	// 
 	public List getBillingRecordObj(String id) {
@@ -388,6 +396,9 @@ public class BillingCorrectionPrep {
 				oldObj.setStatus(cStatus);
 				//List<String> payProgram = dbObj.getPayprogramByBillNo(oldObj.getCh1_id());
 				ret = dbObj.updateBillingOneItem(oldObj);
+				if(ch1Obj.getPay_program().matches(BillingDataHlp.BILLINGMATCHSTRING_3RDPARTY)) {
+				dbObj.updateBillingOneItemPayment(oldObj);
+				}
 				//dbObj.addBillingTransaction(oldObj, payProgram.get(0));
 				if (ret) {
 					dbObj.addUpdateOneBillItemTrans(ch1Obj, oldObj, updateProviderNo);
@@ -399,6 +410,9 @@ public class BillingCorrectionPrep {
 			oldObj.setStatus("D");
 			///List<String> payProgram = dbObj.getPayprogramByBillNo(oldObj.getCh1_id());
 			ret = dbObj.updateBillingOneItem(oldObj);
+			if(ch1Obj.getPay_program().matches(BillingDataHlp.BILLINGMATCHSTRING_3RDPARTY)) {
+			dbObj.updateBillingOneItemPayment(oldObj);
+			}
 			if (ret) {
 				dbObj.addDeleteOneBillItemTrans(ch1Obj, oldObj, updateProviderNo);
 			}
@@ -427,14 +441,35 @@ public class BillingCorrectionPrep {
 			newObj.setService_date(serviceDate);
 			newObj.setDx(sDx);
 			newObj.setStatus(sStatus);
+			newObj.setPaid("0.00");
+			newObj.setDiscount("0.00");
+			newObj.setRefund("0.00");
 			JdbcBillingClaimImpl myObj = new JdbcBillingClaimImpl();
 			int i = myObj.addOneItemRecord(newObj);
+			//int billingno= Integer.parseInt(oldObj.getCh1_id());
+			//List<BillingOnItem> items = billingOnItemDao
+					//.getBillingItemByCh1IdDesc(billingno);
+			//item.getShowBillingItemByCh1Id(a).get(0).getId();
+			//List<ItemBean> list=item.getBillingItemByIdDesc(a);
+			//List<BillingItem> list=item.getBillingItemByIdDesc(a);
+			//ItemBean str=list.get(0);
+			//BillingItem str =list.get(0);
 			if (0 == i) {
 				return false;
 			}
-			lItemObj.add(newObj);
-			dbObj.addInsertOneBillItemTrans(ch1Obj, newObj, updateProviderNo);
+			if(ch1Obj.getPay_program().matches(BillingDataHlp.BILLINGMATCHSTRING_3RDPARTY)) {
+			int b=myObj.addOneItemPaymentRecord(newObj, i);
+			
+			
+			dbObj.addInsertOneBillItemTrans(ch1Obj, newObj, updateProviderNo,b);
 		}
+		else{
+			dbObj.addInsertOneBillItemTrans(ch1Obj, newObj, updateProviderNo,0);
+			
+		}
+			lItemObj.add(newObj);
+			}
+		
 		ret = true;
 		return ret;
 	}

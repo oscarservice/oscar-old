@@ -53,6 +53,7 @@ import oscar.oscarBilling.ca.on.dao.BillingOnItemDao;
 import oscar.oscarBilling.ca.on.data.BillingClaimHeader1Data;
 import oscar.oscarBilling.ca.on.data.JdbcBillingCorrection;
 import oscar.oscarBilling.ca.on.model.BillingOnItem;
+import oscar.oscarBilling.ca.on.model.BillingOnPaymentItem;
 import oscar.oscarBilling.ca.on.pageUtil.BillingCorrectionPrep;
 
 /**
@@ -149,12 +150,15 @@ public class BillingONPaymentsAction extends DispatchAction {
 			}
 			if (billingOnItemDao.getBillingItemById(Integer.parseInt(serviceCode)).size() > 0) {
 				BillingOnItem item = billingOnItemDao.getBillingItemById(Integer.parseInt(serviceCode)).get(0);
+				BillingOnPaymentItem item1 = billingOnItemDao.getBillingItemByIdNew(Integer.parseInt(serviceCode)).get(0);
 				if ("payment".equals(request.getParameter("sel" + i))) {
 					payments.add(pay_ref);
 					discounts.add(discount);
 					billingOnItemDao.updateItemPayment(item, pay_ref, discount);
+					billingOnItemDao.updateItemPaymentNew(item1, pay_ref, discount);
 					//billingOnItemDao.addUpdateOneBillItemTrans(ch1Obj, item, updateProviderNo,pay_ref, discount,payment_id);
-					billingOnItemDao.addUpdateOneBillItemTrans(ch1Obj, item, updateProviderNo, pay_ref, discount);
+					billingOnItemDao.addUpdateOneBillItemTrans(ch1Obj, item, updateProviderNo, pay_ref, discount,item1);
+					
 				} else if ("refund".equals(request.getParameter("sel" + i))) {
 					String discount1=item.getDiscount().toString();
 					String payment1=item.getPaid().toString();
@@ -162,7 +166,8 @@ public class BillingONPaymentsAction extends DispatchAction {
 					payments.add(payment1);
 					refunds.add(pay_ref);
 					billingOnItemDao.updateItemRefund(item, pay_ref);
-					billingOnItemDao.addUpdateOneBillItemTransForRefund(ch1Obj, item, updateProviderNo, payment1, discount1, pay_ref);
+					billingOnItemDao.updateItemRefundNew(item1, pay_ref);
+					billingOnItemDao.addUpdateOneBillItemTransForRefund(ch1Obj, item, updateProviderNo, payment1, discount1, pay_ref,item1);
 
 				}
 				
@@ -219,6 +224,8 @@ public class BillingONPaymentsAction extends DispatchAction {
 			payment.setTotal_discount(sumDiscount);
 			payment.setPaymentDate(paymentDate);
 			payment.setBillingOnCheader1(ch1);
+			payment.setCreator(updateProviderNo);
+			payment.setPaymentTypeId("1");
 			// payment.setPaymentId(billingNo);
 			//payment.setBillingPaymentType(type);
 			// payment.setPaymentTypeId(paymentType);
@@ -233,6 +240,8 @@ public class BillingONPaymentsAction extends DispatchAction {
 			payment.setTotal_refund(sumRefund);
 			payment.setTotal_discount(sumDiscount);
 			payment.setPaymentDate(paymentDate);
+			payment.setCreator(updateProviderNo);
+			payment.setPaymentTypeId("1");
 			// payment.setBillingOnCheader1(ch1);
 			// payment.setPaymentId(billingNo);
 			//payment.setBillingPaymentType(type);

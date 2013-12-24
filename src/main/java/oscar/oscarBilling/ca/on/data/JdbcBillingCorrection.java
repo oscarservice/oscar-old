@@ -102,6 +102,18 @@ public class JdbcBillingCorrection {
 		return retval;
 	}
 	
+	public boolean updateBillingOneItemPayment(BillingItemData val) {
+		boolean retval = false;
+		String sql = "update billing_on_item_payment set paid='" + val.paid + "', refund='" + val.refund + "', discount='" + val.discount + "' where billing_on_item_id=" + val.id;
+		_logger.info("updateBillingOneItempayment(sql = " + sql + ")");
+		retval = dbObj.updateDBRecord(sql);
+		if (!retval) {
+			_logger.error("updateBillingOneItempayment(sql = " + sql + ")");
+			return retval;
+		}
+		return retval;
+	}
+	
 
 	
 	public int addRepoOneItem(BillingItemData val) {
@@ -278,6 +290,10 @@ public class JdbcBillingCorrection {
 				itemObj.setDx2(rs2.getString("dx2"));
 				itemObj.setStatus(rs2.getString("status"));
 				itemObj.setTimestamp(rs2.getString("timestamp"));
+				itemObj.setPaid(rs2.getString("paid"));
+				itemObj.setRefund(rs2.getString("refund"));
+				itemObj.setDiscount(rs2.getString("discount"));
+				
 				obj.add(itemObj);
 			}
 		} catch (SQLException e) {
@@ -397,13 +413,13 @@ public class JdbcBillingCorrection {
 		dbObj.saveBillingRecord(sql);
 	}
 	
-	public void addInsertOneBillItemTrans(BillingClaimHeader1Data billHeader, BillingItemData billItem, String updateProviderNo) {
+	public void addInsertOneBillItemTrans(BillingClaimHeader1Data billHeader, BillingItemData billItem, String updateProviderNo,int id) {
 		StringBuffer sqlBuf = new StringBuffer();
 		sqlBuf.append("insert into billing_on_transaction values");
 		sqlBuf.append("(\\N,");
 		sqlBuf.append(billItem.getCh1_id() + ","); // cheader1_id
 		sqlBuf.append("'',"); // paymentId
-		sqlBuf.append(billItem.getId() + ","); // billing_on_item_id
+		sqlBuf.append(id + ","); // billing_on_item_id
 		sqlBuf.append(billHeader.getDemographic_no() + ","); // demographic_no
 		sqlBuf.append("'" + updateProviderNo + "',"); // update_provider_no
 		sqlBuf.append("CURRENT_TIMESTAMP,"); // update_datetime
@@ -414,7 +430,7 @@ public class JdbcBillingCorrection {
 		sqlBuf.append("'" + billItem.getService_date() + "',"); // billing_date
 		sqlBuf.append("'" + billItem.getStatus() + "',"); // status
 		sqlBuf.append("'" + billHeader.getPay_program() + "',"); // pay_program
-		sqlBuf.append("'" + billHeader.getPayee() + "',"); // paymentType
+		//sqlBuf.append("'" + billHeader.getPayee() + "',"); // paymentType
 		sqlBuf.append("'" + billHeader.getFacilty_num() + "',"); // facility_num
 		sqlBuf.append("'" + billHeader.getClinic() + "',"); // clinic
 		sqlBuf.append("'" + billHeader.getProviderNo() + "',"); // provider_no
@@ -442,7 +458,7 @@ public class JdbcBillingCorrection {
 		sqlBuf.append("(\\N,");
 		sqlBuf.append(billItem.getCh1_id() + ","); // cheader1_id
 		sqlBuf.append("'',"); // paymentId
-		sqlBuf.append(billItem.getId() + ","); // billing_on_item_id
+		sqlBuf.append(0 + ","); // billing_on_item_id
 		sqlBuf.append(billHeader.getDemographic_no() + ","); // demographic_no
 		sqlBuf.append("'" + updateProviderNo + "',"); // update_provider_no
 		sqlBuf.append("CURRENT_TIMESTAMP,"); // update_datetime
@@ -453,7 +469,7 @@ public class JdbcBillingCorrection {
 		sqlBuf.append("'" + billItem.getService_date() + "',"); // billing_date
 		sqlBuf.append("'" + billItem.getStatus() + "',"); // status
 		sqlBuf.append("'" + billHeader.getPay_program() + "',"); // pay_program
-		sqlBuf.append("'" + billHeader.getPayee() + "',"); // paymentType
+		//sqlBuf.append("'" + billHeader.getPayee() + "',"); // paymentType
 		sqlBuf.append("'" + billHeader.getFacilty_num() + "',"); // facility_num
 		sqlBuf.append("'" + billHeader.getClinic() + "',"); // clinic
 		sqlBuf.append("'" + billHeader.getProviderNo() + "',"); // provider_no
@@ -481,7 +497,7 @@ public class JdbcBillingCorrection {
 		sqlBuf.append("(\\N,");
 		sqlBuf.append(billItem.getCh1_id() + ","); // cheader1_id
 		sqlBuf.append("'',"); // paymentId
-		sqlBuf.append(billItem.getId() + ","); // billing_on_item_id
+		sqlBuf.append(0 + ","); // billing_on_item_id
 		sqlBuf.append(billHeader.getDemographic_no() + ","); // demographic_no
 		sqlBuf.append("'" + updateProviderNo + "',"); // update_provider_no
 		sqlBuf.append("CURRENT_TIMESTAMP,"); // update_datetime
@@ -492,7 +508,7 @@ public class JdbcBillingCorrection {
 		sqlBuf.append("'" + billHeader.getBilling_date() + "',"); // billing_date
 		sqlBuf.append("'" + BillingDataHlp.BILLINGFILE_STATUS_DELETED + "',"); // status
 		sqlBuf.append("'" + billHeader.getPay_program() + "',"); // pay_program
-		sqlBuf.append("'" + billHeader.getPayee() + "',"); // paymentType
+		//sqlBuf.append("'" + billHeader.getPayee() + "',"); // paymentType
 		sqlBuf.append("'" + billHeader.getFacilty_num() + "',"); // facility_num
 		sqlBuf.append("'" + billHeader.getClinic() + "',"); // clinic
 		sqlBuf.append("'" + billHeader.getProviderNo() + "',"); // provider_no

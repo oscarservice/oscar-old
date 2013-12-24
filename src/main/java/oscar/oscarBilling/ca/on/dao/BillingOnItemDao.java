@@ -28,19 +28,26 @@ package oscar.oscarBilling.ca.on.dao;
 import java.math.BigDecimal;
 import java.util.List;
 
-import org.oscarehr.billing.CA.ON.model.BillingONPayment;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+import org.oscarehr.billing.CA.ON.model.BillingItem;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.springframework.stereotype.Repository;
 
 import oscar.oscarBilling.ca.on.data.BillingClaimHeader1Data;
 import oscar.oscarBilling.ca.on.data.BillingDataHlp;
-import oscar.oscarBilling.ca.on.data.BillingItemData;
 import oscar.oscarBilling.ca.on.data.BillingONDataHelp;
 import oscar.oscarBilling.ca.on.model.BillingOnCHeader1;
 import oscar.oscarBilling.ca.on.model.BillingOnItem;
-
+import oscar.oscarBilling.ca.on.model.BillingOnPaymentItem;
+@Repository
 public class BillingOnItemDao extends HibernateDaoSupport {
 	
 	BillingONDataHelp dbObj = new BillingONDataHelp();
+	@PersistenceContext
+	protected EntityManager entityManager = null;
 
 	public void addBillingOnItem(BillingOnItem billingItem) {
 		getHibernateTemplate().merge(billingItem);
@@ -51,6 +58,15 @@ public class BillingOnItemDao extends HibernateDaoSupport {
 
             @SuppressWarnings("unchecked")
             List<BillingOnItem> rs = getHibernateTemplate().find(queryStr);
+
+            return rs;
+        }
+        
+        public List<BillingOnPaymentItem> getBillingItemByIdNew(Integer id) {
+            String queryStr = "FROM BillingOnPaymentItem b WHERE b.billing_on_item_id = "+id;
+
+            @SuppressWarnings("unchecked")
+            List<BillingOnPaymentItem> rs = getHibernateTemplate().find(queryStr);
 
             return rs;
         }
@@ -71,6 +87,27 @@ public class BillingOnItemDao extends HibernateDaoSupport {
         	
         	return rs;
         }
+        
+        public List<BillingOnItem> getBillingItemByCh1IdDesc(Integer ch1_id){
+        	String queryStr = "FROM BillingOnItem b where b.ch1_id = "+ch1_id+" AND b.status!='D' ORDER BY b.id desc";
+        	@SuppressWarnings("unchecked")
+			List<BillingOnItem> rs = getHibernateTemplate().find(queryStr);
+        	
+        	// String a=rs.get(0).getId().toString();
+        	
+        	return rs;
+        }
+        
+        @SuppressWarnings("unchecked")
+		public List<BillingItem> getBillingItemByIdDesc(Integer ch1_id){
+            //log.debug("WHAT IS NULL ? "+billingmasterNo+"  status "+status+"   "+entityManager);
+            Query query = entityManager.createQuery("select b from BillingItem b where b.ch1_id = ? AND b.status!='D' ORDER BY b.id desc");
+            query.setParameter(1,ch1_id);
+            
+            List<BillingItem> list= query.getResultList();
+            return list;
+        }
+        
         public List<BillingOnCHeader1> getCh1ByDemographicNo(Integer demographic_no) {
             String queryStr = "FROM BillingOnCHeader1 b WHERE b.demographic_no = "+demographic_no+" ORDER BY b.id";
 
@@ -94,7 +131,18 @@ public class BillingOnItemDao extends HibernateDaoSupport {
         	getHibernateTemplate().update(item);
         }
         
+        public void updateItemRefundNew(BillingOnPaymentItem item,String refund){
+        	item.setRefund(new BigDecimal(refund));
+        	getHibernateTemplate().update(item);
+        }
+        
         public void updateItemPayment(BillingOnItem item,String paid,String discount){
+        	item.setPaid(new BigDecimal(paid));
+        	item.setDiscount(new BigDecimal(discount));
+        	getHibernateTemplate().update(item);
+        }
+        
+        public void updateItemPaymentNew(BillingOnPaymentItem item,String paid,String discount){
         	item.setPaid(new BigDecimal(paid));
         	item.setDiscount(new BigDecimal(discount));
         	getHibernateTemplate().update(item);
@@ -105,13 +153,13 @@ public class BillingOnItemDao extends HibernateDaoSupport {
 			getHibernateTemplate().update(item);
 		}
 		
-		public void addUpdateOneBillItemTrans(BillingClaimHeader1Data billHeader, BillingOnItem item, String updateProviderNo,String pay_ref, String discount) {
+		public void addUpdateOneBillItemTrans(BillingClaimHeader1Data billHeader, BillingOnItem item, String updateProviderNo,String pay_ref, String discount,BillingOnPaymentItem item1) {
 			StringBuffer sqlBuf = new StringBuffer();
 			sqlBuf.append("insert into billing_on_transaction values");
 			sqlBuf.append("(\\N,");
 			sqlBuf.append(item.getCh1_id() + ","); // cheader1_id
 			sqlBuf.append("'',"); // paymentId
-			sqlBuf.append(item.getId() + ","); // billing_on_item_id
+			sqlBuf.append(item1.getId() + ","); // billing_on_item_id
 			sqlBuf.append(billHeader.getDemographic_no() + ","); // demographic_no
 			sqlBuf.append("'" + updateProviderNo + "',"); // update_provider_no
 			sqlBuf.append("CURRENT_TIMESTAMP,"); // update_datetime
@@ -122,7 +170,7 @@ public class BillingOnItemDao extends HibernateDaoSupport {
 			sqlBuf.append("'" + item.getService_date() + "',"); // billing_date
 			sqlBuf.append("'" + item.getStatus() + "',"); // status
 			sqlBuf.append("'" + billHeader.getPay_program() + "',"); // pay_program
-			sqlBuf.append("'" + billHeader.getPayee() + "',"); // paymentType
+			//sqlBuf.append("'" + billHeader.getPayee() + "',"); // paymentType
 			sqlBuf.append("'" + billHeader.getFacilty_num() + "',"); // facility_num
 			sqlBuf.append("'" + billHeader.getClinic() + "',"); // clinic
 			sqlBuf.append("'" + billHeader.getProviderNo() + "',"); // provider_no
@@ -144,13 +192,13 @@ public class BillingOnItemDao extends HibernateDaoSupport {
 			dbObj.saveBillingRecord(sqlBuf.toString());
 		}
 		
-		public void addUpdateOneBillItemTransForRefund(BillingClaimHeader1Data billHeader, BillingOnItem item, String updateProviderNo,String pay_ref, String discount,String refund) {
+		public void addUpdateOneBillItemTransForRefund(BillingClaimHeader1Data billHeader, BillingOnItem item, String updateProviderNo,String pay_ref, String discount,String refund,BillingOnPaymentItem item1) {
 			StringBuffer sqlBuf = new StringBuffer();
 			sqlBuf.append("insert into billing_on_transaction values");
 			sqlBuf.append("(\\N,");
 			sqlBuf.append(item.getCh1_id() + ","); // cheader1_id
 			sqlBuf.append("'',"); // paymentId
-			sqlBuf.append(item.getId() + ","); // billing_on_item_id
+			sqlBuf.append(item1.getId() + ","); // billing_on_item_id
 			sqlBuf.append(billHeader.getDemographic_no() + ","); // demographic_no
 			sqlBuf.append("'" + updateProviderNo + "',"); // update_provider_no
 			sqlBuf.append("CURRENT_TIMESTAMP,"); // update_datetime
@@ -161,7 +209,7 @@ public class BillingOnItemDao extends HibernateDaoSupport {
 			sqlBuf.append("'" + item.getService_date() + "',"); // billing_date
 			sqlBuf.append("'" + item.getStatus() + "',"); // status
 			sqlBuf.append("'" + billHeader.getPay_program() + "',"); // pay_program
-			sqlBuf.append("'" + billHeader.getPayee() + "',"); // paymentType
+			//sqlBuf.append("'" + billHeader.getPayee() + "',"); // paymentType
 			sqlBuf.append("'" + billHeader.getFacilty_num() + "',"); // facility_num
 			sqlBuf.append("'" + billHeader.getClinic() + "',"); // clinic
 			sqlBuf.append("'" + billHeader.getProviderNo() + "',"); // provider_no
