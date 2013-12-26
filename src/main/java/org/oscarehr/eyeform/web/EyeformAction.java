@@ -397,7 +397,8 @@ public class EyeformAction extends DispatchAction {
            List<EyeformFollowUp> followUps = followUpDao.getByAppointmentNo(appNo);
            StringBuilder followup = new StringBuilder();
            for(EyeformFollowUp ef:followUps) {
-				if (ef.getTimespan() >0) {
+//				if (ef.getTimespan() >0) {
+        	    if(!ef.getTimespan().equals("0") || !ef.getTimespan().equals("")){
 					followup.append((ef.getType().equals("followup")?"Follow Up":"Consult") + " in " + ef.getTimespan() + " " + ef.getTimeframe());
 				}
            }
@@ -716,7 +717,7 @@ public class EyeformAction extends DispatchAction {
 				}
 
 				//specs history
-				if((whichEyeForm != null) && ((whichEyeForm.equals("eyeform3"))|| ("eyeform4".equals(whichEyeForm)))){
+				if((whichEyeForm != null) && ((whichEyeForm.equals("eyeform3"))|| ("eyeform3.1".equals(whichEyeForm)) || ("eyeform3.2".equals(whichEyeForm)))){
 					
 				}else{
 					List<EyeformSpecsHistory> specsHistory ;
@@ -749,7 +750,7 @@ public class EyeformAction extends DispatchAction {
 						}
 					} else {
 */
-					if((whichEyeForm != null) && ((whichEyeForm.equals("eyeform3")) || ("eyeform4".equals(whichEyeForm)))){
+					if((whichEyeForm != null) && ((whichEyeForm.equals("eyeform3")) || ("eyeform3.1".equals(whichEyeForm)) || ("eyeform3.2".equals(whichEyeForm)))){
 						MeasurementFormatter formatter = new MeasurementFormatter(measurements);
 						printer.printEyeformMeasurements(formatter,appointmentNo);
 					}else{
@@ -1282,7 +1283,8 @@ public class EyeformAction extends DispatchAction {
 	           if(appNo!=null && appNo!=0) {
 		           List<EyeformFollowUp> followUps = followUpDao.getByAppointmentNo(appNo);	           
 		           for(EyeformFollowUp ef:followUps) {
-						if (ef.getTimespan() >0) {
+//						if (ef.getTimespan() >0) {
+		        	    if(!ef.getTimespan().equals("0") || !ef.getTimespan().equals("")){
 							followup.append((ef.getType().equals("followup")?"Follow Up":"Consult") + " in " + ef.getTimespan() + " " + ef.getTimeframe());
 						}
 		           }
@@ -1760,7 +1762,7 @@ public class EyeformAction extends DispatchAction {
 	           List<LabelValueBean> sections = new ArrayList<LabelValueBean>();
 	           oscar.OscarProperties props1 = oscar.OscarProperties.getInstance();
 	           String eyeform = props1.getProperty("cme_js");
-	           if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+	           if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 	        	   sections.add(new LabelValueBean("GLASSES HISTORY","GLASSES HISTORY"));
 		           sections.add(new LabelValueBean("VISION ASSESSMENT","VISION ASSESSMENT"));
 		           sections.add(new LabelValueBean("VISION MEASUREMENT","VISION MEASUREMENT"));
@@ -1794,7 +1796,7 @@ public class EyeformAction extends DispatchAction {
 	           List<LabelValueBean> sections = new ArrayList<LabelValueBean>();
 	           oscar.OscarProperties props1 = oscar.OscarProperties.getInstance();
 	           String eyeform = props1.getProperty("cme_js");
-	           if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+	           if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 	        	   sections.add(new LabelValueBean("Glasses Rx","Glasses Rx"));
 		           sections.add(new LabelValueBean("Distance vision (sc)","Distance vision (sc)"));
 		           sections.add(new LabelValueBean("Distance vision (cc)","Distance vision (cc)"));
@@ -1947,7 +1949,7 @@ public class EyeformAction extends DispatchAction {
 			String tmp = null;
 			oscar.OscarProperties props1 = oscar.OscarProperties.getInstance();
 			String eyeform = props1.getProperty("cme_js");
-            if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+            if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
             	tmp = formatter.getGlasseshistory(headerMap,Integer.parseInt(appointmentNo));
     			exam.append(tmp);
     			

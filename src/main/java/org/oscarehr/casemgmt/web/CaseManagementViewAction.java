@@ -1928,7 +1928,8 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
 					.getParameter("demographicNo")));
 			f.setProvider(LoggedInInfo.loggedInInfo.get().loggedInProvider);
 			f.setTimeframe(followUpUnit);
-			f.setTimespan(followUpNo);
+//			f.setTimespan(followUpNo);
+			f.setTimespan(String.valueOf(followUpNo));
 			f.setType("followup");
 			f.setUrgency("routine");
 			f.setFollowupProvider(followUpDr);
@@ -2658,7 +2659,7 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
 				}
 			}
 		}
-		if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 	    	ArrayList<NoteDisplay> notesToDisplay1 = new ArrayList<NoteDisplay>();
 			if (entries.size() > 0) {
 				// figure out what we need to retrieve

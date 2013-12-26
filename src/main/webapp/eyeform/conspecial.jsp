@@ -69,7 +69,7 @@
                 <table>
                 	<tr>
                 		<td>
-						<%if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){%>
+						<%if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){%>
 							<select name="fromlist1" multiple="multiple" size="9" ondblclick="addSection1(document.EctConsultationFormRequestForm.elements['fromlist1'],document.EctConsultationFormRequestForm.elements['fromlist2']);">   
 						<%}else{%>
                 			<select name="fromlist1" multiple="multiple" size="9" ondblclick="addSection(document.EctConsultationFormRequestForm.elements['fromlist1'],document.EctConsultationFormRequestForm.elements['fromlist2']);">                				
@@ -80,7 +80,7 @@
                 			</select>
                 		</td>
                 		<td valign="middle">
-						<%if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){%>	
+						<%if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){%>	
 							<input type="button" value=">>" onclick="addSection1(document.EctConsultationFormRequestForm.elements['fromlist1'],document.EctConsultationFormRequestForm.elements['fromlist2']);"/>
 						<%}else{%>
                 			<input type="button" value=">>" onclick="addSection(document.EctConsultationFormRequestForm.elements['fromlist1'],document.EctConsultationFormRequestForm.elements['fromlist2']);"/>

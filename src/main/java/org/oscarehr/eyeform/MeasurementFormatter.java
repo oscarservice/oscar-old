@@ -93,7 +93,7 @@ public class MeasurementFormatter {
     			sb.append("Near vision (cc) ");
     			sb.append(this.getVisionAssessmentNearVision_cc());
     		}
-        }else if("eyeform4".equals(eyeform)){
+        }else if("eyeform3.2".equals(eyeform)){
         	if(includeMap.get("Distance vision (cc)") != null && this.getVisionAssessmentDistanceVision_cc().length()>0){
     			sb.append("\nDistance vision (cc) ");
     			sb.append(this.getVisionAssessmentDistanceVision_cc());
@@ -160,7 +160,7 @@ public class MeasurementFormatter {
 			sb.append("Auto-refraction ");
 			sb.append(this.getAutoRefraction());
 		}
-		if("eyeform4".equals(eyeform)){
+		if("eyeform3.2".equals(eyeform)){
 			if(includeMap.get("Keratometry") != null && this.getKeratometry().length()>0) {
 				sb.append("\nKeratometry ");
 				sb.append(this.getKeratometry());
@@ -203,7 +203,7 @@ public class MeasurementFormatter {
 	
 	public String getStereoVision(Map<String,Boolean> includeMap){
 		StringBuilder sb = new StringBuilder();
-		if("eyeform4".equals(eyeform)){
+		if("eyeform3.2".equals(eyeform)){
 			if(includeMap.get("Fly test") != null && this.getFlytest().length()>0) {
 				sb.append("Fly test      ");
 				sb.append(this.getFlytest());
@@ -234,7 +234,7 @@ public class MeasurementFormatter {
 			sb.append("NCT ");
 			sb.append(this.getNCT());
 		}
-		if("eyeform4".equals(eyeform)){
+		if("eyeform3.2".equals(eyeform)){
 			if(includeMap.get("Applanation") != null && this.getApplanation().length()>0) {
 				sb.append("\nApplanation ");
 				sb.append(this.getApplanation());
@@ -265,7 +265,7 @@ public class MeasurementFormatter {
 			sb.append("Dominance ");
 			sb.append(this.getDominance());
 		}
-		if("eyeform4".equals(eyeform)){
+		if("eyeform3.2".equals(eyeform)){
 			if(includeMap.get("Mesopic pupil size") != null && this.getMesopicPupilSize().length()>0) {
 				sb.append("\nMesopic pupil size ");
 				sb.append(this.getMesopicPupilSize());
@@ -296,7 +296,7 @@ public class MeasurementFormatter {
 			sb.append("Colour vision ");
 			sb.append(this.getColourVision());
 		}
-		if("eyeform4".equals(eyeform)){
+		if("eyeform3.2".equals(eyeform)){
 			if(includeMap.get("Pupil") != null && this.getPupil().length()>0) {
 				sb.append("\nPupil ");
 				sb.append(this.getPupil());
@@ -371,8 +371,8 @@ public class MeasurementFormatter {
 
 	public String getDuctionTesting(Map<String,Boolean> includeMap){
 		StringBuilder sb = new StringBuilder();
-		if(includeMap.get("DUCTION/DIPLOPIA") != null && this.getDuction().length()>0) {
-			sb.append("DUCTION/DIPLOPIA: \n");
+		if(includeMap.get("DUCTION/DIPLOPIA TESTING") != null && this.getDuction().length()>0) {
+			sb.append("DUCTION/DIPLOPIA TESTING: \n");
 			sb.append(this.getDuction());
 		}
 		return sb.toString();
@@ -384,7 +384,7 @@ public class MeasurementFormatter {
 			sb.append("Primary gaze:      ");
 			sb.append(this.getPrimarygaze());
 		}
-		if("eyeform4".equals(eyeform)){
+		if("eyeform3.2".equals(eyeform)){
 			if(includeMap.get("Up gaze") != null && this.getUpgaze().length()>0) {
 				sb.append("\nUp gaze:           ");
 				sb.append(this.getUpgaze());
@@ -481,7 +481,7 @@ public class MeasurementFormatter {
 			sb.append("Cornea ");
 			sb.append(this.getCornea());
 		}
-		if("eyeform4".equals(eyeform)){
+		if("eyeform3.2".equals(eyeform)){
 			if(includeMap.get("Conjunctiva/Sclera") != null && this.getConjuctivaSclera().length()>0) {
 				sb.append("\nConjunctiva/Sclera ");
 				sb.append(this.getConjuctivaSclera());
@@ -536,7 +536,7 @@ public class MeasurementFormatter {
 			sb.append("Optic disc ");
 			sb.append(this.getDisc());
 		}
-		if("eyeform4".equals(eyeform)){
+		if("eyeform3.2".equals(eyeform)){
 			if(includeMap.get("C/D ratio") != null && this.getCdRatio().length()>0) {
 				sb.append("\nC/D ratio ");
 				sb.append(this.getCdRatio());
@@ -583,7 +583,7 @@ public class MeasurementFormatter {
 			sb.append("Face ");
 			sb.append(this.getFace());
 		}
-		if((!"eyeform3".equals(eyeform)) && (!"eyeform4".equals(eyeform))){
+		if((!"eyeform3".equals(eyeform)) && (!"eyeform3.1".equals(eyeform)) && (!"eyeform3.2".equals(eyeform))){
 			if(includeMap.get("Upper lid") != null && this.getUpperLid().length()>0) {
 				sb.append("Upper lid ");
 				sb.append(this.getUpperLid());
@@ -609,7 +609,7 @@ public class MeasurementFormatter {
 				sb.append("Hertel ");
 				sb.append(this.getHertel());
 			}
-		}else if("eyeform4".equals(eyeform)){
+		}else if("eyeform3.2".equals(eyeform)){
 			if(includeMap.get("Retropulsion") != null && this.getRetropulsion().length()>0) {
 				sb.append("\nRetropulsion ");
 				sb.append(this.getRetropulsion());
@@ -641,7 +641,7 @@ public class MeasurementFormatter {
 			sb.append("Upper lid ");
 			sb.append(this.getUpperLid());
 		}
-		if("eyeform4".equals(eyeform)){
+		if("eyeform3.2".equals(eyeform)){
 			if(includeMap.get("Lower lid") != null && this.getLowerLid().length()>0) {
 				sb.append("\nLower lid ");
 				sb.append(this.getLowerLid());
@@ -725,7 +725,7 @@ public class MeasurementFormatter {
 			sb.append("Margin reflex distance ");
 			sb.append(this.getMarginReflexDistance());
 		}
-		if("eyeform4".equals(eyeform)){
+		if("eyeform3.2".equals(eyeform)){
 			if(includeMap.get("Levator function") != null && this.getLevatorFunction().length()>0) {
 				sb.append("\nLevator function ");
 				sb.append(this.getLevatorFunction());
@@ -777,7 +777,7 @@ public class MeasurementFormatter {
 				sb.append("Schirmer test ");
 				sb.append(this.getSchirmertest());
 			}
-		}else if("eyeform4".equals(eyeform)){
+		}else if("eyeform3.2".equals(eyeform)){
 			if(includeMap.get("Bells phenomenon") != null && this.getBells().length()>0) {
 				sb.append("\nBell's phenomenon ");
 				sb.append(this.getBells());
@@ -798,27 +798,29 @@ public class MeasurementFormatter {
 		return sb.toString();
 	}
 	
-	public String getGlassesRx(int app_no){
-		StringBuilder sb = new StringBuilder();
+	public String[] getGlassesRx1(int app_no){
+		String str[] = new String[4];
+		int count = 0;
 		SpecsHistoryDao dao = (SpecsHistoryDao)SpringUtils.getBean("SpecsHistoryDAO");
 		List<EyeformSpecsHistory> specs = dao.getByAppointmentNo(app_no);
 		for(EyeformSpecsHistory spec:specs){
-			sb.append("\nGlasses Rx ");
+			StringBuilder sb = new StringBuilder();
+//			sb.append("Glasses Rx ");
 			StringBuilder sb1 = new StringBuilder();
 			if(spec.getOdSph() != null){
-				sb1.append("[" +spec.getOdSph()+ "]");
+				sb1.append(spec.getOdSph());
 			}
 			if(spec.getOdCyl() != null){
-				sb1.append("[" +spec.getOdCyl()+ "]");
+				sb1.append(" " +spec.getOdCyl());
 			}
 			if(spec.getOdAxis() != null){
-				sb1.append("x[" + spec.getOdAxis()+ "]");
+				sb1.append("x " + spec.getOdAxis());
 			}
 			if(spec.getOdAdd() != null){
-				sb1.append("add[" + spec.getOdAdd()+ "]");
+				sb1.append(" add " + spec.getOdAdd());
 			}
 			if(spec.getOdPrism() != null){
-				sb1.append("prism[" + spec.getOdPrism() + "]");
+				sb1.append(" prism " + spec.getOdPrism());
 			}
 			if(sb1.length() > 0){
 				sb1.append("; ");
@@ -828,23 +830,23 @@ public class MeasurementFormatter {
 			
 			StringBuilder sb2 = new StringBuilder();
 			if(spec.getOsSph() != null){
-				sb2.append("[" +spec.getOsSph()+ "]");
+				sb2.append(" " +spec.getOsSph());
 			}
 			if(spec.getOsCyl() != null){
-				sb2.append("[" +spec.getOsCyl()+ "]");
+				sb2.append(" " +spec.getOsCyl());
 			}
 			if(spec.getOsAxis() != null){
-				sb2.append("x[" + spec.getOsAxis()+ "]");
+				sb2.append(" x " + spec.getOsAxis());
 			}
 			if(spec.getOsAdd() != null){
-				sb2.append("add[" + spec.getOsAdd()+ "]");
+				sb2.append(" add " + spec.getOsAdd());
 			}
 			if(spec.getOsPrism() != null){
-				sb2.append("prism[" + spec.getOsPrism() + "]");
+				sb2.append(" prism " + spec.getOsPrism());
 			}
 			if(sb2.length() > 0){
 				sb2.append("; ");
-				if("eyeform4".equals(eyeform)){
+				if("eyeform3.2".equals(eyeform)){
 					sb.append("\n           ");
 				}
 				sb2.insert(0, "OS ");
@@ -854,84 +856,122 @@ public class MeasurementFormatter {
 			
 			
 			if(spec.getDateStr() != null){
-				if("eyeform4".equals(eyeform)){
+				if("eyeform3.2".equals(eyeform)){
 					sb.append("\n           ");
 				}
 				sb.append("date ");
-				sb.append("[" +spec.getDateStr()+ "]");
+				sb.append(spec.getDateStr());
 				
 				sb.append("; ");
 			}
 			if(spec.getNote() != null){
-				if("eyeform4".equals(eyeform)){
+				if("eyeform3.2".equals(eyeform)){
 					sb.append("\n           note ");
-					sb.append("[" +spec.getNote()+ "]");
+					sb.append(spec.getNote());
 					sb.append(".");
 				}else{
 					sb.append("note ");
-					sb.append("[" +spec.getNote()+ "]");
+					sb.append(spec.getNote());
+					sb.append(".");
+				}				
+			}
+			str[count] = sb.toString();
+			count ++;
+		}
+		return str;
+	}
+	
+	public String getGlassesRx(int app_no){
+		StringBuilder sb = new StringBuilder();
+		SpecsHistoryDao dao = (SpecsHistoryDao)SpringUtils.getBean("SpecsHistoryDAO");
+		List<EyeformSpecsHistory> specs = dao.getByAppointmentNo(app_no);
+		for(EyeformSpecsHistory spec:specs){
+			sb.append("\nGlasses Rx ");
+			StringBuilder sb1 = new StringBuilder();
+			if(spec.getOdSph() != null){
+				sb1.append(spec.getOdSph());
+			}
+			if(spec.getOdCyl() != null){
+				sb1.append(" " +spec.getOdCyl());
+			}
+			if(spec.getOdAxis() != null){
+				sb1.append("x " + spec.getOdAxis());
+			}
+			if(spec.getOdAdd() != null){
+				sb1.append(" add " + spec.getOdAdd());
+			}
+			if(spec.getOdPrism() != null){
+				sb1.append(" prism " + spec.getOdPrism());
+			}
+			if(sb1.length() > 0){
+				sb1.append("; ");
+				sb1.insert(0, "OD ");
+				sb.append(sb1);
+			}
+			
+			StringBuilder sb2 = new StringBuilder();
+			if(spec.getOsSph() != null){
+				sb2.append(" " +spec.getOsSph());
+			}
+			if(spec.getOsCyl() != null){
+				sb2.append(" " +spec.getOsCyl());
+			}
+			if(spec.getOsAxis() != null){
+				sb2.append(" x " + spec.getOsAxis());
+			}
+			if(spec.getOsAdd() != null){
+				sb2.append(" add " + spec.getOsAdd());
+			}
+			if(spec.getOsPrism() != null){
+				sb2.append(" prism " + spec.getOsPrism());
+			}
+			if(sb2.length() > 0){
+				sb2.append("; ");
+				if("eyeform3.2".equals(eyeform)){
+					sb.append("\n           ");
+				}
+				sb2.insert(0, "OS ");
+				sb.append(sb2);
+			}
+			
+			
+			
+			if(spec.getDateStr() != null){
+				if("eyeform3.2".equals(eyeform)){
+					sb.append("\n           ");
+				}
+				sb.append("date ");
+				sb.append(spec.getDateStr());
+				
+				sb.append("; ");
+			}
+			if(spec.getNote() != null){
+				if("eyeform3.2".equals(eyeform)){
+					sb.append("\n           note ");
+					sb.append(spec.getNote());
+					sb.append(".");
+				}else{
+					sb.append("note ");
+					sb.append(spec.getNote());
 					sb.append(".");
 				}				
 			}
 		}
 		return sb.toString();
 	}
-	public String getAutoRefraction(){
-		StringBuilder sb = new StringBuilder();
-		if(isPresent("v_rk1")){
-			sb.append("[" +getValue("v_rk1")+ "]");
-		}
-		if(isPresent("v_rk2")){
-			sb.append("x[" + getValue("v_rk2")+ "]");
-		}
-		if(isPresent("v_rkx")){
-			sb.append("@[" + getValue("v_rkx")+ "]");
-		}
-		if(sb.length() > 0){
-			sb.insert(0, "OD ");
-			sb.append("; ");
-		}
-		
-		StringBuilder sb1 = new StringBuilder();
-		if(isPresent("v_lk1")) {
-			
-			sb1.append("[" +getValue("v_lk1")+ "]");
-		}
-		if(isPresent("v_lk1")) {
-			sb1.append("x[" + getValue("v_lk2")+ "]");
-		}
-		if(isPresent("v_lk1")) {
-			sb1.append("@[" + getValue("v_lkx")+ "]");
-			
-		}
-		if("eyeform4".equals(eyeform)){
-			if(sb1.length() > 0){
-				sb1.insert(0, "\n                OS ");
-				sb1.append(".");
-				sb.append(sb1);
-			}
-		}else{
-			if(sb1.length() > 0){
-				sb1.insert(0, "OS ");
-				sb1.append(".");
-				sb.append(sb1);
-			}
-		}
-		return sb.toString();
-	}
-	public String getKeratometry(){
+	public String getAutoRefraction(){		
 		StringBuilder sb = new StringBuilder();
 		if(isPresent("v_rs")) {		
-			sb.append("[" +getValue("v_rs")+ "]");
+			sb.append(getValue("v_rs"));
 		}
 		if(isPresent("v_rc")) {
-			sb.append("[" +getValue("v_rc")+ "]");
+			sb.append(" " +getValue("v_rc"));
 		}
 		if(isPresent("v_rx")) {
-			sb.append("x[" + getValue("v_rx")+ "]");
+			sb.append(" x " + getValue("v_rx"));
 		}
 		if(isPresent("v_rar")) {
-			sb.append("([" + getValue("v_rar")+ "])");
+			sb.append("(" + getValue("v_rar")+ ")");
 		}
 		if(sb.length() > 0){
 			sb.insert(0, "OD ");
@@ -940,18 +980,18 @@ public class MeasurementFormatter {
 		
 		StringBuilder sb1 = new StringBuilder();
 		if(isPresent("v_ls")) {			
-			sb1.append("[" +getValue("v_ls")+ "]");
+			sb1.append(" " +getValue("v_ls"));
 		}
 		if(isPresent("v_ls")) {
-			sb1.append("[" +getValue("v_lc")+ "]");
+			sb1.append(" " +getValue("v_lc"));
 		}
 		if(isPresent("v_lx")) {
-			sb1.append("x[" + getValue("v_lx")+ "]");
+			sb1.append(" x " + getValue("v_lx"));
 		}
 		if(isPresent("v_ls")) {
-			sb1.append("([" + getValue("v_lar")+ "])");
+			sb1.append("(" + getValue("v_lar")+ ")");
 		}
-		if("eyeform4".equals(eyeform)){
+		if("eyeform3.2".equals(eyeform)){
 			if(sb1.length() > 0){
 				sb1.insert(0, "\n            OS");
 				sb1.append(".");
@@ -960,6 +1000,49 @@ public class MeasurementFormatter {
 		}else{
 			if(sb1.length() > 0){
 				sb1.insert(0, "OS");
+				sb1.append(".");
+				sb.append(sb1);
+			}
+		}
+		return sb.toString();
+	}
+	public String getKeratometry(){
+		StringBuilder sb = new StringBuilder();
+		if(isPresent("v_rk1")){
+			sb.append(getValue("v_rk1"));
+		}
+		if(isPresent("v_rk2")){
+			sb.append(" x " + getValue("v_rk2"));
+		}
+		if(isPresent("v_rkx")){
+			sb.append(" @ " + getValue("v_rkx"));
+		}
+		if(sb.length() > 0){
+			sb.insert(0, "OD ");
+			sb.append("; ");
+		}
+		
+		StringBuilder sb1 = new StringBuilder();
+		if(isPresent("v_lk1")) {
+			
+			sb1.append(" " +getValue("v_lk1"));
+		}
+		if(isPresent("v_lk1")) {
+			sb1.append(" x " + getValue("v_lk2"));
+		}
+		if(isPresent("v_lk1")) {
+			sb1.append(" @ " + getValue("v_lkx"));
+			
+		}
+		if("eyeform3.2".equals(eyeform)){
+			if(sb1.length() > 0){
+				sb1.insert(0, "\n                OS ");
+				sb1.append(".");
+				sb.append(sb1);
+			}
+		}else{
+			if(sb1.length() > 0){
+				sb1.insert(0, "OS ");
 				sb1.append(".");
 				sb.append(sb1);
 			}
@@ -1013,29 +1096,29 @@ public class MeasurementFormatter {
 		StringBuilder sb = new StringBuilder();
 		if(isPresent("v_rdsc")){
 			sb.append("OD ");
-			sb.append("[" +getValue("v_rdsc")+ "]");
+			sb.append(getValue("v_rdsc"));
 			sb.append(";");
 		}
-		if("eyeform4".equals(eyeform)){
+		if("eyeform3.2".equals(eyeform)){
 			if(isPresent("v_ldsc")){
 				sb.append("\n                     OS ");
-				sb.append("[" +getValue("v_ldsc")+ "]");
+				sb.append(getValue("v_ldsc"));
 				sb.append(";");
 			}
 			if(isPresent("v_dsc")){
 				sb.append("\n                     OU ");
-				sb.append("[" +getValue("v_dsc")+ "]");
+				sb.append(getValue("v_dsc"));
 				sb.append(".");
 			}
 		}else{
 			if(isPresent("v_ldsc")){
 				sb.append("OS ");
-				sb.append("[" +getValue("v_ldsc")+ "]");
+				sb.append(getValue("v_ldsc"));
 				sb.append(";");
 			}
 			if(isPresent("v_dsc")){
 				sb.append("OU ");
-				sb.append("[" +getValue("v_dsc")+ "]");
+				sb.append(getValue("v_dsc"));
 				sb.append(".");
 			}
 		}
@@ -1045,29 +1128,29 @@ public class MeasurementFormatter {
 		StringBuilder sb = new StringBuilder();
 		if(isPresent("v_rdcc")){
 			sb.append("OD ");
-			sb.append("[" +getValue("v_rdcc")+ "]");
+			sb.append(getValue("v_rdcc"));
 			sb.append(";");
 		}
-		if("eyeform4".equals(eyeform)){
+		if("eyeform3.2".equals(eyeform)){
 			if(isPresent("v_ldcc")){			
 				sb.append("\n                     OS ");
-				sb.append("[" +getValue("v_ldcc")+ "]");
+				sb.append(getValue("v_ldcc"));
 				sb.append(";");
 			}
 			if(isPresent("v_dcc")){
 				sb.append("\n                     OU ");
-				sb.append("[" +getValue("v_dcc")+ "]");
+				sb.append(getValue("v_dcc"));
 				sb.append(".");
 			}
 		}else{
 			if(isPresent("v_ldcc")){			
 				sb.append("OS ");
-				sb.append("[" +getValue("v_ldcc")+ "]");
+				sb.append(getValue("v_ldcc"));
 				sb.append(";");
 			}
 			if(isPresent("v_dcc")){
 				sb.append("OU ");
-				sb.append("[" +getValue("v_dcc")+ "]");
+				sb.append(getValue("v_dcc"));
 				sb.append(".");
 			}
 		}
@@ -1077,19 +1160,19 @@ public class MeasurementFormatter {
 		StringBuilder sb = new StringBuilder();
 		if(isPresent("v_rph")){
 			sb.append("OD ");
-			sb.append("[" +getValue("v_rph")+ "]");
+			sb.append(getValue("v_rph"));
 			sb.append(";");
 		}
-		if("eyeform4".equals(eyeform)){
+		if("eyeform3.2".equals(eyeform)){
 			if(isPresent("v_lph")){
 				sb.append("\n                     OS ");
-				sb.append("[" +getValue("v_lph") + "]");
+				sb.append(getValue("v_lph"));
 				sb.append(".");
 			}
 		}else{
 			if(isPresent("v_lph")){
 				sb.append("OS ");
-				sb.append("[" +getValue("v_lph") + "]");
+				sb.append(getValue("v_lph"));
 				sb.append(".");
 			}
 		}
@@ -1099,29 +1182,29 @@ public class MeasurementFormatter {
 		StringBuilder sb = new StringBuilder();
 		if(isPresent("v_risc")){
 			sb.append("OD ");
-			sb.append("[" +getValue("v_risc")+ "]");
+			sb.append(getValue("v_risc"));
 			sb.append(";");
 		}
-		if("eyeform4".equals(eyeform)){
+		if("eyeform3.2".equals(eyeform)){
 			if(isPresent("v_lisc")){
 				sb.append("\n                         OS ");
-				sb.append("[" +getValue("v_lisc")+ "]");
+				sb.append(getValue("v_lisc"));
 				sb.append(";");
 			}
 			if(isPresent("v_isc")){
 				sb.append("\n                         OU ");
-				sb.append("[" +getValue("v_isc")+ "]");
+				sb.append(getValue("v_isc"));
 				sb.append(".");
 			}
 		}else{
 			if(isPresent("v_lisc")){
 				sb.append("OS ");
-				sb.append("[" +getValue("v_lisc")+ "]");
+				sb.append(getValue("v_lisc"));
 				sb.append(";");
 			}
 			if(isPresent("v_isc")){
 				sb.append("OU ");
-				sb.append("[" +getValue("v_isc")+ "]");
+				sb.append(getValue("v_isc"));
 				sb.append(".");
 			}
 		}
@@ -1131,29 +1214,29 @@ public class MeasurementFormatter {
 		StringBuilder sb = new StringBuilder();
 		if(isPresent("v_ricc")){
 			sb.append("OD ");
-			sb.append("[" +getValue("v_ricc")+ "]");
+			sb.append(getValue("v_ricc"));
 			sb.append(";");
 		}
-		if("eyeform4".equals(eyeform)){
+		if("eyeform3.2".equals(eyeform)){
 			if(isPresent("v_licc")){
 				sb.append("\n                         OS ");
-				sb.append("[" +getValue("v_licc")+ "]");
+				sb.append(getValue("v_licc"));
 				sb.append(";");
 			}
 			if(isPresent("v_icc")){
 				sb.append("\n                         OU ");
-				sb.append("[" +getValue("v_icc")+ "]");
+				sb.append(getValue("v_icc"));
 				sb.append(".");
 			}
 		}else{
 			if(isPresent("v_licc")){
 				sb.append("OS ");
-				sb.append("[" +getValue("v_licc")+ "]");
+				sb.append(getValue("v_licc"));
 				sb.append(";");
 			}
 			if(isPresent("v_icc")){
 				sb.append("OU ");
-				sb.append("[" +getValue("v_icc")+ "]");
+				sb.append(getValue("v_icc"));
 				sb.append(".");
 			}
 		}
@@ -1163,29 +1246,29 @@ public class MeasurementFormatter {
 		StringBuilder sb = new StringBuilder();
 		if(isPresent("v_rnsc")){
 			sb.append("OD ");
-			sb.append("[" +getValue("v_rnsc")+ "]");
+			sb.append(getValue("v_rnsc"));
 			sb.append(";");
 		}
-		if("eyeform4".equals(eyeform)){
+		if("eyeform3.2".equals(eyeform)){
 			if(isPresent("v_lnsc")){
 				sb.append("\n                 OS ");
-				sb.append("[" +getValue("v_lnsc")+ "]");
+				sb.append(getValue("v_lnsc"));
 				sb.append(";");
 			}
 			if(isPresent("v_nsc")){
 				sb.append("\n                 OU ");
-				sb.append("[" +getValue("v_nsc")+ "]");
+				sb.append(getValue("v_nsc"));
 				sb.append(".");
 			}
 		}else{
 			if(isPresent("v_lnsc")){
 				sb.append("OS ");
-				sb.append("[" +getValue("v_lnsc")+ "]");
+				sb.append(getValue("v_lnsc"));
 				sb.append(";");
 			}
 			if(isPresent("v_nsc")){
 				sb.append("OU ");
-				sb.append("[" +getValue("v_nsc")+ "]");
+				sb.append(getValue("v_nsc"));
 				sb.append(".");
 			}
 		}
@@ -1195,29 +1278,29 @@ public class MeasurementFormatter {
 		StringBuilder sb = new StringBuilder();
 		if(isPresent("v_rncc")){
 			sb.append("OD ");
-			sb.append("[" +getValue("v_rncc")+ "]");
+			sb.append(getValue("v_rncc"));
 			sb.append(";");
 		}
-		if("eyeform4".equals(eyeform)){
+		if("eyeform3.2".equals(eyeform)){
 			if(isPresent("v_lncc")){
 				sb.append("\n                 OS ");
-				sb.append("[" +getValue("v_lncc")+ "]");
+				sb.append(getValue("v_lncc"));
 				sb.append(";");
 			}
 			if(isPresent("v_ncc")){
 				sb.append("\n                 OU ");
-				sb.append("[" +getValue("v_ncc")+ "]");
+				sb.append(getValue("v_ncc"));
 				sb.append(".");
 			}
 		}else{
 			if(isPresent("v_lncc")){
 				sb.append("OS ");
-				sb.append("[" +getValue("v_lncc")+ "]");
+				sb.append(getValue("v_lncc"));
 				sb.append(";");
 			}
 			if(isPresent("v_ncc")){
 				sb.append("OU ");
-				sb.append("[" +getValue("v_ncc")+ "]");
+				sb.append(getValue("v_ncc"));
 				sb.append(".");
 			}
 		}
@@ -1245,18 +1328,18 @@ public class MeasurementFormatter {
 	
 	public String getManifestDistance() {
 		StringBuilder sb = new StringBuilder();
-		if(("eyeform3".equals(eyeform) || ("eyeform4".equals(eyeform)))){
+		if(("eyeform3".equals(eyeform) || ("eyeform3.1".equals(eyeform))) || ("eyeform3.2".equals(eyeform))){
 			if(isPresent("v_rds")) {		
-				sb.append("[" +getValue("v_rds")+ "]");
+				sb.append(getValue("v_rds"));
 			}
 			if(isPresent("v_rdc")) {
-				sb.append("[" +getValue("v_rdc")+ "]");
+				sb.append(" " +getValue("v_rdc"));
 			}
 			if(isPresent("v_rdx")) {
-				sb.append("x[" + getValue("v_rdx")+ "]");
+				sb.append(" x " + getValue("v_rdx"));
 			}
 			if(isPresent("v_rdv")) {
-				sb.append(" ([" + getValue("v_rdv") + "])");
+				sb.append(" (" + getValue("v_rdv") + ")");
 				//sb.append("; ");
 			}
 			if(sb.length() > 0){
@@ -1266,18 +1349,18 @@ public class MeasurementFormatter {
 			
 			StringBuilder sb1 = new StringBuilder();
 			if(isPresent("v_lds")) {
-				sb1.append("[" +getValue("v_lds")+ "]");
+				sb1.append(getValue("v_lds"));
 			}
 			if(isPresent("v_ldc")) {
-				sb1.append("[" +getValue("v_ldc")+ "]");
+				sb1.append(" " +getValue("v_ldc"));
 			}
 			if(isPresent("v_ldx")) {
-				sb1.append("x[" + getValue("v_ldx")+ "]");
+				sb1.append(" x" + getValue("v_ldx"));
 			}
 			if(isPresent("v_ldv")) {
-				sb1.append(" ([" + getValue("v_ldv") + "])");
+				sb1.append(" (" + getValue("v_ldv") + ")");
 			}
-			if("eyeform4".equals(eyeform)){
+			if("eyeform3.2".equals(eyeform)){
 				if(sb1.length() > 0){
 					sb1.insert(0, "\n                  OS ");
 					sb1.append("; ");
@@ -1285,7 +1368,7 @@ public class MeasurementFormatter {
 				}
 				if(isPresent("v_dist")){
 					sb.append("\n                  OU ");
-					sb.append("[" +getValue("v_dist")+ "]");
+					sb.append(getValue("v_dist"));
 					sb.append(".");
 				}
 			}else{
@@ -1296,7 +1379,7 @@ public class MeasurementFormatter {
 				}
 				if(isPresent("v_dist")){
 					sb.append("OU ");
-					sb.append("[" +getValue("v_dist")+ "]");
+					sb.append(getValue("v_dist"));
 					sb.append(".");
 				}
 			}
@@ -1327,18 +1410,18 @@ public class MeasurementFormatter {
 	
 	public String getManifestNear() {
 		StringBuilder sb = new StringBuilder();	
-		if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 			if(isPresent("v_rns")) {					
-				sb.append("[" +getValue("v_rns")+ "]");
+				sb.append(getValue("v_rns"));
 			}
 			if(isPresent("v_rnc")) {
-				sb.append("[" +getValue("v_rnc")+ "]");
+				sb.append(" " +getValue("v_rnc"));
 			}
 			if(isPresent("v_rnx")) {
-				sb.append("x[" + getValue("v_rnx")+ "]");
+				sb.append(" x " + getValue("v_rnx"));
 			}
 			if(isPresent("v_rnv")) {
-				sb.append(" ([" + getValue("v_rnv") + "])");
+				sb.append(" (" + getValue("v_rnv") + ")");
 			}
 			if(sb.length() > 0){
 				sb.insert(0, "OD ");
@@ -1347,18 +1430,18 @@ public class MeasurementFormatter {
 			
 			StringBuilder sb1 = new StringBuilder();
 			if(isPresent("v_lns")) {
-				sb1.append("[" +getValue("v_lns")+ "]");
+				sb1.append(getValue("v_lns"));
 			}
 			if(isPresent("v_lnc")) {
-				sb1.append("[" +getValue("v_lnc")+ "]");
+				sb1.append(" " +getValue("v_lnc"));
 			}
 			if(isPresent("v_lnx")) {
-				sb1.append("x[" + getValue("v_lnx")+ "]");
+				sb1.append(" x " + getValue("v_lnx"));
 			}
 			if(isPresent("v_lnv")) {
-				sb1.append(" ([" + getValue("v_lnv") + "])");
+				sb1.append(" (" + getValue("v_lnv") + ")");
 			}
-			if("eyeform4".equals(eyeform)){
+			if("eyeform3.2".equals(eyeform)){
 				if(sb1.length() > 0){
 					sb1.insert(0, "\n              OS ");
 					sb1.append("; ");
@@ -1366,7 +1449,7 @@ public class MeasurementFormatter {
 				}
 				if(isPresent("v_near")){
 					sb.append("\n              OU ");
-					sb.append("[" +getValue("v_near")+ "]");
+					sb.append(getValue("v_near"));
 					sb.append(".");
 				}
 			}else{
@@ -1377,7 +1460,7 @@ public class MeasurementFormatter {
 				}
 				if(isPresent("v_near")){
 					sb.append("OU ");
-					sb.append("[" +getValue("v_near")+ "]");
+					sb.append(getValue("v_near"));
 					sb.append(".");
 				}
 			}
@@ -1403,18 +1486,18 @@ public class MeasurementFormatter {
 	//TODO: No ADD HERE?
 	public String getCycloplegicRefraction() {
 		StringBuilder sb = new StringBuilder();
-		if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 			if(isPresent("v_rcs")) {				
-				sb.append("[" +getValue("v_rcs")+ "]");
+				sb.append(getValue("v_rcs"));
 			}
 			if(isPresent("v_rcc")) {
-				sb.append("[" +getValue("v_rcc")+ "]");
+				sb.append(" " +getValue("v_rcc"));
 			}
 			if(isPresent("v_rcx")) {
-				sb.append("x[" + getValue("v_rcx")+ "]");
+				sb.append(" x " + getValue("v_rcx"));
 			}
 			if(isPresent("v_rcv")) {
-				sb.append(" ([" + getValue("v_rcv") + "])");
+				sb.append(" (" + getValue("v_rcv") + ")");
 			}
 			if(sb.length() > 0){
 				sb.insert(0, "OD ");
@@ -1423,18 +1506,18 @@ public class MeasurementFormatter {
 			
 			StringBuilder sb1 = new StringBuilder();
 			if(isPresent("v_lcs")) {
-				sb1.append("[" +getValue("v_lcs")+ "]");
+				sb1.append(getValue("v_lcs"));
 			}
 			if(isPresent("v_lcc")) {
-				sb1.append("[" +getValue("v_lcc")+ "]");
+				sb1.append(" " +getValue("v_lcc"));
 			}
 			if(isPresent("v_lcx")) {
-				sb1.append("x[" + getValue("v_lcx")+ "]");
+				sb1.append(" x" + getValue("v_lcx"));
 			}
 			if(isPresent("v_lcv")) {
-				sb1.append(" ([" + getValue("v_lcv") + "])");
+				sb1.append(" (" + getValue("v_lcv") + ")");
 			}
-			if("eyeform4".equals(eyeform)){
+			if("eyeform3.2".equals(eyeform)){
 				if(sb1.length() > 0){
 					sb1.insert(0, "\n                       OS ");
 					sb1.append(". ");
@@ -1479,7 +1562,7 @@ public class MeasurementFormatter {
 	public String getFlytest(){
 		StringBuilder sb = new StringBuilder();
 		if(isPresent("v_fly")){
-			sb.append("[" +getValue("v_fly")+ "]");
+			sb.append(getValue("v_fly"));
 			sb.append(". ");
 		}
 		return sb.toString();
@@ -1487,7 +1570,7 @@ public class MeasurementFormatter {
 	public String getStereo_acuity(){
 		StringBuilder sb = new StringBuilder();	
 		if(isPresent("v_stereo")){
-			sb.append("[" +getValue("v_stereo")+ "]");
+			sb.append(getValue("v_stereo"));
 			sb.append(". ");
 		}
 		return sb.toString();
@@ -1495,26 +1578,26 @@ public class MeasurementFormatter {
 	
 	public String getNCT() {
 		StringBuilder sb = new StringBuilder();		
-		if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 			Date d1 = null;
 			Date d2 = null;
 			if(isPresent("iop_rn")){
 				sb.append("OD ");
-				sb.append("[" +getValue("iop_rn")+ "]");
+				sb.append(getValue("iop_rn"));
 				sb.append("; ");
 				d1 = mmap.get("iop_rn").getDateObserved();
 			}
-			if("eyeform4".equals(eyeform)){
+			if("eyeform3.2".equals(eyeform)){
 				if(isPresent("iop_ln")){
 					sb.append("\n    OS ");
-					sb.append("[" +getValue("iop_ln")+ "]");
+					sb.append(getValue("iop_ln"));
 					sb.append("; ");
 					d2 = mmap.get("iop_ln").getDateObserved();
 				}
 			}else{
 				if(isPresent("iop_ln")){
 					sb.append("OS ");
-					sb.append("[" +getValue("iop_ln")+ "]");
+					sb.append(getValue("iop_ln"));
 					sb.append("; ");
 					d2 = mmap.get("iop_ln").getDateObserved();
 				}
@@ -1532,7 +1615,7 @@ public class MeasurementFormatter {
 			}
 			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 			if(d != null){
-				sb.append("([" + sdf.format(d)  + "])");
+				sb.append("(" + sdf.format(d)  + ")");
 				sb.append(".");
 			}		
 		}else{
@@ -1576,26 +1659,26 @@ public class MeasurementFormatter {
 	
 	public String getApplanation() {		
 		StringBuilder sb = new StringBuilder();
-		if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 			Date d1 = null;
 			Date d2 = null;
 			if(isPresent("iop_ra")){
 				sb.append("OD ");
-				sb.append("[" +getValue("iop_ra")+ "]");
+				sb.append(getValue("iop_ra"));
 				sb.append("; ");
 				d1 = mmap.get("iop_ra").getDateObserved();
 			}
-			if("eyeform4".equals(eyeform)){
+			if("eyeform3.2".equals(eyeform)){
 				if(isPresent("iop_la")){
 					sb.append("\n            OS ");
-					sb.append("[" +getValue("iop_la")+ "]");
+					sb.append(getValue("iop_la"));
 					sb.append("; ");
 					d2 = mmap.get("iop_la").getDateObserved();
 				}
 			}else{
 				if(isPresent("iop_la")){
 					sb.append("OS ");
-					sb.append("[" +getValue("iop_la")+ "]");
+					sb.append(getValue("iop_la"));
 					sb.append("; ");
 					d2 = mmap.get("iop_la").getDateObserved();
 				}
@@ -1613,7 +1696,7 @@ public class MeasurementFormatter {
 			}
 			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 			if(d != null){
-				sb.append("([" + sdf.format(d)  + "])");
+				sb.append("(" + sdf.format(d)  + ")");
 				sb.append(".");
 			}
 		}else{
@@ -1656,24 +1739,24 @@ public class MeasurementFormatter {
 	
 	public String getCCT() {
 		StringBuilder sb = new StringBuilder();
-		if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 			if(isPresent("cct_r")) {
 				sb.append("OD ");		
-				sb.append("[" +getValue("cct_r")+ "]");
+				sb.append(getValue("cct_r"));
 				sb.append(" microns");
 				sb.append("; ");
 			}
-			if("eyeform4".equals(eyeform)){
+			if("eyeform3.2".equals(eyeform)){
 				if(isPresent("cct_l")) {
 					sb.append("\n                          OS ");
-					sb.append("[" +getValue("cct_l")+ "]");
+					sb.append(getValue("cct_l"));
 					sb.append(" microns");
 					sb.append(".");
 				}
 			}else{
 				if(isPresent("cct_l")) {
 					sb.append("OS ");
-					sb.append("[" +getValue("cct_l")+ "]");
+					sb.append(getValue("cct_l"));
 					sb.append(" microns");
 					sb.append(".");
 				}
@@ -1699,19 +1782,19 @@ public class MeasurementFormatter {
 		StringBuilder sb = new StringBuilder();	
 		if(isPresent("ref_rdom")){
 			sb.append("OD ");		
-			sb.append("[" +getValue("ref_rdom")+ "]");		
+			sb.append(getValue("ref_rdom"));		
 			sb.append("; ");
 		}
-		if("eyeform4".equals(eyeform)){
+		if("eyeform3.2".equals(eyeform)){
 			if(isPresent("ref_ldom")){
-				sb.append("OS ");		
-				sb.append("[" +getValue("ref_ldom")+ "]");		
+				sb.append("\n          OS ");		
+				sb.append(getValue("ref_ldom"));		
 				sb.append(". ");
 			}
 		}else{
 			if(isPresent("ref_ldom")){
-				sb.append("\n          OS ");		
-				sb.append("[" +getValue("ref_ldom")+ "]");		
+				sb.append("OS ");		
+				sb.append(getValue("ref_ldom"));		
 				sb.append(". ");
 			}
 		}
@@ -1722,19 +1805,19 @@ public class MeasurementFormatter {
 		StringBuilder sb = new StringBuilder();
 		if(isPresent("ref_rpdim")){
 			sb.append("OD ");		
-			sb.append("[" +getValue("ref_rpdim")+ "]");		
+			sb.append(getValue("ref_rpdim"));		
 			sb.append("; ");
 		}
-		if("eyeform4".equals(eyeform)){
+		if("eyeform3.2".equals(eyeform)){
 			if(isPresent("ref_lpdim")){
 				sb.append("\n                   OS ");		
-				sb.append("[" +getValue("ref_lpdim")+ "]");		
+				sb.append(getValue("ref_lpdim"));		
 				sb.append(". ");
 			}
 		}else{
 			if(isPresent("ref_lpdim")){
 				sb.append("OS ");		
-				sb.append("[" +getValue("ref_lpdim")+ "]");		
+				sb.append(getValue("ref_lpdim"));		
 				sb.append(". ");
 			}
 		}
@@ -1745,19 +1828,19 @@ public class MeasurementFormatter {
 		StringBuilder sb = new StringBuilder();
 		if(isPresent("ref_rkappa")){
 			sb.append("OD ");		
-			sb.append("[" +getValue("ref_rkappa")+ "]");		
+			sb.append(getValue("ref_rkappa"));		
 			sb.append("; ");
 		}
-		if("eyeform4".equals(eyeform)){
+		if("eyeform3.2".equals(eyeform)){
 			if(isPresent("ref_lkappa")){
 				sb.append("\n            OS ");		
-				sb.append("[" +getValue("ref_lkappa")+ "]");		
+				sb.append(getValue("ref_lkappa"));		
 				sb.append(". ");
 			}
 		}else{
 			if(isPresent("ref_lkappa")){
 				sb.append("OS ");		
-				sb.append("[" +getValue("ref_lkappa")+ "]");		
+				sb.append(getValue("ref_lkappa"));		
 				sb.append(". ");
 			}
 		}
@@ -1766,22 +1849,22 @@ public class MeasurementFormatter {
 	
 	public String getColourVision() {
 		StringBuilder sb = new StringBuilder();	
-		if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 			if(isPresent("o_rcolour")) {
 				sb.append("OD ");		
-				sb.append("[" +getValue("o_rcolour")+ "]");		
+				sb.append(getValue("o_rcolour"));		
 				sb.append("; ");
 			}
-			if("eyeform4".equals(eyeform)){
+			if("eyeform3.2".equals(eyeform)){
 				if(isPresent("o_lcolour")) {
 					sb.append("\n              OS ");
-					sb.append("[" +getValue("o_lcolour")+ "]");	
+					sb.append(getValue("o_lcolour"));	
 					sb.append(".");
 				}
 			}else{
 				if(isPresent("o_lcolour")) {
 					sb.append("OS ");
-					sb.append("[" +getValue("o_lcolour")+ "]");	
+					sb.append(getValue("o_lcolour"));	
 					sb.append(".");
 				}
 			}
@@ -1802,22 +1885,22 @@ public class MeasurementFormatter {
 	
 	public String getPupil() {
 		StringBuilder sb = new StringBuilder();
-		if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 			if(isPresent("o_rpupil")) {
 				sb.append("OD ");		
-				sb.append("[" +getValue("o_rpupil")+ "]");		
+				sb.append(getValue("o_rpupil"));		
 				sb.append("; ");
 			}
-			if("eyeform4".equals(eyeform)){
+			if("eyeform3.2".equals(eyeform)){
 				if(isPresent("o_lpupil")) {
 					sb.append("\n      OS ");
-					sb.append("[" +getValue("o_lpupil")+ "]");	
+					sb.append(getValue("o_lpupil"));	
 					sb.append(".");
 				}
 			}else{
 				if(isPresent("o_lpupil")) {
 					sb.append("OS ");
-					sb.append("[" +getValue("o_lpupil")+ "]");	
+					sb.append(getValue("o_lpupil"));	
 					sb.append(".");
 				}
 			}
@@ -1838,22 +1921,22 @@ public class MeasurementFormatter {
 	
 	public String getAmslerGrid() {
 		StringBuilder sb = new StringBuilder();	
-		if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 			if(isPresent("o_ramsler")) {
 				sb.append("OD ");		
-				sb.append("[" +getValue("o_ramsler")+ "]");		
+				sb.append(getValue("o_ramsler"));		
 				sb.append("; ");
 			}
-			if("eyeform4".equals(eyeform)){
+			if("eyeform3.2".equals(eyeform)){
 				if(isPresent("o_lamsler")) {
 					sb.append("\n            OS ");
-					sb.append("[" +getValue("o_lamsler")+ "]");	
+					sb.append(getValue("o_lamsler"));	
 					sb.append(".");	
 				}
 			}else{
 				if(isPresent("o_lamsler")) {
 					sb.append("OS ");
-					sb.append("[" +getValue("o_lamsler")+ "]");	
+					sb.append(getValue("o_lamsler"));	
 					sb.append(".");	
 				}
 			}
@@ -1874,22 +1957,22 @@ public class MeasurementFormatter {
 	
 	public String getPAM() {
 		StringBuilder sb = new StringBuilder();
-		if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 			if(isPresent("o_rpam")) {
 				sb.append("OD ");		
-				sb.append("[" +getValue("o_rpam")+ "]");		
+				sb.append(getValue("o_rpam"));		
 				sb.append("; ");
 			}
-			if("eyeform4".equals(eyeform)){
+			if("eyeform3.2".equals(eyeform)){
 				if(isPresent("o_lpam")) {
 					sb.append("\n                       OS ");
-					sb.append("[" +getValue("o_lpam")+ "]");	
+					sb.append(getValue("o_lpam"));	
 					sb.append(".");
 				}
 			}else{
 				if(isPresent("o_lpam")) {
 					sb.append("OS ");
-					sb.append("[" +getValue("o_lpam")+ "]");	
+					sb.append(getValue("o_lpam"));	
 					sb.append(".");
 				}
 			}
@@ -1910,22 +1993,22 @@ public class MeasurementFormatter {
 	
 	public String getConfrontation() {
 		StringBuilder sb = new StringBuilder();	
-		if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 			if(isPresent("o_rconf")) {
 				sb.append("OD ");		
-				sb.append("[" +getValue("o_rconf")+ "]");		
+				sb.append(getValue("o_rconf"));		
 				sb.append("; ");
 			}
-			if("eyeform4".equals(eyeform)){
+			if("eyeform3.2".equals(eyeform)){
 				if(isPresent("o_lconf")) {
 					sb.append("\n                     OS ");
-					sb.append("[" +getValue("o_lconf")+ "]");	
+					sb.append(getValue("o_lconf"));	
 					sb.append(".");	
 				}
 			}else{
 				if(isPresent("o_lconf")) {
 					sb.append("OS ");
-					sb.append("[" +getValue("o_lconf")+ "]");	
+					sb.append(getValue("o_lconf"));	
 					sb.append(".");	
 				}
 			}
@@ -1947,7 +2030,7 @@ public class MeasurementFormatter {
 	public String getMaddoxrod(){
 		StringBuilder sb = new StringBuilder();
 		if(isPresent("o_mad")) {
-			sb.append("[" +getValue("o_mad")+ "]");	
+			sb.append(getValue("o_mad"));	
 			sb.append(".");	
 		}
 		return sb.toString();
@@ -1955,7 +2038,7 @@ public class MeasurementFormatter {
 	public String getBagolinitest(){
 		StringBuilder sb = new StringBuilder();
 		if(isPresent("o_bag")) {
-			sb.append("[" +getValue("o_bag")+ "]");	
+			sb.append(getValue("o_bag"));	
 			sb.append(".");	
 		}
 		return sb.toString();
@@ -1963,7 +2046,7 @@ public class MeasurementFormatter {
 	public String getW4dD(){
 		StringBuilder sb = new StringBuilder();
 		if(isPresent("o_w4dd")) {
-			sb.append("[" +getValue("o_w4dd")+ "]");	
+			sb.append(getValue("o_w4dd"));	
 			sb.append(".");	
 		}
 		return sb.toString();
@@ -1972,65 +2055,177 @@ public class MeasurementFormatter {
 	public String getW4dN(){
 		StringBuilder sb = new StringBuilder();
 		if(isPresent("o_w4dn")) {
-			sb.append("[" +getValue("o_w4dn")+ "]");	
+			sb.append(getValue("o_w4dn"));	
 			sb.append(".");	
 		}
 		return sb.toString();
 	}
 	
+	public String[] getDuction1(){
+		String str[] = new String[21];
+		if(isPresent("duc_rur")) {
+			str[0] = getValue("duc_rur");
+		}else{
+			str[0] = "";
+		}
+		if(isPresent("duc_rul")) {
+			str[1] = getValue("duc_rul");
+		}else{
+			str[1] = "";
+		}
+		if(isPresent("duc_rr")) {
+			str[2] = getValue("duc_rr");
+		}else{
+			str[2] = "";
+		}
+		if(isPresent("duc_rl")) {
+			str[3] = getValue("duc_rl");
+		}else{
+			str[3] = "";
+		}
+		if(isPresent("duc_rdr")) {
+			str[4] = getValue("duc_rdr");
+		}else{
+			str[4] = "";
+		}
+		if(isPresent("duc_rdl")) {
+			str[5] = getValue("duc_rdl");
+		}else{
+			str[5] = "";
+		}
+		
+		if(isPresent("duc_lur")) {
+			str[6] = getValue("duc_lur");
+		}else{
+			str[6] = "";
+		}
+		if(isPresent("duc_lul")) {
+			str[7] = getValue("duc_lul");
+		}else{
+			str[7] = "";
+		}
+		if(isPresent("duc_lr")) {
+			str[8] = getValue("duc_lr");
+		}else{
+			str[8] = "";
+		}
+		if(isPresent("duc_ll")) {
+			str[9] = getValue("duc_ll");
+		}else{
+			str[9] = "";
+		}
+		if(isPresent("duc_ldr")) {
+			str[10] = getValue("duc_ldr");
+		}else{
+			str[10] = "";
+		}
+		if(isPresent("duc_ldl")) {
+			str[11] = getValue("duc_ldl");
+		}else{
+			str[11] = "";
+		}
+		
+		if(isPresent("dip_ur")) {
+			str[12] = getValue("dip_ur");
+		}else{
+			str[12] = "";
+		}
+		if(isPresent("dip_u")) {
+			str[13] = getValue("dip_u");
+		}else{
+			str[13] = "";
+		}
+		if(isPresent("dip_ul")) {
+			str[14] = getValue("dip_ul");
+		}else{
+			str[14] = "";
+		}
+		if(isPresent("dip_r")) {
+			str[15] = getValue("dip_r");
+		}else{
+			str[15] = "";
+		}
+		if(isPresent("dip_p")) {
+			str[16] = getValue("dip_p");
+		}else{
+			str[16] = "";
+		}
+		if(isPresent("dip_l")) {
+			str[17] = getValue("dip_l");
+		}else{
+			str[17] = "";
+		}
+		if(isPresent("dip_dr")) {
+			str[18] = getValue("dip_dr");
+		}else{
+			str[18] = "";
+		}
+		if(isPresent("dip_d")) {
+			str[19] = getValue("dip_d");
+		}else{
+			str[19] = "";
+		}
+		if(isPresent("dip_dl")) {
+			str[20] = getValue("dip_dl");
+		}else{
+			str[20] = "";
+		}
+		return str;
+	}
+	
 	public String getDuction(){
 		StringBuilder sb = new StringBuilder();
 		if(isPresent("duc_rur")) {
-			sb.append("[" +getValue("duc_rur")+ "]");
+			sb.append(getValue("duc_rur"));
 		}
 		if(isPresent("duc_rul")) {
-			sb.append("[" +getValue("duc_rul")+ "]");	
+			sb.append(" " +getValue("duc_rul"));	
 		}
 		if(isPresent("duc_rr")) {
-			sb.append("[" +getValue("duc_rr")+ "]");	
+			sb.append(" " +getValue("duc_rr"));	
 		}
 		if(isPresent("duc_rl")) {
-			sb.append("[" +getValue("duc_rl")+ "]");
+			sb.append(" " +getValue("duc_rl"));
 		}
 		if(isPresent("duc_rdr")) {
-			sb.append("[" +getValue("duc_rdr")+ "]");
+			sb.append(" " +getValue("duc_rdr"));
 		}
 		if(isPresent("duc_rdl")) {
-			sb.append("[" +getValue("duc_rdl")+ "]");	
+			sb.append(" " +getValue("duc_rdl"));	
 		}
 		if(sb.length() > 0){
 			sb.insert(0, "OD ");
-			sb.append(".");	
+			sb.append(". ");	
 		}
 		
 		StringBuilder sb1 = new StringBuilder();
 		if(isPresent("duc_lur")) {
-			sb1.append("[" +getValue("duc_lur")+ "]");
+			sb1.append(getValue("duc_lur"));
 		}
 		if(isPresent("duc_lul")) {
-			sb1.append("[" +getValue("duc_lul")+ "]");
+			sb1.append(" " +getValue("duc_lul"));
 		}
 		if(isPresent("duc_lr")) {
-			sb1.append("[" +getValue("duc_lr")+ "]");
+			sb1.append(" " +getValue("duc_lr"));
 		}
 		if(isPresent("duc_ll")) {
-			sb1.append("[" +getValue("duc_ll")+ "]");
+			sb1.append(" " +getValue("duc_ll"));
 		}
 		if(isPresent("duc_ldr")) {
-			sb1.append("[" +getValue("duc_ldr")+ "]");
+			sb1.append(" " +getValue("duc_ldr"));
 		}
 		if(isPresent("duc_ldl")) {
-			sb1.append("[" +getValue("duc_ldl")+ "]");
+			sb1.append(" " +getValue("duc_ldl"));
 		}
-		if("eyeform4".equals(eyeform)){
+		if("eyeform3.2".equals(eyeform)){
 			if(sb1.length() > 0){
-				sb1.insert(0, "OS ");
+				sb1.insert(0, "\nOS ");
 				sb1.append(".");	
 				sb.append(sb1);
 			}
 		}else{
 			if(sb1.length() > 0){
-				sb1.insert(0, "\nOS ");
+				sb1.insert(0, "OS ");
 				sb1.append(".");	
 				sb.append(sb1);
 			}
@@ -2038,33 +2233,33 @@ public class MeasurementFormatter {
 		
 		StringBuilder sb2 = new StringBuilder();
 		if(isPresent("dip_ur")) {
-			sb2.append("[" +getValue("dip_ur")+ "]");
+			sb2.append(getValue("dip_ur"));
 		}
 		if(isPresent("dip_u")) {
-			sb2.append("[" +getValue("dip_u")+ "]");
+			sb2.append(" " +getValue("dip_u"));
 		}
 		if(isPresent("dip_ul")) {
-			sb2.append("[" +getValue("dip_ul")+ "]");	
+			sb2.append(" " +getValue("dip_ul"));	
 		}
 		if(isPresent("dip_r")) {
-			sb2.append("[" +getValue("dip_r")+ "]");
+			sb2.append(" " +getValue("dip_r"));
 		}
 		if(isPresent("dip_p")) {
-			sb2.append("[" +getValue("dip_p")+ "]");
+			sb2.append(" " +getValue("dip_p"));
 		}
 		if(isPresent("dip_l")) {
-			sb2.append("[" +getValue("dip_l")+ "]");	
+			sb2.append(" " +getValue("dip_l"));	
 		}
 		if(isPresent("dip_dr")) {
-			sb2.append("[" +getValue("dip_dr")+ "]");
+			sb2.append(" " +getValue("dip_dr"));
 		}
 		if(isPresent("dip_d")) {
-			sb2.append("[" +getValue("dip_d")+ "]");
+			sb2.append(" " +getValue("dip_d"));
 		}
 		if(isPresent("dip_dl")) {
-			sb2.append("[" +getValue("dip_dl")+ "]");
+			sb2.append(" " +getValue("dip_dl"));
 		}
-		if("eyeform4".equals(eyeform)){
+		if("eyeform3.2".equals(eyeform)){
 			if(sb2.length() > 0){
 				sb2.insert(0, "\nOU ");
 				sb2.append(".");	
@@ -2083,7 +2278,7 @@ public class MeasurementFormatter {
 	public String getPrimarygaze(){
 		StringBuilder sb = new StringBuilder();
 		if(isPresent("dev_p")) {
-			sb.append("[" +getValue("dev_p")+ "]");
+			sb.append(getValue("dev_p"));
 			sb.append(".");	
 		}
 		return sb.toString();
@@ -2092,7 +2287,7 @@ public class MeasurementFormatter {
 	public String getUpgaze(){
 		StringBuilder sb = new StringBuilder();
 		if(isPresent("dev_u")) {
-			sb.append("[" +getValue("dev_u")+ "]");
+			sb.append(getValue("dev_u"));
 			sb.append(".");	
 		}
 		return sb.toString();
@@ -2101,7 +2296,7 @@ public class MeasurementFormatter {
 	public String getDowngaze(){
 		StringBuilder sb = new StringBuilder();
 		if(isPresent("dev_d")) {
-			sb.append("[" +getValue("dev_d")+ "]");
+			sb.append(getValue("dev_d"));
 			sb.append(".");	
 		}
 		return sb.toString();
@@ -2110,7 +2305,7 @@ public class MeasurementFormatter {
 	public String getRightgaze(){
 		StringBuilder sb = new StringBuilder();
 		if(isPresent("dev_r")) {
-			sb.append("[" +getValue("dev_r")+ "]");
+			sb.append(getValue("dev_r"));
 			sb.append(".");	
 		}
 		return sb.toString();
@@ -2119,7 +2314,7 @@ public class MeasurementFormatter {
 	public String getLeftgaze(){
 		StringBuilder sb = new StringBuilder();
 		if(isPresent("dev_l")) {
-			sb.append("[" +getValue("dev_l")+ "]");
+			sb.append(getValue("dev_l"));
 			sb.append(".");	
 		}
 		return sb.toString();
@@ -2128,7 +2323,7 @@ public class MeasurementFormatter {
 	public String getRighthead(){
 		StringBuilder sb = new StringBuilder();
 		if(isPresent("dev_rt")) {
-			sb.append("[" +getValue("dev_rt")+ "]");
+			sb.append(getValue("dev_rt"));
 			sb.append(".");	
 		}
 		return sb.toString();
@@ -2137,7 +2332,7 @@ public class MeasurementFormatter {
 	public String getLefthead(){
 		StringBuilder sb = new StringBuilder();
 		if(isPresent("dev_lt")) {
-			sb.append("[" +getValue("dev_lt")+ "]");
+			sb.append(getValue("dev_lt"));
 			sb.append(".");	
 		}
 		return sb.toString();
@@ -2146,7 +2341,7 @@ public class MeasurementFormatter {
 	public String getNear(){
 		StringBuilder sb = new StringBuilder();
 		if(isPresent("dev_near")) {
-			sb.append("[" +getValue("dev_near")+ "]");
+			sb.append(getValue("dev_near"));
 			sb.append(".");	
 		}
 		return sb.toString();
@@ -2155,7 +2350,7 @@ public class MeasurementFormatter {
 	public String getNearwith(){
 		StringBuilder sb = new StringBuilder();
 		if(isPresent("dev_plus3")) {
-			sb.append("[" +getValue("dev_plus3")+ "]");
+			sb.append(getValue("dev_plus3"));
 			sb.append(".");	
 		}
 		return sb.toString();
@@ -2164,7 +2359,7 @@ public class MeasurementFormatter {
 	public String getFardistance(){
 		StringBuilder sb = new StringBuilder();
 		if(isPresent("dev_far")) {
-			sb.append("[" +getValue("dev_far")+ "]");
+			sb.append(getValue("dev_far"));
 			sb.append(".");	
 		}
 		return sb.toString();
@@ -2182,22 +2377,22 @@ public class MeasurementFormatter {
 	
 	public String getCornea() {
 		StringBuilder sb = new StringBuilder();	
-		if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 			if(isPresent("a_rk")) {
 				sb.append("OD ");		
-				sb.append("[" +getValue("a_rk")+ "]");		
+				sb.append(getValue("a_rk"));		
 				sb.append("; ");
 			}
-			if("eyeform4".equals(eyeform)){
+			if("eyeform3.2".equals(eyeform)){
 				if(isPresent("a_lk")) {
 					sb.append("\n       OS ");
-					sb.append("[" +getValue("a_lk")+ "]");	
+					sb.append(getValue("a_lk"));	
 					sb.append(".");	
 				}
 			}else{
 				if(isPresent("a_lk")) {
 					sb.append("OS ");
-					sb.append("[" +getValue("a_lk")+ "]");	
+					sb.append(getValue("a_lk"));	
 					sb.append(".");	
 				}
 			}
@@ -2218,22 +2413,22 @@ public class MeasurementFormatter {
 	
 	public String getConjuctivaSclera() {
 		StringBuilder sb = new StringBuilder();
-		if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 			if(isPresent("a_rconj")) {
 				sb.append("OD ");		
-				sb.append("[" +getValue("a_rconj")+ "]");		
+				sb.append(getValue("a_rconj"));		
 				sb.append("; ");
 			}
-			if("eyeform4".equals(eyeform)){
+			if("eyeform3.2".equals(eyeform)){
 				if(isPresent("a_lconj")) {
 					sb.append("\n                   OS ");
-					sb.append("[" +getValue("a_lconj")+ "]");	
+					sb.append(getValue("a_lconj"));	
 					sb.append(".");
 				}
 			}else{
 				if(isPresent("a_lconj")) {
 					sb.append("OS ");
-					sb.append("[" +getValue("a_lconj")+ "]");	
+					sb.append(getValue("a_lconj"));	
 					sb.append(".");
 				}
 			}
@@ -2254,22 +2449,22 @@ public class MeasurementFormatter {
 	
 	public String getAnteriorChamber() {
 		StringBuilder sb = new StringBuilder();
-		if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 			if(isPresent("a_rac")) {
 				sb.append("OD ");		
-				sb.append("[" +getValue("a_rac")+ "]");		
+				sb.append(getValue("a_rac"));		
 				sb.append("; ");
 			}
-			if("eyeform4".equals(eyeform)){
+			if("eyeform3.2".equals(eyeform)){
 				if(isPresent("a_lac")) {
 					sb.append("\n                 OS ");
-					sb.append("[" +getValue("a_lac")+ "]");	
+					sb.append(getValue("a_lac"));	
 					sb.append(".");	
 				}
 			}else{
 				if(isPresent("a_lac")) {
 					sb.append("OS ");
-					sb.append("[" +getValue("a_lac")+ "]");	
+					sb.append(getValue("a_lac"));	
 					sb.append(".");	
 				}
 			}
@@ -2290,16 +2485,16 @@ public class MeasurementFormatter {
 	
 	public String getAngle() {
 		StringBuilder sb = new StringBuilder();	
-		if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 			if(isPresent("a_rangle_1") || isPresent("a_rangle_2") || isPresent("a_rangle_3") || isPresent("a_rangle_4") || isPresent("a_rangle_5")) {			
 				sb.append("OD ");
-				sb.append("[" +getValue("a_rangle_3") + "]");
+				sb.append(getValue("a_rangle_3"));
 				if(isPresent("a_rangle_1") || isPresent("a_rangle_2") || isPresent("a_rangle_4") || isPresent("a_rangle_5")) {
 					sb.append(" (");
 				}
 				boolean flag=false;
 				if(isPresent("a_rangle_1")) {
-					sb.append("superior ["+getValue("a_rangle_1") + "]");
+					sb.append("superior "+getValue("a_rangle_1"));
 					if(!flag) flag=true;
 				}
 				if(isPresent("a_rangle_4")) {
@@ -2307,21 +2502,21 @@ public class MeasurementFormatter {
 						sb.append(", ");
 					}
 					if(!flag) flag=true;
-					sb.append("nasal ["+getValue("a_rangle_4") + "]");
+					sb.append("nasal "+getValue("a_rangle_4"));
 				}
 				if(isPresent("a_rangle_5")) {
 					if(flag) {
 						sb.append(", ");
 					}
 					if(!flag) flag=true;
-					sb.append("inferior ["+getValue("a_rangle_5") + "]");
+					sb.append("inferior "+getValue("a_rangle_5"));
 				}
 				if(isPresent("a_rangle_2")) {
 					if(flag) {
 						sb.append(", ");
 					}
 					if(!flag) flag=true;
-					sb.append("temporal [" + getValue("a_rangle_2") + "]");
+					sb.append("temporal " + getValue("a_rangle_2"));
 				}				
 				if(isPresent("a_rangle_1") || isPresent("a_rangle_2") || isPresent("a_rangle_4") || isPresent("a_rangle_5")) {
 					sb.append(")");
@@ -2330,18 +2525,18 @@ public class MeasurementFormatter {
 			}
 
 			if(isPresent("a_langle_1") || isPresent("a_langle_2") || isPresent("a_langle_3") || isPresent("a_langle_4") || isPresent("a_langle_5")) {			
-				if("eyeform4".equals(eyeform)){
+				if("eyeform3.2".equals(eyeform)){
 					sb.append("\n      OS ");
 				}else{
 					sb.append("OS ");
 				}
-				sb.append("[" +getValue("a_langle_3") + "]");
+				sb.append(getValue("a_langle_3"));
 				if(isPresent("a_langle_1") || isPresent("a_langle_2") || isPresent("a_langle_4") || isPresent("a_langle_5")) {
 					sb.append(" (");
 				}
 				boolean flag=false;
 				if(isPresent("a_langle_1")) {
-					sb.append("superior ["+getValue("a_langle_1") + "]");
+					sb.append("superior "+getValue("a_langle_1"));
 					if(!flag) flag=true;
 				}
 				if(isPresent("a_langle_2")) {
@@ -2349,21 +2544,21 @@ public class MeasurementFormatter {
 						sb.append(", ");
 					}
 					if(!flag) flag=true;
-					sb.append("nasal ["+getValue("a_langle_2") + "]");
+					sb.append("nasal "+getValue("a_langle_2"));
 				}
 				if(isPresent("a_langle_5")) {
 					if(flag) {
 						sb.append(", ");
 					}
 					if(!flag) flag=true;
-					sb.append("inferior ["+getValue("a_langle_5") + "]");
+					sb.append("inferior "+getValue("a_langle_5"));
 				}
 				if(isPresent("a_langle_4")) {
 					if(flag) {
 						sb.append(", ");
 					}
 					if(!flag) flag=true;
-					sb.append("temporal [" + getValue("a_langle_4") + "]");
+					sb.append("temporal " + getValue("a_langle_4"));
 				}
 				
 				if(isPresent("a_langle_1") || isPresent("a_langle_2") || isPresent("a_langle_4") || isPresent("a_langle_5")) {
@@ -2458,19 +2653,19 @@ public class MeasurementFormatter {
 
 	public String getIris() {
 		StringBuilder sb = new StringBuilder();
-		if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 			if(isPresent("a_riris")) {
 				sb.append("OD ");		
-				sb.append("[" +getValue("a_riris")+"]");		
+				sb.append(getValue("a_riris"));		
 				sb.append("; ");
 			}
 			if(isPresent("a_liris")) {
-				if("eyeform4".equals(eyeform)){
+				if("eyeform3.2".equals(eyeform)){
 					sb.append("\n     OS ");
 				}else{
 					sb.append("OS ");
 				}
-				sb.append("[" +getValue("a_liris")+"]");	
+				sb.append(getValue("a_liris"));	
 				sb.append(".");	
 			}
 		}else{
@@ -2490,19 +2685,19 @@ public class MeasurementFormatter {
 	
 	public String getLens() {
 		StringBuilder sb = new StringBuilder();
-		if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 			if(isPresent("a_rlens")) {
 				sb.append("OD ");		
-				sb.append("[" +getValue("a_rlens")+"]");		
+				sb.append(getValue("a_rlens"));		
 				sb.append("; ");
 			}
 			if(isPresent("a_llens")) {
-				if("eyeform4".equals(eyeform)){
+				if("eyeform3.2".equals(eyeform)){
 					sb.append("\n     OS ");
 				}else{
 					sb.append("OS ");
 				}
-				sb.append("[" +getValue("a_llens")+"]");	
+				sb.append(getValue("a_llens"));	
 				sb.append(".");
 			}
 		}else{
@@ -2522,19 +2717,19 @@ public class MeasurementFormatter {
 	
 	public String getDisc() {
 		StringBuilder sb = new StringBuilder();
-		if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 			if(isPresent("p_rdisc")) {
 				sb.append("OD ");		
-				sb.append("[" +getValue("p_rdisc")+"]");		
+				sb.append(getValue("p_rdisc") );		
 				sb.append("; ");
 			}
 			if(isPresent("p_ldisc")) {
-				if("eyeform4".equals(eyeform)){
+				if("eyeform3.2".equals(eyeform)){
 					sb.append("\n           OS ");
 				}else{
 					sb.append("OS ");
 				}
-				sb.append("[" +getValue("p_ldisc")+"]");	
+				sb.append(getValue("p_ldisc"));	
 				sb.append(".");	
 			}
 		}else{
@@ -2554,19 +2749,19 @@ public class MeasurementFormatter {
 	
 	public String getCdRatio() {
 		StringBuilder sb = new StringBuilder();
-		if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 			if(isPresent("p_rcd")) {
 				sb.append("OD ");		
-				sb.append("[" +getValue("p_rcd")+"]");		
+				sb.append(getValue("p_rcd") );		
 				sb.append("; ");
 			}
 			if(isPresent("p_lcd")) {
-				if("eyeform4".equals(eyeform)){
+				if("eyeform3.2".equals(eyeform)){
 					sb.append("\n          OS ");
 				}else{
 					sb.append("OS ");
 				}
-				sb.append("[" +getValue("p_lcd")+"]");	
+				sb.append(getValue("p_lcd"));	
 				sb.append(".");	
 			}
 		}else{
@@ -2586,22 +2781,22 @@ public class MeasurementFormatter {
 	
 	public String getMacula() {
 		StringBuilder sb = new StringBuilder();	
-		if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 			if(isPresent("p_rmac")) {
 				sb.append("OD ");		
-				sb.append("[" +getValue("p_rmac")+"]");		
+				sb.append(getValue("p_rmac"));		
 				sb.append("; ");
 			}
-			if("eyeform4".equals(eyeform)){
+			if("eyeform3.2".equals(eyeform)){
 				if(isPresent("p_lmac")) {
 					sb.append("\n       OS ");
-					sb.append("[" +getValue("p_lmac")+"]");	
+					sb.append(getValue("p_lmac"));	
 					sb.append(".");	
 				}
 			}else{
 				if(isPresent("p_lmac")) {
 					sb.append("OS ");
-					sb.append("[" +getValue("p_lmac")+"]");	
+					sb.append(getValue("p_lmac"));	
 					sb.append(".");	
 				}
 			}
@@ -2622,22 +2817,22 @@ public class MeasurementFormatter {
 	
 	public String getRetina() {
 		StringBuilder sb = new StringBuilder();
-		if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 			if(isPresent("p_rret")) {
 				sb.append("OD ");		
-				sb.append("[" +getValue("p_rret")+"]");		
+				sb.append(getValue("p_rret"));		
 				sb.append("; ");
 			}
-			if("eyeform4".equals(eyeform)){
+			if("eyeform3.2".equals(eyeform)){
 				if(isPresent("p_lret")) {
 					sb.append("\nOS ");
-					sb.append("[" +getValue("p_lret")+"]");	
+					sb.append(getValue("p_lret"));	
 					sb.append(".");	
 				}
 			}else{
 				if(isPresent("p_lret")) {
 					sb.append("OS ");
-					sb.append("[" +getValue("p_lret")+"]");	
+					sb.append(getValue("p_lret"));	
 					sb.append(".");	
 				}
 			}
@@ -2658,22 +2853,22 @@ public class MeasurementFormatter {
 	
 	public String getVitreous() {
 		StringBuilder sb = new StringBuilder();	
-		if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 			if(isPresent("p_rvit")) {
 				sb.append("OD ");		
-				sb.append("[" +getValue("p_rvit")+"]");		
+				sb.append(getValue("p_rvit"));		
 				sb.append("; ");
 			}
-			if("eyeform4".equals(eyeform)){
+			if("eyeform3.2".equals(eyeform)){
 				if(isPresent("p_lvit")) {
 					sb.append("\n         OS ");
-					sb.append("["+getValue("p_lvit")+"]");	
+					sb.append(getValue("p_lvit"));	
 					sb.append(".");	
 				}
 			}else{
 				if(isPresent("p_lvit")) {
 					sb.append("OS ");
-					sb.append("["+getValue("p_lvit")+"]");	
+					sb.append(getValue("p_lvit"));	
 					sb.append(".");	
 				}
 			}
@@ -2694,22 +2889,22 @@ public class MeasurementFormatter {
 	
 	public String getFace() {
 		StringBuilder sb = new StringBuilder();	
-		if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 			if(isPresent("ext_rface")) {
 				sb.append("Right side ");		
-				sb.append("["+getValue("ext_rface")+"]");		
+				sb.append(getValue("ext_rface"));		
 				sb.append("; ");
 			}
-			if("eyeform4".equals(eyeform)){
+			if("eyeform3.2".equals(eyeform)){
 				if(isPresent("ext_lface")) {
 					sb.append("\n     Left side ");
-					sb.append("["+getValue("ext_lface")+"]");	
+					sb.append(getValue("ext_lface"));	
 					sb.append(".");	
 				}
 			}else{
 				if(isPresent("ext_lface")) {
-					sb.append("Left side ");
-					sb.append("["+getValue("ext_lface")+"]");	
+					sb.append(" Left side ");
+					sb.append(getValue("ext_lface"));	
 					sb.append(".");	
 				}
 			}
@@ -2730,22 +2925,22 @@ public class MeasurementFormatter {
 	
 	public String getUpperLid() {
 		StringBuilder sb = new StringBuilder();
-		if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 			if(isPresent("ext_rul")) {
 				sb.append("OD ");		
-				sb.append("["+getValue("ext_rul")+"]");		
+				sb.append(getValue("ext_rul"));		
 				sb.append("; ");
 			}
-			if("eyeform4".equals(eyeform)){
+			if("eyeform3.2".equals(eyeform)){
 				if(isPresent("ext_lul")) {
 					sb.append("\n          OS ");
-					sb.append("["+getValue("ext_lul")+"]");	
+					sb.append(getValue("ext_lul"));	
 					sb.append(".");	
 				}
 			}else{
 				if(isPresent("ext_lul")) {
 					sb.append("OS ");
-					sb.append("["+getValue("ext_lul")+"]");	
+					sb.append(getValue("ext_lul"));	
 					sb.append(".");	
 				}
 			}
@@ -2766,22 +2961,22 @@ public class MeasurementFormatter {
 	
 	public String getLowerLid() {
 		StringBuilder sb = new StringBuilder();	
-		if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 			if(isPresent("ext_rll")) {
 				sb.append("OD ");		
-				sb.append("["+getValue("ext_rll")+"]");		
+				sb.append(getValue("ext_rll"));		
 				sb.append("; ");
 			}
-			if("eyeform4".equals(eyeform)){
+			if("eyeform3.2".equals(eyeform)){
 				if(isPresent("ext_lll")) {
 					sb.append("\n          OS ");
-					sb.append("["+getValue("ext_lll")+"]");	
+					sb.append(getValue("ext_lll"));	
 					sb.append(".");	
 				}
 			}else{
 				if(isPresent("ext_lll")) {
 					sb.append("OS ");
-					sb.append("["+getValue("ext_lll")+"]");	
+					sb.append(getValue("ext_lll"));	
 					sb.append(".");	
 				}
 			}
@@ -2802,22 +2997,22 @@ public class MeasurementFormatter {
 	
 	public String getPunctum() {
 		StringBuilder sb = new StringBuilder();	
-		if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 			if(isPresent("ext_rpunc")) {
 				sb.append("OD ");		
-				sb.append("["+getValue("ext_rpunc")+"]");		
+				sb.append(getValue("ext_rpunc"));		
 				sb.append("; ");
 			}
-			if("eyeform4".equals(eyeform)){
+			if("eyeform3.2".equals(eyeform)){
 				if(isPresent("ext_lpunc")) {
 					sb.append("\n        OS ");
-					sb.append("["+getValue("ext_lpunc")+"]");	
+					sb.append(getValue("ext_lpunc"));	
 					sb.append(".");	
 				}
 			}else{
 				if(isPresent("ext_lpunc")) {
 					sb.append("OS ");
-					sb.append("["+getValue("ext_lpunc")+"]");	
+					sb.append(getValue("ext_lpunc"));	
 					sb.append(".");	
 				}
 			}
@@ -2838,22 +3033,22 @@ public class MeasurementFormatter {
 	
 	public String getLacrimalLake() {
 		StringBuilder sb = new StringBuilder();	
-		if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 			if(isPresent("ext_rlake")) {
 				sb.append("OD ");		
-				sb.append("["+getValue("ext_rlake")+"]");		
+				sb.append(getValue("ext_rlake"));		
 				sb.append("; ");
 			}
-			if("eyeform4".equals(eyeform)){
+			if("eyeform3.2".equals(eyeform)){
 				if(isPresent("ext_llake")) {
 					sb.append("\n              OS ");
-					sb.append("["+getValue("ext_llake")+"]");	
+					sb.append(getValue("ext_llake"));	
 					sb.append(".");	
 				}
 			}else{
 				if(isPresent("ext_llake")) {
 					sb.append("OS ");
-					sb.append("["+getValue("ext_llake")+"]");	
+					sb.append(getValue("ext_llake"));	
 					sb.append(".");	
 				}
 			}
@@ -2874,22 +3069,22 @@ public class MeasurementFormatter {
 	
 	public String getLacrimalIrrigation() {
 		StringBuilder sb = new StringBuilder();		
-		if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 			if(isPresent("ext_rirrig")) {
 				sb.append("OD ");		
-				sb.append("["+getValue("ext_rirrig")+"]");		
+				sb.append(getValue("ext_rirrig"));		
 				sb.append("; ");
 			}
-			if("eyeform4".equals(eyeform)){
+			if("eyeform3.2".equals(eyeform)){
 				if(isPresent("ext_lirrig")) {
 					sb.append("\n                    OS ");
-					sb.append("["+getValue("ext_lirrig")+"]");	
+					sb.append(getValue("ext_lirrig"));	
 					sb.append(".");	
 				}
 			}else{
 				if(isPresent("ext_lirrig")) {
 					sb.append("OS ");
-					sb.append("["+getValue("ext_lirrig")+"]");	
+					sb.append(getValue("ext_lirrig"));	
 					sb.append(".");	
 				}
 			}
@@ -2910,22 +3105,22 @@ public class MeasurementFormatter {
 	
 	public String getNLD() {
 		StringBuilder sb = new StringBuilder();		
-		if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 			if(isPresent("ext_rnld")) {
 				sb.append("OD ");		
-				sb.append("["+getValue("ext_rnld")+"]");		
+				sb.append(getValue("ext_rnld"));		
 				sb.append("; ");
 			}
-			if("eyeform4".equals(eyeform)){
+			if("eyeform3.2".equals(eyeform)){
 				if(isPresent("ext_lnld")) {
 					sb.append("\n                  OS ");
-					sb.append("["+getValue("ext_lnld")+"]");	
+					sb.append(getValue("ext_lnld"));	
 					sb.append(".");	
 				}
 			}else{
 				if(isPresent("ext_lnld")) {
 					sb.append("OS ");
-					sb.append("["+getValue("ext_lnld")+"]");	
+					sb.append(getValue("ext_lnld"));	
 					sb.append(".");	
 				}
 			}
@@ -2946,22 +3141,22 @@ public class MeasurementFormatter {
 	
 	public String getDyeDisappearance() {
 		StringBuilder sb = new StringBuilder();	
-		if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 			if(isPresent("ext_rdye")) {
 				sb.append("OD ");		
-				sb.append("["+getValue("ext_rdye")+"]");		
+				sb.append(getValue("ext_rdye"));		
 				sb.append("; ");
 			}
-			if("eyeform4".equals(eyeform)){
+			if("eyeform3.2".equals(eyeform)){
 				if(isPresent("ext_ldye")) {
 					sb.append("\n                  OS ");
-					sb.append("["+getValue("ext_ldye")+"]");	
+					sb.append(getValue("ext_ldye"));	
 					sb.append(".");	
 				}
 			}else{
 				if(isPresent("ext_ldye")) {
 					sb.append("OS ");
-					sb.append("["+getValue("ext_ldye")+"]");	
+					sb.append(getValue("ext_ldye"));	
 					sb.append(".");	
 				}
 			}
@@ -2982,22 +3177,22 @@ public class MeasurementFormatter {
 	
 	public String getMarginReflexDistance() {
 		StringBuilder sb = new StringBuilder();	
-		if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 			if(isPresent("lid_rmrd")) {
 				sb.append("OD ");		
-				sb.append("["+getValue("lid_rmrd")+"]");		
+				sb.append(getValue("lid_rmrd"));		
 				sb.append("; ");
 			}
-			if("eyeform4".equals(eyeform)){
+			if("eyeform3.2".equals(eyeform)){
 				if(isPresent("lid_lmrd")) {
 					sb.append("\n                       OS ");
-					sb.append("["+getValue("lid_lmrd")+"]");	
+					sb.append(getValue("lid_lmrd"));	
 					sb.append(".");	
 				}
 			}else{
 				if(isPresent("lid_lmrd")) {
 					sb.append("OS ");
-					sb.append("["+getValue("lid_lmrd")+"]");	
+					sb.append(getValue("lid_lmrd"));	
 					sb.append(".");	
 				}
 			}
@@ -3018,22 +3213,22 @@ public class MeasurementFormatter {
 	
 	public String getLevatorFunction() {
 		StringBuilder sb = new StringBuilder();	
-		if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 			if(isPresent("lid_rlev")) {
 				sb.append("OD ");		
-				sb.append("["+getValue("lid_rlev")+"]");		
+				sb.append(getValue("lid_rlev"));		
 				sb.append("; ");
 			}
-			if("eyeform4".equals(eyeform)){
+			if("eyeform3.2".equals(eyeform)){
 				if(isPresent("lid_llev")) {
 					sb.append("\n                 OS ");
-					sb.append("["+getValue("lid_llev")+"]");	
+					sb.append(getValue("lid_llev"));	
 					sb.append(".");	
 				}
 			}else{
 				if(isPresent("lid_llev")) {
 					sb.append("OS ");
-					sb.append("["+getValue("lid_llev")+"]");	
+					sb.append(getValue("lid_llev"));	
 					sb.append(".");	
 				}
 			}
@@ -3054,22 +3249,22 @@ public class MeasurementFormatter {
 	
 	public String getInferiorScleralShow() {
 		StringBuilder sb = new StringBuilder();	
-		if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 			if(isPresent("lid_riss")) {
 				sb.append("OD ");		
-				sb.append("["+getValue("lid_riss")+"]");		
+				sb.append(getValue("lid_riss"));		
 				sb.append("; ");
 			}
-			if("eyeform4".equals(eyeform)){
+			if("eyeform3.2".equals(eyeform)){
 				if(isPresent("lid_liss")) {
 					sb.append("\n                      OS ");
-					sb.append("["+getValue("lid_liss")+"]");	
+					sb.append(getValue("lid_liss"));	
 					sb.append(".");	
 				}
 			}else{
 				if(isPresent("lid_liss")) {
 					sb.append("OS ");
-					sb.append("["+getValue("lid_liss")+"]");	
+					sb.append(getValue("lid_liss"));	
 					sb.append(".");	
 				}
 			}
@@ -3090,22 +3285,22 @@ public class MeasurementFormatter {
 	
 	public String getCNVii() {
 		StringBuilder sb = new StringBuilder();	
-		if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 			if(isPresent("lid_rcn7")) {
 				sb.append("OD ");		
-				sb.append("["+getValue("lid_rcn7")+"]");		
+				sb.append(getValue("lid_rcn7"));		
 				sb.append("; ");
 			}
-			if("eyeform4".equals(eyeform)){
+			if("eyeform3.2".equals(eyeform)){
 				if(isPresent("lid_lcn7")) {
 					sb.append("\n                           OS ");
-					sb.append("["+getValue("lid_lcn7")+"]");	
+					sb.append(getValue("lid_lcn7"));	
 					sb.append(".");	
 				}
 			}else{
 				if(isPresent("lid_lcn7")) {
 					sb.append("OS ");
-					sb.append("["+getValue("lid_lcn7")+"]");	
+					sb.append(getValue("lid_lcn7"));	
 					sb.append(".");	
 				}
 			}
@@ -3126,22 +3321,22 @@ public class MeasurementFormatter {
 	
 	public String getBlink() {
 		StringBuilder sb = new StringBuilder();	
-		if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 			if(isPresent("lid_rblink")) {
 				sb.append("OD ");		
-				sb.append("["+getValue("lid_rblink")+"]");		
+				sb.append(getValue("lid_rblink"));		
 				sb.append("; ");
 			}
-			if("eyeform4".equals(eyeform)){
+			if("eyeform3.2".equals(eyeform)){
 				if(isPresent("lid_lblink")) {
 					sb.append("\n             OS ");
-					sb.append("["+getValue("lid_lblink")+"]");	
+					sb.append(getValue("lid_lblink"));	
 					sb.append(".");	
 				}
 			}else{
 				if(isPresent("lid_lblink")) {
 					sb.append("OS ");
-					sb.append("["+getValue("lid_lblink")+"]");	
+					sb.append(getValue("lid_lblink"));	
 					sb.append(".");	
 				}
 			}
@@ -3162,22 +3357,22 @@ public class MeasurementFormatter {
 	
 	public String getBells() {
 		StringBuilder sb = new StringBuilder();
-		if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 			if(isPresent("lid_rbell")) {
 				sb.append("OD ");		
-				sb.append("["+getValue("lid_rbell")+"]");		
+				sb.append(getValue("lid_rbell"));		
 				sb.append("; ");
 			}
-			if("eyeform4".equals(eyeform)){
+			if("eyeform3.2".equals(eyeform)){
 				if(isPresent("lid_lbell")) {
 					sb.append("\n                  OS ");
-					sb.append("["+getValue("lid_lbell")+"]");	
+					sb.append(getValue("lid_lbell"));	
 					sb.append(".");	
 				}
 			}else{
 				if(isPresent("lid_lbell")) {
 					sb.append("OS ");
-					sb.append("["+getValue("lid_lbell")+"]");	
+					sb.append(getValue("lid_lbell"));	
 					sb.append(".");	
 				}
 			}
@@ -3200,16 +3395,16 @@ public class MeasurementFormatter {
 		StringBuilder sb = new StringBuilder();
 		if(isPresent("lid_rschirm")) {
 			sb.append("OD ");		
-			sb.append("["+getValue("lid_rschirm")+"]");		
+			sb.append(getValue("lid_rschirm"));		
 			sb.append("; ");
 		}
 		if(isPresent("lid_lschirm")) {
-			if("eyeform4".equals(eyeform)){
+			if("eyeform3.2".equals(eyeform)){
 				sb.append("\n              OS ");
 			}else{
 				sb.append("OS ");
 			}
-			sb.append("["+getValue("lid_lschirm")+"]");	
+			sb.append(getValue("lid_lschirm"));	
 			sb.append(".");	
 		}
 		return sb.toString();
@@ -3217,19 +3412,19 @@ public class MeasurementFormatter {
 	
 	public String getLagophthalmos() {
 		StringBuilder sb = new StringBuilder();	
-		if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 			if(isPresent("lid_rlag")) {
 				sb.append("OD ");		
-				sb.append("["+getValue("lid_rlag")+"]");		
+				sb.append(getValue("lid_rlag"));		
 				sb.append("; ");
 			}
 			if(isPresent("lid_llag")) {
-				if("eyeform4".equals(eyeform)){
+				if("eyeform3.2".equals(eyeform)){
 					sb.append("\n              OS ");
 				}else{
 					sb.append("OS ");
 				}
-				sb.append("["+getValue("lid_llag")+"]");	
+				sb.append(getValue("lid_llag"));	
 				sb.append(".");	
 			}
 		}else{
@@ -3249,19 +3444,19 @@ public class MeasurementFormatter {
 	
 	public String getHertel() {
 		StringBuilder sb = new StringBuilder();	
-		if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 			if(isPresent("ext_rhertel")) {
 				sb.append("OD ");		
-				sb.append("["+getValue("ext_rhertel")+"]");		
+				sb.append(getValue("ext_rhertel"));		
 				sb.append("; ");
 			}
 			if(isPresent("ext_lhertel")) {
-				if("eyeform4".equals(eyeform)){
+				if("eyeform3.2".equals(eyeform)){
 					sb.append("\n       OS ");
 				}else{
 					sb.append("OS ");
 				}
-				sb.append("["+getValue("ext_lhertel")+"]");	
+				sb.append(getValue("ext_lhertel"));	
 				sb.append(".");	
 			}
 		}else{
@@ -3281,19 +3476,19 @@ public class MeasurementFormatter {
 	
 	public String getRetropulsion() {
 		StringBuilder sb = new StringBuilder();
-		if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 			if(isPresent("ext_rretro")) {
 				sb.append("OD ");		
-				sb.append("["+getValue("ext_rretro")+"]");		
+				sb.append(getValue("ext_rretro"));		
 				sb.append("; ");
 			}
 			if(isPresent("ext_lretro")) {
-				if("eyeform4".equals(eyeform)){
+				if("eyeform3.2".equals(eyeform)){
 					sb.append("\n             OS ");
 				}else{
 					sb.append("OS ");
 				}
-				sb.append("["+getValue("ext_lretro")+"]");	
+				sb.append(getValue("ext_lretro"));	
 				sb.append(".");	
 			}
 		}else{

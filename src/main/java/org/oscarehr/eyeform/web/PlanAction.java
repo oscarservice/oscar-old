@@ -147,11 +147,11 @@ public class PlanAction extends DispatchAction {
     			//if(timespan.length() == 0) {
     			//	continue;
     			//}
-    			try {
-    				Integer.parseInt(timespan);
-    			}catch(NumberFormatException e) {
-    				timespan="0";
-    			}
+//    			try {
+//    				Integer.parseInt(timespan);
+//    			}catch(NumberFormatException e) {
+//    				timespan="0";
+//    			}
     			EyeformFollowUp fu = new EyeformFollowUp();
     			if(id.length()>0 && Integer.parseInt(id)>0) {
     				fu = followUpDao.find(Integer.parseInt(id));
@@ -163,7 +163,8 @@ public class PlanAction extends DispatchAction {
     			fu.setComment(request.getParameter("followup_"+x+".comment"));
     			fu.setFollowupProvider(request.getParameter("followup_"+x+".followupProvider"));
     			fu.setTimeframe(request.getParameter("followup_"+x+".timeframe"));
-    			fu.setTimespan(Integer.parseInt(timespan));
+//    			fu.setTimespan(Integer.parseInt(timespan));
+    			fu.setTimespan(timespan);
     			fu.setType(request.getParameter("followup_"+x+".type"));
     			fu.setUrgency(request.getParameter("followup_"+x+".urgency"));
 
@@ -274,12 +275,14 @@ public class PlanAction extends DispatchAction {
 	    	for(String id:ids) {
 	    		EyeformFollowUp followUp = followUpDao.find(Integer.parseInt(id));
 	    		followUp.setType(request.getParameter("followup"+id+".type"));
-	    		followUp.setTimespan(Integer.parseInt(request.getParameter("followup"+id+".timespan")));
+//	    		followUp.setTimespan(Integer.parseInt(request.getParameter("followup"+id+".timespan")));
+	    		followUp.setTimespan(request.getParameter("followup"+id+".timespan"));
 	    		followUp.setFollowupProvider(request.getParameter("followup"+id+".followupProvider"));
 	    		followUp.setUrgency(request.getParameter("followup"+id+".urgency"));
 	    		followUp.setComment(request.getParameter("followup"+id+".comment"));
 	    		followUp.setTimeframe(request.getParameter("followup"+id+".timeframe"));
-	    		if(followUp.getTimespan()==0) {
+//	    		if(followUp.getTimespan()==0) {
+	    		if(followUp.getTimespan().equals("0") || followUp.getTimespan().equals("")) {
 	    			followUpDao.remove(Integer.parseInt(id));
 	    		} else {
 	    			followUpDao.merge(followUp);

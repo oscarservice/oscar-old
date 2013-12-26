@@ -55,7 +55,7 @@
 				
 	            	&nbsp;
 	            			           
-		             <input type="text" name="followup_<%=id%>.timespan" id="followup_<%=id%>.timespan" size="4"/>		             
+		             <input type="text" name="followup_<%=id%>.timespan" id="followup_<%=id%>.timespan" size="6"/>		             
 		             <select name="followup_<%=id%>.timeframe" id="followup_<%=id%>.timeframe" >
 		             	<option value="days">days</option>
 		            	<option value="weeks">weeks</option>

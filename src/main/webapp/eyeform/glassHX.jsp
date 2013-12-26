@@ -81,7 +81,7 @@
    <form action="<%=request.getContextPath()%>/eyeform/hxHistory.do" method="post" name="specsHistoryForm">
        <div class="panel">
             Notes
-            <textarea name="specs.note" rows="10"><%=specs%></textarea>
+            <textarea name="specs.note" rows="10" maxlength="254"><%=specs%></textarea>
             <input type="submit" value="Save" onclick="this.form.method.value='save'; return validate(this);"/> &nbsp;
             <input type="button" class="leftButton top" value="Cancel" onclick="window.close();"/>          
         </div>

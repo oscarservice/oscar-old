@@ -1582,7 +1582,7 @@ span.ge{
 </span>
 
 <table border="0" width="100%">
-<%if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){%>
+<%if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){%>
 <% if (!glasses_hx) {%>
 <tr>
 <td>
@@ -2777,26 +2777,26 @@ span.ge{
         	<tr>
         		<td class="label">Disc</td>
         		<td><input type="text" tabindex="292" size="50" measurement="p_rdisc" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		<td><input type="text" tabindex="293" size="50" measurement="p_ldisc" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="297" size="50" measurement="p_ldisc" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
         	</tr>
         	<tr>
         		<td class="label">C/D ratio</td>
-        		<td><input type="text" tabindex="294" size="50" measurement="p_rcd" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		<td><input type="text" tabindex="295" size="50" measurement="p_lcd" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="293" size="50" measurement="p_rcd" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="298" size="50" measurement="p_lcd" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
         	</tr>
         	<tr>
         		<td class="label">Macula</td>
-        		<td><input type="text" tabindex="296" size="50" measurement="p_rmac" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		<td><input type="text" tabindex="297" size="50" measurement="p_lmac" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="294" size="50" measurement="p_rmac" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="299" size="50" measurement="p_lmac" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
         	</tr>
         	<tr>
         		<td class="label">Retina</td>
-        		<td><input type="text" tabindex="298" size="50" measurement="p_rret" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
-        		<td><input type="text" tabindex="299" size="50" measurement="p_lret" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="295" size="50" measurement="p_rret" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="300" size="50" measurement="p_lret" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
         	</tr>
         	<tr>
         		<td class="label">Vitreous</td>
-        		<td><input type="text" tabindex="300" size="50" measurement="p_rvit" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
+        		<td><input type="text" tabindex="296" size="50" measurement="p_rvit" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
         		<td><input type="text" tabindex="301" size="50" measurement="p_lvit" onchange="syncFields(this)" class="examfieldgrey" onfocus="whiteField(this);"/></td>
         	</tr>
         </table>

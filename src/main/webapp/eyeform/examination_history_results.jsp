@@ -118,7 +118,7 @@
 					<tr>
 						<td>Start Date:</td>
 						<td>
-							<%if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){%>
+							<%if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){%>
 							<input type="text" class="plain" name="sdate" id="sdate" size="12" onfocus="this.blur()" readonly="readonly" value=""/>
 							<%}else{%>
 			 				<input type="text" class="plain" name="sdate" id="sdate" size="12" onfocus="this.blur()" readonly="readonly" value="<%=sdate%>"/>
@@ -139,7 +139,7 @@
 						<td></td>
 						<td>
 							<input type="submit" onclick="this.form.refPage.value=null" value="Search"/>
-							<%if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){%>
+							<%if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){%>
 							<!--<input type="button" onclick="allsubmit();" value="Alls" />-->
 							<%}%>
 						</td>
@@ -147,7 +147,7 @@
 				</table>
 			</tr>
 	 	</table>
-<%if((!"eyeform3".equals(eyeform)) && (!"eyeform4".equals(eyeform))){%>
+<%if((!"eyeform3".equals(eyeform)) && (!"eyeform3.1".equals(eyeform)) && (!"eyeform3.2".equals(eyeform))){%>
 		<h5>Simple field history:</h5>
 		<table class="display" style="width:20%">
 		<tr style="background-color: rgb(204, 204, 255);">
@@ -197,7 +197,7 @@
 			%>
 </table>
 <%}%>
-<%if("eyeform3".equals(eyeform)){%>
+<%if("eyeform3.1".equals(eyeform)){%>
 <table width="100%" cellpadding="1" cellspacing="4" border="0">
 <%if(fieldList.contains("Glasses Rx")){%>
 <tr>
@@ -236,30 +236,30 @@
 <%		
 		if(gl_rs.length() > 0){		
 %>
-		[<%=gl_rs%>]
+		<%=gl_rs%>
 <%
 		}
 		if(gl_rc.length() > 0){
 %>
-		[<%=gl_rc%>]
+		<%=gl_rc%>
 <%
 		}if(gl_rx.length() > 0){
 %>
-		X [<%=gl_rx%>]
+		x <%=gl_rx%>
 <%
 		}
 %>	
 <%
 		if(gl_ra.length() > 0){
 %>
-		add [<%=gl_ra%>]
+		add <%=gl_ra%>
 <%
 		}
 %>	
 <%
 		if(gl_rp.length() > 0){
 %>
-		prism [<%=gl_rp%>]
+		prism <%=gl_rp%>
 <%
 		}
 %>
@@ -274,29 +274,29 @@
 <%
 		if(gl_ls.length() > 0){
 %>
-		[<%=gl_ls%>] 
+		<%=gl_ls%> 
 <%
 		}if(gl_lc.length() > 0){
 %>	
-		[<%=gl_lc%>]
+		<%=gl_lc%>
 <%
 		}if(gl_lx.length() > 0){
 %>
-		X [<%=gl_lx%>]
+		x <%=gl_lx%>
 <%
 		}
 %>
 <%
 		if(gl_la.length() > 0){
 %>
-		add [<%=gl_la%>]
+		add <%=gl_la%>
 <%
 		}
 %>	
 <%
 		if(gl_lp.length() > 0){
 %>
-		prism [<%=gl_lp%>]
+		prism <%=gl_lp%>
 <%
 		}
 %>
@@ -307,14 +307,14 @@
 <%
 		if(gl_date.length() > 0){
 %>
-		date: [<%=gl_date%>]
+		date: <%=gl_date%>
 <%
 		}
 %>	
 <%
 		if(gl_note.length() > 0){
 %>
-		note: [<%=gl_note%>].
+		note: <%=gl_note%>.
 <%
 		}
 %>	
@@ -352,21 +352,21 @@ if(fieldList.contains("Distance vision (sc)")){
 <%		
 		if(v_rdsc.length() > 0){
 %>
-			OD [<%=v_rdsc%>];
+			OD <%=v_rdsc%>;
 <%
 		}
 %>
 <%
 		if(v_ldsc.length() > 0){
 %>
-			OS [<%=v_ldsc%>];
+			OS <%=v_ldsc%>;
 <%
 		}
 %>
 <%
 		if(v_dsc.length() > 0){
 %>
-			OU [<%=v_dsc%>].
+			OU <%=v_dsc%>.
 <%
 		}
 %>
@@ -385,21 +385,21 @@ if(fieldList.contains("Distance vision (sc)")){
 <%
 		if(v_rdcc.length() > 0){
 %>
-		OD [<%=v_rdcc%>];
+		OD <%=v_rdcc%>;
 <%
 		}
 %>
 <%
 		if(v_ldcc.length() > 0){
 %>
-			OS [<%=v_ldcc%>];
+			OS <%=v_ldcc%>;
 <%
 		}
 %>
 <%
 		if(v_dcc.length() > 0){
 %>
-			OU [<%=v_dcc%>].
+			OU <%=v_dcc%>.
 <%
 		}
 %>	
@@ -417,14 +417,14 @@ if(fieldList.contains("Distance vision (sc)")){
 <%
 		if(v_rph.length() > 0){
 %>
-		OD [<%=v_rph%>];
+		OD <%=v_rph%>;
 <%
 		}
 %>
 <%
 		if(v_lph.length() > 0){
 %>
-			OS [<%=v_lph%>];
+			OS <%=v_lph%>;
 <%
 		}
 %>	
@@ -443,21 +443,21 @@ if(fieldList.contains("Distance vision (sc)")){
 <%
 		if(v_risc.length() > 0){
 %>
-		OD [<%=v_risc%>];
+		OD <%=v_risc%>;
 <%
 		}
 %>
 <%
 		if(v_lisc.length() > 0){
 %>
-			OS [<%=v_lisc%>];
+			OS <%=v_lisc%>;
 <%
 		}
 %>
 <%
 		if(v_isc.length() > 0){
 %>
-			OU [<%=v_isc%>].
+			OU <%=v_isc%>.
 <%
 		}
 %>	
@@ -477,21 +477,21 @@ if(fieldList.contains("Distance vision (sc)")){
 <%
 		if(v_ricc.length() > 0){
 %>
-		OD [<%=v_ricc%>];
+		OD <%=v_ricc%>;
 <%
 		}
 %>
 <%
 		if(v_licc.length() > 0){
 %>
-			OS [<%=v_licc%>];
+			OS <%=v_licc%>;
 <%
 		}
 %>
 <%
 		if(v_icc.length() > 0){
 %>
-			OU [<%=v_icc%>].
+			OU <%=v_icc%>.
 <%
 		}
 %>	
@@ -511,21 +511,21 @@ if(fieldList.contains("Distance vision (sc)")){
 <%
 		if(v_rnsc.length() > 0){
 %>
-		OD [<%=v_rnsc%>];
+		OD <%=v_rnsc%>;
 <%
 		}
 %>
 <%
 		if(v_lnsc.length() > 0){
 %>
-			OS [<%=v_lnsc%>];
+			OS <%=v_lnsc%>;
 <%
 		}
 %>
 <%
 		if(v_nsc.length() > 0){
 %>
-			OU [<%=v_nsc%>].
+			OU <%=v_nsc%>.
 <%
 		}
 %>	
@@ -544,21 +544,21 @@ if(fieldList.contains("Distance vision (sc)")){
 <%	
 		if(v_rncc.length() > 0){
 %>
-		OD [<%=v_rncc%>];
+		OD <%=v_rncc%>;
 <%
 		}
 %>
 <%
 		if(v_lncc.length() > 0){
 %>
-			OS [<%=v_lncc%>];
+			OS <%=v_lncc%>;
 <%
 		}
 %>
 <%
 		if(v_ncc.length() > 0){
 %>
-			OU [<%=v_ncc%>].
+			OU <%=v_ncc%>.
 <%
 		}
 %>	
@@ -596,7 +596,7 @@ if(fieldList.contains("Fly test")){
 		if(v_fly.length() > 0){
 %>
 		<span class="title1">Fly test </span>
-		[<%=v_fly%>].
+		<%=v_fly%>.
 <%
 		}
 %>
@@ -609,7 +609,7 @@ if(fieldList.contains("Fly test")){
 		if(v_stereo.length() > 0){
 %>
 		<span class="title1">Stereo-acuity </span>
-		[<%=v_stereo%>].
+		<%=v_stereo%>.
 <%
 		}
 %>
@@ -653,42 +653,42 @@ if(fieldList.contains("Keratometry")){
 <%
 		if(v_rk1.length() > 0){
 %>
-		OD [<%=v_rk1%>]
+		OD <%=v_rk1%>
 <%
 		}
 %>
 <%
 		if(v_rk2.length() > 0){
 %>
-		x [<%=v_rk2%>]
+		x <%=v_rk2%>
 <%
 		}
 %>
 <%
 		if(v_rkx.length() > 0){
 %>
-		@ [<%=v_rkx%>];
+		@ <%=v_rkx%>;
 <%
 		}
 %>
 <%
 		if(v_lk1.length() > 0){
 %>
-		OS [<%=v_lk1%>]
+		OS <%=v_lk1%>
 <%
 		}
 %>
 <%
 		if(v_lk2.length() > 0){
 %>
-		x [<%=v_lk2%>]
+		x <%=v_lk2%>
 <%
 		}
 %>
 <%
 		if(v_lkx.length() > 0){
 %>
-		@ [<%=v_lkx%>].
+		@ <%=v_lkx%>.
 <%
 		}
 %>
@@ -712,42 +712,42 @@ if(fieldList.contains("Keratometry")){
 <%
 		if((v_rs.length() > 0) || (v_rc.length() > 0)){
 %>
-		OD [<%=v_rs%>][<%=v_rc%>]
+		OD <%=v_rs%> <%=v_rc%>
 <%
 		}
 %>
 <%
 		if(v_rx.length() > 0){
 %>
-		x [<%=v_rx%>]
+		x <%=v_rx%>
 <%
 		}
 %>
 <%
 		if(v_rar.length() > 0){
 %>
-		([<%=v_rar%>]);
+		(<%=v_rar%>);
 <%
 		}
 %>
 <%
 		if((v_ls.length() > 0) || (v_lc.length() > 0)){
 %>
-		OS [<%=v_ls%>][<%=v_lc%>]
+		OS <%=v_ls%> <%=v_lc%>
 <%
 		}
 %>
 <%
 		if(v_lx.length() > 0){
 %>
-		x [<%=v_lx%>]
+		x <%=v_lx%>
 <%
 		}
 %>
 <%
 		if(v_lar.length() > 0){
 %>
-		([<%=v_lar%>]).
+		(<%=v_lar%>).
 <%
 		}
 %>
@@ -772,49 +772,49 @@ if(fieldList.contains("Keratometry")){
 <%	
 		if((v_rds.length() > 0) || (v_rdc.length() > 0)){
 %>
-		OD [<%=v_rds%>][<%=v_rdc%>]
+		OD <%=v_rds%> <%=v_rdc%>
 <%
 		}
 %>
 <%
 		if(v_rdx.length() > 0){
 %>
-		x [<%=v_rdx%>]
+		x <%=v_rdx%>
 <%
 		}
 %>
 <%
 		if(v_rdv.length() > 0){
 %>
-		([<%=v_rdv%>]);
+		(<%=v_rdv%>);
 <%
 		}
 %>
 <%
 		if((v_lds.length() > 0) || (v_ldc.length() > 0)){
 %>
-		OS [<%=v_lds%>][<%=v_ldc%>]
+		OS <%=v_lds%> <%=v_ldc%>
 <%
 		}
 %>
 <%
 		if(v_ldx.length() > 0){
 %>
-		x [<%=v_ldx%>]
+		x <%=v_ldx%>
 <%
 		}
 %>
 <%
 		if(v_ldv.length() > 0){
 %>
-		([<%=v_ldv%>]);
+		(<%=v_ldv%>);
 <%
 		}
 %>
 <%
 		if(v_dist.length() > 0){
 %>
-		OU [<%=v_dist%>].
+		OU <%=v_dist%>.
 <%
 		}
 %>
@@ -839,49 +839,49 @@ if(fieldList.contains("Keratometry")){
 <%		
 		if((v_rns.length() > 0) || (v_rnc.length() > 0)){
 %>
-		OD [<%=v_rns%>][<%=v_rnc%>]
+		OD <%=v_rns%> <%=v_rnc%>
 <%
 		}
 %>
 <%
 		if(v_rnx.length() > 0){
 %>
-		x [<%=v_rnx%>]
+		x <%=v_rnx%>
 <%
 		}
 %>
 <%
 		if(v_rnv.length() > 0){
 %>
-		([<%=v_rnv%>]);
+		(<%=v_rnv%>);
 <%
 		}
 %>
 <%
 		if((v_lns.length() > 0) || (v_lnc.length() > 0)){
 %>
-		OS [<%=v_lns%>][<%=v_lnc%>]
+		OS <%=v_lns%> <%=v_lnc%>
 <%
 		}
 %>
 <%
 		if(v_lnx.length() > 0){
 %>
-		x [<%=v_lnx%>]
+		x <%=v_lnx%>
 <%
 		}
 %>
 <%
 		if(v_lnv.length() > 0){
 %>
-		([<%=v_lnv%>]);
+		(<%=v_lnv%>);
 <%
 		}
 %>
 <%
 		if(v_near.length() > 0){
 %>
-		OU [<%=v_near%>].
+		OU <%=v_near%>.
 <%
 		}
 %>
@@ -905,42 +905,42 @@ if(fieldList.contains("Keratometry")){
 <%
 		if((v_rcs.length() > 0) || (v_rcc.length() > 0)){
 %>
-		OD [<%=v_rcs%>][<%=v_rcc%>]
+		OD <%=v_rcs%> <%=v_rcc%>
 <%
 		}
 %>
 <%
 		if(v_rcx.length() > 0){
 %>
-		x [<%=v_rcx%>]
+		x <%=v_rcx%>
 <%
 		}
 %>
 <%
 		if(v_rcv.length() > 0){
 %>
-		([<%=v_rcv%>]);
+		(<%=v_rcv%>);
 <%
 		}
 %>
 <%
 		if((v_lcs.length() > 0) || (v_lcc.length() > 0)){
 %>
-		OS [<%=v_lcs%>][<%=v_lcc%>]
+		OS <%=v_lcs%> <%=v_lcc%>
 <%
 		}
 %>
 <%
 		if(v_lcx.length() > 0){
 %>
-		x [<%=v_lcx%>]
+		x <%=v_lcx%>
 <%
 		}
 %>
 <%
 		if(v_lcv.length() > 0){
 %>
-		([<%=v_lcv%>]).
+		(<%=v_lcv%>).
 <%
 		}
 %>
@@ -976,27 +976,27 @@ if(fieldList.contains("NCT")){
 		if(iop_ntime == null){
 			iop_ntime = "";
 		}
-		if((iop_rn.length() > 0) || (iop_ln.length() > 0) || (iop_ntime.length() > 0) ){
+		if((iop_rn.length() > 0) || (iop_ln.length() > 0)){
 %>
 		<span class="title1">NCT </span>
 <%
 		if(iop_rn.length() > 0){
 %>
-		OD [<%=iop_rn%>];
+		OD <%=iop_rn%>;
 <%
 		}
 %>
 <%		
 		if(iop_ln.length() > 0){
 %>
-		OS [<%=iop_ln%>];
+		OS <%=iop_ln%>;
 <%
 		}
 %>	
 <%		
 		if(iop_ntime.length() > 0){
 %>
-		([<%=iop_ntime%>]).
+		(<%=iop_ntime%>).
 <%
 		}
 %>		
@@ -1012,27 +1012,27 @@ if(fieldList.contains("NCT")){
 		if(iop_atime == null){
 			iop_atime = "";
 		}
-		if((iop_ra.length() > 0) || (iop_la.length() > 0) || (iop_atime.length() > 0)){
+		if((iop_ra.length() > 0) || (iop_la.length() > 0)){
 %>
 		<span class="title1">Applanation  </span>
 <%		
 		if(iop_ra.length() > 0){
 %>
-		OD [<%=iop_ra%>];
+		OD <%=iop_ra%>;
 <%
 		}
 %>
 <%		
 		if(iop_la.length() > 0){
 %>
-		OS [<%=iop_la%>];
+		OS <%=iop_la%>;
 <%
 		}
 %>	
 <%		
 		if(iop_atime.length() > 0){
 %>
-		([<%=iop_atime%>]).
+		(<%=iop_atime%>).
 <%
 		}
 %>		
@@ -1050,14 +1050,14 @@ if(fieldList.contains("NCT")){
 <%
 		if(cct_r.length() > 0){
 %>
-		OD [<%=cct_r%>]microns;
+		OD <%=cct_r%>microns;
 <%
 		}
 %>
 <%		
 		if(cct_l.length() > 0){
 %>
-		OS [<%=cct_l%>]microns.
+		OS <%=cct_l%>microns.
 <%
 		}
 %>		
@@ -1096,14 +1096,14 @@ if(fieldList.contains("Dominance")){
 <%
 		if(ref_rdom.length() > 0){
 %>
-		OD [<%=ref_rdom%>];
+		OD <%=ref_rdom%>;
 <%
 		}
 %>
 <%		
 		if(ref_ldom.length() > 0){
 %>
-		OS [<%=ref_ldom%>].
+		OS <%=ref_ldom%>.
 <%
 		}
 %>		
@@ -1121,14 +1121,14 @@ if(fieldList.contains("Dominance")){
 <%
 		if(ref_rpdim.length() > 0){
 %>
-		OD [<%=ref_rpdim%>];
+		OD <%=ref_rpdim%>;
 <%
 		}
 %>
 <%		
 		if(ref_lpdim.length() > 0){
 %>
-		OS [<%=ref_lpdim%>].
+		OS <%=ref_lpdim%>.
 <%
 		}
 %>
@@ -1146,14 +1146,14 @@ if(fieldList.contains("Dominance")){
 <%
 		if(ref_rkappa.length() > 0){
 %>
-		OD [<%=ref_rkappa%>];
+		OD <%=ref_rkappa%>;
 <%
 		}
 %>
 <%		
 		if(ref_lkappa.length() > 0){
 %>
-		OS [<%=ref_lkappa%>].
+		OS <%=ref_lkappa%>.
 <%
 		}
 %>		
@@ -1192,14 +1192,14 @@ if(fieldList.contains("Colour vision")){
 <%
 		if(o_rcolour.length() > 0){
 %>
-		OD [<%=o_rcolour%>];
+		OD <%=o_rcolour%>;
 <%
 		}
 %>
 <%		
 		if(o_lcolour.length() > 0){
 %>
-		OS [<%=o_lcolour%>].
+		OS <%=o_lcolour%>.
 <%
 		}
 %>		
@@ -1217,14 +1217,14 @@ if(fieldList.contains("Colour vision")){
 <%
 		if(o_rpupil.length() > 0){
 %>
-		OD [<%=o_rpupil%>];
+		OD <%=o_rpupil%>;
 <%
 		}
 %>
 <%		
 		if(o_lpupil.length() > 0){
 %>
-		OS [<%=o_lpupil%>].
+		OS <%=o_lpupil%>.
 <%
 		}
 %>		
@@ -1242,14 +1242,14 @@ if(fieldList.contains("Colour vision")){
 <%
 		if(o_ramsler.length() > 0){
 %>
-		OD [<%=o_ramsler%>];
+		OD <%=o_ramsler%>;
 <%
 		}
 %>
 <%		
 		if(o_lamsler.length() > 0){
 %>
-		OS [<%=o_lamsler%>].
+		OS <%=o_lamsler%>.
 <%
 		}
 %>		
@@ -1267,14 +1267,14 @@ if(fieldList.contains("Colour vision")){
 <%
 		if(o_rpam.length() > 0){
 %>
-		OD [<%=o_rpam%>];
+		OD <%=o_rpam%>;
 <%
 		}
 %>
 <%		
 		if(o_lpam.length() > 0){
 %>
-		OS [<%=o_lpam%>].
+		OS <%=o_lpam%>.
 <%
 		}
 %>		
@@ -1292,14 +1292,14 @@ if(fieldList.contains("Colour vision")){
 <%
 		if(o_rconf.length() > 0){
 %>
-		OD [<%=o_rconf%>];
+		OD <%=o_rconf%>;
 <%
 		}
 %>
 <%		
 		if(o_lconf.length() > 0){
 %>
-		OS [<%=o_lconf%>].
+		OS <%=o_lconf%>.
 <%
 		}
 %>		
@@ -1313,7 +1313,7 @@ if(fieldList.contains("Colour vision")){
 		if(o_mad.length() > 0){
 %>
 		<span class="title1">Maddox rod </span>
-		[<%=o_mad%>].
+		<%=o_mad%>.
 <%
 		}
 %>
@@ -1326,7 +1326,7 @@ if(fieldList.contains("Colour vision")){
 		if(o_bag.length() > 0){
 %>
 		<span class="title1">Bagolini test </span>
-		[<%=o_bag%>].
+		<%=o_bag%>.
 <%
 		}
 %>
@@ -1339,7 +1339,7 @@ if(fieldList.contains("Colour vision")){
 		if(o_w4dd.length() > 0){
 %>
 		<span class="title1">Worth 4 Dot (distance) </span>
-		[<%=o_w4dd%>].
+		<%=o_w4dd%>.
 <%
 		}
 %>
@@ -1352,7 +1352,7 @@ if(fieldList.contains("Colour vision")){
 		if(o_w4dn.length() > 0){
 %>
 		<span class="title1">Worth 4 Dot (near) </span>
-		[<%=o_w4dn%>].
+		<%=o_w4dn%>.
 <%
 		}
 %>
@@ -1416,7 +1416,7 @@ if(fieldList.contains("DUCTION/DIPLOPIA TESTING")){
 <%				
 					if(duc_rur.length() > 0){
 %>
-					[<%=duc_rur%>]
+					<%=duc_rur%>
 <%
 				}
 %>
@@ -1425,7 +1425,7 @@ if(fieldList.contains("DUCTION/DIPLOPIA TESTING")){
 <%				
 					if(duc_rul.length() > 0){
 %>
-					[<%=duc_rul%>]
+					<%=duc_rul%>
 <%
 				}
 %>
@@ -1436,7 +1436,7 @@ if(fieldList.contains("DUCTION/DIPLOPIA TESTING")){
 <%				
 					if(duc_rr.length() > 0){
 %>
-					[<%=duc_rr%>]
+					<%=duc_rr%>
 <%
 				}
 %>
@@ -1445,7 +1445,7 @@ if(fieldList.contains("DUCTION/DIPLOPIA TESTING")){
 <%				
 					if(duc_rl.length() > 0){
 %>
-					[<%=duc_rl%>]
+					<%=duc_rl%>
 <%
 				}
 %>
@@ -1456,7 +1456,7 @@ if(fieldList.contains("DUCTION/DIPLOPIA TESTING")){
 <%				
 					if(duc_rdr.length() > 0){
 %>
-					[<%=duc_rdr%>]
+					<%=duc_rdr%>
 <%
 				}
 %>
@@ -1465,7 +1465,7 @@ if(fieldList.contains("DUCTION/DIPLOPIA TESTING")){
 <%				
 					if(duc_rdl.length() > 0){
 %>
-					[<%=duc_rdl%>]
+					<%=duc_rdl%>
 <%
 				}
 %>
@@ -1485,7 +1485,7 @@ if(fieldList.contains("DUCTION/DIPLOPIA TESTING")){
 <%
 				if(duc_lur.length() > 0){
 %>
-					[<%=duc_lur%>]
+					<%=duc_lur%>
 <%
 				}
 %>
@@ -1494,7 +1494,7 @@ if(fieldList.contains("DUCTION/DIPLOPIA TESTING")){
 <%
 				if(duc_lul.length() > 0){
 %>
-					[<%=duc_lul%>]
+					<%=duc_lul%>
 <%
 				}
 %>
@@ -1505,7 +1505,7 @@ if(fieldList.contains("DUCTION/DIPLOPIA TESTING")){
 <%
 				if(duc_lr.length() > 0){
 %>
-					[<%=duc_lr%>]
+					<%=duc_lr%>
 <%
 				}
 %>
@@ -1514,7 +1514,7 @@ if(fieldList.contains("DUCTION/DIPLOPIA TESTING")){
 <%
 				if(duc_ll.length() > 0){
 %>
-					[<%=duc_ll%>]
+					<%=duc_ll%>
 <%
 				}
 %>
@@ -1525,7 +1525,7 @@ if(fieldList.contains("DUCTION/DIPLOPIA TESTING")){
 <%
 				if(duc_ldr.length() > 0){
 %>
-					[<%=duc_ldr%>]
+					<%=duc_ldr%>
 <%
 				}
 %>
@@ -1534,7 +1534,7 @@ if(fieldList.contains("DUCTION/DIPLOPIA TESTING")){
 <%
 				if(duc_ldl.length() > 0){
 %>
-					[<%=duc_ldl%>]
+					<%=duc_ldl%>
 <%
 				}
 %>
@@ -1554,7 +1554,7 @@ if(fieldList.contains("DUCTION/DIPLOPIA TESTING")){
 <%
 				if(dip_ur.length() > 0){
 %>
-					[<%=dip_ur%>]
+					<%=dip_ur%>
 <%
 				}
 %>
@@ -1563,7 +1563,7 @@ if(fieldList.contains("DUCTION/DIPLOPIA TESTING")){
 <%
 				if(dip_u.length() > 0){
 %>
-					[<%=dip_u%>]
+					<%=dip_u%>
 <%
 				}
 %>
@@ -1574,7 +1574,7 @@ if(fieldList.contains("DUCTION/DIPLOPIA TESTING")){
 <%
 				if(dip_r.length() > 0){
 %>
-					[<%=dip_r%>]
+					<%=dip_r%>
 <%
 				}
 %>
@@ -1583,7 +1583,7 @@ if(fieldList.contains("DUCTION/DIPLOPIA TESTING")){
 <%
 				if(dip_p.length() > 0){
 %>
-					[<%=dip_p%>]
+					<%=dip_p%>
 <%
 				}
 %>
@@ -1594,7 +1594,7 @@ if(fieldList.contains("DUCTION/DIPLOPIA TESTING")){
 <%
 				if(dip_dr.length() > 0){
 %>
-					[<%=dip_dr%>]
+					<%=dip_dr%>
 <%
 				}
 %>
@@ -1603,7 +1603,7 @@ if(fieldList.contains("DUCTION/DIPLOPIA TESTING")){
 <%
 				if(dip_d.length() > 0){
 %>
-					[<%=dip_d%>]
+					<%=dip_d%>
 <%
 				}
 %>
@@ -1642,7 +1642,7 @@ if(fieldList.contains("Primary gaze")){
 		if(dev_p.length() > 0){
 %>
 		<span class="title1">Primary gaze </span>
-			[<%=dev_p%>].
+			<%=dev_p%>.
 <%   	}
 	}
 %>
@@ -1652,7 +1652,7 @@ if(fieldList.contains("Primary gaze")){
 		if(dev_u.length() > 0){
 %>
 		<span class="title1">Up gaze </span>
-			[<%=dev_u%>].
+			<%=dev_u%>.
 <%   	}
 	}
 %>
@@ -1662,7 +1662,7 @@ if(fieldList.contains("Primary gaze")){
 		if(dev_d.length() > 0){
 %>
 		<span class="title1">Down gaze </span>
-			[<%=dev_d%>].
+			<%=dev_d%>.
 <%   	}
 	}
 %>
@@ -1672,7 +1672,7 @@ if(fieldList.contains("Primary gaze")){
 		if(dev_r.length() > 0){
 %>
 		<span class="title1">Right gaze </span>
-			[<%=dev_r%>].
+			<%=dev_r%>.
 <%   	}
 	}
 %>
@@ -1682,7 +1682,7 @@ if(fieldList.contains("Primary gaze")){
 		if(dev_l.length() > 0){
 %>
 		<span class="title1">Left  gaze </span>
-			[<%=dev_l%>].
+			<%=dev_l%>.
 <%   	}
 	}
 %>
@@ -1692,7 +1692,7 @@ if(fieldList.contains("Primary gaze")){
 		if(dev_rt.length() > 0){
 %>
 		<span class="title1">Right head tilt </span>
-			[<%=dev_rt%>].
+			<%=dev_rt%>.
 <%   	}
 	}
 %>
@@ -1702,7 +1702,7 @@ if(fieldList.contains("Primary gaze")){
 		if(dev_lt.length() > 0){
 %>
 		<span class="title1">Left head tilt </span>
-			[<%=dev_lt%>].
+			<%=dev_lt%>.
 <%   	}
 	}
 %>
@@ -1712,7 +1712,7 @@ if(fieldList.contains("Primary gaze")){
 		if(dev_near.length() > 0){
 %>
 		<span class="title1">Near </span>
-			[<%=dev_near%>].
+			<%=dev_near%>.
 <%   	}
 	}
 %>
@@ -1722,7 +1722,7 @@ if(fieldList.contains("Primary gaze")){
 		if(dev_plus3.length() > 0){
 %>
 		<span class="title1">Near with +3D add </span>
-			[<%=dev_plus3%>].
+			<%=dev_plus3%>.
 <%   	}
 	}
 %>
@@ -1732,7 +1732,7 @@ if(fieldList.contains("Primary gaze")){
 		if(dev_far.length() > 0){
 %>
 		<span class="title1">Far distance </span>
-			[<%=dev_far%>].
+			<%=dev_far%>.
 <%   	}
 	}
 %>
@@ -1766,14 +1766,14 @@ if(fieldList.contains("Retropulsion")){
 <%
 			if(ext_rface.length() > 0){
 %>
-			Right side[<%=ext_rface%>];
+			Right side <%=ext_rface%>;
 <%   		
 			}
 %>
 <%
 			if(ext_lface.length() > 0){
 %>
-			Left  side[<%=ext_lface%>].
+			Left  side <%=ext_lface%>.
 <%   		}
 
 %>
@@ -1791,14 +1791,14 @@ if(fieldList.contains("Retropulsion")){
 <%
 			if(ext_rretro.length() > 0){
 %>
-			OD [<%=ext_rretro%>];
+			OD <%=ext_rretro%>;
 <%   		
 			}
 %>
 <%
 			if(ext_lretro.length() > 0){
 %>
-			OS [<%=ext_lretro%>].
+			OS <%=ext_lretro%>.
 <%   		}
 
 %>
@@ -1816,14 +1816,14 @@ if(fieldList.contains("Retropulsion")){
 <%
 			if(ext_rhertel.length() > 0){
 %>
-			OD [<%=ext_rhertel%>];
+			OD <%=ext_rhertel%>;
 <%   		
 			}
 %>
 <%
 			if(ext_lhertel.length() > 0){
 %>
-			OS [<%=ext_lhertel%>].
+			OS <%=ext_lhertel%>.
 <%   		}
 
 %>
@@ -1861,14 +1861,14 @@ if(fieldList.contains("Upper lid")){
 <%
 			if(ext_rul.length() > 0){
 %>
-			OD [<%=ext_rul%>];
+			OD <%=ext_rul%>;
 <%   		
 			}
 %>
 <%
 			if(ext_lul.length() > 0){
 %>
-			OS [<%=ext_lul%>].
+			OS <%=ext_lul%>.
 <%   		}
 
 %>
@@ -1886,14 +1886,14 @@ if(fieldList.contains("Upper lid")){
 <%
 			if(ext_rll.length() > 0){
 %>
-			OD [<%=ext_rll%>];
+			OD <%=ext_rll%>;
 <%   		
 			}
 %>
 <%
 			if(ext_lll.length() > 0){
 %>
-			OS [<%=ext_lll%>].
+			OS <%=ext_lll%>.
 <%   		}
 
 %>
@@ -1911,14 +1911,14 @@ if(fieldList.contains("Upper lid")){
 <%
 			if(ext_rlake.length() > 0){
 %>
-			OD [<%=ext_rlake%>];
+			OD <%=ext_rlake%>;
 <%   		
 			}
 %>
 <%
 			if(ext_llake.length() > 0){
 %>
-			OS [<%=ext_llake%>].
+			OS <%=ext_llake%>.
 <%   		}
 
 %>
@@ -1936,14 +1936,14 @@ if(fieldList.contains("Upper lid")){
 <%
 			if(ext_rirrig.length() > 0){
 %>
-			OD [<%=ext_rirrig%>];
+			OD <%=ext_rirrig%>;
 <%   		
 			}
 %>
 <%
 			if(ext_lirrig.length() > 0){
 %>
-			OS [<%=ext_lirrig%>].
+			OS <%=ext_lirrig%>.
 <%   		}
 
 %>
@@ -1961,14 +1961,14 @@ if(fieldList.contains("Upper lid")){
 <%
 			if(ext_rpunc.length() > 0){
 %>
-			OD [<%=ext_rpunc%>];
+			OD <%=ext_rpunc%>;
 <%   		
 			}
 %>
 <%
 			if(ext_lpunc.length() > 0){
 %>
-			OS [<%=ext_lpunc%>].
+			OS <%=ext_lpunc%>.
 <%   		}
 
 %>
@@ -1986,14 +1986,14 @@ if(fieldList.contains("Upper lid")){
 <%
 			if(ext_rnld.length() > 0){
 %>
-			OD [<%=ext_rnld%>];
+			OD <%=ext_rnld%>;
 <%   		
 			}
 %>
 <%
 			if(ext_lnld.length() > 0){
 %>
-			OS [<%=ext_lnld%>].
+			OS <%=ext_lnld%>.
 <%   		}
 
 %>
@@ -2011,14 +2011,14 @@ if(fieldList.contains("Upper lid")){
 <%
 			if(ext_rdye.length() > 0){
 %>
-			OD [<%=ext_rdye%>];
+			OD <%=ext_rdye%>;
 <%   		
 			}
 %>
 <%
 			if(ext_ldye.length() > 0){
 %>
-			OS [<%=ext_ldye%>].
+			OS <%=ext_ldye%>.
 <%   		}
 
 %>
@@ -2056,14 +2056,14 @@ if(fieldList.contains("Margin reflex distance")){
 <%
 			if(lid_rmrd.length() > 0){
 %>
-			OD [<%=lid_rmrd%>];
+			OD <%=lid_rmrd%>;
 <%   		
 			}
 %>
 <%
 			if(lid_lmrd.length() > 0){
 %>
-			OS [<%=lid_lmrd%>].
+			OS <%=lid_lmrd%>.
 <%   		}
 
 %>
@@ -2081,14 +2081,14 @@ if(fieldList.contains("Margin reflex distance")){
 <%
 			if(lid_riss.length() > 0){
 %>
-			OD [<%=lid_riss%>];
+			OD <%=lid_riss%>;
 <%   		
 			}
 %>
 <%
 			if(lid_liss.length() > 0){
 %>
-			OS [<%=lid_liss%>].
+			OS <%=lid_liss%>.
 <%   		}
 
 %>
@@ -2106,14 +2106,14 @@ if(fieldList.contains("Margin reflex distance")){
 <%
 			if(lid_rlev.length() > 0){
 %>
-			OD [<%=lid_rlev%>];
+			OD <%=lid_rlev%>;
 <%   		
 			}
 %>
 <%
 			if(lid_llev.length() > 0){
 %>
-			OS [<%=lid_llev%>].
+			OS <%=lid_llev%>.
 <%   		}
 
 %>
@@ -2131,14 +2131,14 @@ if(fieldList.contains("Margin reflex distance")){
 <%
 			if(lid_rlag.length() > 0){
 %>
-			OD [<%=lid_rlag%>];
+			OD <%=lid_rlag%>;
 <%   		
 			}
 %>
 <%
 			if(lid_llag.length() > 0){
 %>
-			OS [<%=lid_llag%>].
+			OS <%=lid_llag%>.
 <%   		}
 
 %>
@@ -2156,14 +2156,14 @@ if(fieldList.contains("Margin reflex distance")){
 <%
 			if(lid_rblink.length() > 0){
 %>
-			OD [<%=lid_rblink%>];
+			OD <%=lid_rblink%>;
 <%   		
 			}
 %>
 <%
 			if(lid_lblink.length() > 0){
 %>
-			OS [<%=lid_lblink%>].
+			OS <%=lid_lblink%>.
 <%   		}
 
 %>
@@ -2181,14 +2181,14 @@ if(fieldList.contains("Margin reflex distance")){
 <%
 			if(lid_rcn7.length() > 0){
 %>
-			OD [<%=lid_rcn7%>];
+			OD <%=lid_rcn7%>;
 <%   		
 			}
 %>
 <%
 			if(lid_lcn7.length() > 0){
 %>
-			OS [<%=lid_lcn7%>].
+			OS <%=lid_lcn7%>.
 <%   		}
 
 %>
@@ -2206,14 +2206,14 @@ if(fieldList.contains("Margin reflex distance")){
 <%
 			if(lid_rbell.length() > 0){
 %>
-			OD [<%=lid_rbell%>];
+			OD <%=lid_rbell%>;
 <%   		
 			}
 %>
 <%
 			if(lid_lbell.length() > 0){
 %>
-			OS [<%=lid_lbell%>].
+			OS <%=lid_lbell%>.
 <%   		}
 
 %>
@@ -2231,14 +2231,14 @@ if(fieldList.contains("Margin reflex distance")){
 <%
 			if(lid_rschirm.length() > 0){
 %>
-			OD [<%=lid_rschirm%>];
+			OD <%=lid_rschirm%>;
 <%   		
 			}
 %>
 <%
 			if(lid_lschirm.length() > 0){
 %>
-			OS [<%=lid_lschirm%>].
+			OS <%=lid_lschirm%>.
 <%   		}
 
 %>
@@ -2276,14 +2276,14 @@ if(fieldList.contains("Cornea")){
 <%
 			if(a_rk.length() > 0){
 %>
-			OD [<%=a_rk%>];
+			OD <%=a_rk%>;
 <%   		
 			}
 %>
 <%
 			if(a_lk.length() > 0){
 %>
-			OS [<%=a_lk%>].
+			OS <%=a_lk%>.
 <%   	
 		}
 %>
@@ -2301,14 +2301,14 @@ if(fieldList.contains("Cornea")){
 <%
 			if(a_rconj.length() > 0){
 %>
-			OD [<%=a_rconj%>];
+			OD <%=a_rconj%>;
 <%   		
 			}
 %>
 <%
 			if(a_lconj.length() > 0){
 %>
-			OS [<%=a_lconj%>].
+			OS <%=a_lconj%>.
 <%   		
 			}
 %>
@@ -2326,14 +2326,14 @@ if(fieldList.contains("Cornea")){
 <%
 			if(a_rac.length() > 0){
 %>
-			OD [<%=a_rac%>];
+			OD <%=a_rac%>;
 <%   		
 			}
 %>
 <%
 			if(a_lac.length() > 0){
 %>
-			OS [<%=a_lac%>].
+			OS <%=a_lac%>.
 <%   		
 			}
 %>
@@ -2361,7 +2361,7 @@ if(fieldList.contains("Cornea")){
 <%
 			if(a_rangle_3.length() > 0){
 %>
-			[<%=a_rangle_3%>]
+			<%=a_rangle_3%>
 <%   		
 			}
 			if((a_rangle_1.length() > 0) || (a_rangle_2.length() > 0) || (a_rangle_4.length() > 0) || (a_rangle_5.length() > 0)){
@@ -2370,28 +2370,28 @@ if(fieldList.contains("Cornea")){
 <%			
 				if(a_rangle_1.length() > 0){
 %>
-					superior[<%=a_rangle_1%>]
+					superior <%=a_rangle_1%>
 <%
 				}
 %>
 <%
 				if(a_rangle_4.length() > 0){
 %>
-					nasal[<%=a_rangle_4%>]
+					nasal <%=a_rangle_4%>
 <%
 				}
 %>
 <%
 				if(a_rangle_5.length() > 0){
 %>
-					inferior[<%=a_rangle_5%>]
+					inferior <%=a_rangle_5%>
 <%
 				}
 %>
 <%
 				if(a_rangle_2.length() > 0){
 %>
-					temporal[<%=a_rangle_2%>];
+					temporal <%=a_rangle_2%>;
 <%
 				}
 %>
@@ -2408,7 +2408,7 @@ if(fieldList.contains("Cornea")){
 <%			
 				if(a_langle_3.length() > 0){
 %>
-					[<%=a_langle_3%>]
+					<%=a_langle_3%>
 <%   		
 				}
 %>
@@ -2419,28 +2419,28 @@ if(fieldList.contains("Cornea")){
 <%		
 					if(a_langle_1.length() > 0){
 %>
-						superior[<%=a_langle_1%>]
+						superior <%=a_langle_1%>
 <%   		
 					}
 %>
 <%
 					if(a_langle_2.length() > 0){
 %>
-						nasal[<%=a_langle_2%>]
+						nasal <%=a_langle_2%>
 <%   		
 					}
 %>
 <%
 					if(a_langle_5.length() > 0){
 %>
-						inferior[<%=a_langle_5%>]
+						inferior <%=a_langle_5%>
 <%   		
 					}
 %>
 <%
 					if(a_langle_4.length() > 0){
 %>
-						temporal[<%=a_langle_4%>]
+						temporal <%=a_langle_4%>
 <%   		
 					}
 %>
@@ -2463,14 +2463,14 @@ if(fieldList.contains("Cornea")){
 <%
 			if(a_riris.length() > 0){
 %>
-			OD [<%=a_riris%>];
+			OD <%=a_riris%>;
 <%   		
 			}
 %>
 <%
 			if(a_liris.length() > 0){
 %>
-			OS [<%=a_liris%>].
+			OS <%=a_liris%>.
 <%   		
 			}
 %>
@@ -2488,14 +2488,14 @@ if(fieldList.contains("Cornea")){
 <%
 			if(a_rlens.length() > 0){
 %>
-			OD [<%=a_rlens%>];
+			OD <%=a_rlens%>;
 <%   		
 			}
 %>
 <%
 			if(a_llens.length() > 0){
 %>
-			OS [<%=a_llens%>].
+			OS <%=a_llens%>.
 <%   		
 			}
 %>
@@ -2533,14 +2533,14 @@ if(fieldList.contains("Optic disc")){
 <%
 			if(p_rdisc.length() > 0){
 %>
-			OD [<%=p_rdisc%>];
+			OD <%=p_rdisc%>;
 <%   		
 			}
 %>
 <%
 			if(p_ldisc.length() > 0){
 %>
-			OS [<%=p_ldisc%>].
+			OS <%=p_ldisc%>.
 <%   		
 			}
 %>
@@ -2558,14 +2558,14 @@ if(fieldList.contains("Optic disc")){
 <%
 			if(p_rcd.length() > 0){
 %>
-			OD [<%=p_rcd%>];
+			OD <%=p_rcd%>;
 <%   		
 			}
 %>
 <%
 			if(p_lcd.length() > 0){
 %>
-			OS [<%=p_lcd%>].
+			OS <%=p_lcd%>.
 <%   		
 			}
 %>
@@ -2583,14 +2583,14 @@ if(fieldList.contains("Optic disc")){
 <%
 			if(p_rmac.length() > 0){
 %>
-			OD [<%=p_rmac%>];
+			OD <%=p_rmac%>;
 <%   		
 			}
 %>
 <%
 			if(p_lmac.length() > 0){
 %>
-			OS [<%=p_lmac%>].
+			OS <%=p_lmac%>.
 <%   		
 			}
 %>
@@ -2608,14 +2608,14 @@ if(fieldList.contains("Optic disc")){
 <%
 			if(p_rret.length() > 0){
 %>
-			OD [<%=p_rret%>];
+			OD <%=p_rret%>;
 <%   		
 			}
 %>
 <%
 			if(p_lret.length() > 0){
 %>
-			OS [<%=p_lret%>].
+			OS <%=p_lret%>.
 <%   		
 			}
 %>
@@ -2633,14 +2633,14 @@ if(fieldList.contains("Optic disc")){
 <%
 			if(p_rvit.length() > 0){
 %>
-			OD [<%=p_rvit%>];
+			OD <%=p_rvit%>;
 <%   		
 			}
 %>
 <%
 			if(p_lvit.length() > 0){
 %>
-			OS [<%=p_lvit%>].
+			OS <%=p_lvit%>.
 <%   		
 			}
 %>
@@ -2658,7 +2658,7 @@ if(fieldList.contains("Optic disc")){
 %>
 </table>
 
-<%}else if("eyeform4".equals(eyeform)){%>
+<%}else if(("eyeform3".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){%>
 <table class="display">
 <tr>
 <td><h5>Glasses History</h5>

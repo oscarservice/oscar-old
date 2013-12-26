@@ -2947,7 +2947,8 @@ public class CaseManagementEntryAction extends BaseCaseManagementEntryAction {
 				f.setDemographicNo(ConversionUtils.fromIntString(cform.getDemographicNo()));
 				f.setProvider(LoggedInInfo.loggedInInfo.get().loggedInProvider);
 				f.setTimeframe(followUpUnit);
-				f.setTimespan(followUpNo);
+//				f.setTimespan(followUpNo);
+				f.setTimespan(String.valueOf(followUpNo));
 				f.setType("followup");
 				f.setUrgency("routine");
 				f.setFollowupProvider(followUpDr);

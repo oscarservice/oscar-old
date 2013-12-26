@@ -132,7 +132,7 @@ public class MeasurementDataAction extends DispatchAction {
 				}
 				oscar.OscarProperties props1 = oscar.OscarProperties.getInstance();
 			    String eyeform = props1.getProperty("cme_js");
-				if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+				if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 					if(key.equals("iop_ra") || key.equals("iop_la")) {
 						if(applanationTs == null) {
 							applanationTs = value.getDateObserved();
@@ -171,7 +171,7 @@ public class MeasurementDataAction extends DispatchAction {
 		"v_rds","v_rdc","v_rdx","v_rdv","v_lds","v_ldc","v_ldx","v_ldv","v_rcs","v_rcc","v_rcx","v_rcv","v_lcs","v_lcc","v_lcx","v_lcv","iop_rn","iop_ln","iop_ra","iop_la","cct_r","cct_l","o_rcolour","o_rpupil","o_ramsler","o_rpam","o_rconf","o_lcolour","o_lpupil","o_lamsler","o_lpam","o_lconf",
 		"v_stereo","a_rk","a_rconj","a_rac","a_rangle_1","a_rangle_2","a_rangle_3","a_rangle_4","a_rangle_5","a_riris","a_rlens","a_lk","a_lconj","a_lac","a_langle_1","a_langle_2","a_langle_3","a_langle_4","a_langle_5","a_liris","a_llens","p_rdisc","p_rcd","p_rmac","p_rret","p_rvit","p_ldisc","p_lcd","p_lmac","p_lret","p_lvit","ext_rface","ext_rul","ext_rll","ext_rpunc","ext_rlake","ext_lface","ext_lul","ext_lll","ext_lpunc","ext_llake","ext_rirrig","ext_rnld","ext_rdye","ext_lirrig","ext_lnld","ext_ldye",
 		"lid_rmrd","lid_rlev","lid_riss","lid_rcn7","lid_rblink","lid_rbell","lid_rlag","lid_lmrd","lid_llev","lid_liss","lid_lcn7","lid_lblink","lid_lbell","lid_llag","ext_rhertel","ext_rretro","ext_lhertel","ext_lretro"};
-		if(("eyeform3".equals(eyeform)) || ("eyeform4".equals(eyeform))){
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 			for(int i = 0;i < v2_type.length ; i ++ ){
 				for(Measurements key1:measurementList) {
 					if(v2_type[i].equals(key1.getType())){
@@ -185,21 +185,37 @@ public class MeasurementDataAction extends DispatchAction {
 								if(d1.after(d2)){
 									script.append("jQuery(\"[measurement='"+v3_type[i]+"']\").val(\""+key1.getDataField().replace("\n", "\\n").replace("\"","\\\"").replace("\r","")+"\").attr({itemtime: \"" + key1.getDateEntered().getTime() + "\", appointment_no: \"" + key1.getAppointmentNo() + "\"});\n");
 									if(v3_type[i].equals("iop_rn") || v3_type[i].equals("iop_ln")){
-										nctTs = key1.getDateObserved();
+										if(nctTs == null) {
+											nctTs = key1.getDateObserved();
+										}else if(key1.getDateObserved().after(nctTs)){
+											nctTs = key1.getDateObserved();
+										}
 										script.append("jQuery(\"#nct_ts\").html('"+sdf.format(nctTs)+"');\n");
 									}
 									if(v3_type[i].equals("iop_ra") || v3_type[i].equals("iop_la")){
-										applanationTs = key1.getDateObserved();
+										if(applanationTs == null) {
+											applanationTs = key1.getDateObserved();
+										}else if(key1.getDateObserved().after(applanationTs)){
+											applanationTs = key1.getDateObserved();
+										}
 										script.append("jQuery(\"#applanation_ts\").html('"+sdf.format(applanationTs)+"');\n");
 									}
 								}else{
 									script.append("jQuery(\"[measurement='"+v3_type[i]+"']\").val(\""+key2.getDataField().replace("\n", "\\n").replace("\"","\\\"").replace("\r","")+"\").attr({itemtime: \"" + key2.getDateEntered().getTime() + "\", appointment_no: \"" + key2.getAppointmentNo() + "\"});\n");
 									if(v3_type[i].equals("iop_rn") || v3_type[i].equals("iop_ln")){
-										nctTs = key1.getDateObserved();
+										if(nctTs == null) {
+											nctTs = key2.getDateObserved();
+										}else if(key2.getDateObserved().after(nctTs)){
+											nctTs = key2.getDateObserved();
+										}
 										script.append("jQuery(\"#nct_ts\").html('"+sdf.format(nctTs)+"');\n");
 									}
 									if(v3_type[i].equals("iop_ra") || v3_type[i].equals("iop_la")){
-										applanationTs = key1.getDateObserved();
+										if(applanationTs == null) {
+											applanationTs = key2.getDateObserved();
+										}else if(key2.getDateObserved().after(applanationTs)){
+											applanationTs = key2.getDateObserved();
+										}
 										script.append("jQuery(\"#applanation_ts\").html('"+sdf.format(applanationTs)+"');\n");
 									}
 								}
@@ -209,11 +225,19 @@ public class MeasurementDataAction extends DispatchAction {
 						if(!in_v3){
 							script.append("jQuery(\"[measurement='"+v3_type[i]+"']\").val(\""+key1.getDataField().replace("\n", "\\n").replace("\"","\\\"").replace("\r","")+"\").attr({itemtime: \"" + key1.getDateEntered().getTime() + "\", appointment_no: \"" + key1.getAppointmentNo() + "\"});\n");
 							if(v2_type[i].equals("od_iop_nct") || v2_type[i].equals("os_iop_nct")){
-								nctTs = key1.getDateObserved();
+								if(nctTs == null) {
+									nctTs = key1.getDateObserved();
+								}else if(key1.getDateObserved().after(nctTs)){
+									nctTs = key1.getDateObserved();
+								}
 								script.append("jQuery(\"#nct_ts\").html('"+sdf.format(nctTs)+"');\n");
 							}
 							if(v2_type[i].equals("od_iop_applanation") || v2_type[i].equals("os_iop_applanation")){
-								applanationTs = key1.getDateObserved();
+								if(applanationTs == null) {
+									applanationTs = key1.getDateObserved();
+								}else if(key1.getDateObserved().after(applanationTs)){
+									applanationTs = key1.getDateObserved();
+								}
 								script.append("jQuery(\"#applanation_ts\").html('"+sdf.format(applanationTs)+"');\n");
 							}
 							in_v3 = false;

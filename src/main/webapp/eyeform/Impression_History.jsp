@@ -67,9 +67,9 @@ input [type=text] { border-bottom: black 1px solid; }
 	<tr>
 	<table class="border" width="100%" cellpadding="0" border="0" cellspacing="0" rules="all">
 	<tr bgcolor="#999999">
-		<td width="20%" align="center">Date</td>
-		<td width="20%" align="center">Doctor</td>
-		<td width="60%" align="center">Impression Notes</td>
+		<td width="14%" align="center">Date</td>
+		<td width="14%" align="center">Doctor</td>
+		<td width="72%" align="center">Impression Notes</td>
 	</tr>
 	<%
 		@SuppressWarnings("unchecked")
