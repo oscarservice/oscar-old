@@ -139,6 +139,7 @@ public class BillingCorrectionPrep {
 		}
 
 		// 3rd party elements
+		if(payProgram.matches(BillingDataHlp.BILLINGMATCHSTRING_3RDPARTY)) {
 		if (requestData.getParameter("payment") != null) {
 			ret = update3rdPartyItem("payment", requestData);
             ret = update3rdPartyItem("refund", requestData);
@@ -150,7 +151,7 @@ public class BillingCorrectionPrep {
 		if (requestData.getParameter("billTo") != null) {
 			ret = update3rdPartyItem("billTo", requestData);
 		}
-
+		}
 		return ret;
 	}
 	

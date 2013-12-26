@@ -362,7 +362,7 @@ public class BillingSavePrep {
 		if (val.getParameter("payMethod") != null) {
 			valsMap.put("payMethod", val.getParameter("payMethod"));
 		} else {
-			valsMap.put("payMethod", "");
+			valsMap.put("payMethod", "1");
 		}
 		return valsMap;
 	}

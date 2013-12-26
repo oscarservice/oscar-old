@@ -157,7 +157,7 @@ public class BillingONPaymentsAction extends DispatchAction {
 					billingOnItemDao.updateItemPayment(item, pay_ref, discount);
 					billingOnItemDao.updateItemPaymentNew(item1, pay_ref, discount);
 					//billingOnItemDao.addUpdateOneBillItemTrans(ch1Obj, item, updateProviderNo,pay_ref, discount,payment_id);
-					billingOnItemDao.addUpdateOneBillItemTrans(ch1Obj, item, updateProviderNo, pay_ref, discount,item1);
+					billingOnItemDao.addUpdateOneBillItemTrans(ch1Obj, item, updateProviderNo, pay_ref, discount, item1);
 					
 				} else if ("refund".equals(request.getParameter("sel" + i))) {
 					String discount1=item.getDiscount().toString();
@@ -228,7 +228,7 @@ public class BillingONPaymentsAction extends DispatchAction {
 			payment.setPaymentTypeId("1");
 			// payment.setPaymentId(billingNo);
 			//payment.setBillingPaymentType(type);
-			// payment.setPaymentTypeId(paymentType);
+			 //payment.setPaymentTypeId(paymentType);
 			billingONPaymentDao.persist(payment);
 
 		} else {
@@ -252,7 +252,9 @@ public class BillingONPaymentsAction extends DispatchAction {
 		BigDecimal paid = billingONPaymentDao
 				.getPaymentsSumByBillingNo(billingNo);
 		BigDecimal refund = billingONPaymentDao.getPaymentsRefundByBillingNo(
-				billingNo).negate();
+				billingNo);
+		BigDecimal discount = billingONPaymentDao.getPaymentsDiscountByBillingNo(billingNo);
+				
 		NumberFormat currency = NumberFormat.getCurrencyInstance();
 		//ch1.setPaid(currency.format(paid.subtract(refund)).replace("$", "")
 			//	.replace(",", ""));
@@ -267,12 +269,16 @@ public class BillingONPaymentsAction extends DispatchAction {
 				currency.format(refund).replace("$", "").replace(",", ""),
 				curDate, '1');
 		billingONExtDao.setExtItem(billingNo, ch1.getDemographic_no(),
+				BillingONExtDao.KEY_DISCOUNT,
+				currency.format(discount).replace("$", "").replace(",", ""),
+				curDate, '1');
+		billingONExtDao.setExtItem(billingNo, ch1.getDemographic_no(),
 				BillingONExtDao.KEY_PAY_DATE, new SimpleDateFormat(
 						"yyyy-MM-dd HH:mm:ss").format(paymentDate), curDate,
 				'1');
-	//	billingONExtDao.setExtItem(billingNo, ch1.getDemographic_no(),
-		//		BillingONExtDao.KEY_PAY_METHOD, payment.getBillingPaymentType()
-			//			.getPaymentType(), curDate, '1');
+		billingONExtDao.setExtItem(billingNo, ch1.getDemographic_no(),
+				BillingONExtDao.KEY_PAY_METHOD, payment.getPaymentTypeId()
+						, curDate, '1');
 		
 
 		return listPayments(actionMapping, actionForm, request, response);

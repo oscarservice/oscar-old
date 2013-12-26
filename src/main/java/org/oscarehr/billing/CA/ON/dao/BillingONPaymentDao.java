@@ -67,7 +67,19 @@ public class BillingONPaymentDao extends AbstractDao<BillingONPayment>{
     }
     
     public BigDecimal getPaymentsRefundByBillingNo(Integer billingNo){
-        Query query = entityManager.createQuery("select sum(bp.total_payment) from BillingONPayment bp where bp.billingONCheader1.id = :billingNo and total_payment<0 group by bp.billingONCheader1");
+        Query query = entityManager.createQuery("select sum(bp.total_refund) from BillingONPayment bp where bp.billingONCheader1.id = :billingNo and total_refund>0 group by bp.billingONCheader1");
+        query.setParameter("billingNo", billingNo);
+        BigDecimal paymentsSum = null;
+        try {
+        	paymentsSum = (BigDecimal) query.getSingleResult();
+        } catch(NoResultException ex) {
+        	paymentsSum = new BigDecimal(0);
+        }
+        return paymentsSum;
+    }
+    
+    public BigDecimal getPaymentsDiscountByBillingNo(Integer billingNo){
+        Query query = entityManager.createQuery("select sum(bp.total_discount) from BillingONPayment bp where bp.billingONCheader1.id = :billingNo and total_discount>0 group by bp.billingONCheader1");
         query.setParameter("billingNo", billingNo);
         BigDecimal paymentsSum = null;
         try {

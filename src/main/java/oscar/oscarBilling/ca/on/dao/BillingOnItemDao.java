@@ -133,6 +133,7 @@ public class BillingOnItemDao extends HibernateDaoSupport {
         
         public void updateItemRefundNew(BillingOnPaymentItem item,String refund){
         	item.setRefund(new BigDecimal(refund));
+        	//item.setBilling_on_payment_id(paymentId);
         	getHibernateTemplate().update(item);
         }
         
@@ -145,6 +146,7 @@ public class BillingOnItemDao extends HibernateDaoSupport {
         public void updateItemPaymentNew(BillingOnPaymentItem item,String paid,String discount){
         	item.setPaid(new BigDecimal(paid));
         	item.setDiscount(new BigDecimal(discount));
+        	//item.setBilling_on_payment_id(paymentId);
         	getHibernateTemplate().update(item);
         }
 
@@ -158,7 +160,7 @@ public class BillingOnItemDao extends HibernateDaoSupport {
 			sqlBuf.append("insert into billing_on_transaction values");
 			sqlBuf.append("(\\N,");
 			sqlBuf.append(item.getCh1_id() + ","); // cheader1_id
-			sqlBuf.append("'',"); // paymentId
+			sqlBuf.append("'"+0+"',"); // paymentId
 			sqlBuf.append(item1.getId() + ","); // billing_on_item_id
 			sqlBuf.append(billHeader.getDemographic_no() + ","); // demographic_no
 			sqlBuf.append("'" + updateProviderNo + "',"); // update_provider_no
@@ -197,7 +199,7 @@ public class BillingOnItemDao extends HibernateDaoSupport {
 			sqlBuf.append("insert into billing_on_transaction values");
 			sqlBuf.append("(\\N,");
 			sqlBuf.append(item.getCh1_id() + ","); // cheader1_id
-			sqlBuf.append("'',"); // paymentId
+			sqlBuf.append("'"+0+"',"); // paymentId
 			sqlBuf.append(item1.getId() + ","); // billing_on_item_id
 			sqlBuf.append(billHeader.getDemographic_no() + ","); // demographic_no
 			sqlBuf.append("'" + updateProviderNo + "',"); // update_provider_no
