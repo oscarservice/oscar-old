@@ -1,0 +1,1 @@
+ALTER TABLE EyeformFollowUp MODIFY COLUMN timespan VARCHAR(6);
