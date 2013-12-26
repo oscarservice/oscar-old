@@ -316,7 +316,6 @@
 
 	<!-- Encounter Form DAO -->
 	<bean id="Rourke2009DAO" class="oscar.form.dao.Rourke2009DAO" autowire="byName"/>
-	<bean id="FormIvfTrackSheetDAO" class="oscar.form.dao.FormIvfTrackSheetDAO" autowire="byName"/>
 
 
         <!--Email Support -->
