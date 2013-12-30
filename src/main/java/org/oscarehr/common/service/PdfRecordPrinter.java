@@ -923,7 +923,7 @@ public class PdfRecordPrinter {
 	        }
 	        if(mf.getVisionAssessmentIntermediateVision_sc().length() > 0){
 	        	p = new Paragraph();
-	        	p.add(new Phrase("Intermediate vision (ssc) ",boldFont));
+	        	p.add(new Phrase("Intermediate vision (sc) ",boldFont));
 	        	p.add(new Phrase(mf.getVisionAssessmentIntermediateVision_sc(),getFont()));
 	        	cell = new Cell(p);
 	        	cell.disableBorderSide(1);
