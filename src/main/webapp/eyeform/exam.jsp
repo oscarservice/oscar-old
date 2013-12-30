@@ -63,7 +63,7 @@
 	String appo = request.getParameter("appointment_no");
 	String type11="distance";
 	String type22="bifocal";
-	String type33="invisible bifocal";
+	String type33="invis bfocal";
 	String type44="reading";
     SpecsHistoryDao dao = (SpecsHistoryDao) SpringUtils.getBean("SpecsHistoryDAO");
     List<EyeformSpecsHistory> specs = dao.getRecentRecord(Integer.parseInt(demo),type11);
@@ -333,7 +333,7 @@ function demo1() {
 		document.getElementById("osPrism1").value=osPrism5;
 
 		note_str = document.getElementById("note2").value;
-	}else if(type001=="invisible bifocal"){
+	}else if(type001=="invis bfocal"){
 
 		document.getElementById("gl_date1").value=gl_date6;
 		document.getElementById("odSph1").value=odSph6;
@@ -447,7 +447,7 @@ function demo2() {
 		document.getElementById("osPrism2").value=osPrism5;
 
 		note_str = document.getElementById("note2").value;
-	}else if(type002=="invisible bifocal"){
+	}else if(type002=="invis bfocal"){
 
 		document.getElementById("gl_date2").value=gl_date6;
 		document.getElementById("odSph2").value=odSph6;
@@ -560,7 +560,7 @@ function demo3() {
 		document.getElementById("osPrism3").value=osPrism5;
 
 		note_str = document.getElementById("note3").value;
-	}else if(type003=="invisible bifocal"){
+	}else if(type003=="invis bfocal"){
 
 		document.getElementById("gl_date3").value=gl_date6;
 		document.getElementById("odSph3").value=odSph6;
@@ -673,7 +673,7 @@ function demo4() {
 		document.getElementById("osPrism4").value=osPrism5;
 
 		note_str = document.getElementById("note4").value;
-	}else if(type004=="invisible bifocal"){
+	}else if(type004=="invis bfocal"){
 
 		document.getElementById("gl_date4").value=gl_date6;
 		document.getElementById("odSph4").value=odSph6;
