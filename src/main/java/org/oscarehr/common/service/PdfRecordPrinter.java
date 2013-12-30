@@ -1936,6 +1936,7 @@ public class PdfRecordPrinter {
 	        	addEyelidMeasurement = true;
 	        }
 	        if(mf.getBlink().length() > 0){
+	        	p = new Paragraph();
 	        	p.add(new Phrase("Blink reflex ", boldFont));
 	        	p.add(new Phrase(mf.getBlink(),getFont()));
 	        	cell = new Cell(p);
