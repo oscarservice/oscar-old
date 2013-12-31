@@ -1795,15 +1795,35 @@ import cdsDt.PersonNameStandard.OtherNames;
                 String[] _req_date  = new String[labResultArr.length];
 
                 // Save to labPatientPhysicianInfo, labTestResults, patientLabRouting
+                String accessionString = "Temp";
+                int accNum = 0;
+                String tempCollectionDate = "";
                 for (int i=0; i<labResultArr.length; i++) {
                     _location[i] = StringUtils.noNull(labResultArr[i].getLaboratoryName());
-                    _accession[i] = StringUtils.noNull(labResultArr[i].getAccessionNumber()); 
-                    _coll_date[i] = dateFPtoString(labResultArr[i].getCollectionDateTime(), timeShiftInDays);
-                    String date1 = labResultArr[i].getCollectionDateTime().getFullDate().toString();
-                    String date2 = labResultArr[i].getLabRequisitionDateTime().getFullDateTime().toString();
-                    
+                    _accession[i] = StringUtils.noNull(labResultArr[i].getAccessionNumber());                     
+                    _coll_date[i] = dateFPtoString(labResultArr[i].getCollectionDateTime(), timeShiftInDays);   
                     //labResultArr[i].getCollectionDateTime() return : <cdsd:DateTime xmlns:cdsd="cds_dt" xmlns="cds" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">2007-07-24T00:00:00-05:00</cdsd:DateTime>
-                    //labResultArr[i].getLabRequisitionDateTime().getFullDate() or any other mothods always return NULL.                    
+                    //labResultArr[i].getLabRequisitionDateTime().getFullDate() or any other mothods always return NULL.    
+                    String collectionDateTimeXmlText = "";
+                    String dateText = "";
+                    Calendar c = labResultArr[i].getCollectionDateTime().getFullDateTime(); //get null
+                	if(c==null) {
+                		collectionDateTimeXmlText = labResultArr[i].getCollectionDateTime().toString(); 
+                		if(collectionDateTimeXmlText!=null) {
+                			dateText = collectionDateTimeXmlText.substring(collectionDateTimeXmlText.indexOf(">")+1, collectionDateTimeXmlText.indexOf("</"));                			
+                		}
+                	}
+                    
+                    if(_coll_date[i]==null || _coll_date[i].equals("")) { 
+                    	if( !StringUtils.isNullOrEmpty(dateText) && dateText.length()>10) {
+                    		_coll_date[i] = dateText.substring(0,10); 
+                    	}
+                    }
+                    
+                    if(StringUtils.isNullOrEmpty(_accession[i])) { //the lab accession number from another EMR could be null, which does not mean all labs without accession number should belong to one accession.
+                    	_accession[i] = dateText; //use collection date as accession number if the lab has no accesssion number.                    	
+                    }   
+                    
                     _req_date[i] = dateFPtoString(labResultArr[i].getLabRequisitionDateTime(), timeShiftInDays);
                     if (StringUtils.empty(_req_date[i])) _req_date[i] = _coll_date[i];
 
