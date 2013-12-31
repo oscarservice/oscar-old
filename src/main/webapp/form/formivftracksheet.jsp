@@ -1351,9 +1351,9 @@ function sortedTextValue(num){
 </tr>
 <tr>
 <td>
-<table align="center" width="100%" border="1" cellspacing="1" cellpadding="1">
+<table align="center" width="100%" border="1" bordercolor="green" cellspacing="1" cellpadding="1">
 <tbody>
-	<tr>
+	<tr align="center">
 		<td width="10%">Date(dd/mm/yyyy)</td>
 		<td width="5%" colspan="2"><input type="text" id="date1" name="date1" size="8" onDblClick="calToday(this)" value="<%=props.getProperty("date1", "")%>"/></td>
 		<td width="5%" colspan="2"><input type="text" id="date2" name="date2" size="8" onDblClick="calToday(this)" value="<%=props.getProperty("date2", "")%>"/></td>
@@ -1374,7 +1374,7 @@ function sortedTextValue(num){
 		<td width="5%" colspan="2"><input type="text" id="date17" name="date17" size="8" onDblClick="calToday(this)" value="<%=props.getProperty("date17", "")%>"/></td>
 		<td width="5%" colspan="2"><input type="text" id="date18" name="date18" size="8" onDblClick="calToday(this)" value="<%=props.getProperty("date18", "")%>"/></td>
 	</tr>
-	<tr>
+	<tr align="center">
 		<td>Cycle Day</td>
 		<td colspan="2">AFC</td>
 		<td colspan="2"><input type="text" style="width:2px;visibility:hidden;"/></td>
@@ -1395,7 +1395,7 @@ function sortedTextValue(num){
 		<td colspan="2">17</td>
 		<td colspan="2">18</td>
 	</tr>
-	<tr>
+	<tr align="center">
 	<!--	<td>Puregon<input type="checkbox" id="puregon" name="puregon" <%=props.getProperty("puregon", "")%> />Gonal F<input type="checkbox" id="gonal" name="gonal" <%=props.getProperty("gonal", "")%> /></td>	-->
 		<td>
 		<select id="pgb" name="pgb">
@@ -1423,7 +1423,7 @@ function sortedTextValue(num){
 		<td colspan="2"><input type="text" id="puregon17" name="puregon17" maxlength="7" size="8" value="<%=props.getProperty("puregon17", "")%>"/></td>
 		<td colspan="2"><input type="text" id="puregon18" name="puregon18" maxlength="7" size="8" value="<%=props.getProperty("puregon18", "")%>"/></td>
 	</tr>
-	<tr>
+	<tr align="center">
 	<!--	<td>Menopur<input type="checkbox" id="menopur" name="menopur" <%=props.getProperty("menopur", "")%>/>mhCG<input type="checkbox" id="mhcg" name="mhcg" <%=props.getProperty("mhcg", "")%>/>Luveris<input type="checkbox" id="luver" name="luver" <%=props.getProperty("luver", "")%>/></td>	-->
 		<td>
 		<select id="mml" name="mml">
@@ -1451,7 +1451,7 @@ function sortedTextValue(num){
 		<td colspan="2"><input type="text" id="menopur17" name="menopur17" maxlength="3" size="8" value="<%=props.getProperty("menopur17", "")%>"/></td>
 		<td colspan="2"><input type="text" id="menopur18" name="menopur18" maxlength="3" size="8" value="<%=props.getProperty("menopur18", "")%>"/></td>
 	</tr>
-	<tr>
+	<tr align="center">
 	<!--	<td>Orgalutran<input type="checkbox" id="orgalutran" name="orgalutran" <%=props.getProperty("orgalutran", "")%>>Suprefact<input type="checkbox" id="suprefact" name="suprefact" <%=props.getProperty("suprefact", "")%>></td>	-->
 		<td>
 		<select id="osc" name="osc">
@@ -1479,7 +1479,7 @@ function sortedTextValue(num){
 		<td colspan="2"><input type="text" id="orgalutran17" name="orgalutran17" maxlength="5" size="8" value="<%=props.getProperty("orgalutran17", "")%>"/></td>
 		<td colspan="2"><input type="text" id="orgalutran18" name="orgalutran18" maxlength="5" size="8" value="<%=props.getProperty("orgalutran18", "")%>"/></td>
 	</tr>
-	<tr>
+	<tr align="center">
 		<td>Progesterone</td>
 		<td colspan="2"><input type="text" id="proges1" name="proges1" maxlength="5" size="8" value="<%=props.getProperty("proges1", "")%>"/></td>
 		<td colspan="2"><input type="text" id="proges2" name="proges2" maxlength="5" size="8" value="<%=props.getProperty("proges2", "")%>"/></td>
@@ -1500,7 +1500,7 @@ function sortedTextValue(num){
 		<td colspan="2"><input type="text" id="proges17" name="proges17" maxlength="5" size="8" value="<%=props.getProperty("proges17", "")%>"/></td>
 		<td colspan="2"><input type="text" id="proges18" name="proges18" maxlength="5" size="8" value="<%=props.getProperty("proges18", "")%>"/></td>
 	</tr>
-	<tr>
+	<tr align="center">
 		<td>Estradiol</td>
 		<td colspan="2"><input type="text" id="estradiol1" name="estradiol1" maxlength="5" size="8" value="<%=props.getProperty("estradiol1", "")%>"/></td>
 		<td colspan="2"><input type="text" id="estradiol2" name="estradiol2" maxlength="5" size="8" value="<%=props.getProperty("estradiol2", "")%>"/></td>
@@ -1521,7 +1521,7 @@ function sortedTextValue(num){
 		<td colspan="2"><input type="text" id="estradiol17" name="estradiol17" maxlength="5" size="8" value="<%=props.getProperty("estradiol17", "")%>"/></td>
 		<td colspan="2"><input type="text" id="estradiol18" name="estradiol18" maxlength="5" size="8" value="<%=props.getProperty("estradiol18", "")%>"/></td>
 	</tr>
-	<tr>
+	<tr align="center">
 		<td>LH</td>
 		<td colspan="2"><input type="text" id="lh1" name="lh1" maxlength="5" size="8" value="<%=props.getProperty("lh1", "")%>"/></td>
 		<td colspan="2"><input type="text" id="lh2" name="lh2" maxlength="5" size="8" value="<%=props.getProperty("lh2", "")%>"/></td>
@@ -1542,7 +1542,7 @@ function sortedTextValue(num){
 		<td colspan="2"><input type="text" id="lh17" name="lh17" maxlength="5" size="8" value="<%=props.getProperty("lh17", "")%>"/></td>
 		<td colspan="2"><input type="text" id="lh18" name="lh18" maxlength="5" size="8" value="<%=props.getProperty("lh18", "")%>"/></td>
 	</tr>
-	<tr>
+	<tr align="center">
 		<td>Ultrasound</td>
 		<td align="center" onclick="sortedTextValue(0);">R</td>
 		<td align="center" onclick="sortedTextValue(1);">L</td>
@@ -1581,7 +1581,7 @@ function sortedTextValue(num){
 		<td align="center" onclick="sortedTextValue(34);">R</td>
 		<td align="center" onclick="sortedTextValue(35);">L</td>
 	</tr>
-	<tr>
+	<tr align="center">
 		<td><textarea id="txt2" name="txt2" style="width: 139px; height: 374px;"><%=props.getProperty("txt2", "")%></textarea></td>
 		<td>
 			<table>
@@ -3397,7 +3397,7 @@ function sortedTextValue(num){
 			</table>
 		</td>
 	</tr>
-	<tr>
+	<tr align="center">
 		<td>Endometrial thickness</td>
 		<td colspan="2"><input type="text" id="endometrial1" name="endometrial1" maxlength="7" size="8" value="<%=props.getProperty("endometrial1", "")%>"/></td>
 		<td colspan="2"><input type="text" id="endometrial2" name="endometrial2" maxlength="7" size="8" value="<%=props.getProperty("endometrial2", "")%>"/></td>
@@ -3418,7 +3418,7 @@ function sortedTextValue(num){
 		<td colspan="2"><input type="text" id="endometrial17" name="endometrial17" maxlength="7" size="8" value="<%=props.getProperty("endometrial17", "")%>"/></td>
 		<td colspan="2"><input type="text" id="endometrial18" name="endometrial18" maxlength="7" size="8" value="<%=props.getProperty("endometrial18", "")%>"/></td>
 	</tr>
-	<tr>
+	<tr align="center">
 		<td>Sonographer/Room/Probe</td>
 		<td colspan="2"><input type="text" id="sonographer1" name="sonographer1" maxlength="7" size="8" value="<%=props.getProperty("sonographer1", "")%>"/></td>
 		<td colspan="2"><input type="text" id="sonographer2" name="sonographer2" maxlength="7" size="8" value="<%=props.getProperty("sonographer2", "")%>"/></td>
