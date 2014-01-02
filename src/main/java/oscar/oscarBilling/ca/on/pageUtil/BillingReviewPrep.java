@@ -100,6 +100,7 @@ public class BillingReviewPrep {
 			codeItem = new BillingReviewCodeItem();
 			codeItem.setCodeName((String) vecCode.get(i));
 			codeItem.setCodeUnit((String) vecUnit.get(i));
+			codeItem.setCodeAt((String)vecAt.get(i));
 			codeItem.setCodeFee(fee);
 			codeItem.setCodeTotal(bigFee.toString());
 			codeItem.setMsg("");

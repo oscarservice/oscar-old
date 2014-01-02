@@ -23,7 +23,16 @@ public class BillingReviewCodeItem {
 	String codeUnit;
 	String codeFee;
 	String codeTotal;
+	String codeAt;
 	String msg;
+	
+	
+	public String getCodeAt() {
+		return codeAt;
+	}
+	public void setCodeAt(String codeAt) {
+		this.codeAt = codeAt;
+	}
 	public String getCodeFee() {
 		return codeFee;
 	}

@@ -560,6 +560,7 @@ window.onload=function(){
 						String codeFee = (String)((BillingReviewCodeItem)vecCodeItem.get(nCode)).getCodeFee();
 						String codeTotal = (String)((BillingReviewCodeItem)vecCodeItem.get(nCode)).getCodeTotal();
                         String strWarning = (String)((BillingReviewCodeItem)vecCodeItem.get(nCode)).getMsg();
+                        String codeAt=(String)((BillingReviewCodeItem)vecCodeItem.get(nCode)).getCodeAt();
                                                 gstFlag = gstRep.getGstFlag(codeName,billReferalDate);  // Retrieve whether the code has gst involved
                                                 BigDecimal cTotal = new BigDecimal(codeTotal);
                                                 if ( gstFlag.equals("1") ){   // If it does, update the total with the gst calculated
@@ -586,7 +587,7 @@ window.onload=function(){
                     <% if( strWarning.length() > 0 ) { %>
                     <span style="color:red; float:left;"><%=strWarning%></span>
                     <%}%>
-                    <span style="float:right;"> <%=codeFee %> x <%=codeUnit %><% if (gstFlag.equals("1")){%> + <%=percent%>% GST<%}%> =
+                    <span style="float:right;"> <%=codeFee %> x <%=codeUnit %> <% if (!codeAt.equals("1")){%> x <%=codeAt %> <%}%><% if (gstFlag.equals("1")){%> + <%=percent%>% GST<%}%> =
 				<input type="text" name="percCodeSubtotal_<%=i %>" size="5" value="<%=codeTotal %>" />
 				<input type="hidden" name="xserviceCode_<%=i %>" value="<%=codeName %>" />
 				<input type="hidden" name="xserviceUnit_<%=i %>" value="<%=codeUnit %>" />
