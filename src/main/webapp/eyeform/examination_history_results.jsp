@@ -765,7 +765,7 @@ if(fieldList.contains("Keratometry")){
 		String v_ldc = keratometry_str.get("v_ldc");
 		String v_ldx = keratometry_str.get("v_ldx");
 		String v_ldv = keratometry_str.get("v_ldv");
-		String v_dist = keratometry_str.get("v_dist");
+		String v_dv = keratometry_str.get("v_dv");
 		if((v_rds.length() > 0) || (v_rdc.length() > 0) || (v_rdx.length() > 0) || (v_rdv.length() > 0) || (v_lds.length() > 0) || (v_ldc.length() > 0) || (v_ldx.length() > 0) || (v_ldv.length() > 0) || (v_dist.length() > 0)){
 %>
 		<span class="title1">Manifest distance </span>
@@ -812,9 +812,9 @@ if(fieldList.contains("Keratometry")){
 		}
 %>
 <%
-		if(v_dist.length() > 0){
+		if(v_dv.length() > 0){
 %>
-		OU <%=v_dist%>.
+		OU <%=v_dv%>.
 <%
 		}
 %>
@@ -832,7 +832,7 @@ if(fieldList.contains("Keratometry")){
 		String v_lnc = keratometry_str.get("v_lnc");
 		String v_lnx = keratometry_str.get("v_lnx");
 		String v_lnv = keratometry_str.get("v_lnv");
-		String v_near = keratometry_str.get("v_near");
+		String v_nv = keratometry_str.get("v_nv");
 		if((v_rns.length() > 0) || (v_rnc.length() > 0) || (v_rnx.length() > 0) || (v_rnv.length() > 0) || (v_lns.length() > 0) || (v_lnc.length() > 0) || (v_lnx.length() > 0) || (v_lnv.length() > 0) || (v_near.length() > 0)){
 %>
 		<span class="title1">Manifest near </span>
@@ -879,9 +879,9 @@ if(fieldList.contains("Keratometry")){
 		}
 %>
 <%
-		if(v_near.length() > 0){
+		if(v_nv.length() > 0){
 %>
-		OU <%=v_near%>.
+		OU <%=v_nv%>.
 <%
 		}
 %>
@@ -2865,7 +2865,7 @@ if(fieldList.contains("Optic disc")){
 			<c:out value="${map.v_ldv}"/>
 		</display:column>
 		<display:column title="Manifest distance OU" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_dist}"/>
+			<c:out value="${map.v_dv}"/>
 		</display:column>
 		<display:column title="Manifest near OD" style="width:30px;white-space: nowrap;">
 			<c:out value="${map.v_rns}"/>
@@ -2892,7 +2892,7 @@ if(fieldList.contains("Optic disc")){
 			<c:out value="${map.v_lnv}"/>
 		</display:column>
 		<display:column title="Manifest near OU" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_near}"/>
+			<c:out value="${map.v_nv}"/>
 		</display:column>
 		<display:column title="Cycloplegic refraction OD" style="width:30px;white-space: nowrap;">
 			<c:out value="${map.v_rcs}"/>

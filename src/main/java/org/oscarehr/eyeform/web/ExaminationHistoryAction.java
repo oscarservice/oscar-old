@@ -413,8 +413,8 @@ public class ExaminationHistoryAction extends DispatchAction {
 					if(m!=null){map.put(m.getType(), m.getDataField());}else{map.put("v_ldx", "");}
 					m = measurementsDao.getLatestMeasurementByAppointment(appt.getId(),"v_ldv");
 					if(m!=null){map.put(m.getType(), m.getDataField());}else{map.put("v_ldv", "");}
-					m = measurementsDao.getLatestMeasurementByAppointment(appt.getId(),"v_dist");
-					if(m!=null){map.put(m.getType(), m.getDataField());}else{map.put("v_dist", "");}
+					m = measurementsDao.getLatestMeasurementByAppointment(appt.getId(),"v_dv");
+					if(m!=null){map.put(m.getType(), m.getDataField());}else{map.put("v_dv", "");}
 					m = measurementsDao.getLatestMeasurementByAppointment(appt.getId(),"v_rns");
 					if(m!=null){map.put(m.getType(), m.getDataField());}else{map.put("v_rns", "");}
 					m = measurementsDao.getLatestMeasurementByAppointment(appt.getId(),"v_rnc");
@@ -431,8 +431,8 @@ public class ExaminationHistoryAction extends DispatchAction {
 					if(m!=null){map.put(m.getType(), m.getDataField());}else{map.put("v_lnx", "");}
 					m = measurementsDao.getLatestMeasurementByAppointment(appt.getId(),"v_lnv");
 					if(m!=null){map.put(m.getType(), m.getDataField());}else{map.put("v_lnv", "");}
-					m = measurementsDao.getLatestMeasurementByAppointment(appt.getId(),"v_near");
-					if(m!=null){map.put(m.getType(), m.getDataField());}else{map.put("v_near", "");}
+					m = measurementsDao.getLatestMeasurementByAppointment(appt.getId(),"v_nv");
+					if(m!=null){map.put(m.getType(), m.getDataField());}else{map.put("v_nv", "");}
 					m = measurementsDao.getLatestMeasurementByAppointment(appt.getId(),"v_rcs");
 					if(m!=null){map.put(m.getType(), m.getDataField());}else{map.put("v_rcs", "");}
 					m = measurementsDao.getLatestMeasurementByAppointment(appt.getId(),"v_rcc");

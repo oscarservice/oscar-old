@@ -1683,16 +1683,16 @@ span.ge{
 			<td>s</td>
 			<td>c</td>
 			<td>x</td>
-			<td>Add</td>
+			<td>add</td>
 			<td>prism</td>
 			<td width="8%"></td>
 			<td>s</td>
 			<td>c</td>
 			<td>x</td>
-			<td>Add</td>
+			<td>add</td>
 			<td>prism</td>
 			
-			<td>Date</td>				
+			<td>date</td>				
 			<td width="8%"></td>
 			
 			<td></td>
