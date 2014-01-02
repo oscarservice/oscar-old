@@ -1368,7 +1368,7 @@ public class MeasurementFormatter {
 				}
 				if(isPresent("v_dv")){
 					sb.append("\n                  OU ");
-					sb.append(getValue("v_dist"));
+					sb.append(getValue("v_dv"));
 					sb.append(". ");
 				}
 			}else{
@@ -1379,7 +1379,7 @@ public class MeasurementFormatter {
 				}
 				if(isPresent("v_dv")){
 					sb.append("OU ");
-					sb.append(getValue("v_dist"));
+					sb.append(getValue("v_dv"));
 					sb.append(". ");
 				}
 			}
@@ -1449,7 +1449,7 @@ public class MeasurementFormatter {
 				}
 				if(isPresent("v_nv")){
 					sb.append("\n              OU ");
-					sb.append(getValue("v_near"));
+					sb.append(getValue("v_nv"));
 					sb.append(". ");
 				}
 			}else{
@@ -1460,7 +1460,7 @@ public class MeasurementFormatter {
 				}
 				if(isPresent("v_nv")){
 					sb.append("OU ");
-					sb.append(getValue("v_near"));
+					sb.append(getValue("v_nv"));
 					sb.append(". ");
 				}
 			}
@@ -2502,7 +2502,7 @@ public class MeasurementFormatter {
 						sb.append(", ");
 					}
 					if(!flag) flag=true;
-					sb.append("nasal "+getValue("a_rangle_4"));
+					sb.append("temporal "+getValue("a_rangle_4"));
 				}
 				if(isPresent("a_rangle_5")) {
 					if(flag) {
@@ -2516,7 +2516,7 @@ public class MeasurementFormatter {
 						sb.append(", ");
 					}
 					if(!flag) flag=true;
-					sb.append("temporal " + getValue("a_rangle_2"));
+					sb.append("nasal " + getValue("a_rangle_2"));
 				}				
 				if(isPresent("a_rangle_1") || isPresent("a_rangle_2") || isPresent("a_rangle_4") || isPresent("a_rangle_5")) {
 					sb.append(")");

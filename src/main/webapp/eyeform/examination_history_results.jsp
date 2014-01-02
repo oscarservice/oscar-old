@@ -766,7 +766,7 @@ if(fieldList.contains("Keratometry")){
 		String v_ldx = keratometry_str.get("v_ldx");
 		String v_ldv = keratometry_str.get("v_ldv");
 		String v_dv = keratometry_str.get("v_dv");
-		if((v_rds.length() > 0) || (v_rdc.length() > 0) || (v_rdx.length() > 0) || (v_rdv.length() > 0) || (v_lds.length() > 0) || (v_ldc.length() > 0) || (v_ldx.length() > 0) || (v_ldv.length() > 0) || (v_dist.length() > 0)){
+		if((v_rds.length() > 0) || (v_rdc.length() > 0) || (v_rdx.length() > 0) || (v_rdv.length() > 0) || (v_lds.length() > 0) || (v_ldc.length() > 0) || (v_ldx.length() > 0) || (v_ldv.length() > 0) || (v_dv.length() > 0)){
 %>
 		<span class="title1">Manifest distance </span>
 <%	
@@ -833,7 +833,7 @@ if(fieldList.contains("Keratometry")){
 		String v_lnx = keratometry_str.get("v_lnx");
 		String v_lnv = keratometry_str.get("v_lnv");
 		String v_nv = keratometry_str.get("v_nv");
-		if((v_rns.length() > 0) || (v_rnc.length() > 0) || (v_rnx.length() > 0) || (v_rnv.length() > 0) || (v_lns.length() > 0) || (v_lnc.length() > 0) || (v_lnx.length() > 0) || (v_lnv.length() > 0) || (v_near.length() > 0)){
+		if((v_rns.length() > 0) || (v_rnc.length() > 0) || (v_rnx.length() > 0) || (v_rnv.length() > 0) || (v_lns.length() > 0) || (v_lnc.length() > 0) || (v_lnx.length() > 0) || (v_lnv.length() > 0) || (v_nv.length() > 0)){
 %>
 		<span class="title1">Manifest near </span>
 <%		
@@ -2660,6 +2660,7 @@ if(fieldList.contains("Optic disc")){
 
 <%}else if(("eyeform3".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){%>
 <table class="display">
+<%if(fieldList.contains("Glasses Rx")){%>
 <tr>
 <td><h5>Glasses History</h5>
 	<display:table name="glasses" requestURI="/eyeform/ExaminationHistory.do" class="display" style="width:100%" id="map" pagesize="5">
@@ -2705,7 +2706,10 @@ if(fieldList.contains("Optic disc")){
 	</display:table>
 </td>
 </tr>
-
+<%
+}
+if(fieldList.contains("Distance vision (sc)")){
+%>
 <tr>
 <td><h5>VISION ASSESSMENT</h5>
 	<display:table name="distance_vision" requestURI="/eyeform/ExaminationHistory.do" class="display" style="width:100%" id="map" pagesize="5">
@@ -2775,7 +2779,10 @@ if(fieldList.contains("Optic disc")){
 	</display:table>
 </td>
 </tr>
-
+<%
+}
+if(fieldList.contains("Fly test")){
+%>
 <tr>
 <td><h5>STEREO VISION</h5>
 	<display:table name="fly_test" requestURI="/eyeform/ExaminationHistory.do" class="display" style="width:100%" id="map" pagesize="5">
@@ -2791,6 +2798,10 @@ if(fieldList.contains("Optic disc")){
 	</display:table>
 </td>
 </tr>
+<%
+}
+if(fieldList.contains("Keratometry")){
+%>
 
 <tr>
 <td><h5>VISION MEASUREMENT</h5>
@@ -2921,7 +2932,10 @@ if(fieldList.contains("Optic disc")){
 	</display:table>
 </td>
 </tr>
-
+<%
+}
+if(fieldList.contains("NCT")){
+%>
 <tr>
 <td><h5>INTRAOCULAR PRESSURE</h5>
 	<display:table name="nct" requestURI="/eyeform/ExaminationHistory.do" class="display" style="width:100%" id="map" pagesize="5">
@@ -2955,7 +2969,10 @@ if(fieldList.contains("Optic disc")){
 	</display:table>
 </td>
 </tr>
-
+<%
+}
+if(fieldList.contains("Dominance")){
+%>
 <tr>
 <td><h5>REFRACTIVE</h5>
 	<display:table name="dominance" requestURI="/eyeform/ExaminationHistory.do" class="display" style="width:100%" id="map" pagesize="5">
@@ -2983,7 +3000,10 @@ if(fieldList.contains("Optic disc")){
 	</display:table>
 </td>
 </tr>
-
+<%
+}
+if(fieldList.contains("Colour vision")){
+%>
 <tr>
 <td><h5>OTHER EXAM</h5>
 	<display:table name="colour_vision" requestURI="/eyeform/ExaminationHistory.do" class="display" style="width:100%" id="map" pagesize="5">
@@ -3035,7 +3055,10 @@ if(fieldList.contains("Optic disc")){
 	</display:table>
 </td>
 </tr>
-
+<%
+}
+if(fieldList.contains("DUCTION/DIPLOPIA TESTING")){
+%>
 <tr>
 <td><h5>DUCTION/DIPLOPIA TESTING</h5>
 	<display:table name="ductlion" requestURI="/eyeform/ExaminationHistory.do" class="display" style="width:100%" id="map" pagesize="5">
@@ -3093,7 +3116,10 @@ if(fieldList.contains("Optic disc")){
 	</display:table>
 </td>
 </tr>
-
+<%
+}
+if(fieldList.contains("Primary gaze")){
+%>
 <tr>
 <td><h5>DEVIATION MEASUREMENT</h5>
 	<display:table name="primary" requestURI="/eyeform/ExaminationHistory.do" class="display" style="width:100%" id="map" pagesize="5">
@@ -3133,7 +3159,10 @@ if(fieldList.contains("Optic disc")){
 	</display:table>
 </td>
 </tr>
-
+<%
+}
+if(fieldList.contains("Retropulsion")){
+%>
 <tr>
 <td><h5>EXTERNAL/ORBIT</h5>
 	<display:table name="retropulsion" requestURI="/eyeform/ExaminationHistory.do" class="display" style="width:100%" id="map" pagesize="5">
@@ -3161,7 +3190,10 @@ if(fieldList.contains("Optic disc")){
 	</display:table>
 </td>
 </tr>
-
+<%
+}
+if(fieldList.contains("Upper lid")){
+%>
 <tr>
 <td><h5>EYELID/NASOLACRIMAL DUCT</h5>
 	<display:table name="upper" requestURI="/eyeform/ExaminationHistory.do" class="display" style="width:100%" id="map" pagesize="5">
@@ -3213,7 +3245,10 @@ if(fieldList.contains("Optic disc")){
 	</display:table>
 </td>
 </tr>
-
+<%
+}
+if(fieldList.contains("Margin reflex distance")){
+%>
 <tr>
 <td><h5>EYELID MEASUREMENT</h5>
 	<display:table name="margin" requestURI="/eyeform/ExaminationHistory.do" class="display" style="width:100%" id="map" pagesize="5">
@@ -3277,7 +3312,10 @@ if(fieldList.contains("Optic disc")){
 	</display:table>
 </td>
 </tr>
-
+<%
+}
+if(fieldList.contains("Cornea")){
+%>
 <tr>
 <td><h5>ANTERIOR SEGMENT</h5>
 	<display:table name="cornea" requestURI="/eyeform/ExaminationHistory.do" class="display" style="width:100%" id="map" pagesize="5">
@@ -3355,7 +3393,10 @@ if(fieldList.contains("Optic disc")){
 	</display:table>
 </td>
 </tr>
-
+<%
+}
+if(fieldList.contains("Optic disc")){
+%>
 <tr>
 <td><h5>POSTERIOR SEGMENT</h5>
 	<display:table name="optic" requestURI="/eyeform/ExaminationHistory.do" class="display" style="width:100%" id="map" pagesize="5">
@@ -3395,6 +3436,7 @@ if(fieldList.contains("Optic disc")){
 	</display:table>
 </td>
 </tr>
+<%}%>
 </table>
 <%}else{%>
 <table class="display">
