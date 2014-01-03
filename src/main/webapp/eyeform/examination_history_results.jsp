@@ -2377,7 +2377,7 @@ if(fieldList.contains("Cornea")){
 <%
 				if(a_rangle_4.length() > 0){
 %>
-					nasal <%=a_rangle_4%>
+					temporal <%=a_rangle_4%>
 <%
 				}
 %>
@@ -2391,7 +2391,7 @@ if(fieldList.contains("Cornea")){
 <%
 				if(a_rangle_2.length() > 0){
 %>
-					temporal <%=a_rangle_2%>;
+					nasal <%=a_rangle_2%>;
 <%
 				}
 %>
