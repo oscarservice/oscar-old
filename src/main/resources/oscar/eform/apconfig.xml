@@ -226,6 +226,39 @@
         <ap-sql>SELECT sex FROM demographic WHERE demographic_no=${demographic}</ap-sql>
         <ap-output>${sex}</ap-output>
     </databaseap>
+    
+    <!-- partner's information -->
+    <databaseap>
+        <ap-name>partner_nameL</ap-name>
+        <ap-sql>SELECT last_name FROM demographic WHERE demographic_no IN (SELECT relation_demographic_no FROM relationships WHERE demographic_no=${demographic} AND deleted='0') LIMIT 1</ap-sql>
+        <ap-output>${last_name}</ap-output>
+    </databaseap>
+    <databaseap>
+        <ap-name>partner_nameF</ap-name>
+        <ap-sql>SELECT first_name FROM demographic WHERE demographic_no IN (SELECT relation_demographic_no FROM relationships WHERE demographic_no=${demographic} AND deleted='0') LIMIT 1</ap-sql>
+        <ap-output>${first_name}</ap-output>
+    </databaseap>
+    <databaseap>
+        <ap-name>partner_dob</ap-name>
+        <ap-sql>SELECT date_of_birth, month_of_birth, year_of_birth FROM demographic WHERE demographic_no IN (SELECT relation_demographic_no FROM relationships WHERE demographic_no=${demographic} AND deleted='0') LIMIT 1</ap-sql>
+        <ap-output>${date_of_birth}/${month_of_birth}/${year_of_birth} (d/m/y)</ap-output>
+    </databaseap>
+    <databaseap>
+        <ap-name>dobc2</ap-name>
+        <ap-sql>SELECT date_of_birth, month_of_birth, year_of_birth FROM demographic WHERE demographic_no IN (SELECT relation_demographic_no FROM relationships WHERE demographic_no=${demographic} AND deleted='0') LIMIT 1</ap-sql>
+        <ap-output>${year_of_birth}/${month_of_birth}/${date_of_birth}</ap-output>
+    </databaseap>
+    <databaseap>
+        <ap-name>partner_hin</ap-name>
+        <ap-sql>SELECT hin, ver FROM demographic WHERE demographic_no IN (SELECT relation_demographic_no FROM relationships WHERE demographic_no=${demographic} AND deleted='0') LIMIT 1</ap-sql>
+        <ap-output>${hin} ${ver}</ap-output>
+    </databaseap>
+    <databaseap>
+        <ap-name>partner_phone</ap-name>
+        <ap-sql>SELECT phone FROM demographic WHERE demographic_no IN (SELECT relation_demographic_no FROM relationships WHERE demographic_no=${demographic} AND deleted='0') LIMIT 1</ap-sql>
+        <ap-output>${phone}</ap-output>
+    </databaseap>
+    
 
 <!-- Patient medical information -->
     <databaseap>
