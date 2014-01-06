@@ -119,7 +119,7 @@
 						<td>Start Date:</td>
 						<td>
 							<%if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){%>
-							<input type="text" class="plain" name="sdate" id="sdate" size="12" onfocus="this.blur()" readonly="readonly" value=""/>
+							<input type="text" class="plain" name="sdate" id="sdate" size="12" onfocus="this.blur()" readonly="readonly" value="<%=sdate%>"/>
 							<%}else{%>
 			 				<input type="text" class="plain" name="sdate" id="sdate" size="12" onfocus="this.blur()" readonly="readonly" value="<%=sdate%>"/>
 							<%}%>
@@ -2377,7 +2377,7 @@ if(fieldList.contains("Cornea")){
 <%
 				if(a_rangle_4.length() > 0){
 %>
-					temporal <%=a_rangle_4%>
+					nasal <%=a_rangle_4%>
 <%
 				}
 %>
@@ -2391,7 +2391,7 @@ if(fieldList.contains("Cornea")){
 <%
 				if(a_rangle_2.length() > 0){
 %>
-					nasal <%=a_rangle_2%>;
+					temporal <%=a_rangle_2%>;
 <%
 				}
 %>
