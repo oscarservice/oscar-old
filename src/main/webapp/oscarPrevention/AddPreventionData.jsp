@@ -92,8 +92,8 @@
 
   PreventionDisplayConfig pdc = PreventionDisplayConfig.getInstance();
   HashMap<String,String> prevHash = pdc.getPrevention(prevention);
-
-  String layoutType = prevHash.get("layout");
+	
+  String layoutType = prevHash!=null?prevHash.get("layout"):null;
   if ( layoutType == null){
       layoutType = "default";
   }

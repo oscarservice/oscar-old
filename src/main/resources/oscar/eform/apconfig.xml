@@ -616,6 +616,49 @@
         <ap-output>${prevention_date}</ap-output>
     </databaseap>
 	
+    <databaseap>
+        <ap-name>pcr_immunization_date</ap-name>
+        <ap-sql>select prevention_date from preventions p where p.prevention_type = 'Gonorrhea PCR' and p.deleted = '0' and p.demographic_no = ${demographic} order by p.prevention_date desc limit 1
+       </ap-sql>
+        <ap-output>${prevention_date}</ap-output>
+    </databaseap>
+
+   <databaseap>
+        <ap-name>chl_immunization_date</ap-name>
+        <ap-sql>select prevention_date from preventions p where p.prevention_type = 'Chlamydia' and p.deleted = '0' and p.demographic_no = ${demographic} order by p.prevention_date desc limit 1
+       </ap-sql>
+        <ap-output>${prevention_date}</ap-output>
+    </databaseap>
+
+   <databaseap>
+        <ap-name>mam_immunization_date</ap-name>
+        <ap-sql>select prevention_date from preventions p where p.prevention_type = 'MAM' and p.deleted = '0' and p.demographic_no = ${demographic} order by p.prevention_date desc limit 1
+       </ap-sql>
+        <ap-output>${prevention_date}</ap-output>
+    </databaseap>
+
+    <databaseap>
+        <ap-name>fobt_immunization_date</ap-name>
+        <ap-sql>select prevention_date from preventions p where p.prevention_type = 'FOBT' and p.deleted = '0' and p.demographic_no = ${demographic} order by p.prevention_date desc limit 1
+       </ap-sql>
+        <ap-output>${prevention_date}</ap-output>
+    </databaseap>
+
+    <databaseap>
+        <ap-name>colonoscopy_immunization_date</ap-name>
+        <ap-sql>select prevention_date from preventions p where p.prevention_type = 'COLONOSCOPY' and p.deleted = '0' and p.demographic_no = ${demographic} order by p.prevention_date desc limit 1
+       </ap-sql>
+        <ap-output>${prevention_date}</ap-output>
+    </databaseap>
+
+    <databaseap>
+        <ap-name>bmd_immunization_date</ap-name>
+        <ap-sql>select prevention_date from preventions p where p.prevention_type = 'BMD' and p.deleted = '0' and p.demographic_no = ${demographic} order by p.prevention_date desc limit 1
+       </ap-sql>
+        <ap-output>${prevention_date}</ap-output>
+    </databaseap>
+
+
 	<databaseap>
         <ap-name>td_immunization_date</ap-name>
         <ap-sql>select prevention_date from preventions p where p.prevention_type = 'Td' and p.deleted = '0' and p.demographic_no = ${demographic} order by p.prevention_date desc limit 1

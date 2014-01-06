@@ -87,6 +87,51 @@
       }
    }
    
+   //Comprehensive Tool for ICHA
+   String ct = request.getParameter("comprehensiveTool");
+   if(ct!=null && ct.equals("homeless")) {
+	   props.setProperty("b_glucose","checked=\"checked\"");
+	   props.setProperty("b_glucose_fasting","checked=\"checked\"");
+	   props.setProperty("b_hba1c","checked=\"checked\"");
+	   props.setProperty("b_creatinine","checked=\"checked\"");
+	   props.setProperty("b_sodium","checked=\"checked\"");
+	   props.setProperty("b_potassium","checked=\"checked\"");
+	   props.setProperty("b_chloride","checked=\"checked\"");
+	   props.setProperty("b_alt","checked=\"checked\"");
+	   props.setProperty("b_alkPhosphatase","checked=\"checked\"");
+	   props.setProperty("b_lipidAssessment","checked=\"checked\"");
+	   props.setProperty("b_acRatioUrine","checked=\"checked\"");
+	   props.setProperty("h_cbc","checked=\"checked\"");
+	   props.setProperty("v_chronicHepatitis","checked=\"checked\"");	
+	   props.setProperty("v_immune_HepatitisC","checked=\"checked\"");
+	   
+   } else if(ct!=null && ct.equals("diabetics")) {
+	   props.setProperty("b_glucose","checked=\"checked\"");
+	   props.setProperty("b_glucose_fasting","checked=\"checked\"");
+	   props.setProperty("b_hba1c","checked=\"checked\"");	  
+	   props.setProperty("b_lipidAssessment","checked=\"checked\"");
+	   props.setProperty("b_acRatioUrine","checked=\"checked\"");
+	   
+   } else if(ct!=null && ct.equals("antipsychotics")) {
+	   props.setProperty("b_glucose","checked=\"checked\"");
+	   props.setProperty("b_glucose_fasting","checked=\"checked\"");
+	   props.setProperty("b_hba1c","checked=\"checked\"");	  
+	   props.setProperty("b_lipidAssessment","checked=\"checked\"");	   
+	   
+   } else if(ct!=null && ct.equals("lithium")) {	   
+	   props.setProperty("b_tsh","checked=\"checked\"");
+	   props.setProperty("b_creatinine","checked=\"checked\"");
+	   props.setProperty("b_sodium","checked=\"checked\"");
+	   props.setProperty("b_potassium","checked=\"checked\"");
+	   props.setProperty("b_chloride","checked=\"checked\"");
+	   props.setProperty("b_urinalysis","checked=\"checked\"");	    
+	   
+   } else if(ct!=null && ct.equals("valproate")) {
+	   props.setProperty("b_alt","checked=\"checked\"");
+	   props.setProperty("b_alkPhosphatase","checked=\"checked\"");
+	   props.setProperty("h_cbc","checked=\"checked\"");
+   }
+   
    if (request.getParameter("readOnly") != null){
       readOnly = true;    
    }
@@ -312,7 +357,7 @@ var maxYear=3100;
 	<input type="hidden" name="form_class" value="<%=formClass%>" />
 	<input type="hidden" name="form_link" value="<%=formLink%>" />
 	<input type="hidden" name="provNo"
-		value="<%= request.getParameter("provNo") %>" />
+		value="<%= request.getParameter("provNo")==null?provNo:request.getParameter("provNo") %>" />
 	<input type="hidden" name="submit" value="exit" />
 	<input type="hidden" name="formId" value="<%=formId%>" />
 	<table class="Head" class="hidePrint">
