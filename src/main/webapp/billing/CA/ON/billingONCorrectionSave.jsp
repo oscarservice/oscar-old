@@ -32,7 +32,8 @@
 
 			//String user_no = (String) session.getAttribute("user");
 			BillingCorrectionPrep bObj = new BillingCorrectionPrep();
-			List lObj = bObj.getBillingClaimHeaderObj(request.getParameter("xml_billing_no"));
+			String billingNo=request.getParameter("xml_billing_no");
+			List lObj = bObj.getBillingClaimHeaderObj(billingNo);
 			BillingClaimHeader1Data ch1Obj = (BillingClaimHeader1Data) lObj.get(0);
 			boolean bs = bObj.updateBillingClaimHeader(ch1Obj, request);
 
@@ -47,9 +48,9 @@
 <h1>Successful Updation of a billing Record.</h1>
 </p>
 <% if(request.getParameter("submit").equals("Submit&Correct Another")) { %>
-<center><input type='button' name='back'
+<center><input type='button' name='back' 
 	value='Correct Another'
-	onclick='window.location.href="billingONCorrection.jsp?billing_no="' />
+	onclick='window.location.href="billingONCorrection.jsp?billing_no=<%=billingNo %>"' />
 </center>
 <%} else { %>
 <script LANGUAGE="JavaScript">

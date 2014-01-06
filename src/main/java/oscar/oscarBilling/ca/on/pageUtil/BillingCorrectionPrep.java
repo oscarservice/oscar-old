@@ -127,6 +127,11 @@ public class BillingCorrectionPrep {
 			
 			ch1Obj.setLocation(requestData.getParameter("xml_slicode"));
 			ret = dbObj.updateBillingClaimHeader(ch1Obj);
+			if(ch1Obj.getStatus().equals("D")){
+				dbObj.updatedeleteBillingClaimHeaderTrans(ch1Obj);
+			}else{
+			dbObj.updateBillingClaimHeaderTrans(ch1Obj);
+			}
 		}
 		
 		//set inactive 3rd party payment record if user switched from 3rd party to some other pay program
