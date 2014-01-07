@@ -247,8 +247,8 @@ boolean dupServiceCode = false;
 	    function onSave() {
 
             var ret = true;
-
-
+            
+            
 
 
             bClick = false;
@@ -377,15 +377,14 @@ window.onload=function(){
 
 </head>
 
-<body topmargin="0" onload="showtotal()">
+<body topmargin="0" onload="showtotal(),showPayment()">
 
 <form method="post" name="titlesearch" action="billingONSave.jsp" onsubmit="return onSave();">
     <input type="hidden" name="url_back" value="<%=request.getParameter("url_back")%>">
     <input type="hidden" name="billNo_old" id="billNo_old" value="<%=request.getParameter("billNo_old")%>" />
 	<input type="hidden" name="billStatus_old" id="billStatus_old" value="<%=request.getParameter("billStatus_old")%>" />
 	<input type="hidden" name="billForm" id="billForm" value="<%=request.getParameter("billForm")%>" />
-
-<table border="0" cellpadding="0" cellspacing="2" width="100%" class="myIvory">
+	<table border="0" cellpadding="0" cellspacing="2" width="100%" class="myIvory">
 	<tr>
 		<td>
 		<table border="0" cellspacing="0" cellpadding="0" width="100%" class="myDarkGreen">
@@ -597,7 +596,7 @@ window.onload=function(){
 					<td width='25%'><%=propCodeDesc.getProperty(codeName, "") %></td>
 				<%}else{%>
 				<td nowrap width='8%'><%=codeName%></td>
-				<td nowrap width='8%'><input type="text" id="paid_<%=i%>" name="paid_<%=i %>" value="0.00" onBlur="calculatePayment();"/></td>
+				<td nowrap width='8%'><input type="text" id="paid_<%=i%>" name="paid_<%=i %>" value="<%=codeTotal %>" onBlur="calculatePayment();"/></td>
 				<td nowrap width='8%'><input type="text" id="discount_<%=i%>" name="discount_<%=i %>" value="0.00"onBlur="calculateDiscount();"/></td>
 				<%}%>
 			</tr>
@@ -870,7 +869,7 @@ if (bMultisites) {
 			<td class="myGreen">
 			Payment Method:<br/>
 			<% for(int i=0; i<al.size(); i=i+2) { %>
-			<input type="radio" name="payMethod" value="<%=al.get(i) %>"/><%=al.get(i+1) %><br/>
+			<input type="radio" name="payMethod" value="<%=al.get(i) %>" id="payMethod_<%=i %>"/><%=al.get(i+1) %><br/>
 			<% } %>
 			</td></tr>
 			<tr>
@@ -903,6 +902,20 @@ if (bMultisites) {
 
 <script language="JavaScript">
 function calculatePayment(){
+    var payment=0;
+	for(var j=0;j<10;j++){
+	    var obj = document.getElementById("paid_"+j);
+	    if(obj!=null){
+	       	if(obj.value!=''){
+	       		payment =parseFloat(payment)+parseFloat(obj.value);
+	       	}
+		}
+	}
+	document.getElementById("payment").value =payment;
+	document.getElementById("total_payment").value=payment;
+}
+
+function showPayment(){
     var payment=0;
 	for(var j=0;j<10;j++){
 	    var obj = document.getElementById("paid_"+j);
