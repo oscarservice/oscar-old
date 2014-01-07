@@ -158,7 +158,7 @@ public class MeasurementDataAction extends DispatchAction {
 			script.append("jQuery(\"#nct_ts\").html('"+sdf.format(nctTs)+"');\n");
 		
 		
-		oscar.OscarProperties props1 = oscar.OscarProperties.getInstance();
+		/*oscar.OscarProperties props1 = oscar.OscarProperties.getInstance();
 	    String eyeform = props1.getProperty("cme_js");
 		MeasurementsDao measurementsDao = (MeasurementsDao) SpringUtils.getBean("measurementsDao");
 		List<Measurements> measurementList = measurementsDao.getMeasurements(Integer.parseInt(demographicNo));
@@ -245,7 +245,7 @@ public class MeasurementDataAction extends DispatchAction {
 					}			
 				}
 			}
-		}
+		}*/
 		
 
 		response.getWriter().print(script);

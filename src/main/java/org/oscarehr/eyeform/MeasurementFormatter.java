@@ -2502,7 +2502,7 @@ public class MeasurementFormatter {
 						sb.append(", ");
 					}
 					if(!flag) flag=true;
-					sb.append("temporal "+getValue("a_rangle_4"));
+					sb.append("nasal "+getValue("a_rangle_4"));
 				}
 				if(isPresent("a_rangle_5")) {
 					if(flag) {
@@ -2516,7 +2516,7 @@ public class MeasurementFormatter {
 						sb.append(", ");
 					}
 					if(!flag) flag=true;
-					sb.append("nasal " + getValue("a_rangle_2"));
+					sb.append("temporal " + getValue("a_rangle_2"));
 				}				
 				if(isPresent("a_rangle_1") || isPresent("a_rangle_2") || isPresent("a_rangle_4") || isPresent("a_rangle_5")) {
 					sb.append(")");
@@ -2539,12 +2539,12 @@ public class MeasurementFormatter {
 					sb.append("superior "+getValue("a_langle_1"));
 					if(!flag) flag=true;
 				}
-				if(isPresent("a_langle_2")) {
-					if(flag) {					
+				if(isPresent("a_langle_4")) {
+					if(flag) {
 						sb.append(", ");
 					}
 					if(!flag) flag=true;
-					sb.append("nasal "+getValue("a_langle_2"));
+					sb.append("nasal " + getValue("a_langle_4"));
 				}
 				if(isPresent("a_langle_5")) {
 					if(flag) {
@@ -2553,12 +2553,12 @@ public class MeasurementFormatter {
 					if(!flag) flag=true;
 					sb.append("inferior "+getValue("a_langle_5"));
 				}
-				if(isPresent("a_langle_4")) {
-					if(flag) {
+				if(isPresent("a_langle_2")) {
+					if(flag) {					
 						sb.append(", ");
 					}
 					if(!flag) flag=true;
-					sb.append("temporal " + getValue("a_langle_4"));
+					sb.append("temporal"+getValue("a_langle_2"));
 				}
 				
 				if(isPresent("a_langle_1") || isPresent("a_langle_2") || isPresent("a_langle_4") || isPresent("a_langle_5")) {

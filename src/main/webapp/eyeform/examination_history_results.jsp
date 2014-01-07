@@ -2424,9 +2424,9 @@ if(fieldList.contains("Cornea")){
 					}
 %>
 <%
-					if(a_langle_2.length() > 0){
+					if(a_langle_4.length() > 0){
 %>
-						nasal <%=a_langle_2%>
+						nasal <%=a_langle_4%>
 <%   		
 					}
 %>
@@ -2438,9 +2438,9 @@ if(fieldList.contains("Cornea")){
 					}
 %>
 <%
-					if(a_langle_4.length() > 0){
+					if(a_langle_2.length() > 0){
 %>
-						temporal <%=a_langle_4%>
+						temporal <%=a_langle_2%>
 <%   		
 					}
 %>
@@ -3344,36 +3344,36 @@ if(fieldList.contains("Cornea")){
 			<table style="border:0px">
 			<tr>
 			<td width="33%"></td>
-			<td class="inner" width="34%"><c:out value="${map.a_rangle_3}"/></td>
+			<td class="inner" width="34%"><c:out value="${map.a_rangle_1}"/></td>
 			<td width="33%"></td>
 			</tr>
 			<tr>
-			<td class="inner"><c:out value="${map.a_rangle_1}"/></td>
+			<td class="inner"><c:out value="${map.a_rangle_2}"/></td>
+			<td class="inner"><c:out value="${map.a_rangle_3}"/></td>
 			<td class="inner"><c:out value="${map.a_rangle_4}"/></td>
-			<td class="inner"><c:out value="${map.a_rangle_5}"/></td>
 			</tr>
 			<tr>
 			<td></td>
-			<td class="inner"><c:out value="${map.a_rangle_2}"/></td>
+			<td class="inner"><c:out value="${map.a_rangle_5}"/></td>
 			<td></td>
 			</tr>
 			</table>
 		</display:column>
 		<display:column title="OS" >
-			<table border="1">
+			<table style="border:0px">
 			<tr>
 			<td width="33%"></td>
-			<td class="inner" width="34%"><c:out value="${map.a_langle_3}"/></td>
+			<td class="inner" width="34%"><c:out value="${map.a_langle_1}"/></td>
 			<td width="33%"></td>
 			</tr>
 			<tr>
-			<td class="inner"><c:out value="${map.a_langle_1}"/></td>
 			<td class="inner"><c:out value="${map.a_langle_2}"/></td>
-			<td class="inner"><c:out value="${map.a_langle_5}"/></td>
+			<td class="inner"><c:out value="${map.a_langle_3}"/></td>
+			<td class="inner"><c:out value="${map.a_langle_4}"/></td>
 			</tr>
 			<tr>
 			<td width="33%"></td>
-			<td class="inner" width="34%"><c:out value="${map.a_langle_4}"/></td>
+			<td class="inner" width="34%"><c:out value="${map.a_langle_5}"/></td>
 			<td width="33%"></td>
 			</tr>
 			</table>
