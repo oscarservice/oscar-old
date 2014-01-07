@@ -382,10 +382,10 @@ function refreshImage()
 
 function sendFax()
 {
-	frames['preview'].document.getElementById('pdfId').value='<%=signatureRequestId%>';	
-	frames['preview'].onPrint2('oscarRxFax');
-	frames['preview'].document.FrmForm.submit();	
-	window.onbeforeunload = null;
+	frames['preview'].document.getElementById('pdfId').value='<%=signatureRequestId%>';		 			
+	var scriptId = "<%= request.getParameter("scriptId") %>";
+    return onPrint2("oscarRxFax",scriptId);
+    
 }
 
 function unloadMess(){
