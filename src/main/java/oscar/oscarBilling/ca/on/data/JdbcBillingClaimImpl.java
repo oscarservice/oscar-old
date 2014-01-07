@@ -80,8 +80,8 @@ public class JdbcBillingClaimImpl {
 				+ val.man_review + "'," + "'" + val.location + "'," + "'" + val.demographic_no + "'," + "'"
 				+ val.provider_no + "'," + "'" + val.appointment_no + "'," + "'"
 				+ StringEscapeUtils.escapeSql(val.demographic_name) + "'," + "'" + val.sex + "'," + "'" + val.province
-				+ "'," + "'" + val.billing_date + "'," + "'" + val.billing_time + "'," + "'" + val.total + "'," + "'"
-				+ val.paid + "'," + "'" + val.status + "'," + "'" + StringEscapeUtils.escapeSql(val.comment) + "',"
+				+ "'," + "'" + val.billing_date + "'," + "'" + val.billing_time + "'," + "'" + val.total + "'," 
+				+ (val.paid==null?"'"+""+"'":"'"+val.paid+"'") + "," + "'" + val.status + "'," + "'" + StringEscapeUtils.escapeSql(val.comment) + "',"
 				+ "'" + val.visittype + "'," + "'" + val.provider_ohip_no + "'," + "'" + val.provider_rma_no + "',"
 				+ "'" + val.apptProvider_no + "'," + "'" + val.asstProvider_no + "'," + "'" + val.creator + "', \\N, "
 				+ (val.clinic==null?"null":"'"+val.clinic+"'")+" )";
