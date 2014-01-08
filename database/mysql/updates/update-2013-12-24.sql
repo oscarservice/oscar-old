@@ -14,7 +14,6 @@ CREATE TABLE `billing_on_transaction` (
   `billing_date` date DEFAULT NULL,
   `status` char(1) DEFAULT NULL,
   `pay_program` char(3) DEFAULT 'HCP',
-  `paymentType` char(1) DEFAULT 'P',
   `facility_num` char(4) DEFAULT NULL,
   `clinic` varchar(30) DEFAULT NULL,
   `provider_no` varchar(6) DEFAULT NULL,
@@ -35,7 +34,7 @@ CREATE TABLE `billing_on_transaction` (
   PRIMARY KEY (`id`),
   KEY `ch1_id_fk` (`ch1_id`),
   KEY `payment_id_fk` (`payment_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=148 DEFAULT CHARSET=latin1
+) 
 
 
 
@@ -50,7 +49,7 @@ CREATE TABLE `billing_on_item_payment` (
   `discount` decimal(10,2) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `ch1_id` (`ch1_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=latin1
+) 
 
 
 DROP table billing_on_payment;
@@ -65,7 +64,7 @@ CREATE TABLE `billing_on_payment` (
   `total_discount` decimal(10,2) DEFAULT '0.00',
   PRIMARY KEY (`id`),
   KEY `ch1_id` (`ch1_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1
+) 
 
 
 
@@ -93,7 +92,7 @@ CREATE TABLE `billing_on_item` (
   KEY `dx_idx` (`dx`),
   KEY `dx1_idx` (`dx1`),
   KEY `dx2_idx` (`dx2`)
-) ENGINE=InnoDB AUTO_INCREMENT=256 DEFAULT CHARSET=latin1
+) 
 
 
 DROP table billing_on_ext;
@@ -108,4 +107,4 @@ CREATE TABLE `billing_on_ext` (
   PRIMARY KEY (`id`),
   KEY `key_val` (`key_val`),
   KEY `billing_no` (`billing_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=763 DEFAULT CHARSET=latin1
+) 
