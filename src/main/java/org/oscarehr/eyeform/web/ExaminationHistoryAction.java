@@ -142,11 +142,15 @@ public class ExaminationHistoryAction extends DispatchAction {
 			List<Appointment> appts = appointmentDao.getAllByDemographicNo(Integer.parseInt(demographicNo));
 			if(appts.size()>0) {
 				startDate = appts.get(0).getAppointmentDate();
-				strStartDate = dformate.format(startDate.getTime());
+				if((!"eyeform3".equals(eyeform)) && (!"eyeform3.1".equals(eyeform)) && (!"eyeform3.2".equals(eyeform))){
+					strStartDate = dformate.format(startDate.getTime());
+				}
 			} else {
 				Calendar enddate = Calendar.getInstance();									
 				enddate.roll(Calendar.YEAR, -1);
-				strStartDate = dformate.format(enddate.getTime());
+				if((!"eyeform3".equals(eyeform)) && (!"eyeform3.1".equals(eyeform)) && (!"eyeform3.2".equals(eyeform))){
+					strStartDate = dformate.format(enddate.getTime());
+				}
 				startDate = enddate.getTime();
 			}
 		}

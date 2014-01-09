@@ -805,22 +805,32 @@ public class MeasurementFormatter {
 		List<EyeformSpecsHistory> specs = dao.getByAppointmentNo(app_no);
 		for(EyeformSpecsHistory spec:specs){
 			StringBuilder sb = new StringBuilder();
-//			sb.append("Glasses Rx ");
 			StringBuilder sb1 = new StringBuilder();
+			
 			if(spec.getOdSph() != null){
-				sb1.append(spec.getOdSph());
+				if(spec.getOdSph().length() > 0){
+					sb1.append(spec.getOdSph());
+				}
 			}
 			if(spec.getOdCyl() != null){
-				sb1.append(" " +spec.getOdCyl());
+				if(spec.getOdCyl().length() > 0){
+					sb1.append(" " +spec.getOdCyl());
+				}
 			}
 			if(spec.getOdAxis() != null){
-				sb1.append("x " + spec.getOdAxis());
+				if(spec.getOdAxis().length() > 0){
+					sb1.append("x " + spec.getOdAxis());
+				}
 			}
 			if(spec.getOdAdd() != null){
-				sb1.append(" add " + spec.getOdAdd());
+				if(spec.getOdAdd().length() > 0){
+					sb1.append(" add " + spec.getOdAdd());
+				}
 			}
 			if(spec.getOdPrism() != null){
-				sb1.append(" prism " + spec.getOdPrism());
+				if(spec.getOdPrism().length() > 0){
+					sb1.append(" prism " + spec.getOdPrism());
+				}
 			}
 			if(sb1.length() > 0){
 				sb1.append("; ");
@@ -830,19 +840,29 @@ public class MeasurementFormatter {
 			
 			StringBuilder sb2 = new StringBuilder();
 			if(spec.getOsSph() != null){
-				sb2.append(" " +spec.getOsSph());
+				if(spec.getOsSph().length() > 0){
+					sb2.append(" " +spec.getOsSph());
+				}
 			}
 			if(spec.getOsCyl() != null){
-				sb2.append(" " +spec.getOsCyl());
+				if(spec.getOsCyl().length() > 0){
+					sb2.append(" " +spec.getOsCyl());
+				}
 			}
 			if(spec.getOsAxis() != null){
-				sb2.append(" x " + spec.getOsAxis());
+				if(spec.getOsAxis().length() > 0){
+					sb2.append(" x " + spec.getOsAxis());
+				}
 			}
 			if(spec.getOsAdd() != null){
-				sb2.append(" add " + spec.getOsAdd());
+				if(spec.getOsAdd().length() > 0){
+					sb2.append(" add " + spec.getOsAdd());
+				}
 			}
 			if(spec.getOsPrism() != null){
-				sb2.append(" prism " + spec.getOsPrism());
+				if(spec.getOsPrism().length() > 0){
+					sb2.append(" prism " + spec.getOsPrism());
+				}
 			}
 			if(sb2.length() > 0){
 				sb2.append("; ");
@@ -856,24 +876,28 @@ public class MeasurementFormatter {
 			
 			
 			if(spec.getDateStr() != null){
-				if("eyeform3.2".equals(eyeform)){
-					sb.append("\n           ");
+				if(spec.getDateStr().length() > 0){
+					if("eyeform3.2".equals(eyeform)){
+						sb.append("\n           ");
+					}
+					sb.append("date ");
+					sb.append(spec.getDateStr());
+					
+					sb.append("; ");
 				}
-				sb.append("date ");
-				sb.append(spec.getDateStr());
-				
-				sb.append("; ");
 			}
 			if(spec.getNote() != null){
-				if("eyeform3.2".equals(eyeform)){
-					sb.append("\n           note ");
-					sb.append(spec.getNote());
-					sb.append(".");
-				}else{
-					sb.append("note ");
-					sb.append(spec.getNote());
-					sb.append(".");
-				}				
+				if(spec.getNote().length() > 0){
+					if("eyeform3.2".equals(eyeform)){
+						sb.append("\n           note ");
+						sb.append(spec.getNote());
+						sb.append(".");
+					}else{
+						sb.append("note ");
+						sb.append(spec.getNote());
+						sb.append(".");
+					}		
+				}
 			}
 			str[count] = sb.toString();
 			count ++;
@@ -889,19 +913,29 @@ public class MeasurementFormatter {
 			sb.append("\nGlasses Rx ");
 			StringBuilder sb1 = new StringBuilder();
 			if(spec.getOdSph() != null){
-				sb1.append(spec.getOdSph());
+				if(spec.getOdSph().length() > 0){
+					sb1.append(spec.getOdSph());
+				}
 			}
 			if(spec.getOdCyl() != null){
-				sb1.append(" " +spec.getOdCyl());
+				if(spec.getOdCyl().length() > 0){
+					sb1.append(" " +spec.getOdCyl());
+				}
 			}
 			if(spec.getOdAxis() != null){
-				sb1.append("x " + spec.getOdAxis());
+				if(spec.getOdAxis().length() > 0){
+					sb1.append("x " + spec.getOdAxis());
+				}
 			}
 			if(spec.getOdAdd() != null){
-				sb1.append(" add " + spec.getOdAdd());
+				if(spec.getOdAdd().length() > 0){
+					sb1.append(" add " + spec.getOdAdd());
+				}
 			}
 			if(spec.getOdPrism() != null){
-				sb1.append(" prism " + spec.getOdPrism());
+				if(spec.getOdPrism().length() > 0){
+					sb1.append(" prism " + spec.getOdPrism());
+				}
 			}
 			if(sb1.length() > 0){
 				sb1.append("; ");
@@ -911,19 +945,29 @@ public class MeasurementFormatter {
 			
 			StringBuilder sb2 = new StringBuilder();
 			if(spec.getOsSph() != null){
-				sb2.append(" " +spec.getOsSph());
+				if(spec.getOsSph().length() > 0){
+					sb2.append(" " +spec.getOsSph());
+				}
 			}
 			if(spec.getOsCyl() != null){
-				sb2.append(" " +spec.getOsCyl());
+				if(spec.getOsCyl().length() > 0){
+					sb2.append(" " +spec.getOsCyl());
+				}
 			}
 			if(spec.getOsAxis() != null){
-				sb2.append(" x " + spec.getOsAxis());
+				if(spec.getOsAxis().length() > 0){
+					sb2.append(" x " + spec.getOsAxis());
+				}
 			}
 			if(spec.getOsAdd() != null){
-				sb2.append(" add " + spec.getOsAdd());
+				if(spec.getOsAdd().length() > 0){
+					sb2.append(" add " + spec.getOsAdd());
+				}
 			}
 			if(spec.getOsPrism() != null){
-				sb2.append(" prism " + spec.getOsPrism());
+				if(spec.getOsPrism().length() > 0){
+					sb2.append(" prism " + spec.getOsPrism());
+				}
 			}
 			if(sb2.length() > 0){
 				sb2.append("; ");
@@ -935,26 +979,29 @@ public class MeasurementFormatter {
 			}
 			
 			
-			
 			if(spec.getDateStr() != null){
-				if("eyeform3.2".equals(eyeform)){
-					sb.append("\n           ");
+				if(spec.getDateStr().length() > 0){
+					if("eyeform3.2".equals(eyeform)){
+						sb.append("\n           ");
+					}
+					sb.append("date ");
+					sb.append(spec.getDateStr());
+					
+					sb.append("; ");
 				}
-				sb.append("date ");
-				sb.append(spec.getDateStr());
-				
-				sb.append("; ");
 			}
 			if(spec.getNote() != null){
-				if("eyeform3.2".equals(eyeform)){
-					sb.append("\n           note ");
-					sb.append(spec.getNote());
-					sb.append(".");
-				}else{
-					sb.append("note ");
-					sb.append(spec.getNote());
-					sb.append(".");
-				}				
+				if(spec.getNote().length() > 0){
+					if("eyeform3.2".equals(eyeform)){
+						sb.append("\n           note ");
+						sb.append(spec.getNote());
+						sb.append(".");
+					}else{
+						sb.append("note ");
+						sb.append(spec.getNote());
+						sb.append(".");
+					}				
+				}
 			}
 		}
 		return sb.toString();

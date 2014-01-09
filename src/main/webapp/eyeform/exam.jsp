@@ -122,6 +122,10 @@
 	int num = 0;
 	int num1 = 0;
 	int num_tab = 33;
+	int specs_appno1 = 0;
+	int specs_appno2 = 0;
+	int specs_appno3 = 0;
+	int specs_appno4 = 0;
 	if(specs.size() > 0){
 		value1 = specs.get(0).getDateStr();
 		value2 = specs.get(0).getOdSph();
@@ -135,6 +139,7 @@
 		value10 = specs.get(0).getOsAdd();
 		value11 = specs.get(0).getOsPrism();
 		note1 = specs.get(0).getNote();
+		specs_appno1 = specs.get(0).getAppointmentNo();
 		glass_show = "";
 		num ++;
 	}
@@ -151,6 +156,7 @@
 		value21 = specs1.get(0).getOsAdd();
 		value22 = specs1.get(0).getOsPrism();
 		note2 = specs1.get(0).getNote();
+		specs_appno2 = specs1.get(0).getAppointmentNo();
 		glass_show = "";
 		num ++;
 	}
@@ -167,6 +173,7 @@
 		value32 = specs2.get(0).getOsAdd();
 		value33 = specs2.get(0).getOsPrism();
 		note3 = specs2.get(0).getNote();
+		specs_appno3 = specs2.get(0).getAppointmentNo();
 		glass_show = "";
 		num ++;
 	}
@@ -183,6 +190,7 @@
 		value43 = specs3.get(0).getOsAdd();
 		value44 = specs3.get(0).getOsPrism();
 		note4 = specs3.get(0).getNote();
+		specs_appno4 = specs3.get(0).getAppointmentNo();
 		glass_show = "";
 		num ++;
 	}
@@ -724,63 +732,67 @@ function touchColor() {
 }
 function setglasseshxclass(){
 	var num = Number(document.getElementById("shownum").value);
+	var num1 = Number(document.getElementById("appointment_no").value);
 	if(num > 0){
 		for(var i = 1;i <= num; i++){
-			if(document.getElementById("gl_date"+ i).value.length > 0){
-				document.getElementById("gl_date"+ i).className = "examfieldwhite" ;
-			}else{
-				document.getElementById("gl_date"+ i).className = "examfieldgrey" ;
+			var num2 = Number(document.getElementById("specs_appno" + i).value);
+			if(num1 == num2){
+				if(document.getElementById("gl_date"+ i).value.length > 0){
+					document.getElementById("gl_date"+ i).className = "examfieldwhite" ;
+				}else{
+					document.getElementById("gl_date"+ i).className = "examfieldgrey" ;
+				}
+				if(document.getElementById("odSph" + i).value.length > 0){
+					document.getElementById("odSph" + i).className = "examfieldwhite" ;
+				}else{
+					document.getElementById("odSph" + i).className = "examfieldgrey" ;
+				}
+				if(document.getElementById("odCyl" + i).value.length > 0){
+					document.getElementById("odCyl" + i).className = "examfieldwhite" ;
+				}else{
+					document.getElementById("odCyl" + i).className = "examfieldgrey" ;
+				}
+				if(document.getElementById("odAxis" + i).value.length > 0){
+					document.getElementById("odAxis" + i).className = "examfieldwhite" ;
+				}else{
+					document.getElementById("odAxis" + i).className = "examfieldgrey" ;
+				}
+				if(document.getElementById("odAdd" + i).value.length > 0){
+					document.getElementById("odAdd" + i).className = "examfieldwhite" ;
+				}else{
+					document.getElementById("odAdd" + i).className = "examfieldgrey" ;
+				}
+				if(document.getElementById("odPrism" + i).value.length > 0){
+					document.getElementById("odPrism" + i).className = "examfieldwhite" ;
+				}else{
+					document.getElementById("odPrism" + i).className = "examfieldgrey" ;
+				}
+				if(document.getElementById("osSph" + i).value.length > 0){
+					document.getElementById("osSph" + i).className = "examfieldwhite" ;
+				}else{
+					document.getElementById("osSph" + i).className = "examfieldgrey" ;
+				}
+				if(document.getElementById("osCyl" + i).value.length > 0){
+					document.getElementById("osCyl" + i).className = "examfieldwhite" ;
+				}else{
+					document.getElementById("osCyl" + i).className = "examfieldgrey" ;
+				}
+				if(document.getElementById("osAxis"+ i).value.length > 0){
+					document.getElementById("osAxis"+ i).className = "examfieldwhite" ;
+				}else{
+					document.getElementById("osAxis"+ i).className = "examfieldgrey" ;
+				}
+				if(document.getElementById("osAdd"+ i).value.length > 0){
+					document.getElementById("osAdd"+ i).className = "examfieldwhite" ;
+				}else{
+					document.getElementById("osAdd"+ i).className = "examfieldgrey" ;
+				}
+				if(document.getElementById("osPrism"+ i).value.length > 0){
+					document.getElementById("osPrism"+ i).className = "examfieldwhite" ;
+				}else{
+					document.getElementById("osPrism"+ i).className = "examfieldgrey" ;
+				}	
 			}
-			if(document.getElementById("odSph" + i).value.length > 0){
-				document.getElementById("odSph" + i).className = "examfieldwhite" ;
-			}else{
-				document.getElementById("odSph" + i).className = "examfieldgrey" ;
-			}
-			if(document.getElementById("odCyl" + i).value.length > 0){
-				document.getElementById("odCyl" + i).className = "examfieldwhite" ;
-			}else{
-				document.getElementById("odCyl" + i).className = "examfieldgrey" ;
-			}
-			if(document.getElementById("odAxis" + i).value.length > 0){
-				document.getElementById("odAxis" + i).className = "examfieldwhite" ;
-			}else{
-				document.getElementById("odAxis" + i).className = "examfieldgrey" ;
-			}
-			if(document.getElementById("odAdd" + i).value.length > 0){
-				document.getElementById("odAdd" + i).className = "examfieldwhite" ;
-			}else{
-				document.getElementById("odAdd" + i).className = "examfieldgrey" ;
-			}
-			if(document.getElementById("odPrism" + i).value.length > 0){
-				document.getElementById("odPrism" + i).className = "examfieldwhite" ;
-			}else{
-				document.getElementById("odPrism" + i).className = "examfieldgrey" ;
-			}
-			if(document.getElementById("osSph" + i).value.length > 0){
-				document.getElementById("osSph" + i).className = "examfieldwhite" ;
-			}else{
-				document.getElementById("osSph" + i).className = "examfieldgrey" ;
-			}
-			if(document.getElementById("osCyl" + i).value.length > 0){
-				document.getElementById("osCyl" + i).className = "examfieldwhite" ;
-			}else{
-				document.getElementById("osCyl" + i).className = "examfieldgrey" ;
-			}
-			if(document.getElementById("osAxis"+ i).value.length > 0){
-				document.getElementById("osAxis"+ i).className = "examfieldwhite" ;
-			}else{
-				document.getElementById("osAxis"+ i).className = "examfieldgrey" ;
-			}
-			if(document.getElementById("osAdd"+ i).value.length > 0){
-				document.getElementById("osAdd"+ i).className = "examfieldwhite" ;
-			}else{
-				document.getElementById("osAdd"+ i).className = "examfieldgrey" ;
-			}
-			if(document.getElementById("osPrism"+ i).value.length > 0){
-				document.getElementById("osPrism"+ i).className = "examfieldwhite" ;
-			}else{
-				document.getElementById("osPrism"+ i).className = "examfieldgrey" ;
-			}		
 		}
 	}
 }
@@ -798,6 +810,7 @@ jQuery("document").ready(function() {
 		}
 
 	}
+	setglasseshxclass();
 });
 
 function togglediv(el) {
@@ -1574,7 +1587,11 @@ span.ge{
 
 </style>
 <span style="font-size:10px">
+	<%if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){%>
 	<a id="save_measurements" href="javascript:void(0)"  onclick="document.getElementById('hxForm').submit();">[Save Measurements]</a>
+	<%}else{%>
+	<a id="save_measurements" href="#">[Save Measurements]</a>
+	<%}%>
 </span>
 <span style="float:right;font-size:10px">
 	<a href="javascript:void(0);" onclick="expandAll();">[expand all sections]</a>&nbsp;
@@ -1658,8 +1675,13 @@ span.ge{
 	 <input type="hidden" id="note4" value="<%=note4%>" />
 	 <input type="hidden" id="shownum" value="<%=num%>" />
 	 
+	 <input type="hidden" value="save" name="method">
 	 <input type="hidden" value="<%=request.getParameter("demographic_no")%>" name="specs.demographicNo" id="demographic_no">
      <input type="hidden" value="<%= request.getParameter("appointment_no")%>" name="specs.appointmentNo" id="appointment_no">
+	 <input type="hidden" value="<%=specs_appno1%>" name="specs_appno1" id="specs_appno1">
+	 <input type="hidden" value="<%=specs_appno2%>" name="specs_appno2" id="specs_appno2">
+	 <input type="hidden" value="<%=specs_appno3%>" name="specs_appno3" id="specs_appno3">
+	 <input type="hidden" value="<%=specs_appno4%>" name="specs_appno4" id="specs_appno4">
 </div>	
 			
 	
@@ -3421,7 +3443,13 @@ span.ge{
 </tr>
 <%}%>
 </table>
-<span style="font-size:10px"><a id="save_measurements" href="#">[Save Measurements]</a></span>
+<span style="font-size:10px">
+<%if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){%>
+<a id="save_measurements" href="javascript:void(0)"  onclick="document.getElementById('hxForm').submit();">[Save Measurements]</a>
+<%}else{%>
+<a id="save_measurements" href="#">[Save Measurements]</a>
+<%}%>
+</span>
 <span style="float:right;font-size:10px">
 	<a href="javascript:void(0);" onclick="expandAll();">[expand all sections]</a>&nbsp;
 	<a href="javascript:void(0);" onclick="collapseAll();">[collapse all sections]</a>

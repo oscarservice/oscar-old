@@ -153,7 +153,17 @@ input [type=text] { border-bottom: black 1px solid; }
 				}
 				if(docname == ""){
 				}else{
-	%>
+					String old_note = note.getNote();
+					int num1 = old_note.indexOf("[Signed");
+					int num2 = old_note.indexOf("]",num1) + 1;
+					String new_note = "";
+					if((num2 > num1) && (num1 > 0)){
+						String use_note = old_note.substring(num1,num2);
+						new_note = old_note.replace(use_note,"");
+					}else{
+						new_note = note.getNote();
+					}
+ 	%>
 	<tr <%=noteDisplay%>>
 		<td><%=DateUtils.getDate(note.getObservationDate(), dateFormat, request.getLocale())%></td>
 		<td>
@@ -181,7 +191,7 @@ input [type=text] { border-bottom: black 1px solid; }
 				%>
 			</ul>
 		</td>
-		<td><%= note.getNote()%></td>
+		<td><%=new_note%></td>
 	</tr>
 	<%
 		}
