@@ -249,11 +249,16 @@ public class BillingONPaymentsAction extends DispatchAction {
 			billingONPaymentDao.merge(payment);
 		}
 
-		BigDecimal paid = billingONPaymentDao
+		/*BigDecimal paid = billingONPaymentDao
 				.getPaymentsSumByBillingNo(billingNo);
 		BigDecimal refund = billingONPaymentDao.getPaymentsRefundByBillingNo(
 				billingNo);
-		BigDecimal discount = billingONPaymentDao.getPaymentsDiscountByBillingNo(billingNo);
+		BigDecimal discount = billingONPaymentDao.getPaymentsDiscountByBillingNo(billingNo);*/
+		
+		List<BillingONPayment> list=billingONPaymentDao.listPaymentsByBillingNoDesc(billingNo);
+		BigDecimal paid =list.get(0).getTotal_payment();
+		BigDecimal refund =list.get(0).getTotal_refund();
+		BigDecimal discount =list.get(0).getTotal_discount();
 				
 		NumberFormat currency = NumberFormat.getCurrencyInstance();
 		//ch1.setPaid(currency.format(paid.subtract(refund)).replace("$", "")

@@ -63,7 +63,7 @@
 <%
   ApptData apptObj = ApptUtil.getAppointmentFromSession(request);
  // List<BillingONCHeader1> cheader1s = cheader1Dao.getBillCheader1ByDemographicNo(Integer.parseInt(apptObj.getDemographic_no()));
- List<BillingONCHeader1> cheader1s = cheader1Dao.getBillCheader1ByDemographicNo(Integer.parseInt(demographic_nox));
+ List<BillingONCHeader1> cheader1s = cheader1Dao.getBillCheader1ByDemographicNoNew(Integer.parseInt(demographic_nox));
   oscar.OscarProperties pros = oscar.OscarProperties.getInstance();
   String strEditable = pros.getProperty("ENABLE_EDIT_APPT_STATUS");
 
@@ -839,7 +839,7 @@ if (bMultisites) { %>
 		{%>
 			<tr>
 				<td align="center"><a href="#" onclick="popupPage(600,800, '<%=request.getContextPath() %>/billing/CA/ON/billingONCorrection.jsp?billing_no=<%=cheader1s.get(i).getId()%>')"><font color="red">Inv #<%=cheader1s.get(i).getId() %></font></a></td>
-				<td align="center"><font color="red"><%=cheader1s.get(i).getBillingDate() %></font></td>
+				<td align="center"><font color="red"><%=cheader1s.get(i).getTimestamp() %></font></td>
 				<td align="center"><font color="red">$<%=(double)cheader1s.get(i).getTotal()/100 %></font></td>
 				<td align="center"><font color="red">$<%=(double)(cheader1s.get(i).getPaid()-cheader1s.get(i).getTotal())/100%></font></td>
 			</tr>

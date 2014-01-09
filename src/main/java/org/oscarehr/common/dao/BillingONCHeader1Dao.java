@@ -67,6 +67,12 @@ public class BillingONCHeader1Dao extends AbstractDao<BillingONCHeader1>{
     	query.setParameter(1, demographic_no);
     	return query.getResultList();
     }
+    
+    public List<BillingONCHeader1> getBillCheader1ByDemographicNoNew(int demographic_no){
+    	Query query = entityManager.createQuery("select ch from BillingONCHeader1 ch where ch.demographicNo=? AND ch.status!='D'");
+    	query.setParameter(1, demographic_no);
+    	return query.getResultList();
+    }
 
 	public void updatePaid(int billNo, BigDecimal sumPaid) {
 		Query query = entityManager.createQuery("update BillingONCHeader1 ch set ch.paid=? where ch.id=?");

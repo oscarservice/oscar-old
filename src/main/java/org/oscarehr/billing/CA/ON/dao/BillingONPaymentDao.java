@@ -53,6 +53,13 @@ public class BillingONPaymentDao extends AbstractDao<BillingONPayment>{
         List<BillingONPayment> payments = query.getResultList();
         return payments;
     }
+    
+    public List<BillingONPayment> listPaymentsByBillingNoDesc(Integer billingNo){
+        Query query = entityManager.createQuery("select bp from BillingONPayment bp where bp.billingONCheader1.id = :billingNo order by bp.id desc");
+        query.setParameter("billingNo", billingNo);
+        List<BillingONPayment> payments = query.getResultList();
+        return payments;
+    }
 
     public BigDecimal getPaymentsSumByBillingNo(Integer billingNo){
         Query query = entityManager.createQuery("select sum(bp.total_payment) from BillingONPayment bp where bp.billingONCheader1.id = :billingNo and total_payment>0 group by bp.billingONCheader1");
