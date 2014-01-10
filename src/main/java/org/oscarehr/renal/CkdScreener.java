@@ -305,10 +305,16 @@ public class CkdScreener {
 		int count=0;
 		for(Measurement bp:bps) {
 			String  val = bp.getDataField();
-			int systolic = Integer.parseInt(val.split("/")[0]);
-			int diastolic =Integer.parseInt(val.split("/")[1]);
-			if(systolic > sys && diastolic > dia) {
-				count++;
+			if(val!=null) {
+				try{
+					int systolic = Integer.parseInt(val.split("/")[0]);
+					int diastolic =Integer.parseInt(val.split("/")[1]);
+					if(systolic > sys && diastolic > dia) {
+						count++;
+					}
+				} catch (Exception e){
+					MiscUtils.getLogger().info("Wrong BP data format:" + val);
+				}
 			}
 		}
 		
