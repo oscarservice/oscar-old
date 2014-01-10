@@ -52,6 +52,10 @@
 <jsp:useBean id="providerBean" class="java.util.Properties" scope="session" />
 <%@page import="org.oscarehr.common.model.DemographicCust" %>
 <%@page import="org.oscarehr.common.dao.DemographicCustDao" %>
+<%@page import="oscar.oscarBilling.ca.on.data.BillingDataHlp" %>
+
+
+
 <%
 	DemographicCustDao demographicCustDao = (DemographicCustDao)SpringUtils.getBean("demographicCustDao"); 
 	BillingONCHeader1Dao cheader1Dao = (BillingONCHeader1Dao)SpringUtils.getBean("billingONCHeader1Dao"); 
@@ -837,12 +841,14 @@ if (bMultisites) { %>
 	<%if(cheader1s.size()>0){
 		for(int i=0;i<cheader1s.size();i++)
 		{%>
+		<%if(cheader1s.get(i).getPayProgram().matches(BillingDataHlp.BILLINGMATCHSTRING_3RDPARTY)){ %>
 			<tr>
 				<td align="center"><a href="#" onclick="popupPage(600,800, '<%=request.getContextPath() %>/billing/CA/ON/billingONCorrection.jsp?billing_no=<%=cheader1s.get(i).getId()%>')"><font color="red">Inv #<%=cheader1s.get(i).getId() %></font></a></td>
 				<td align="center"><font color="red"><%=cheader1s.get(i).getTimestamp() %></font></td>
 				<td align="center"><font color="red">$<%=(double)cheader1s.get(i).getTotal()/100 %></font></td>
-				<td align="center"><font color="red">$<%=(double)(cheader1s.get(i).getPaid()-cheader1s.get(i).getTotal())/100%></font></td>
+				<td align="center"><font color="red">$<%=(double)(cheader1s.get(i).getTotal()-cheader1s.get(i).getPaid())/100%></font></td>
 			</tr>
+		<%}%>
 		<%}%>
 	<%} %>
 </table>

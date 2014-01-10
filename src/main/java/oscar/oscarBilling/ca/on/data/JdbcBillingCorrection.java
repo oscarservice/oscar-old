@@ -653,9 +653,9 @@ public class JdbcBillingCorrection {
 		sqlBuf.append("'" + billItem.getService_code() + "',"); // service_code
 		sqlBuf.append("'" + billItem.getSer_num() + "',"); // service_code_num
 		sqlBuf.append("'" + billItem.getFee() + "',"); // service_code_invoiced
-		sqlBuf.append("'',"); // service_code_paid
-		sqlBuf.append("'',"); // service_code_refund
-		sqlBuf.append("'',"); // service_code_discount
+		sqlBuf.append("'" + billItem.getPaid() + "',"); // service_code_paid
+		sqlBuf.append("'" + billItem.getRefund() + "',"); // service_code_refund
+		sqlBuf.append("'" + billItem.getDiscount() + "',"); // service_code_discount
 		sqlBuf.append("'" + billItem.getDx() + "',"); // dx_code
 		sqlBuf.append("'" + billHeader.getComment() + "',"); // billing_notes
 		sqlBuf.append("'" + BillingDataHlp.ACTION_TYPE.D.name() + "',"); // action_type
