@@ -104,34 +104,49 @@
 	   props.setProperty("h_cbc","checked=\"checked\"");
 	   props.setProperty("v_chronicHepatitis","checked=\"checked\"");	
 	   props.setProperty("v_immune_HepatitisC","checked=\"checked\"");
-	   
+	   props.setProperty("o_otherTests1","AST");
+           props.setProperty("o_otherTests2","GGT");
+           props.setProperty("o_otherTests3","HepBSAb");
+           props.setProperty("o_otherTests4","HepBSAg");
+           props.setProperty("o_otherTests5","HIV (separate req)");
+           props.setProperty("o_otherTests6","VDRL (public health req)");
+
    } else if(ct!=null && ct.equals("diabetics")) {
-	   props.setProperty("b_glucose","checked=\"checked\"");
-	   props.setProperty("b_glucose_fasting","checked=\"checked\"");
-	   props.setProperty("b_hba1c","checked=\"checked\"");	  
-	   props.setProperty("b_lipidAssessment","checked=\"checked\"");
-	   props.setProperty("b_acRatioUrine","checked=\"checked\"");
-	   
+           props.setProperty("b_glucose","checked=\"checked\"");
+           props.setProperty("b_glucose_fasting","checked=\"checked\"");
+           props.setProperty("b_hba1c","checked=\"checked\"");
+           props.setProperty("b_lipidAssessment","checked=\"checked\"");
+           props.setProperty("b_acRatioUrine","checked=\"checked\"");
+
    } else if(ct!=null && ct.equals("antipsychotics")) {
-	   props.setProperty("b_glucose","checked=\"checked\"");
-	   props.setProperty("b_glucose_fasting","checked=\"checked\"");
-	   props.setProperty("b_hba1c","checked=\"checked\"");	  
-	   props.setProperty("b_lipidAssessment","checked=\"checked\"");	   
-	   
-   } else if(ct!=null && ct.equals("lithium")) {	   
-	   props.setProperty("b_tsh","checked=\"checked\"");
-	   props.setProperty("b_creatinine","checked=\"checked\"");
-	   props.setProperty("b_sodium","checked=\"checked\"");
-	   props.setProperty("b_potassium","checked=\"checked\"");
-	   props.setProperty("b_chloride","checked=\"checked\"");
-	   props.setProperty("b_urinalysis","checked=\"checked\"");	    
-	   
+           props.setProperty("b_glucose","checked=\"checked\"");
+           props.setProperty("b_glucose_fasting","checked=\"checked\"");
+           props.setProperty("b_hba1c","checked=\"checked\"");
+           props.setProperty("b_lipidAssessment","checked=\"checked\"");
+           props.setProperty("o_otherTests1","ECG");
+           props.setProperty("o_otherTests2","Prolactin");
+
+   } else if(ct!=null && ct.equals("lithium")) {
+           props.setProperty("b_tsh","checked=\"checked\"");
+           props.setProperty("b_creatinine","checked=\"checked\"");
+           props.setProperty("b_sodium","checked=\"checked\"");
+           props.setProperty("b_potassium","checked=\"checked\"");
+           props.setProperty("b_chloride","checked=\"checked\"");
+           props.setProperty("b_urinalysis","checked=\"checked\"");
+           props.setProperty("o_otherTests1","ECG");
+           props.setProperty("o_otherTests2","Lithium Level (12h though)");
+           props.setProperty("o_otherTests3","Calcium");
+           props.setProperty("o_otherTests4","Urea");
+
    } else if(ct!=null && ct.equals("valproate")) {
-	   props.setProperty("b_alt","checked=\"checked\"");
-	   props.setProperty("b_alkPhosphatase","checked=\"checked\"");
-	   props.setProperty("h_cbc","checked=\"checked\"");
+           props.setProperty("b_alt","checked=\"checked\"");
+           props.setProperty("b_alkPhosphatase","checked=\"checked\"");
+           props.setProperty("h_cbc","checked=\"checked\"");
+           props.setProperty("o_otherTests1","AST");
+           props.setProperty("o_otherTests2","GGT");
+           props.setProperty("o_otherTests3","Valproic acid 12h through");
    }
-   
+
    if (request.getParameter("readOnly") != null){
       readOnly = true;    
    }
