@@ -3089,3 +3089,8 @@ CREATE TABLE `billing_on_transaction` (
   `dx_code` VARCHAR(3),
   `billing_notes` VARCHAR(255)
 );
+
+CREATE TABLE `billing_on_print` (
+	`id` INT(12) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	`doc_name` VARCHAR(255)
+);
