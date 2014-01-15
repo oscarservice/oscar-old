@@ -53,6 +53,7 @@
 <%@page import="org.oscarehr.common.model.DemographicCust" %>
 <%@page import="org.oscarehr.common.dao.DemographicCustDao" %>
 <%@page import="oscar.oscarBilling.ca.on.data.BillingDataHlp" %>
+<%@page import="org.oscarehr.billing.CA.ON.dao.*" %>
 
 
 
@@ -68,6 +69,7 @@
   ApptData apptObj = ApptUtil.getAppointmentFromSession(request);
  // List<BillingONCHeader1> cheader1s = cheader1Dao.getBillCheader1ByDemographicNo(Integer.parseInt(apptObj.getDemographic_no()));
  List<BillingONCHeader1> cheader1s = cheader1Dao.getBillCheader1ByDemographicNoNew(Integer.parseInt(demographic_nox));
+ BillingONExtDao billingOnExt=new BillingONExtDao();
   oscar.OscarProperties pros = oscar.OscarProperties.getInstance();
   String strEditable = pros.getProperty("ENABLE_EDIT_APPT_STATUS");
 
@@ -841,12 +843,14 @@ if (bMultisites) { %>
 	<%if(cheader1s.size()>0){
 		for(int i=0;i<cheader1s.size();i++)
 		{%>
-		<%if(cheader1s.get(i).getPayProgram().matches(BillingDataHlp.BILLINGMATCHSTRING_3RDPARTY)){ %>
+		<%if(cheader1s.get(i).getPayProgram().matches(BillingDataHlp.BILLINGMATCHSTRING_3RDPARTY)){ 
+			String refund=billingOnExt.getClaimExtRefund(cheader1s.get(i).getId());
+		%>
 			<tr>
 				<td align="center"><a href="#" onclick="popupPage(600,800, '<%=request.getContextPath() %>/billing/CA/ON/billingONCorrection.jsp?billing_no=<%=cheader1s.get(i).getId()%>')"><font color="red">Inv #<%=cheader1s.get(i).getId() %></font></a></td>
 				<td align="center"><font color="red"><%=cheader1s.get(i).getTimestamp() %></font></td>
 				<td align="center"><font color="red">$<%=(double)cheader1s.get(i).getTotal()/100 %></font></td>
-				<td align="center"><font color="red">$<%=(double)(cheader1s.get(i).getTotal()-cheader1s.get(i).getPaid())/100%></font></td>
+				<td align="center"><font color="red">$<%=refund %></font></td>
 			</tr>
 		<%}%>
 		<%}%>

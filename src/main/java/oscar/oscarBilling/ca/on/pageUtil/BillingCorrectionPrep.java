@@ -18,7 +18,9 @@
 package oscar.oscarBilling.ca.on.pageUtil;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import java.util.Vector;
@@ -26,10 +28,14 @@ import java.util.Vector;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
+import org.oscarehr.billing.CA.ON.dao.BillingClaimDAO;
 import org.oscarehr.billing.CA.ON.dao.BillingItemDao;
 import org.oscarehr.billing.CA.ON.dao.BillingONExtDao;
+import org.oscarehr.billing.CA.ON.dao.BillingONPaymentDao;
+import org.oscarehr.billing.CA.ON.model.BillingClaimHeader1;
 import org.oscarehr.billing.CA.ON.model.BillingItem;
 import org.oscarehr.billing.CA.ON.model.BillingONExt;
+import org.oscarehr.billing.CA.ON.model.BillingONPayment;
 import org.oscarehr.util.MiscUtils;
 import org.oscarehr.util.SpringUtils;
 
@@ -52,7 +58,10 @@ public class BillingCorrectionPrep {
 	private static final Logger _logger = Logger
 			.getLogger(BillingCorrectionPrep.class);
 	
-	private BillingOnItemDao billingOnItemDao;
+	//private BillingONPaymentDao billingONPaymentDao;
+	//private BillingClaimDAO billingClaimDAO;
+
+	//private BillingOnItemDao billingOnItemDao;
 
 	JdbcBillingCorrection dbObj = new JdbcBillingCorrection();
 	BillingItemDao item=new BillingItemDao();
@@ -95,7 +104,7 @@ public class BillingCorrectionPrep {
                         }
 			ch1Obj.setStatus(status);
 			
-			ch1Obj.setPay_program(requestData.getParameter("payProgram"));
+			
 			if(requestData.getParameter("status").substring(0,1).equals("N")){
 				ch1Obj.setPay_program("NOT");				
 			}
@@ -126,6 +135,36 @@ public class BillingCorrectionPrep {
 			ch1Obj.setProvince(requestData.getParameter("hc_type"));
 			
 			ch1Obj.setLocation(requestData.getParameter("xml_slicode"));
+			
+			if ( 
+					requestData.getParameter("payProgram").matches(BillingDataHlp.BILLINGMATCHSTRING_3RDPARTY)
+					&&ch1Obj.getPay_program().equals("HCP")){
+				Date paymentDate = null;
+				try {
+					paymentDate = new SimpleDateFormat("yyyy-MM-dd").parse(ch1Obj.getBilling_date());
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				BillingONPaymentDao billingONPaymentDao =(BillingONPaymentDao) SpringUtils.getBean("billingONPaymentDao");
+				BillingClaimDAO billingONCHeader1Dao =(BillingClaimDAO) SpringUtils.getBean("billingClaimDAO");
+				BillingClaimHeader1 ch1 = billingONCHeader1Dao.find(Integer.parseInt(ch1Obj.getId()));
+
+				BillingONPayment payment = new BillingONPayment();
+				//payment.setTotal_payment(ch1Obj.getTotal());
+				payment.setTotal_payment(new BigDecimal(0));
+	    		payment.setTotal_discount(new BigDecimal(0));
+	    		payment.setTotal_refund(new BigDecimal(0));
+				payment.setPaymentDate(paymentDate);
+		    	payment.setBillingOnCheader1(ch1);
+		    	payment.setPaymentTypeId("1");
+		    	payment.setCreator(requestData.getParameter("provider_no"));
+		    	
+				billingONPaymentDao.persist(payment);
+				
+				
+			}
+			ch1Obj.setPay_program(requestData.getParameter("payProgram"));
 			ret = dbObj.updateBillingClaimHeader(ch1Obj);
 			if(ch1Obj.getStatus().equals("D")){
 				dbObj.updatedeleteBillingClaimHeaderTrans(ch1Obj);

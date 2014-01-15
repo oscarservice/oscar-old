@@ -23,6 +23,8 @@
 
 package org.oscarehr.billing.CA.ON.dao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
@@ -33,6 +35,8 @@ import javax.persistence.Query;
 import org.oscarehr.billing.CA.ON.model.BillingONExt;
 import org.oscarehr.common.dao.AbstractDao;
 import org.springframework.stereotype.Repository;
+
+import oscar.oscarBilling.ca.on.data.BillingONDataHelp;
 
 /**
 *
@@ -46,6 +50,8 @@ public class BillingONExtDao extends AbstractDao<BillingONExt>{
 	public final static String KEY_DISCOUNT = "discount";
 	public final static String KEY_PAY_DATE = "payDate";
 	public final static String KEY_PAY_METHOD = "payMethod";
+	BillingONDataHelp dbObj = new BillingONDataHelp();
+
 
 	public BillingONExtDao() {
         super(BillingONExt.class);
@@ -55,6 +61,23 @@ public class BillingONExtDao extends AbstractDao<BillingONExt>{
         Query query = entityManager.createQuery("select ext from BillingONExt ext where ext.billingNo = :billingNo");
         query.setParameter("billingNo", billingNo);
         return query.getResultList();
+    }
+    
+    public String getClaimExtRefund(int billingNo){
+    	String sql = "select value from billing_on_ext  where billing_No = " + billingNo + " AND key_val='refund'";
+        //query.setParameter("billingNo", billingNo);
+		ResultSet rs = dbObj.searchDBRecord(sql);
+
+        String refund="0.00";
+        try {
+			while (rs.next()) {
+				refund = rs.getString("value");
+			}
+		} catch (SQLException e) {
+			//_logger.error("getHtmlfilename(sql = " + sql + ")");
+			//refund = null;
+		}
+        return refund;
     }
 
     public BillingONExt getClaimExtItem(Integer billingNo, Integer demographicNo, String keyVal) throws NonUniqueResultException {
