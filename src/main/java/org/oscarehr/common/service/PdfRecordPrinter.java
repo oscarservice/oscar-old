@@ -2165,7 +2165,12 @@ public class PdfRecordPrinter {
 	     boolean addGlassesRx = false;
 	     p.add(new Phrase("GLASSES HISTORY: ",getFont()));
 	     if(mf.getGlassesRx(appointmentNo).length() > 0){
-	     p.add(new Phrase(mf.getGlassesRx(appointmentNo),getFont()));
+	    	 
+	    	 String glassesRx = mf.getGlassesRx(appointmentNo);
+	    	 glassesRx = glassesRx.replaceAll("<b>", "");
+	    	 glassesRx = glassesRx.replaceAll("</b>", "");
+	    	 
+	     p.add(new Phrase(glassesRx,getFont()));
 	       	addGlassesRx=true;
 	     }
 	     p.add(new Phrase("\n\n"));

@@ -41,6 +41,7 @@ import com.lowagie.text.Element;
 import com.lowagie.text.Font;
 import com.lowagie.text.Image;
 import com.lowagie.text.PageSize;
+import com.lowagie.text.Paragraph;
 import com.lowagie.text.Phrase;
 import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfPCell;
@@ -558,7 +559,51 @@ public class ConsultationPDFCreator extends PdfPageEventHelper {
 
 		if(getlen(reqFrm.ocularExamination) > 1) {
 			infoTable.addCell(setInfoCell(cell, getResource("msgOcularExamination")));
-			infoTable.addCell(setDataCell(cell, divy(reqFrm.ocularExamination)));
+			
+			oscar.OscarProperties props1 = oscar.OscarProperties.getInstance();
+			String eyeform = props1.getProperty("cme_js");
+        	if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
+				Paragraph p = new Paragraph();
+				int number1 = 0;
+				int number2 = 0;
+				int num = 0;
+				String new_exam = "";
+				String examination = divy(reqFrm.ocularExamination);
+				if(examination.indexOf("<b>") > 0){
+					new_exam = examination.substring(0, examination.indexOf("<b>"));
+					p.add(new Phrase(new_exam,font));
+					new_exam = examination.substring(examination.indexOf("<b>"));
+					
+				}
+	
+				for(int i = 0; i < new_exam.length();i ++){
+					num = new_exam.indexOf("<b>");
+					if(num >= 0){
+						number1 = new_exam.indexOf("<b>") + "<b>".length();
+						number2 = new_exam.indexOf("</b>");
+						
+						if(number2 > number1){
+							String exam = new_exam.substring(number1, number2);
+							p.add(new Phrase(exam,boldFont));
+						}
+						new_exam = new_exam.substring(number2 + "</b>".length());	
+						if(new_exam.indexOf("<b>") > 0){
+							String exam = new_exam.substring(0,new_exam.indexOf("<b>"));
+							p.add(new Phrase(exam,font));
+							new_exam = new_exam.substring(new_exam.indexOf("<b>"));
+						}
+						i = new_exam.indexOf("<b>");
+					}else if(new_exam.length() > 0){
+						p.add(new Phrase(new_exam,font));
+						i = new_exam.length();
+					}
+				}
+				infoTable.addCell(p);
+        	}else{
+        		infoTable.addCell(setDataCell(cell, divy(reqFrm.ocularExamination)));
+        	}
+//			infoTable.addCell(setDataCell(cell, divy(reqFrm.ocularExamination)));
+//			infoTable.addCell(p);
 		}
 		
 		

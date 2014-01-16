@@ -794,13 +794,20 @@ jQuery(document).ready(function() {
 							<%}%>
                 		</td>
                 		<td>
-                			<select id="fromlist2" name="fromlist2" multiple="multiple" size="9" ondblclick="addExam(ctx,'fromlist2',document.eyeForm.elements['cp.examination'],appointmentNo);">
-                			
+							<%if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){%>
+                			<select id="fromlist2" name="fromlist2" multiple="multiple" size="9" ondblclick="addExam(ctx,'fromlist2',document.getElementById('cp.examination'),appointmentNo);">
+                			<%}else{%>
+							<select id="fromlist2" name="fromlist2" multiple="multiple" size="9" ondblclick="addExam(ctx,'fromlist2',document.eyeForm.elements['cp.examination'],appointmentNo);">
+							<%}%>
                 				<c:forEach var="item" items="${headers}">
                 					<option value="<c:out value="${item.value}"/>"><c:out value="${item.label}"/></option>
                 				</c:forEach>
                 			</select>
+							<%if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){%>
+							<input style="vertical-align: middle;" type="button" value="add" onclick="addExam(ctx,'fromlist2',document.getElementById('cp.examination'),appointmentNo);">
+							<%}else{%>
 							<input style="vertical-align: middle;" type="button" value="add" onclick="addExam(ctx,'fromlist2',document.eyeForm.elements['cp.examination'],appointmentNo);">
+							<%}%>
 						</td>
 						</tr>
 					</table>
@@ -812,7 +819,12 @@ jQuery(document).ready(function() {
 					<table style="width: 100%">
 						<tr>
 							<td width="74%">
-								<html:textarea rows="7" style="width:100%" property="cp.examination"/>
+							<%if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){%>
+								<div contentEditable="true" name="cp.examination" id="cp.examination" style="display:block;border:1px solid gray;overflow:scroll;height:150px;width:970px;overflow-x:hidden;word-wrap:break-word;">
+								</div>
+							<%}else{%>
+								<html:textarea rows="7" style="width:100%" property="cp.examination"/>	
+							<%}%>
 							</td>
 						</tr>
 					</table>

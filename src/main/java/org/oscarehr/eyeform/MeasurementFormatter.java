@@ -64,61 +64,69 @@ public class MeasurementFormatter {
 	
 	public String getVisionAssessment(Map<String,Boolean> includeMap) {
 		StringBuilder sb = new StringBuilder();
-		if(includeMap.get("Distance vision (sc)") != null && this.getVisionAssessmentDistanceVision_sc().length()>0){
-			sb.append("Distance vision (sc) ");
-			sb.append(this.getVisionAssessmentDistanceVision_sc());
-		}
-        if("eyeform3".equals(eyeform)){
+        if("eyeform3".equals(eyeform) || "eyeform3.1".equals(eyeform)){
+        	if(includeMap.get("Distance vision (sc)") != null && this.getVisionAssessmentDistanceVision_sc().length()>0){
+    			sb.append("<b>Distance vision (sc)</b> ");
+    			sb.append(this.getVisionAssessmentDistanceVision_sc());
+    		}
     		if(includeMap.get("Distance vision (cc)") != null && this.getVisionAssessmentDistanceVision_cc().length()>0){
-    			sb.append("Distance vision (cc) ");
+    			sb.append("<b>Distance vision (cc)</b> ");
     			sb.append(this.getVisionAssessmentDistanceVision_cc());
     		}
     		if(includeMap.get("Distance vision (ph)") != null && this.getVisionAssessmentDistanceVision_ph().length()>0){
-    			sb.append("Distance vision (ph) ");
+    			sb.append("<b>Distance vision (ph)</b> ");
     			sb.append(this.getVisionAssessmentDistanceVision_ph());
     		}
     		if(includeMap.get("Intermediate vision (sc)") != null && this.getVisionAssessmentIntermediateVision_sc().length()>0){
-    			sb.append("Intermediate vision (sc) ");
+    			sb.append("<b>Intermediate vision (sc)</b> ");
     			sb.append(this.getVisionAssessmentIntermediateVision_sc());
     		}
     		if(includeMap.get("Intermediate vision (cc)") != null && this.getVisionAssessmentIntermediateVision_cc().length()>0){
-    			sb.append("Intermediate vision (cc) ");
+    			sb.append("<b>Intermediate vision (cc)</b> ");
     			sb.append(this.getVisionAssessmentIntermediateVision_cc());
     		}
     		if(includeMap.get("Near vision (sc)") != null && this.getVisionAssessmentNearVision_sc().length()>0){
-    			sb.append("Near vision (sc) ");
+    			sb.append("<b>Near vision (sc)</b> ");
     			sb.append(this.getVisionAssessmentNearVision_sc());
     		}
     		if(includeMap.get("Near vision (cc)") != null && this.getVisionAssessmentNearVision_cc().length()>0){
-    			sb.append("Near vision (cc) ");
+    			sb.append("<b>Near vision (cc)</b> ");
     			sb.append(this.getVisionAssessmentNearVision_cc());
     		}
         }else if("eyeform3.2".equals(eyeform)){
+        	if(includeMap.get("Distance vision (sc)") != null && this.getVisionAssessmentDistanceVision_sc().length()>0){
+    			sb.append("<b>Distance vision (sc)</b> ");
+    			sb.append(this.getVisionAssessmentDistanceVision_sc());
+    		}
         	if(includeMap.get("Distance vision (cc)") != null && this.getVisionAssessmentDistanceVision_cc().length()>0){
-    			sb.append("\nDistance vision (cc) ");
+        		sb.append("\n<b>Distance vision (cc)</b> ");
     			sb.append(this.getVisionAssessmentDistanceVision_cc());
     		}
     		if(includeMap.get("Distance vision (ph)") != null && this.getVisionAssessmentDistanceVision_ph().length()>0){
-    			sb.append("\nDistance vision (ph) ");
+    			sb.append("\n<b>Distance vision (ph)</b> ");
     			sb.append(this.getVisionAssessmentDistanceVision_ph());
     		}
     		if(includeMap.get("Intermediate vision (sc)") != null && this.getVisionAssessmentIntermediateVision_sc().length()>0){
-    			sb.append("\nIntermediate vision (sc) ");
+    			sb.append("\n<b>Intermediate vision (sc)</b> ");
     			sb.append(this.getVisionAssessmentIntermediateVision_sc());
     		}
     		if(includeMap.get("Intermediate vision (cc)") != null && this.getVisionAssessmentIntermediateVision_cc().length()>0){
-    			sb.append("\nIntermediate vision (cc) ");
+    			sb.append("\n<b>Intermediate vision (cc)</b> ");
     			sb.append(this.getVisionAssessmentIntermediateVision_cc());
     		}
     		if(includeMap.get("Near vision (sc)") != null && this.getVisionAssessmentNearVision_sc().length()>0){
-    			sb.append("\nNear vision (sc) ");
+    			sb.append("\n<b>Near vision (sc)</b> ");
     			sb.append(this.getVisionAssessmentNearVision_sc());
     		}
     		if(includeMap.get("Near vision (cc)") != null && this.getVisionAssessmentNearVision_cc().length()>0){
-    			sb.append("\nNear vision (cc) ");
+    			sb.append("\n<b>Near vision (cc)</b> ");
     			sb.append(this.getVisionAssessmentNearVision_cc());
     		}
         }else{	
+        	if(includeMap.get("Distance vision (sc)") != null && this.getVisionAssessmentDistanceVision_sc().length()>0){
+    			sb.append("Distance vision (sc) ");
+    			sb.append(this.getVisionAssessmentDistanceVision_sc());
+    		}
 			if(includeMap.get("Auto-refraction") != null && this.getVisionAssessmentAutoRefraction().length()>0) {
 				sb.append("Auto-refraction ");
 				sb.append(this.getVisionAssessmentAutoRefraction());
@@ -156,28 +164,53 @@ public class MeasurementFormatter {
 	
 	public String getManifestVision(Map<String,Boolean> includeMap) {
 		StringBuilder sb = new StringBuilder();
-		if(includeMap.get("Auto-refraction") != null && this.getAutoRefraction().length()>0) {
-			sb.append("Auto-refraction ");
-			sb.append(this.getAutoRefraction());
-		}
-		if("eyeform3.2".equals(eyeform)){
+		if("eyeform3".equals(eyeform) || "eyeform3.1".equals(eyeform)){
+			if(includeMap.get("Auto-refraction") != null && this.getAutoRefraction().length()>0) {
+				sb.append("<b>Auto-refraction</b> ");
+				sb.append(this.getAutoRefraction());
+			}
 			if(includeMap.get("Keratometry") != null && this.getKeratometry().length()>0) {
-				sb.append("\nKeratometry ");
+				sb.append("<b>Keratometry</b> ");
 				sb.append(this.getKeratometry());
 			}
 			if(includeMap.get("Manifest distance") != null && getManifestDistance().length()>0) {
-				sb.append("\nManifest distance ");
+				sb.append("<b>Manifest distance</b> ");
 				sb.append(getManifestDistance());
 			}
 			if(includeMap.get("Manifest near") != null && getManifestNear().length()>0) {
-				sb.append("\nManifest near ");
+				sb.append("<b>Manifest near</b> ");
 				sb.append(getManifestNear());
 			}
 			if(includeMap.get("Cycloplegic refraction") != null && this.getCycloplegicRefraction().length()>0) {
-				sb.append("\nCycloplegic refraction ");
+				sb.append("<b>Cycloplegic refraction</b> ");
+				sb.append(this.getCycloplegicRefraction());
+			}
+		}else if("eyeform3.2".equals(eyeform)){
+			if(includeMap.get("Auto-refraction") != null && this.getAutoRefraction().length()>0) {
+				sb.append("<b>Auto-refraction</b> ");
+				sb.append(this.getAutoRefraction());
+			}
+			if(includeMap.get("Keratometry") != null && this.getKeratometry().length()>0) {
+				sb.append("\n<b>Keratometry</b> ");
+				sb.append(this.getKeratometry());
+			}
+			if(includeMap.get("Manifest distance") != null && getManifestDistance().length()>0) {
+				sb.append("\n<b>Manifest distance</b> ");
+				sb.append(getManifestDistance());
+			}
+			if(includeMap.get("Manifest near") != null && getManifestNear().length()>0) {
+				sb.append("\n<b>Manifest near</b> ");
+				sb.append(getManifestNear());
+			}
+			if(includeMap.get("Cycloplegic refraction") != null && this.getCycloplegicRefraction().length()>0) {
+				sb.append("\n<b>Cycloplegic refraction</b> ");
 				sb.append(this.getCycloplegicRefraction());
 			}
 		}else{
+			if(includeMap.get("Auto-refraction") != null && this.getAutoRefraction().length()>0) {
+				sb.append("Auto-refraction ");
+				sb.append(this.getAutoRefraction());
+			}
 			if(includeMap.get("Keratometry") != null && this.getKeratometry().length()>0) {
 				sb.append("Keratometry ");
 				sb.append(this.getKeratometry());
@@ -201,24 +234,24 @@ public class MeasurementFormatter {
 		return sb.toString();
 	}
 	
-	public String getStereoVision(Map<String,Boolean> includeMap){
+	public String getStereoVision(Map<String,Boolean> includeMap){	
 		StringBuilder sb = new StringBuilder();
 		if("eyeform3.2".equals(eyeform)){
 			if(includeMap.get("Fly test") != null && this.getFlytest().length()>0) {
-				sb.append("Fly test      ");
+				sb.append("<b>Fly test</b>      ");
 				sb.append(this.getFlytest());
 			}
 			if(includeMap.get("Stereo-acuity") != null && this.getStereo_acuity().length()>0) {
-				sb.append("\nStereo-acuity ");
+				sb.append("\n<b>Stereo-acuity</b> ");
 				sb.append(this.getStereo_acuity());
 			}
 		}else{
 			if(includeMap.get("Fly test") != null && this.getFlytest().length()>0) {
-				sb.append("Fly test ");
+				sb.append("<b>Fly test</b> ");
 				sb.append(this.getFlytest());
 			}
 			if(includeMap.get("Stereo-acuity") != null && this.getStereo_acuity().length()>0) {
-				sb.append("Stereo-acuity ");
+				sb.append("<b>Stereo-acuity</b> ");
 				sb.append(this.getStereo_acuity());
 			}
 		}
@@ -230,20 +263,37 @@ public class MeasurementFormatter {
 	
 	public String getIntraocularPressure(Map<String,Boolean> includeMap) {
 		StringBuilder sb = new StringBuilder();
-		if(includeMap.get("NCT") != null && this.getNCT().length()>0) {
-			sb.append("NCT ");
-			sb.append(this.getNCT());
-		}
-		if("eyeform3.2".equals(eyeform)){
+		if("eyeform3".equals(eyeform) || "eyeform3.1".equals(eyeform)){
+			if(includeMap.get("NCT") != null && this.getNCT().length()>0) {
+				sb.append("<b>NCT</b> ");
+				sb.append(this.getNCT());
+			}
 			if(includeMap.get("Applanation") != null && this.getApplanation().length()>0) {
-				sb.append("\nApplanation ");
+				sb.append("<b>Applanation</b> ");
 				sb.append(this.getApplanation());
 			}
 			if(includeMap.get("Central corneal thickness") != null && this.getCCT().length()>0) {
-				sb.append("\nCentral corneal thickness ");
+				sb.append("<b>Central corneal thickness</b> ");
+				sb.append(this.getCCT());
+			}
+		}else if("eyeform3.2".equals(eyeform)){
+			if(includeMap.get("NCT") != null && this.getNCT().length()>0) {
+				sb.append("<b>NCT</b> ");
+				sb.append(this.getNCT());
+			}
+			if(includeMap.get("Applanation") != null && this.getApplanation().length()>0) {
+				sb.append("\n<b>Applanation</b> ");
+				sb.append(this.getApplanation());
+			}
+			if(includeMap.get("Central corneal thickness") != null && this.getCCT().length()>0) {
+				sb.append("\n<b>Central corneal thickness</b> ");
 				sb.append(this.getCCT());
 			}
 		}else{
+			if(includeMap.get("NCT") != null && this.getNCT().length()>0) {
+				sb.append("NCT ");
+				sb.append(this.getNCT());
+			}
 			if(includeMap.get("Applanation") != null && this.getApplanation().length()>0) {
 				sb.append("Applanation ");
 				sb.append(this.getApplanation());
@@ -262,25 +312,25 @@ public class MeasurementFormatter {
 	public String getRactive(Map<String,Boolean> includeMap){
 		StringBuilder sb = new StringBuilder();
 		if(includeMap.get("Dominance") != null && this.getDominance().length()>0) {
-			sb.append("Dominance ");
+			sb.append("<b>Dominance</b> ");
 			sb.append(this.getDominance());
 		}
 		if("eyeform3.2".equals(eyeform)){
 			if(includeMap.get("Mesopic pupil size") != null && this.getMesopicPupilSize().length()>0) {
-				sb.append("\nMesopic pupil size ");
+				sb.append("\n<b>Mesopic pupil size</b> ");
 				sb.append(this.getMesopicPupilSize());
 			}
 			if(includeMap.get("Angle Kappa") != null && this.getAngleKappa().length()>0) {
-				sb.append("\nAngle Kappa ");
+				sb.append("\n<b>Angle Kappa</b> ");
 				sb.append(this.getAngleKappa());
 			}
 		}else{
 			if(includeMap.get("Mesopic pupil size") != null && this.getMesopicPupilSize().length()>0) {
-				sb.append("Mesopic pupil size ");
+				sb.append("<b>Mesopic pupil size</b> ");
 				sb.append(this.getMesopicPupilSize());
 			}
 			if(includeMap.get("Angle Kappa") != null && this.getAngleKappa().length()>0) {
-				sb.append("Angle Kappa ");
+				sb.append("<b>Angle Kappa</b> ");
 				sb.append(this.getAngleKappa());
 			}
 		}
@@ -292,44 +342,85 @@ public class MeasurementFormatter {
 	
 	public String getOtherExam(Map<String,Boolean> includeMap) {
 		StringBuilder sb = new StringBuilder();
-		if(includeMap.get("Colour vision") != null && this.getColourVision().length()>0) {
-			sb.append("Colour vision ");
-			sb.append(this.getColourVision());
-		}
-		if("eyeform3.2".equals(eyeform)){
+		if("eyeform3".equals(eyeform) || "eyeform3.1".equals(eyeform)){
+			if(includeMap.get("Colour vision") != null && this.getColourVision().length()>0) {
+				sb.append("<b>Colour vision</b> ");
+				sb.append(this.getColourVision());
+			}
 			if(includeMap.get("Pupil") != null && this.getPupil().length()>0) {
-				sb.append("\nPupil ");
+				sb.append("<b>Pupil</b> ");
 				sb.append(this.getPupil());
 			}
 			if(includeMap.get("Amsler grid") != null && this.getAmslerGrid().length()>0) {
-				sb.append("\nAmsler grid ");
+				sb.append("<b>Amsler grid</b> ");
 				sb.append(this.getAmslerGrid());
 			}
 			if(includeMap.get("Potential acuity meter") != null && this.getPAM().length()>0) {
-				sb.append("\nPotential acuity meter ");
+				sb.append("<b>Potential acuity meter</b> ");
 				sb.append(this.getPAM());
 			}
 			if(includeMap.get("Confrontation fields") != null && this.getConfrontation().length()>0) {
-				sb.append("\nConfrontation fields ");
+				sb.append("<b>Confrontation fields</b> ");
 				sb.append(this.getConfrontation());
 			}
 			if(includeMap.get("Maddox rod") != null && this.getMaddoxrod().length()>0) {
-				sb.append("\nMaddox rod             ");
+				sb.append("<b>Maddox rod</b> ");
 				sb.append(this.getMaddoxrod());
 			}
 			if(includeMap.get("Bagolini test") != null && this.getBagolinitest().length()>0) {
-				sb.append("\nBagolini test          ");
+				sb.append("<b>Bagolini test</b> ");
 				sb.append(this.getBagolinitest());
 			}
 			if(includeMap.get("Worth 4 Dot (distance)") != null && this.getW4dD().length()>0) {
-				sb.append("\nWorth 4 Dot (distance) ");
+				sb.append("<b>Worth 4 Dot (distance)</b> ");
 				sb.append(this.getW4dD());
 			}
 			if(includeMap.get("Worth 4 Dot (near)") != null && this.getW4dN().length()>0) {
-				sb.append("\nWorth 4 Dot (near)     ");
+				sb.append("<b>Worth 4 Dot (near)</b> ");
+				sb.append(this.getW4dN());
+			}
+		}else if("eyeform3.2".equals(eyeform)){
+			if(includeMap.get("Colour vision") != null && this.getColourVision().length()>0) {
+				sb.append("<b>Colour vision</b> ");
+				sb.append(this.getColourVision());
+			}
+			if(includeMap.get("Pupil") != null && this.getPupil().length()>0) {
+				sb.append("\n<b>Pupil</b> ");
+				sb.append(this.getPupil());
+			}
+			if(includeMap.get("Amsler grid") != null && this.getAmslerGrid().length()>0) {
+				sb.append("\n<b>Amsler grid</b> ");
+				sb.append(this.getAmslerGrid());
+			}
+			if(includeMap.get("Potential acuity meter") != null && this.getPAM().length()>0) {
+				sb.append("\n<b>Potential acuity meter</b> ");
+				sb.append(this.getPAM());
+			}
+			if(includeMap.get("Confrontation fields") != null && this.getConfrontation().length()>0) {
+				sb.append("\n<b>Confrontation fields</b> ");
+				sb.append(this.getConfrontation());
+			}
+			if(includeMap.get("Maddox rod") != null && this.getMaddoxrod().length()>0) {
+				sb.append("\n<b>Maddox rod</b>             ");
+				sb.append(this.getMaddoxrod());
+			}
+			if(includeMap.get("Bagolini test") != null && this.getBagolinitest().length()>0) {
+				sb.append("\n<b>Bagolini test</b>          ");
+				sb.append(this.getBagolinitest());
+			}
+			if(includeMap.get("Worth 4 Dot (distance)") != null && this.getW4dD().length()>0) {
+				sb.append("\n<b>Worth 4 Dot (distance)</b> ");
+				sb.append(this.getW4dD());
+			}
+			if(includeMap.get("Worth 4 Dot (near)") != null && this.getW4dN().length()>0) {
+				sb.append("\n<b>Worth 4 Dot (near)</b>     ");
 				sb.append(this.getW4dN());
 			}
 		}else{
+			if(includeMap.get("Colour vision") != null && this.getColourVision().length()>0) {
+				sb.append("Colour vision ");
+				sb.append(this.getColourVision());
+			}
 			if(includeMap.get("Pupil") != null && this.getPupil().length()>0) {
 				sb.append("Pupil ");
 				sb.append(this.getPupil());
@@ -381,81 +472,81 @@ public class MeasurementFormatter {
 	public String getDeviationMeasurement(Map<String,Boolean> includeMap){ 
 		StringBuilder sb = new StringBuilder();
 		if(includeMap.get("Primary gaze") != null && this.getPrimarygaze().length()>0) {
-			sb.append("Primary gaze:      ");
+			sb.append("<b>Primary gaze:</b>      ");
 			sb.append(this.getPrimarygaze());
 		}
 		if("eyeform3.2".equals(eyeform)){
 			if(includeMap.get("Up gaze") != null && this.getUpgaze().length()>0) {
-				sb.append("\nUp gaze:           ");
+				sb.append("\n<b>Up gaze:</b>           ");
 				sb.append(this.getUpgaze());
 			}
 			if(includeMap.get("Down gaze") != null && this.getDowngaze().length()>0) {
-				sb.append("\nDown gaze:         ");
+				sb.append("\n<b>Down gaze:</b>         ");
 				sb.append(this.getDowngaze());
 			}
 			if(includeMap.get("Right gaze") != null && this.getRightgaze().length()>0) {
-				sb.append("\nRight gaze:        ");
+				sb.append("\n<b>Right gaze:</b>        ");
 				sb.append(this.getRightgaze());
 			}
 			if(includeMap.get("Left gaze") != null && this.getLeftgaze().length()>0) {
-				sb.append("\nLeft gaze:         ");
+				sb.append("\n<b>Left gaze:</b>         ");
 				sb.append(this.getLeftgaze());
 			}
 			if(includeMap.get("Right head tilt") != null && this.getRighthead().length()>0) {
-				sb.append("\nRight head tilt:   ");
+				sb.append("\n<b>Right head tilt:</b>   ");
 				sb.append(this.getRighthead());
 			}
 			if(includeMap.get("Left head tilt") != null && this.getLefthead().length()>0) {
-				sb.append("\nLeft head tilt:    ");
+				sb.append("\n<b>Left head tilt:</b>    ");
 				sb.append(this.getLefthead());
 			}
 			if(includeMap.get("Near") != null && this.getNear().length()>0) {
-				sb.append("\nNear:              ");
+				sb.append("\n<b>Near:</b>              ");
 				sb.append(this.getNear());
 			}
 			if(includeMap.get("Near with +3D add") != null && this.getNearwith().length()>0) {
-				sb.append("\nNear with +3D add: ");
+				sb.append("\n<b>Near with +3D add:</b> ");
 				sb.append(this.getNearwith());
 			}
 			if(includeMap.get("Far distance") != null && this.getFardistance().length()>0) {
-				sb.append("\nFar distance:      ");
+				sb.append("\n<b>Far distance:</b>      ");
 				sb.append(this.getFardistance());
 			}
 		}else{
 			if(includeMap.get("Up gaze") != null && this.getUpgaze().length()>0) {
-				sb.append("Up gaze: ");
+				sb.append("<b>Up gaze:</b> ");
 				sb.append(this.getUpgaze());
 			}
 			if(includeMap.get("Down gaze") != null && this.getDowngaze().length()>0) {
-				sb.append("Down gaze: ");
+				sb.append("<b>Down gaze:</b> ");
 				sb.append(this.getDowngaze());
 			}
 			if(includeMap.get("Right gaze") != null && this.getRightgaze().length()>0) {
-				sb.append("Right gaze: ");
+				sb.append("<b>Right gaze:</b> ");
 				sb.append(this.getRightgaze());
 			}
 			if(includeMap.get("Left gaze") != null && this.getLeftgaze().length()>0) {
-				sb.append("Left gaze: ");
+				sb.append("<b>Left gaze:</b> ");
 				sb.append(this.getLeftgaze());
 			}
 			if(includeMap.get("Right head tilt") != null && this.getRighthead().length()>0) {
-				sb.append("Right head tilt: ");
+				sb.append("<b>Right head tilt:</b> ");
 				sb.append(this.getRighthead());
 			}
 			if(includeMap.get("Left head tilt") != null && this.getLefthead().length()>0) {
-				sb.append("Left head tilt: ");
+				sb.append("<b>Left head tilt:</b> ");
 				sb.append(this.getLefthead());
 			}
 			if(includeMap.get("Near") != null && this.getNear().length()>0) {
-				sb.append("Near: ");
+				sb.append("<b>Near:</b> ");
 				sb.append(this.getNear());
 			}
 			if(includeMap.get("Near with +3D add") != null && this.getNearwith().length()>0) {
-				sb.append("Near with +3D add: ");
+				sb.append("<b>Near with +3D add:</b> ");
 				sb.append(this.getNearwith());
 			}
 			if(includeMap.get("Far distance") != null && this.getFardistance().length()>0) {
-				sb.append("Far distance: ");
+				sb.append("<b>Far distance:</b> ");
 				sb.append(this.getFardistance());
 			}
 		}
@@ -477,32 +568,61 @@ public class MeasurementFormatter {
 	
 	public String getAnteriorSegment(Map<String,Boolean> includeMap) {
 		StringBuilder sb = new StringBuilder();
-		if(includeMap.get("Cornea") != null && this.getCornea().length()>0) {
-			sb.append("Cornea ");
-			sb.append(this.getCornea());
-		}
-		if("eyeform3.2".equals(eyeform)){
+		if("eyeform3".equals(eyeform) || "eyeform3.1".equals(eyeform)){
+			if(includeMap.get("Cornea") != null && this.getCornea().length()>0) {
+				sb.append("<b>Cornea</b> ");
+				sb.append(this.getCornea());
+			}
 			if(includeMap.get("Conjunctiva/Sclera") != null && this.getConjuctivaSclera().length()>0) {
-				sb.append("\nConjunctiva/Sclera ");
+				sb.append("<b>Conjunctiva/Sclera</b> ");
 				sb.append(this.getConjuctivaSclera());
 			}
 			if(includeMap.get("Anterior chamber") != null && this.getAnteriorChamber().length()>0) {
-				sb.append("\nAnterior chamber ");
+				sb.append("<b>Anterior chamber</b> ");
 				sb.append(this.getAnteriorChamber());
 			}
 			if(includeMap.get("Angle") != null && this.getAngle().length()>0) {
-				sb.append("\nAngle ");
+				sb.append("<b>Angle</b> ");
 				sb.append(this.getAngle());
 			}
 			if(includeMap.get("Iris") != null && this.getIris().length()>0) {
-				sb.append("\nIris ");
+				sb.append("<b>Iris</b> ");
 				sb.append(this.getIris());
 			}
 			if(includeMap.get("Lens") != null && this.getLens().length()>0) {
-				sb.append("\nLens ");
+				sb.append("<b>Lens</b> ");
+				sb.append(this.getLens());
+			}
+		}else if("eyeform3.2".equals(eyeform)){
+			if(includeMap.get("Cornea") != null && this.getCornea().length()>0) {
+				sb.append("<b>Cornea</b> ");
+				sb.append(this.getCornea());
+			}
+			if(includeMap.get("Conjunctiva/Sclera") != null && this.getConjuctivaSclera().length()>0) {
+				sb.append("\n<b>Conjunctiva/Sclera</b> ");
+				sb.append(this.getConjuctivaSclera());
+			}
+			if(includeMap.get("Anterior chamber") != null && this.getAnteriorChamber().length()>0) {
+				sb.append("\n<b>Anterior chamber</b> ");
+				sb.append(this.getAnteriorChamber());
+			}
+			if(includeMap.get("Angle") != null && this.getAngle().length()>0) {
+				sb.append("\n<b>Angle</b> ");
+				sb.append(this.getAngle());
+			}
+			if(includeMap.get("Iris") != null && this.getIris().length()>0) {
+				sb.append("\n<b>Iris</b> ");
+				sb.append(this.getIris());
+			}
+			if(includeMap.get("Lens") != null && this.getLens().length()>0) {
+				sb.append("\n<b>Lens</b> ");
 				sb.append(this.getLens());
 			}
 		}else{
+			if(includeMap.get("Cornea") != null && this.getCornea().length()>0) {
+				sb.append("Cornea ");
+				sb.append(this.getCornea());
+			}
 			if(includeMap.get("Conjunctiva/Sclera") != null && this.getConjuctivaSclera().length()>0) {
 				sb.append("Conjunctiva/Sclera ");
 				sb.append(this.getConjuctivaSclera());
@@ -532,28 +652,53 @@ public class MeasurementFormatter {
 	
 	public String getPosteriorSegment(Map<String,Boolean> includeMap) {
 		StringBuilder sb = new StringBuilder();
-		if(includeMap.get("Optic disc") != null && this.getDisc().length()>0) {
-			sb.append("Optic disc ");
-			sb.append(this.getDisc());
-		}
-		if("eyeform3.2".equals(eyeform)){
+		if("eyeform3".equals(eyeform) || "eyeform3.1".equals(eyeform)){
+			if(includeMap.get("Optic disc") != null && this.getDisc().length()>0) {
+				sb.append("<b>Optic disc</b> ");
+				sb.append(this.getDisc());
+			}
 			if(includeMap.get("C/D ratio") != null && this.getCdRatio().length()>0) {
-				sb.append("\nC/D ratio ");
+				sb.append("<b>C/D ratio</b> ");
 				sb.append(this.getCdRatio());
 			}	
 			if(includeMap.get("Macula") != null && this.getMacula().length()>0) {
-				sb.append("\nMacula ");
+				sb.append("<b>Macula</b> ");
 				sb.append(this.getMacula());
 			}	
 			if(includeMap.get("Retina") != null && this.getRetina().length()>0) {
-				sb.append("\nRetina ");
+				sb.append("<b>Retina</b> ");
 				sb.append(this.getRetina());
 			}	
 			if(includeMap.get("Vitreous") != null && this.getVitreous().length()>0) {
-				sb.append("\nVitreous ");
+				sb.append("<b>Vitreous</b> ");
+				sb.append(this.getVitreous());
+			}
+		}else if("eyeform3.2".equals(eyeform)){
+			if(includeMap.get("Optic disc") != null && this.getDisc().length()>0) {
+				sb.append("<b>Optic disc</b> ");
+				sb.append(this.getDisc());
+			}
+			if(includeMap.get("C/D ratio") != null && this.getCdRatio().length()>0) {
+				sb.append("\n<b>C/D ratio</b> ");
+				sb.append(this.getCdRatio());
+			}	
+			if(includeMap.get("Macula") != null && this.getMacula().length()>0) {
+				sb.append("\n<b>Macula</b> ");
+				sb.append(this.getMacula());
+			}	
+			if(includeMap.get("Retina") != null && this.getRetina().length()>0) {
+				sb.append("\n<b>Retina</b> ");
+				sb.append(this.getRetina());
+			}	
+			if(includeMap.get("Vitreous") != null && this.getVitreous().length()>0) {
+				sb.append("\n<b>Vitreous</b> ");
 				sb.append(this.getVitreous());
 			}
 		}else{
+			if(includeMap.get("Optic disc") != null && this.getDisc().length()>0) {
+				sb.append("Optic disc ");
+				sb.append(this.getDisc());
+			}
 			if(includeMap.get("C/D ratio") != null && this.getCdRatio().length()>0) {
 				sb.append("C/D ratio ");
 				sb.append(this.getCdRatio());
@@ -579,11 +724,11 @@ public class MeasurementFormatter {
 	
 	public String getExternalOrbit(Map<String,Boolean> includeMap) {
 		StringBuilder sb = new StringBuilder();
-		if(includeMap.get("Face") != null && this.getFace().length()>0) {
-			sb.append("Face ");
-			sb.append(this.getFace());
-		}
 		if((!"eyeform3".equals(eyeform)) && (!"eyeform3.1".equals(eyeform)) && (!"eyeform3.2".equals(eyeform))){
+			if(includeMap.get("Face") != null && this.getFace().length()>0) {
+				sb.append("Face ");
+				sb.append(this.getFace());
+			}
 			if(includeMap.get("Upper lid") != null && this.getUpperLid().length()>0) {
 				sb.append("Upper lid ");
 				sb.append(this.getUpperLid());
@@ -600,31 +745,30 @@ public class MeasurementFormatter {
 				sb.append("Lacrimal lake ");
 				sb.append(this.getLacrimalLake());
 			}
-		}else if("eyeform3".equals(eyeform)){
+		}else if("eyeform3".equals(eyeform) || "eyeform3.1".equals(eyeform)){
+			if(includeMap.get("Face") != null && this.getFace().length()>0) {
+				sb.append("<b>Face</b> ");
+				sb.append(this.getFace());
+			}
 			if(includeMap.get("Retropulsion") != null && this.getRetropulsion().length()>0) {
-				sb.append("Retropulsion ");
+				sb.append("<b>Retropulsion</b> ");
 				sb.append(this.getRetropulsion());
 			}
 			if(includeMap.get("Hertel") != null && this.getHertel().length()>0) {
-				sb.append("Hertel ");
+				sb.append("<b>Hertel</b> ");
 				sb.append(this.getHertel());
 			}
 		}else if("eyeform3.2".equals(eyeform)){
+			if(includeMap.get("Face") != null && this.getFace().length()>0) {
+				sb.append("<b>Face</b> ");
+				sb.append(this.getFace());
+			}
 			if(includeMap.get("Retropulsion") != null && this.getRetropulsion().length()>0) {
-				sb.append("\nRetropulsion ");
+				sb.append("\n<b>Retropulsion</b> ");
 				sb.append(this.getRetropulsion());
 			}
 			if(includeMap.get("Hertel") != null && this.getHertel().length()>0) {
-				sb.append("\nHertel ");
-				sb.append(this.getHertel());
-			}
-		}else{
-			if(includeMap.get("Retropulsion") != null && this.getRetropulsion().length()>0) {
-				sb.append("Retropulsion ");
-				sb.append(this.getRetropulsion());
-			}
-			if(includeMap.get("Hertel") != null && this.getHertel().length()>0) {
-				sb.append("Hertel ");
+				sb.append("\n<b>Hertel</b> ");
 				sb.append(this.getHertel());
 			}
 		}
@@ -638,57 +782,57 @@ public class MeasurementFormatter {
 	public String getEyelidDuct(Map<String,Boolean> includeMap){ 
 		StringBuilder sb = new StringBuilder();
 		if(includeMap.get("Upper lid") != null && this.getUpperLid().length()>0) {
-			sb.append("Upper lid ");
+			sb.append("<b>Upper lid</b> ");
 			sb.append(this.getUpperLid());
 		}
 		if("eyeform3.2".equals(eyeform)){
 			if(includeMap.get("Lower lid") != null && this.getLowerLid().length()>0) {
-				sb.append("\nLower lid ");
+				sb.append("\n<b>Lower lid</b> ");
 				sb.append(this.getLowerLid());
 			}
 			if(includeMap.get("Lacrimal lake") != null && this.getLacrimalLake().length()>0) {
-				sb.append("\nLacrimal lake ");
+				sb.append("\n<b>Lacrimal lake</b> ");
 				sb.append(this.getLacrimalLake());
 			}
 			if(includeMap.get("Lacrimal irrigation") != null && this.getLacrimalIrrigation().length()>0) {
-				sb.append("\nLacrimal irrigation ");
+				sb.append("\n<b>Lacrimal irrigation</b> ");
 				sb.append(this.getLacrimalIrrigation());
 			}
 			if(includeMap.get("Punctum") != null && this.getPunctum().length()>0) {
-				sb.append("\nPunctum ");
+				sb.append("\n<b>Punctum</b> ");
 				sb.append(this.getPunctum());
 			}
 			if(includeMap.get("Nasolacrimal duct") != null && this.getNLD().length()>0) {
-				sb.append("\nNasolacrimal duct ");
+				sb.append("\n<b>Nasolacrimal duct</b> ");
 				sb.append(this.getNLD());
 			}
 			if(includeMap.get("Dye disappearance") != null && this.getDyeDisappearance().length()>0) {
-				sb.append("\nDye disappearance ");
+				sb.append("\n<b>Dye disappearance</b> ");
 				sb.append(this.getDyeDisappearance());
 			}
 		}else{
 			if(includeMap.get("Lower lid") != null && this.getLowerLid().length()>0) {
-				sb.append("Lower lid ");
+				sb.append("<b>Lower lid</b> ");
 				sb.append(this.getLowerLid());
 			}
 			if(includeMap.get("Lacrimal lake") != null && this.getLacrimalLake().length()>0) {
-				sb.append("Lacrimal lake ");
+				sb.append("<b>Lacrimal lake</b> ");
 				sb.append(this.getLacrimalLake());
 			}
 			if(includeMap.get("Lacrimal irrigation") != null && this.getLacrimalIrrigation().length()>0) {
-				sb.append("Lacrimal irrigation ");
+				sb.append("<b>Lacrimal irrigation</b> ");
 				sb.append(this.getLacrimalIrrigation());
 			}
 			if(includeMap.get("Punctum") != null && this.getPunctum().length()>0) {
-				sb.append("Punctum ");
+				sb.append("<b>Punctum</b> ");
 				sb.append(this.getPunctum());
 			}
 			if(includeMap.get("Nasolacrimal duct") != null && this.getNLD().length()>0) {
-				sb.append("Nasolacrimal duct ");
+				sb.append("<b>Nasolacrimal duct</b> ");
 				sb.append(this.getNLD());
 			}
 			if(includeMap.get("Dye disappearance") != null && this.getDyeDisappearance().length()>0) {
-				sb.append("Dye disappearance ");
+				sb.append("<b>Dye disappearance</b> ");
 				sb.append(this.getDyeDisappearance());
 			}
 		}
@@ -721,32 +865,77 @@ public class MeasurementFormatter {
 	
 	public String getEyelidMeasurement(Map<String,Boolean> includeMap) {
 		StringBuilder sb = new StringBuilder();
-		if(includeMap.get("Margin reflex distance") != null && this.getMarginReflexDistance().length()>0) {
-			sb.append("Margin reflex distance ");
-			sb.append(this.getMarginReflexDistance());
-		}
-		if("eyeform3.2".equals(eyeform)){
+		if("eyeform3".equals(eyeform) || "eyeform3.1".equals(eyeform)){
+			if(includeMap.get("Margin reflex distance") != null && this.getMarginReflexDistance().length()>0) {
+				sb.append("<b>Margin reflex distance</b> ");
+				sb.append(this.getMarginReflexDistance());
+			}
 			if(includeMap.get("Levator function") != null && this.getLevatorFunction().length()>0) {
-				sb.append("\nLevator function ");
+				sb.append("<b>Levator function</b> ");
 				sb.append(this.getLevatorFunction());
 			}
 			if(includeMap.get("Inferior scleral show") != null && this.getInferiorScleralShow().length()>0) {
-				sb.append("\nInferior scleral show ");
+				sb.append("<b>Inferior scleral show</b> ");
 				sb.append(this.getInferiorScleralShow());
 			}
 			if(includeMap.get("Lagophthalmos") != null && this.getLagophthalmos().length()>0) {
-				sb.append("\nLagophthalmos ");
+				sb.append("<b>Lagophthalmos</b> ");
 				sb.append(this.getLagophthalmos());
 			}
 			if(includeMap.get("Blink reflex") != null && this.getBlink().length()>0) {
-				sb.append("\nBlink reflex ");
+				sb.append("<b>Blink reflex</b> ");
 				sb.append(this.getBlink());
 			}
 			if(includeMap.get("Cranial Nerve VII function") != null && this.getCNVii().length()>0) {
-				sb.append("\nCranial nerve VII function ");
+				sb.append("<b>Cranial nerve VII function</b> ");
 				sb.append(this.getCNVii());
 			}
+			if(includeMap.get("Bells phenomenon") != null && this.getBells().length()>0) {
+				sb.append("<b>Bell's phenomenon</b> ");
+				sb.append(this.getBells());
+			}
+			if(includeMap.get("Schirmer test") != null && this.getSchirmertest().length()>0) {
+				sb.append("<b>Schirmer test</b> ");
+				sb.append(this.getSchirmertest());
+			}
+		}else if("eyeform3.2".equals(eyeform)){
+			if(includeMap.get("Margin reflex distance") != null && this.getMarginReflexDistance().length()>0) {
+				sb.append("<b>Margin reflex distance</b> ");
+				sb.append(this.getMarginReflexDistance());
+			}
+			if(includeMap.get("Levator function") != null && this.getLevatorFunction().length()>0) {
+				sb.append("\n<b>Levator function</b> ");
+				sb.append(this.getLevatorFunction());
+			}
+			if(includeMap.get("Inferior scleral show") != null && this.getInferiorScleralShow().length()>0) {
+				sb.append("\n<b>Inferior scleral show</b> ");
+				sb.append(this.getInferiorScleralShow());
+			}
+			if(includeMap.get("Lagophthalmos") != null && this.getLagophthalmos().length()>0) {
+				sb.append("\n<b>Lagophthalmos</b> ");
+				sb.append(this.getLagophthalmos());
+			}
+			if(includeMap.get("Blink reflex") != null && this.getBlink().length()>0) {
+				sb.append("\n<b>Blink reflex</b> ");
+				sb.append(this.getBlink());
+			}
+			if(includeMap.get("Cranial Nerve VII function") != null && this.getCNVii().length()>0) {
+				sb.append("\n<b>Cranial nerve VII function</b> ");
+				sb.append(this.getCNVii());
+			}
+			if(includeMap.get("Bells phenomenon") != null && this.getBells().length()>0) {
+				sb.append("\n<b>Bell's phenomenon</b> ");
+				sb.append(this.getBells());
+			}
+			if(includeMap.get("Schirmer test") != null && this.getSchirmertest().length()>0) {
+				sb.append("\n<b>Schirmer test</b> ");
+				sb.append(this.getSchirmertest());
+			}
 		}else{
+			if(includeMap.get("Margin reflex distance") != null && this.getMarginReflexDistance().length()>0) {
+				sb.append("Margin reflex distance ");
+				sb.append(this.getMarginReflexDistance());
+			}
 			if(includeMap.get("Levator function") != null && this.getLevatorFunction().length()>0) {
 				sb.append("Levator function ");
 				sb.append(this.getLevatorFunction());
@@ -767,26 +956,6 @@ public class MeasurementFormatter {
 				sb.append("Cranial nerve VII function ");
 				sb.append(this.getCNVii());
 			}
-		}
-		if("eyeform3".equals(eyeform)){
-			if(includeMap.get("Bells phenomenon") != null && this.getBells().length()>0) {
-				sb.append("Bell's phenomenon ");
-				sb.append(this.getBells());
-			}
-			if(includeMap.get("Schirmer test") != null && this.getSchirmertest().length()>0) {
-				sb.append("Schirmer test ");
-				sb.append(this.getSchirmertest());
-			}
-		}else if("eyeform3.2".equals(eyeform)){
-			if(includeMap.get("Bells phenomenon") != null && this.getBells().length()>0) {
-				sb.append("\nBell's phenomenon ");
-				sb.append(this.getBells());
-			}
-			if(includeMap.get("Schirmer test") != null && this.getSchirmertest().length()>0) {
-				sb.append("\nSchirmer test ");
-				sb.append(this.getSchirmertest());
-			}
-		}else{
 			if(includeMap.get("Bells phenomenon") != null && this.getBells().length()>0) {
 				sb.append("Bell's phenomenon ");
 				sb.append(this.getBells());
@@ -910,7 +1079,7 @@ public class MeasurementFormatter {
 		SpecsHistoryDao dao = (SpecsHistoryDao)SpringUtils.getBean("SpecsHistoryDAO");
 		List<EyeformSpecsHistory> specs = dao.getByAppointmentNo(app_no);
 		for(EyeformSpecsHistory spec:specs){
-			sb.append("\nGlasses Rx ");
+			sb.append("\n<b>Glasses Rx</b> ");
 			StringBuilder sb1 = new StringBuilder();
 			if(spec.getOdSph() != null){
 				if(spec.getOdSph().length() > 0){
@@ -972,7 +1141,10 @@ public class MeasurementFormatter {
 			if(sb2.length() > 0){
 				sb2.append("; ");
 				if("eyeform3.2".equals(eyeform)){
-					sb.append("\n           ");
+					sb.append("\n");
+					for(int i = 0; i < "Glasses Rx ".length(); i ++){
+						sb.append(" ");
+					}
 				}
 				sb2.insert(0, "OS ");
 				sb.append(sb2);
@@ -982,7 +1154,10 @@ public class MeasurementFormatter {
 			if(spec.getDateStr() != null){
 				if(spec.getDateStr().length() > 0){
 					if("eyeform3.2".equals(eyeform)){
-						sb.append("\n           ");
+						sb.append("\n");
+						for(int i = 0; i < "Glasses Rx ".length(); i ++){
+							sb.append(" ");
+						}
 					}
 					sb.append("date ");
 					sb.append(spec.getDateStr());
@@ -993,7 +1168,11 @@ public class MeasurementFormatter {
 			if(spec.getNote() != null){
 				if(spec.getNote().length() > 0){
 					if("eyeform3.2".equals(eyeform)){
-						sb.append("\n           note ");
+						sb.append("\n");
+						for(int i = 0; i < "Glasses Rx ".length(); i ++){
+							sb.append(" ");
+						}
+						sb.append("note ");
 						sb.append(spec.getNote());
 						sb.append(".");
 					}else{
@@ -1148,12 +1327,20 @@ public class MeasurementFormatter {
 		}
 		if("eyeform3.2".equals(eyeform)){
 			if(isPresent("v_ldsc")){
-				sb.append("\n                     OS ");
+				sb.append("\n");
+				for(int i = 0; i < "Distance vision (sc) ".length(); i ++){
+					sb.append(" ");
+				}
+				sb.append("OS ");
 				sb.append(getValue("v_ldsc"));
 				sb.append("; ");
 			}
 			if(isPresent("v_dsc")){
-				sb.append("\n                     OU ");
+				sb.append("\n");
+				for(int i = 0; i < "Distance vision (sc) ".length(); i ++){
+					sb.append(" ");
+				}
+				sb.append("OU ");
 				sb.append(getValue("v_dsc"));
 				sb.append(". ");
 			}
@@ -1180,12 +1367,20 @@ public class MeasurementFormatter {
 		}
 		if("eyeform3.2".equals(eyeform)){
 			if(isPresent("v_ldcc")){			
-				sb.append("\n                     OS ");
+				sb.append("\n");
+				for(int i = 0; i < "Distance vision (cc) ".length(); i ++){
+					sb.append(" ");
+				}
+				sb.append("OS ");
 				sb.append(getValue("v_ldcc"));
 				sb.append("; ");
 			}
 			if(isPresent("v_dcc")){
-				sb.append("\n                     OU ");
+				sb.append("\n");
+				for(int i = 0; i < "Distance vision (cc) ".length(); i ++){
+					sb.append(" ");
+				}
+				sb.append("OU ");
 				sb.append(getValue("v_dcc"));
 				sb.append(". ");
 			}
@@ -1212,7 +1407,11 @@ public class MeasurementFormatter {
 		}
 		if("eyeform3.2".equals(eyeform)){
 			if(isPresent("v_lph")){
-				sb.append("\n                     OS ");
+				sb.append("\n");
+				for(int i = 0; i < "Distance vision (ph) ".length(); i ++){
+					sb.append(" ");
+				}
+				sb.append("OS ");
 				sb.append(getValue("v_lph"));
 				sb.append(". ");
 			}
@@ -1234,12 +1433,20 @@ public class MeasurementFormatter {
 		}
 		if("eyeform3.2".equals(eyeform)){
 			if(isPresent("v_lisc")){
-				sb.append("\n                         OS ");
+				sb.append("\n");
+				for(int i = 0; i < "Intermediate vision (sc) ".length(); i ++){
+					sb.append(" ");
+				}
+				sb.append("OS ");
 				sb.append(getValue("v_lisc"));
 				sb.append("; ");
 			}
 			if(isPresent("v_isc")){
-				sb.append("\n                         OU ");
+				sb.append("\n");
+				for(int i = 0; i < "Intermediate vision (sc) ".length(); i ++){
+					sb.append(" ");
+				}
+				sb.append("OU ");
 				sb.append(getValue("v_isc"));
 				sb.append(". ");
 			}
@@ -1266,12 +1473,20 @@ public class MeasurementFormatter {
 		}
 		if("eyeform3.2".equals(eyeform)){
 			if(isPresent("v_licc")){
-				sb.append("\n                         OS ");
+				sb.append("\n");
+				for(int i = 0; i < "Intermediate vision (cc) ".length(); i ++){
+					sb.append(" ");
+				}
+				sb.append("OS ");
 				sb.append(getValue("v_licc"));
 				sb.append("; ");
 			}
 			if(isPresent("v_icc")){
-				sb.append("\n                         OU ");
+				sb.append("\n");
+				for(int i = 0; i < "Intermediate vision (cc) ".length(); i ++){
+					sb.append(" ");
+				}
+				sb.append("OU ");
 				sb.append(getValue("v_icc"));
 				sb.append(". ");
 			}
@@ -1298,12 +1513,20 @@ public class MeasurementFormatter {
 		}
 		if("eyeform3.2".equals(eyeform)){
 			if(isPresent("v_lnsc")){
-				sb.append("\n                 OS ");
+				sb.append("\n");
+				for(int i = 0; i < "Near vision (sc) ".length(); i ++){
+					sb.append(" ");
+				}
+				sb.append("OS ");
 				sb.append(getValue("v_lnsc"));
 				sb.append("; ");
 			}
 			if(isPresent("v_nsc")){
-				sb.append("\n                 OU ");
+				sb.append("\n");
+				for(int i = 0; i < "Near vision (sc) ".length(); i ++){
+					sb.append(" ");
+				}
+				sb.append("OU ");
 				sb.append(getValue("v_nsc"));
 				sb.append(". ");
 			}
@@ -1330,12 +1553,20 @@ public class MeasurementFormatter {
 		}
 		if("eyeform3.2".equals(eyeform)){
 			if(isPresent("v_lncc")){
-				sb.append("\n                 OS ");
+				sb.append("\n");
+				for(int i = 0; i < "Near vision (cc) ".length(); i ++){
+					sb.append(" ");
+				}
+				sb.append("OS ");
 				sb.append(getValue("v_lncc"));
 				sb.append("; ");
 			}
 			if(isPresent("v_ncc")){
-				sb.append("\n                 OU ");
+				sb.append("\n");
+				for(int i = 0; i < "Near vision (cc) ".length(); i ++){
+					sb.append(" ");
+				}
+				sb.append("OU ");
 				sb.append(getValue("v_ncc"));
 				sb.append(". ");
 			}
@@ -2222,7 +2453,354 @@ public class MeasurementFormatter {
 	
 	public String getDuction(){
 		StringBuilder sb = new StringBuilder();
+		int num = 0;
+		int num1= 0;
+		int num2 = 0;
 		if(isPresent("duc_rur")) {
+			if(num < getValue("duc_rur").length()){
+				num = getValue("duc_rur").length();
+			}
+		}
+		if(isPresent("duc_rul")) {
+			if(num < getValue("duc_rul").length()){
+				num = getValue("duc_rul").length();
+			}
+		}
+		if(isPresent("duc_rr")) {
+			if(num < getValue("duc_rr").length()){
+				num = getValue("duc_rr").length();
+			}
+		}
+		if(isPresent("duc_rl")) {
+			if(num < getValue("duc_rl").length()){
+				num = getValue("duc_rl").length();
+			}
+		}
+		if(isPresent("duc_rdr")) {
+			if(num < getValue("duc_rdr").length()){
+				num = getValue("duc_rdr").length();
+			}
+		}
+		if(isPresent("duc_rdl")) {
+			if(num < getValue("duc_rdl").length()){
+				num = getValue("duc_rdl").length();
+			}
+		}
+		
+		if(isPresent("duc_lur")) {
+			if(num1 < getValue("duc_lur").length()){
+				num1 = getValue("duc_lur").length();
+			}
+		}
+		if(isPresent("duc_lul")) {
+			if(num1 < getValue("duc_lul").length()){
+				num1 = getValue("duc_lul").length();
+			}
+		}
+		if(isPresent("duc_lr")) {
+			if(num1 < getValue("duc_lr").length()){
+				num1 = getValue("duc_lr").length();
+			}
+		}
+		if(isPresent("duc_ll")) {
+			if(num1 < getValue("duc_ll").length()){
+				num1 = getValue("duc_ll").length();
+			}
+		}
+		if(isPresent("duc_ldr")) {
+			if(num1 < getValue("duc_ldr").length()){
+				num1 = getValue("duc_ldr").length();
+			}
+		}
+		if(isPresent("duc_ldl")) {
+			if(num1 < getValue("duc_ldl").length()){
+				num1 = getValue("duc_ldl").length();
+			}
+		}
+		
+		if(isPresent("dip_ur")) {
+			if(num2 < getValue("dip_ur").length()){
+				num2 = getValue("dip_ur").length();
+			}
+		}
+		if(isPresent("dip_u")) {
+			if(num2 < getValue("dip_u").length()){
+				num2 = getValue("dip_u").length();
+			}
+		}
+		if(isPresent("dip_r")) {
+			if(num2 < getValue("dip_r").length()){
+				num2 = getValue("dip_r").length();
+			}
+		}
+		if(isPresent("dip_p")) {
+			if(num2 < getValue("dip_p").length()){
+				num2 = getValue("dip_p").length();
+			}
+		}
+		if(isPresent("dip_dr")) {
+			if(num2 < getValue("dip_dr").length()){
+				num2 = getValue("dip_dr").length();
+			}
+		}
+		if(isPresent("dip_d")) {
+			if(num2 < getValue("dip_d").length()){
+				num2 = getValue("dip_d").length();
+			}
+		}
+		
+		
+		sb.append("OD ");
+		if(isPresent("duc_rur")) {
+			sb.append(getValue("duc_rur"));
+			if(getValue("duc_rur").length() < num){
+				int n = num - getValue("duc_rur").length();
+				for(int i = 0;i < n;i ++){
+					sb.append(" ");
+				}
+			}
+		}else{
+			for(int i = 0;i < num;i ++){
+				sb.append(" ");
+			}
+		}
+		if(isPresent("duc_rul")) {
+			sb.append(" " +getValue("duc_rul"));
+			if(getValue("duc_rul").length() < num){
+				int n = num - getValue("duc_rul").length();
+				for(int i = 0;i < n;i ++){
+					sb.append(" ");
+				}
+			}
+		}else{
+			for(int i = 0;i < num;i ++){
+				sb.append(" ");
+			}
+		}
+		sb.append(" OS ");
+		if(isPresent("duc_lur")) {
+			sb.append(getValue("duc_lur"));
+			if(getValue("duc_lur").length() < num){
+				int n = num1 - getValue("duc_lur").length();
+				for(int i = 0;i < n;i ++){
+					sb.append(" ");
+				}
+			}
+		}else{
+			for(int i = 0;i < num1;i ++){
+				sb.append(" ");
+			}
+		}
+		if(isPresent("duc_lul")) {
+			sb.append(" " +getValue("duc_lul"));
+			if(getValue("duc_lul").length() < num){
+				int n = num1 - getValue("duc_lul").length();
+				for(int i = 0;i < n;i ++){
+					sb.append(" ");
+				}
+			}
+		}else{
+			for(int i = 0;i < num1;i ++){
+				sb.append(" ");
+			}
+		}
+		sb.append(" OU ");
+		if(isPresent("dip_ur")) {
+			sb.append(getValue("dip_ur"));
+			if(getValue("dip_ur").length() < num){
+				int n = num2 - getValue("dip_ur").length();
+				for(int i = 0;i < n;i ++){
+					sb.append(" ");
+				}
+			}
+		}else{
+			for(int i = 0;i < num2;i ++){
+				sb.append(" ");
+			}
+		}
+		if(isPresent("dip_u")) {
+			sb.append(" " +getValue("dip_u"));
+			if(getValue("dip_u").length() < num){
+				int n = num2 - getValue("dip_u").length();
+				for(int i = 0;i < n;i ++){
+					sb.append(" ");
+				}
+			}
+		}else{
+			for(int i = 0;i < num2;i ++){
+				sb.append(" ");
+			}
+		}
+		sb.append("\n");
+		
+		sb.append("  ");
+		if(isPresent("duc_rr")) {
+			sb.append(" " +getValue("duc_rr"));	
+			if(getValue("duc_rr").length() < num){
+				int n = num - getValue("duc_rr").length();
+				for(int i = 0;i < n;i ++){
+					sb.append(" ");
+				}
+			}
+		}else{
+			for(int i = 0;i < num;i ++){
+				sb.append(" ");
+			}
+		}
+		if(isPresent("duc_rl")) {
+			sb.append(" " +getValue("duc_rl"));
+			if(getValue("duc_rl").length() < num){
+				int n = num - getValue("duc_rl").length();
+				for(int i = 0;i < n;i ++){
+					sb.append(" ");
+				}
+			}
+		}else{
+			for(int i = 0;i < num;i ++){
+				sb.append(" ");
+			}
+		}
+		sb.append("   ");
+		if(isPresent("duc_lr")) {
+			sb.append(" " +getValue("duc_lr"));
+			if(getValue("duc_lr").length() < num){
+				int n = num1 - getValue("duc_lr").length();
+				for(int i = 0;i < n;i ++){
+					sb.append(" ");
+				}
+			}
+		}else{
+			for(int i = 0;i < num1;i ++){
+				sb.append(" ");
+			}
+		}
+		if(isPresent("duc_ll")) {
+			sb.append(" " +getValue("duc_ll"));
+			if(getValue("duc_ll").length() < num){
+				int n = num1 - getValue("duc_ll").length();
+				for(int i = 0;i < n;i ++){
+					sb.append(" ");
+				}
+			}
+		}else{
+			for(int i = 0;i < num1;i ++){
+				sb.append(" ");
+			}
+		}
+		sb.append("   ");
+		if(isPresent("dip_r")) {
+			sb.append(" " +getValue("dip_r"));
+			if(getValue("dip_r").length() < num){
+				int n = num2 - getValue("dip_r").length();
+				for(int i = 0;i < n;i ++){
+					sb.append(" ");
+				}
+			}
+		}else{
+			for(int i = 0;i < num2;i ++){
+				sb.append(" ");
+			}
+		}
+		if(isPresent("dip_p")) {
+			sb.append(" " +getValue("dip_p"));
+			if(getValue("dip_p").length() < num){
+				int n = num2 - getValue("dip_p").length();
+				for(int i = 0;i < n;i ++){
+					sb.append(" ");
+				}
+			}
+		}else{
+			for(int i = 0;i < num1;i ++){
+				sb.append(" ");
+			}
+		}
+		sb.append("\n");
+		
+		sb.append("  ");
+		if(isPresent("duc_rdr")) {
+			sb.append(" " +getValue("duc_rdr"));
+			if(getValue("duc_rdr").length() < num){
+				int n = num - getValue("duc_rdr").length();
+				for(int i = 0;i < n;i ++){
+					sb.append(" ");
+				}
+			}
+		}else{
+			for(int i = 0;i < num;i ++){
+				sb.append(" ");
+			}
+		}
+		if(isPresent("duc_rdl")) {
+			sb.append(" " +getValue("duc_rdl"));
+			if(getValue("duc_rdl").length() < num){
+				int n = num - getValue("duc_rdl").length();
+				for(int i = 0;i < n;i ++){
+					sb.append(" ");
+				}
+			}
+		}else{
+			for(int i = 0;i < num;i ++){
+				sb.append(" ");
+			}
+		}
+		sb.append("   ");
+		if(isPresent("duc_ldr")) {
+			sb.append(" " +getValue("duc_ldr"));
+			if(getValue("duc_ldr").length() < num){
+				int n = num1 - getValue("duc_ldr").length();
+				for(int i = 0;i < n;i ++){
+					sb.append(" ");
+				}
+			}
+		}else{
+			for(int i = 0;i < num1;i ++){
+				sb.append(" ");
+			}
+		}
+		if(isPresent("duc_ldl")) {
+			sb.append(" " +getValue("duc_ldl"));
+			if(getValue("duc_ldl").length() < num){
+				int n = num1 - getValue("duc_ldl").length();
+				for(int i = 0;i < n;i ++){
+					sb.append(" ");
+				}
+			}
+		}else{
+			for(int i = 0;i < num1;i ++){
+				sb.append(" ");
+			}
+		}
+		sb.append("   ");
+		if(isPresent("dip_dr")) {
+			sb.append(" " +getValue("dip_dr"));
+			if(getValue("dip_dr").length() < num){
+				int n = num2 - getValue("dip_dr").length();
+				for(int i = 0;i < n;i ++){
+					sb.append(" ");
+				}
+			}
+		}else{
+			for(int i = 0;i < num2;i ++){
+				sb.append(" ");
+			}
+		}
+		if(isPresent("dip_d")) {
+			sb.append(" " +getValue("dip_d"));
+			if(getValue("dip_d").length() < num){
+				int n = num2 - getValue("dip_d").length();
+				for(int i = 0;i < n;i ++){
+					sb.append(" ");
+				}
+			}
+		}else{
+			for(int i = 0;i < num2;i ++){
+				sb.append(" ");
+			}
+		}
+		sb.append("\n");
+		
+		
+		/*if(isPresent("duc_rur")) {
 			sb.append(getValue("duc_rur"));
 		}
 		if(isPresent("duc_rul")) {
@@ -2244,7 +2822,6 @@ public class MeasurementFormatter {
 			sb.insert(0, "OD ");
 			sb.append(". ");	
 		}
-		
 		StringBuilder sb1 = new StringBuilder();
 		if(isPresent("duc_lur")) {
 			sb1.append(getValue("duc_lur"));
@@ -2276,8 +2853,7 @@ public class MeasurementFormatter {
 				sb1.append(". ");	
 				sb.append(sb1);
 			}
-		}
-		
+		} 
 		StringBuilder sb2 = new StringBuilder();
 		if(isPresent("dip_ur")) {
 			sb2.append(getValue("dip_ur"));
@@ -2318,7 +2894,7 @@ public class MeasurementFormatter {
 				sb2.append(". ");	
 				sb.append(sb2);
 			}
-		}
+		}*/
 		return sb.toString();
 	}
 	

@@ -177,17 +177,34 @@ public class ExaminationHistoryAction extends DispatchAction {
 		endDate = cal.getTime();
 		
 		SpecsHistoryDao dao = (SpecsHistoryDao)SpringUtils.getBean("SpecsHistoryDAO");
-		if((!"eyeform3".equals(eyeform)) && (!"eyeform3.1".equals(eyeform)) && (!"eyeform3.2".equals(eyeform))){
+		//if((!"eyeform3".equals(eyeform)) && (!"eyeform3.1".equals(eyeform)) && (!"eyeform3.2".equals(eyeform))){
 
 			//simple fields
 			//exclude complex ones ar,k,manifest_refraction,cycloplegic_refraction, angle, EOM
 			List<String> simpleFieldNames = new ArrayList<String>();
-			for(String f:fieldList) {
-				if(f.equals("ar")||f.equals("k")||f.equals("manifest_refraction")||f.equals("cycloplegic_refraction")||f.equals("angle")||f.equals("EOM")) {
-					continue;
+			if((!"eyeform3".equals(eyeform)) && (!"eyeform3.1".equals(eyeform)) && (!"eyeform3.2".equals(eyeform))){
+				for(String f:fieldList) {
+					if(f.equals("ar")||f.equals("k")||f.equals("manifest_refraction")||f.equals("cycloplegic_refraction")||f.equals("angle")||f.equals("EOM")) {
+						continue;
+					}
+					simpleFieldNames.add("od_"+f);
+					simpleFieldNames.add("os_"+f);
 				}
-				simpleFieldNames.add("od_"+f);
-				simpleFieldNames.add("os_"+f);
+			}else{
+				String[] fields_type = {"v_rdsc","v_ldsc","v_dsc","v_rdcc","v_ldcc","v_dcc","v_rph","v_lph","v_risc","v_lisc","v_isc","v_ricc","v_licc","v_icc","v_rnsc","v_lnsc","v_nsc","v_rncc","v_lncc","v_ncc",
+						"v_fly","v_stereo","v_rk1","v_rk2","v_rkx","v_lk1","v_lk2","v_lkx","v_rs","v_rc","v_rx","v_rar","v_ls","v_lar","v_rds","v_rdc","v_rdx","v_rdv","v_lds","v_ldc","v_ldx","v_ldv","v_dv","v_rns","v_rnc","v_rnx","v_rnv","v_lns","v_lnc","v_lnx","v_lnv","v_nv","v_rcs","v_rcc","v_rcx","v_rcv","v_lcs","v_lcc","v_lcx","v_lcv",
+						"iop_rn","iop_ln","iop_ra","iop_la","cct_r","cct_l","ref_rpdim","ref_lpdim","ref_rkappa","ref_lkappa",
+						"o_rcolour","o_lcolour","o_rpupil","o_lpupil","o_ramsler","o_lamsler","o_rpam","o_lpam","o_rconf","o_lconf","o_mad","o_bag","o_w4dd","o_w4dn",
+						"duc_rur","duc_rul","duc_lur","duc_lul","dip_ur","dip_u","duc_rr","duc_rl","duc_lr","duc_ll","dip_r","dip_p","duc_rdr","duc_rdl","duc_ldr","duc_ldl","dip_dr","dip_d",
+						"dev_p","dev_u","dev_d","dev_r","dev_l","dev_rt","dev_near","dev_plus3","dev_far","ext_rface","ext_lface","ext_rretro","ext_lretro","ext_rhertel","ext_lhertel",
+						"ext_rul","ext_lul","ext_rll","ext_lll","ext_rlake","ext_llake","ext_rirrig","ext_lirrig","ext_rpunc","ext_lpunc","ext_rnld","ext_lnld","ext_rdye","ext_ldye",
+						"lid_rmrd","lid_lmrd","lid_riss","lid_liss","lid_rlev","lid_llev","lid_rlag","lid_llag","lid_rblink","lid_lblink","lid_rcn7","lid_lcn7","lid_rbell","lid_lbell","lid_rschirm","lid_lschirm",
+						"a_rk","a_lk","a_rconj","a_lconj","a_rac","a_lac","a_rangle_1","a_rangle_2","a_rangle_3","a_rangle_4","a_rangle_5","a_langle_1","a_langle_2","a_langle_3","a_langle_4","a_langle_5","a_riris","a_liris","a_rlens","a_llens",
+						"p_rdisc","p_ldisc","p_rcd","p_lcd","p_rmac","p_lmac","p_rret","p_lret","p_rvit","p_lvit",
+						};
+				for(String f:fields_type){
+					simpleFieldNames.add(f);
+				}
 			}
 			
 			//lets get all the appointments that these fields link to
@@ -213,7 +230,7 @@ public class ExaminationHistoryAction extends DispatchAction {
 			request.setAttribute("appointments", appointments);
 			if(refPage == null || refPage=="") { refPage="1";}
 			request.setAttribute("refPage", Integer.parseInt(refPage));
-	    }
+	    //}
 		
 		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 			if(fieldList.contains("Glasses Rx")){
@@ -501,11 +518,15 @@ public class ExaminationHistoryAction extends DispatchAction {
 					if(m!=null){map.put(m.getType(), m.getDataField());}else{map.put("iop_ra", "");}
 					if(m != null){
 						d1 = m.getDateObserved();
+					}else{
+						d1 = null;
 					}
 					m = measurementsDao.getLatestMeasurementByAppointment(appt.getId(),"iop_la");
 					if(m!=null){map.put(m.getType(), m.getDataField());}else{map.put("iop_la", "");}
 					if(m != null){
 						d2 = m.getDateObserved();
+					}else{
+						d2 = null;
 					}
 					Date d3= d2;
 					if((d1 != null) &&(d2 != null)){
@@ -1241,7 +1262,7 @@ public class ExaminationHistoryAction extends DispatchAction {
 	
 	private List<Appointment> getAppointmentsForKeratometry(String demographicNo, Date startDate, Date endDate) {
 		SortedSet<Integer> appointmentIds = new TreeSet<Integer>();
-		String fields[] = {"v_rk1","v_rk2","v_rkx","v_lk1","v_lk2","v_lkx","v_rs","v_rc","v_rx","v_rar","v_ls","v_lar","v_rds","v_rdc","v_rdx","v_rdv","v_lds","v_ldc","v_ldx","v_ldv","v_dist","v_rns","v_rnc","v_rnx","v_rnv","v_lns","v_lnc","v_lnx","v_lnv","v_near","v_rcs","v_rcc","v_rcx","v_rcv","v_lcs","v_lcc","v_lcx","v_lcv"};
+		String fields[] = {"v_rk1","v_rk2","v_rkx","v_lk1","v_lk2","v_lkx","v_rs","v_rc","v_rx","v_rar","v_ls","v_lar","v_rds","v_rdc","v_rdx","v_rdv","v_lds","v_ldc","v_ldx","v_ldv","v_dv","v_rns","v_rnc","v_rnx","v_rnv","v_lns","v_lnc","v_lnx","v_lnv","v_nv","v_rcs","v_rcc","v_rcx","v_rcv","v_lcs","v_lcc","v_lcx","v_lcv"};
 				
 		for(String f:fields) {
 			Set<Integer> apptNos =null;
@@ -1411,7 +1432,7 @@ public class ExaminationHistoryAction extends DispatchAction {
 	
 	private List<Appointment> getAppointmentsForCornea(String demographicNo, Date startDate, Date endDate) {
 		SortedSet<Integer> appointmentIds = new TreeSet<Integer>();
-		String fields[] = {"a_rk","a_lk","a_rconj","a_lconj","a_rac","a_lac","a_rangle","a_langle","a_riris","a_liris","a_rlens","a_llens"};
+		String fields[] = {"a_rk","a_lk","a_rconj","a_lconj","a_rac","a_lac","a_rangle_1","a_rangle_2","a_rangle_3","a_rangle_4","a_rangle_5","a_langle_1","a_langle_2","a_langle_3","a_langle_4","a_langle_5","a_riris","a_liris","a_rlens","a_llens"};
 				
 		for(String f:fields) {
 			Set<Integer> apptNos =null;

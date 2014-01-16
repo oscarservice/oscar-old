@@ -31,7 +31,8 @@ function addExam(ctx,listId,whereTo,appointmentNo) {
 	//POST the list box, and get back the text to add.
 	var data = jQuery("#"+listId).serialize();
 	jQuery.ajax({type:'POST',url:ctx+'/eyeform/Eyeform.do?method=getMeasurementText&name='+listId+'&appointmentNo='+appointmentNo,data:data,success: function(data){
-		whereTo.value = whereTo.value + data + "\n";
+		//whereTo.value = whereTo.value + data + "\n";
+		whereTo.innerHTML = whereTo.innerHTML + data + "<br/>";
 	}});
 }
 

@@ -2525,9 +2525,22 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
 
 		//dont create slice.. load all notes
 		boolean encLoadAllNotesAtOnce = OscarProperties.getInstance().getBooleanProperty("encounter_load_all_notes_at_once", "true");
+		String encLoadNotesNumber = OscarProperties.getInstance().getProperty("encounter_load_notes_number");
+		int loadNumber = 0;
+		if(encLoadNotesNumber != null && !encLoadNotesNumber.equals("")){
+			loadNumber = Integer.parseInt(encLoadNotesNumber);
+		}
 		if (encLoadAllNotesAtOnce)
 		{
 			slice.addAll(entries);
+		}else if(loadNumber > 0){
+
+			for (int x = 0; x < loadNumber; x++)
+			{
+
+				slice.add(entries.get(x));
+
+			}
 		}
 		else
 		{
@@ -2661,14 +2674,16 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
 		}
 		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
 	    	ArrayList<NoteDisplay> notesToDisplay1 = new ArrayList<NoteDisplay>();
-			if (entries.size() > 0) {
+			//if (entries.size() > 0) {
+			if(slice.size() > 0){
 				// figure out what we need to retrieve
 				List<Long> localNoteIds = new ArrayList<Long>();
 				List<CachedDemographicNoteCompositePk> remoteNoteIds = new ArrayList<CachedDemographicNoteCompositePk>();
 				List<Long> groupNoteIds = new ArrayList<Long>();
 				List<Integer> invoiceIds = new ArrayList<Integer>();
 	
-				for (EChartNoteEntry entry : entries) {
+				//for (EChartNoteEntry entry : entries) {
+				for (EChartNoteEntry entry : slice) {
 					if (entry.getType().equals("local_note")) {
 						localNoteIds.add((Long) entry.getId());
 					} else if (entry.getType().equals("remote_note")) {
@@ -2713,7 +2728,8 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
 	
 				this.caseManagementMgr.getEditors(localNotes);
 				
-				for (EChartNoteEntry entry : entries) {
+				//for (EChartNoteEntry entry : entries) {
+				for (EChartNoteEntry entry : slice) {
 					if (entry.getType().equals("local_note")) {
 						notesToDisplay1.add(new NoteDisplayLocal(findNote(
 								(Long) entry.getId(), localNotes)));

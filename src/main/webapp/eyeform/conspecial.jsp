@@ -87,12 +87,20 @@
                 		<%}%>
 						</td>
                 		<td>
-                			<select id="fromlist2" name="fromlist2" multiple="multiple" size="9" ondblclick="addExam(ctx,'fromlist2',document.EctConsultationFormRequestForm.elements['ext_specialProblem'],appointmentNo);">
-                				<c:forEach var="item" items="${headers}">
+							<%if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){%>
+							<select id="fromlist2" name="fromlist2" multiple="multiple" size="9" ondblclick="addExam(ctx,'fromlist2',document.getElementById('ext_specialProblem'),appointmentNo);">
+                			<%}else{%>
+							<select id="fromlist2" name="fromlist2" multiple="multiple" size="9" ondblclick="addExam(ctx,'fromlist2',document.EctConsultationFormRequestForm.elements['ext_specialProblem'],appointmentNo);">
+							<%}%>
+							<c:forEach var="item" items="${headers}">
                 					<option value="<c:out value="${item.value}"/>"><c:out value="${item.label}"/></option>
                 				</c:forEach>
-                			</select>                			
+                			</select> 
+							<%if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){%>
+							<input style="vertical-align: middle;" type="button" value="add" onclick="addExam(ctx,'fromlist2',document.getElementById('ext_specialProblem'),appointmentNo);">
+							<%}else{%>
 							<input style="vertical-align: middle;" type="button" value="add" onclick="addExam(ctx,'fromlist2',document.EctConsultationFormRequestForm.elements['ext_specialProblem'],appointmentNo);">
+							<%}%>
 						</td>                		
                 	</tr>
                 </table>
@@ -104,7 +112,12 @@
                 <table>
                 	<tr>                		
                			 <td>
+							<%if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){%>
+							<div contentEditable="true" name="ext_specialProblem" id="ext_specialProblem" style="display:block;border:1px solid gray;overflow:scroll;height:150px;width:750px;overflow-x:hidden;word-wrap:break-word;font-size:12px;">
+							</div>
+							<%}else{%>
                 			<textarea cols="90" rows="8" id="ext_specialProblem" name="ext_specialProblem"></textarea>
+							<%}%>
                 		</td>
                 	</tr>
                 </table>

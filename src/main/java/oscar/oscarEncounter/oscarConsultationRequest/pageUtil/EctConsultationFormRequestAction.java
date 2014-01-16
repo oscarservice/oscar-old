@@ -41,6 +41,7 @@ import javax.crypto.NoSuchPaddingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
@@ -196,6 +197,18 @@ public class EctConsultationFormRequestAction extends Action {
                                 Enumeration e = request.getParameterNames();
                                 while(e.hasMoreElements()) {
                                 	String name = (String)e.nextElement();
+                                	
+                                	oscar.OscarProperties props1 = oscar.OscarProperties.getInstance();
+                        			String eyeform = props1.getProperty("cme_js");
+                                	if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
+	                                	if(name.equals("fromlist2")){
+	                                		if(!request.getParameter(name).isEmpty()){
+	                                			HttpSession session = request.getSession();
+	                                			String value = (String)session.getAttribute("examination");
+	                                			consultationRequestExtDao.persist(createExtEntry(requestId,"specialProblem",value));
+	                                		}
+	                                	}
+                                	}
                                 	if(name.startsWith("ext_")) {
                                 		String value = request.getParameter(name);
                                 		consultationRequestExtDao.persist(createExtEntry(requestId,name.substring(name.indexOf("_")+1),value));

@@ -37,6 +37,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
@@ -1451,6 +1452,15 @@ public class EyeformAction extends DispatchAction {
 			EyeformConsultationReport consultReport = null;
 			
 			//String id = request.getParameter("cp.id");
+			
+			oscar.OscarProperties props1 = oscar.OscarProperties.getInstance();
+            String eyeform = props1.getProperty("cme_js");
+            String examination = "";
+            if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
+            	HttpSession session = request.getSession();
+            	examination = (String)session.getAttribute("examination");
+            }
+			
 			Integer id = null;
 			if(request.getParameter("cp.id")!=null && request.getParameter("cp.id").trim().length()>0)
 				id = Integer.parseInt(request.getParameter("cp.id").trim());
@@ -1490,7 +1500,11 @@ public class EyeformAction extends DispatchAction {
 			cp.setClinicalInfo(cp.getClinicalInfo().replaceAll("\\s", "&nbsp;"));
 			cp.setConcurrentProblems(divy(wrap(cp.getConcurrentProblems(),80)));
 			cp.setCurrentMeds(wrap(cp.getCurrentMeds(),80));
-			cp.setExamination(divy(wrap(cp.getExamination(),80)));
+			if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
+				cp.setExamination(divy((wrap(examination,80))));
+			}else{
+				cp.setExamination(divy(wrap(cp.getExamination(),80)));
+			}
 			cp.setExamination(cp.getExamination().replaceAll("\n", ""));
 			cp.setImpression(divy(wrap(cp.getImpression(),80)));
 			cp.setAllergies(divy(wrap(cp.getAllergies(),80)));
@@ -2032,7 +2046,14 @@ public class EyeformAction extends DispatchAction {
     			}
     			exam.append(tmp);
 
-    			response.getWriter().println(exam.toString());
+    			String new_exam ="";
+//    			new_exam = divy(wrap(exam.toString(),150));
+    			
+    			new_exam = divy(exam.toString());
+    			new_exam = new_exam.replaceAll(" ", "&nbsp;");
+    			session.setAttribute("examination", exam.toString());
+    			//response.getWriter().println(exam.toString());
+    			response.getWriter().println(new_exam);
             }
             else{
             	exam.append(formatter.getVisionAssessment(headerMap));
