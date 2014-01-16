@@ -3091,6 +3091,7 @@ CREATE TABLE `billing_on_transaction` (
 );
 
 
+
 DROP table billing_on_transaction;
 CREATE TABLE `billing_on_transaction` (
   `id` int(12) NOT NULL AUTO_INCREMENT,
@@ -3201,3 +3202,9 @@ CREATE TABLE `billing_on_ext` (
   KEY `key_val` (`key_val`),
   KEY `billing_no` (`billing_no`)
 ) ;
+
+CREATE TABLE `billing_on_print` (
+	`id` INT(12) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	`doc_name` VARCHAR(255)
+);
+

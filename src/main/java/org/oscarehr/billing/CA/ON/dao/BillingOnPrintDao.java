@@ -21,39 +21,30 @@
  * Hamilton
  * Ontario, Canada
  */
-package org.oscarehr.common.model;
+package org.oscarehr.billing.CA.ON.dao;
 
-import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.Query;
 
-@Entity
-@Table(name="demographicSite")
-public class DemographicSite extends AbstractModel<Integer> implements Serializable {	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
-	private Integer demographicId;
-	private Integer siteId;
+import org.oscarehr.billing.CA.ON.model.BillingOnPrint;
+import org.oscarehr.common.dao.AbstractDao;
+import org.springframework.stereotype.Repository;
+
+@Repository("billingOnPrintDao")
+public class BillingOnPrintDao extends AbstractDao<BillingOnPrint>{
+	public BillingOnPrintDao() {
+		super(BillingOnPrint.class);
+	}
 	
-	public Integer getId() {
-		return null;
+	public BillingOnPrint getOneItem() {
+		Query query = entityManager.createQuery("select bop from BillingOnPrint bop");
+		return getSingleResultOrNull(query);
 	}
-	public Integer getDemographicId() {
-		return demographicId;
+	
+	public void save(BillingOnPrint bop) {
+		if (bop.getId() == null || "0".equals(bop.getId())) {
+			entityManager.persist(bop);
+		} else {
+			entityManager.merge(bop);
+		}
 	}
-	public void setDemographicId(Integer demographicId) {
-		this.demographicId = demographicId;
-	}
-	public Integer getSiteId() {
-		return siteId;
-	}
-	public void setSiteId(Integer siteId) {
-		this.siteId = siteId;
-	}
-		
-
 }
