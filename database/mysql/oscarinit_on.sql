@@ -3127,7 +3127,7 @@ CREATE TABLE `billing_on_transaction` (
   PRIMARY KEY (`id`),
   KEY `ch1_id_fk` (`ch1_id`),
   KEY `payment_id_fk` (`payment_id`)
-) 
+) ;
 
 
 
@@ -3142,7 +3142,7 @@ CREATE TABLE `billing_on_item_payment` (
   `discount` decimal(10,2) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `ch1_id` (`ch1_id`)
-) 
+) ;
 
 
 DROP table billing_on_payment;
@@ -3157,7 +3157,7 @@ CREATE TABLE `billing_on_payment` (
   `total_discount` decimal(10,2) DEFAULT '0.00',
   PRIMARY KEY (`id`),
   KEY `ch1_id` (`ch1_id`)
-) 
+) ;
 
 
 
@@ -3185,7 +3185,7 @@ CREATE TABLE `billing_on_item` (
   KEY `dx_idx` (`dx`),
   KEY `dx1_idx` (`dx1`),
   KEY `dx2_idx` (`dx2`)
-) 
+) ;
 
 
 DROP table billing_on_ext;
@@ -3200,4 +3200,4 @@ CREATE TABLE `billing_on_ext` (
   PRIMARY KEY (`id`),
   KEY `key_val` (`key_val`),
   KEY `billing_no` (`billing_no`)
-) 
+) ;

@@ -201,7 +201,7 @@ public class BillingONPaymentsAction extends DispatchAction {
 			// .getParameter("payment")));
 			paymentDate = new SimpleDateFormat("yyyy-MM-dd").parse(request
 					.getParameter("paymentDate"));
-			//paymentType = Integer.parseInt(request.getParameter("paymentType"));
+
 			billingNo = Integer.parseInt(request.getParameter("billingNo"));
 		} catch (Exception ex) {
 			logger.error(
@@ -213,12 +213,12 @@ public class BillingONPaymentsAction extends DispatchAction {
 		}
 		String paymentIdParam = request.getParameter("id");
 		BillingClaimHeader1 ch1 = billingClaimDAO.find(billingNo);
-	//	BillingPaymentType type = billingPaymentTypeDao.find(paymentType);
+
 		BillingONPayment payment = null;
 		if (paymentIdParam == null || paymentIdParam.equals("")) {
 			// insert
 			payment = new BillingONPayment();
-			// payment.setTotal_payment(paymentValue);
+
 			payment.setTotal_payment(sumPaid);
 			payment.setTotal_refund(sumRefund);
 			payment.setTotal_discount(sumDiscount);
@@ -226,26 +226,19 @@ public class BillingONPaymentsAction extends DispatchAction {
 			payment.setBillingOnCheader1(ch1);
 			payment.setCreator(updateProviderNo);
 			payment.setPaymentTypeId("1");
-			// payment.setPaymentId(billingNo);
-			//payment.setBillingPaymentType(type);
-			 //payment.setPaymentTypeId(paymentType);
 			billingONPaymentDao.persist(payment);
 
 		} else {
 			// update
 			Integer paymentId = Integer.parseInt(paymentIdParam);
 			payment = billingONPaymentDao.find(paymentId);
-			// payment.setTotal_payment(paymentValue);
+
 			payment.setTotal_payment(sumPaid);
 			payment.setTotal_refund(sumRefund);
 			payment.setTotal_discount(sumDiscount);
 			payment.setPaymentDate(paymentDate);
 			payment.setCreator(updateProviderNo);
 			payment.setPaymentTypeId("1");
-			// payment.setBillingOnCheader1(ch1);
-			// payment.setPaymentId(billingNo);
-			//payment.setBillingPaymentType(type);
-			// payment.setPaymentTypeId(paymentType);
 			billingONPaymentDao.merge(payment);
 		}
 
