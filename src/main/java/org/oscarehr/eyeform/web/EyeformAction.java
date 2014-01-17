@@ -2051,7 +2051,10 @@ public class EyeformAction extends DispatchAction {
     			
     			new_exam = divy(exam.toString());
     			new_exam = new_exam.replaceAll(" ", "&nbsp;");
+    			
+    			HttpSession session = request.getSession();
     			session.setAttribute("examination", exam.toString());
+    			
     			//response.getWriter().println(exam.toString());
     			response.getWriter().println(new_exam);
             }
