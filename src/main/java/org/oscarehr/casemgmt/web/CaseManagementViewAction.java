@@ -2525,10 +2525,16 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
 
 		//dont create slice.. load all notes
 		boolean encLoadAllNotesAtOnce = OscarProperties.getInstance().getBooleanProperty("encounter_load_all_notes_at_once", "true");
-		String encLoadNotesNumber = OscarProperties.getInstance().getProperty("encounter_load_notes_number");
+		
+		oscar.OscarProperties props1 = oscar.OscarProperties.getInstance();
+	    String eyeform = props1.getProperty("cme_js");
+		String encLoadNotesNumber = "";
 		int loadNumber = 0;
-		if(encLoadNotesNumber != null && !encLoadNotesNumber.equals("")){
-			loadNumber = Integer.parseInt(encLoadNotesNumber);
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
+			encLoadNotesNumber = OscarProperties.getInstance().getProperty("encounter_load_notes_number");
+			if((encLoadNotesNumber != null) && (!encLoadNotesNumber.equals(""))){
+				loadNumber = Integer.parseInt(encLoadNotesNumber);
+			}
 		}
 		if (encLoadAllNotesAtOnce)
 		{
@@ -2589,8 +2595,7 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
 
 		// we now have the slice we want to return
 		ArrayList<NoteDisplay> notesToDisplay = new ArrayList<NoteDisplay>();
-		oscar.OscarProperties props1 = oscar.OscarProperties.getInstance();
-	    String eyeform = props1.getProperty("cme_js");
+		
 	    
 		if (slice.size() > 0) {
 			// figure out what we need to retrieve
