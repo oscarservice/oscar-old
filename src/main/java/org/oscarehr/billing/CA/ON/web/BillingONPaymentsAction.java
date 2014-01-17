@@ -107,6 +107,7 @@ public class BillingONPaymentsAction extends DispatchAction {
 			}
 			
 			BillingItemPaymentVo itemPayment = new BillingItemPaymentVo();
+			itemPayment.setItemId(item.getId());
 			itemPayment.setServiceCode(item.getService_code());
 			itemPayment.setPaid(payment);
 			itemPayment.setRefund(refund);
@@ -195,13 +196,13 @@ public class BillingONPaymentsAction extends DispatchAction {
 		for (int i = 0; i < size; i++) {
 			String pay_ref = request.getParameter("pay_ref" + i);
 			String discount = request.getParameter("discount" + i);
-			String serviceCode = request.getParameter("service_code" + i);
+			String itemId = request.getParameter("itemId" + i);
 			if(!"".equals(request.getParameter("paymentType"+i))){
 				paymentid = Integer.parseInt(request.getParameter("paymentType"+i));
 			}
-			if (billingOnItemDao.getBillingItemById(Integer.parseInt(serviceCode)).size() > 0) {
-				BillingOnItem item = billingOnItemDao.getBillingItemById(Integer.parseInt(serviceCode)).get(0);
-				BillingOnPaymentItem item1 = billingOnItemDao.getBillingItemByIdNew(Integer.parseInt(serviceCode)).get(0);
+			if (billingOnItemDao.getBillingItemById(Integer.parseInt(itemId)).size() > 0) {
+				BillingOnItem item = billingOnItemDao.getBillingItemById(Integer.parseInt(itemId)).get(0);
+				BillingOnPaymentItem item1 = billingOnItemDao.getBillingItemByIdNew(Integer.parseInt(itemId)).get(0);
 				if ("payment".equals(request.getParameter("sel" + i))) {
 					payments.add(pay_ref);
 					discounts.add(discount);

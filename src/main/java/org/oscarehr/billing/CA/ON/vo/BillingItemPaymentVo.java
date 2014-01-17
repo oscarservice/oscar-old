@@ -3,12 +3,19 @@ package org.oscarehr.billing.CA.ON.vo;
 import java.math.BigDecimal;
 
 public class BillingItemPaymentVo {
+	private int itemId;
 	private String serviceCode;
 	private BigDecimal total;
 	private BigDecimal paid;
 	private BigDecimal discount;
 	private BigDecimal refund;
 	
+	public int getItemId() {
+		return itemId;
+	}
+	public void setItemId(int itemId) {
+		this.itemId = itemId;
+	}
 	public BigDecimal getTotal() {
 		return total;
 	}

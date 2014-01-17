@@ -184,77 +184,74 @@ function setValue(obj){
 
 <logic:present name="billingPaymentTypeList" scope="request">
     <form name="editPayment" id="editPayment" method="get" action="<%=request.getContextPath() %>/billing/CA/ON/billingON3rdPayments.do">
-  	<input type="hidden" name="method" value="savePayment" />
-  	<input type="hidden" name="billingNo" value="<%= billingNo %>" />
-  	<input type="hidden" name="id" id="paymentId" value="" />
-  	<table border=0 cellspacing=0 cellpadding=0 width="100%" >
-    		<tr  bgcolor="#CCCCFF">
-      			<th><font face="Helvetica">ADD / EDIT PAYMENT</font></th>
-    		</tr>
-  	</table>
-  	<%
-  	//BillingOnItemPaymentDao billingOnItemPaymentDao = (BillingOnItemPaymentDao)SpringUtils.getBean(BillingOnItemPaymentDao.class);
-  	for(int i=0;i<items.size();i++){ 
-  		//BillingOnItemPayment boip = billingOnItemPaymentDao.find(items.get(i).get)
-  	%>
-  	<table border="0" cellpadding="0" cellspacing="0" width="100%">
-  	  <tr>
-  	    <td width="100%">
-      	  <table BORDER="3" CELLPADDING="0" CELLSPACING="0" WIDTH="100%" height="100%" BGCOLOR="#C0C0C0">
-      	    <tr BGCOLOR="#EEEEFF">
-      	      <td width="30%">
-      	        <div align="right">
-      	       		 <select id="<%=i%>" name="sel<%=i%>"onchange="setStatus(this);">
-      	       		 	<option value="payment">Payment</option>
-      	       		 	<option value="refund">Refund</option>
-      	       		 </select>
-      	        </div>
-      	      </td>
-      	      <td width="70%" align="left">
-      	        <input type="text" name="pay_ref<%=i %>" id="payment" value="0.00" WIDTH="8" HEIGHT="20" border="0" hspace="2" maxlength="50" />
-      	        <input style="display:none" type="checkbox" id="cdis<%=i%>"name="Discount" onclick="setValue(this);"/>Discount     <input type="text" id="discount<%=i%>"name="discount<%=i %>" value="0.00">
-      	        </td>
-      	    </tr>
-      	    <tr BGCOLOR="#EEEEFF">
-      	      <td>
-      	      <div></div>
-      	      </td>
-      	      <td align="left">
-      	      Service Code:&nbsp;<b><%=items.get(i).getServiceCode()%>&nbsp;$<%=items.get(i).getTotal() %>&nbsp;Paid:&nbsp;$<%=items.get(i).getPaid() %></b>
-      	      </td>
-      	      <input type="hidden" name="service_code<%=i %>" value="<%=items.get(i).getId()%>"/>
-			</td>
-      	    </tr>
-      	    <tr BGCOLOR="#EEEEFF">
-      	      <td>
-      	        <div align="right"><font face="arial">Payment Type:</font></div>
-      	      </td>
-      	      <td align="left">
-		<table width="100%">
-		<logic:iterate id="billingPaymentType" name="billingPaymentTypeList" indexId="ttr">
-		    <%= ttr.intValue()%2 == 0 ? "<tr>" : "" %>
-		      <td width="50%">
-			<input type="radio" name="paymentType<%=i %>" id="paymentType<bean:write name='billingPaymentType' property='id'/>" value="<bean:write name='billingPaymentType' property='id'/>" <%=(ttr==0 ? "checked=true" : "")%> />
-		        <bean:write name="billingPaymentType" property="paymentType"/>		    	
-		      </td>  
-		    <%= ttr.intValue()%2 == 0 ? "" : "</tr>" %>
-		</logic:iterate>
+	  	<input type="hidden" name="method" value="savePayment" />
+	  	<input type="hidden" name="billingNo" value="<%= billingNo %>" />
+	  	<input type="hidden" name="id" id="paymentId" value="" />
+	  	<table border=0 cellspacing=0 cellpadding=0 width="100%" >
+	    		<tr  bgcolor="#CCCCFF">
+	      			<th><font face="Helvetica">ADD / EDIT PAYMENT</font></th>
+	    		</tr>
+	  	</table>
+	  	<%
+	  	for(int i=0;i<items.size();i++){ 
+	  	%>
+	  	<table border="0" cellpadding="0" cellspacing="0" width="100%">
+	  	  <tr>
+	  	    <td width="100%">
+	      	  <table BORDER="3" CELLPADDING="0" CELLSPACING="0" WIDTH="100%" height="100%" BGCOLOR="#C0C0C0">
+	      	    <tr BGCOLOR="#EEEEFF">
+	      	      <td width="30%">
+	      	        <div align="right">
+	      	       		 <select id="<%=i%>" name="sel<%=i%>"onchange="setStatus(this);">
+	      	       		 	<option value="payment">Payment</option>
+	      	       		 	<option value="refund">Refund</option>
+	      	       		 </select>
+	      	        </div>
+	      	      </td>
+	      	      <td width="70%" align="left">
+	      	        <input type="text" name="pay_ref<%=i %>" id="payment" value="0.00" WIDTH="8" HEIGHT="20" border="0" hspace="2" maxlength="50" />
+	      	        <input style="display:none" type="checkbox" id="cdis<%=i%>"name="Discount" onclick="setValue(this);"/>Discount     <input type="text" id="discount<%=i%>"name="discount<%=i %>" value="0.00">
+	      	        </td>
+	      	    </tr>
+	      	    <tr BGCOLOR="#EEEEFF">
+	      	      <td>
+	      	      <div></div>
+	      	      </td>
+	      	      <td align="left">
+	      	      Service Code:&nbsp;<b><%=items.get(i).getServiceCode()%>&nbsp;$<%=items.get(i).getTotal() %>&nbsp;Paid:&nbsp;$<%=items.get(i).getPaid() %></b>
+	      	      </td>
+	      	      <input type="hidden" name="itemId<%=i %>" value="<%=items.get(i).getItemId()%>"/>
+				</td>
+	      	    </tr>
+	      	    <tr BGCOLOR="#EEEEFF">
+	      	      <td>
+	      	        <div align="right"><font face="arial">Payment Type:</font></div>
+	      	      </td>
+	      	      <td align="left">
+			<table width="100%">
+			<logic:iterate id="billingPaymentType" name="billingPaymentTypeList" indexId="ttr">
+			    <%= ttr.intValue()%2 == 0 ? "<tr>" : "" %>
+			      <td width="50%">
+				<input type="radio" name="paymentType<%=i %>" id="paymentType<bean:write name='billingPaymentType' property='id'/>" value="<bean:write name='billingPaymentType' property='id'/>" <%=(ttr==0 ? "checked=true" : "")%> />
+			        <bean:write name="billingPaymentType" property="paymentType"/>		    	
+			      </td>  
+			    <%= ttr.intValue()%2 == 0 ? "" : "</tr>" %>
+			</logic:iterate>
+			</table>
+	  	    </td>
+	  	  </tr>
 		</table>
-  	    </td>
-  	  </tr>
-	</table>
-	<%} %>
-	<table border="0" cellpadding="0" cellspacing="0" width="100%"> 
-	  <tr bgcolor="#CCCCFF"> 
-      	    <TD nowrap align="center"> 
+		<%} %>
+		<table border="0" cellpadding="0" cellspacing="0" width="100%"> 
+	  		<tr bgcolor="#CCCCFF"> 
+      	    	<TD nowrap align="center"> 
       	      		 <input type="text" name="paymentDate" id="paymentDate" onDblClick="calToday(this)" size="10" value="">
 				<a id="btn_date"><img title="Calendar" src="../../../images/cal.gif" alt="Calendar" border="0" /></a>
-      	      <input type="submit" name="submitBtn" value="    Save  " onClick="checkInput(); return false;" /> 
-      	    </TD> 
-    	  </tr>
+      	      	<input type="submit" name="submitBtn" value="    Save  " onClick="checkInput(); return false;" /> 
+      	    	</TD> 
+    	  	</tr>
     	</table>
     	<input type="hidden" name="size" value="<%=items.size() %>">
-    
     </form>
 </logic:present>
 
@@ -294,9 +291,20 @@ if(payments != null && payments.size()>0) {
     	</tr>
 	<br/>
 	<table width="100%" border="0">
-		<tr><th align="left">#</th><th align="left">Payment</th><th align="left">Date</th><th align="left">Discount</th><th align="left">Refund</th><th align="left">Balance</th><th></th>
-<logic:present name="paymentsList" scope="request">
-		<logic:iterate id="displayPayment" name="paymentsList" indexId="ctr">
+		<thead>
+			<tr>
+				<th align="left">#</th>
+				<th align="left">Payment</th>
+				<th align="left">Date</th>
+				<th align="left">Discount</th>
+				<th align="left">Refund</th>
+				<th align="left">Balance</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+		<logic:present name="paymentsList" scope="request">
+			<logic:iterate id="displayPayment" name="paymentsList" indexId="ctr">
 			<tr>			    
 			    <td><%= ctr+1 %></td>
 			    <td><bean:write name="displayPayment" property="total_payment" /> </td>
@@ -313,8 +321,9 @@ if(payments != null && payments.size()>0) {
 			    	'<bean:write name="displayPayment" property="paymentDateFormatted" />')">view</a>
 			    </td>	
 			</tr>    
-		</logic:iterate>
-</logic:present>
+			</logic:iterate>
+		</logic:present>
+		</tbody>
 		<tr><td/><td/><td><b>Total:</b></td><td><b><%= currency.format(sum) %></b>
 		<%if (balance.compareTo(BigDecimal.ZERO) == -1) { %>
 		<tr><td/><td/><td><b>Balance:</b></td><td><b><%= "=" + currency.format(balance) %></b>
