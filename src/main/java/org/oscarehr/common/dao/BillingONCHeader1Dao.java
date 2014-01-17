@@ -25,16 +25,22 @@ package org.oscarehr.common.dao;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
+import java.util.Vector;
 
 import javax.persistence.Query;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.oscarehr.common.model.BillingONCHeader1;
 import org.springframework.stereotype.Repository;
 
-import oscar.oscarBilling.ca.on.model.BillingOnCHeader1;
+import oscar.oscarBilling.ca.on.data.BillingHistoryDate;
+import oscar.oscarBilling.ca.on.data.BillingONDataHelp;
+import oscar.oscarBilling.ca.on.data.JdbcBillingCorrection;
 
 /**
 *
@@ -43,6 +49,10 @@ import oscar.oscarBilling.ca.on.model.BillingOnCHeader1;
 
 @Repository
 public class BillingONCHeader1Dao extends AbstractDao<BillingONCHeader1>{
+	private static final Logger _logger = Logger.getLogger(JdbcBillingCorrection.class);
+
+	
+	BillingONDataHelp dbObj = new BillingONDataHelp();
 
     public BillingONCHeader1Dao() {
         super(BillingONCHeader1.class);
@@ -72,6 +82,34 @@ public class BillingONCHeader1Dao extends AbstractDao<BillingONCHeader1>{
     	Query query = entityManager.createQuery("select ch from BillingONCHeader1 ch where ch.demographicNo=? AND ch.status!='D'");
     	query.setParameter(1, demographic_no);
     	return query.getResultList();
+    }
+    
+    @SuppressWarnings("rawtypes")
+	public List<BillingHistoryDate> getHistoryByDemographicNo(int demographic_no){
+    	List obj = new Vector();
+    	String sql ="SELECT * FROM billing_on_cheader1 ch LEFT JOIN billing_on_payment bp ON ch.id=bp.ch1_id  where ch.demographicNo=" + demographic_no + " AND ch.status!='D'";
+    	//query.setParameter(1, demographic_no);
+    	BillingHistoryDate historyObj = null;
+		ResultSet rs = dbObj.searchDBRecord(sql);
+		try {
+			while (rs.next()) {
+				historyObj = new BillingHistoryDate();
+				
+				historyObj.setId("" + rs.getInt("id"));
+				historyObj.setPay_program(rs.getString("pay_program"));
+				historyObj.setTotal_discount(rs.getString("total_discount"));
+				historyObj.setTotal_payment(rs.getString("total_payment"));
+				historyObj.setTotal_refund(rs.getString("total_refund"));		
+				historyObj.setTotal(rs.getString("total"));				
+				historyObj.setTimestamp1(rs.getString("timestamp1"));		
+								
+				obj.add(historyObj);
+			}
+		} catch (SQLException e) {
+			_logger.error("getBillingRecordObj(sql = " + sql + ")");
+			obj = null;
+		}
+    	return obj;
     }
 
 	public void updatePaid(int billNo, BigDecimal sumPaid) {

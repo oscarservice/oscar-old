@@ -555,8 +555,39 @@ function showHideLayers() { //v3.0
 
 function onNext() {
     var ret = true;
+    var regInt = /^-?\d+\.\d+$/;
     if (!checkAllDates()) {
     	ret = false;
+    }else if(!regInt.test(document.getElementById('serviceAt0').value)&&document.getElementById('serviceAt0').value!=""){
+    	ret = false;
+    	alert("Please enter a decimal in the serviceAt textbox!");
+    }else if(!regInt.test(document.getElementById('serviceAt1').value)&&document.getElementById('serviceAt1').value!=""){
+    	ret = false;
+    	alert("Please enter a decimal in the serviceAt textbox!");
+    }else if(!regInt.test(document.getElementById('serviceAt2').value)&&document.getElementById('serviceAt2').value!=""){
+    	ret = false;
+    	alert("Please enter a decimal in the serviceAt textbox!");
+    }else if(!regInt.test(document.getElementById('serviceAt3').value)&&document.getElementById('serviceAt3').value!=""){
+    	ret = false;
+    	alert("Please enter a decimal in the serviceAt textbox!");
+    }else if(!regInt.test(document.getElementById('serviceAt4').value)&&document.getElementById('serviceAt4').value!=""){
+    	ret = false;
+    	alert("Please enter a decimal in the serviceAt textbox!");
+    }else if(!regInt.test(document.getElementById('serviceAt5').value)&&document.getElementById('serviceAt5').value!=""){
+    	ret = false;
+    	alert("Please enter a decimal in the serviceAt textbox!");
+    }else if(!regInt.test(document.getElementById('serviceAt6').value)&&document.getElementById('serviceAt6').value!=""){
+    	ret = false;
+    	alert("Please enter a decimal in the serviceAt textbox!");
+    }else if(!regInt.test(document.getElementById('serviceAt7').value)&&document.getElementById('serviceAt7').value!=""){
+    	ret = false;
+    	alert("Please enter a decimal in the serviceAt textbox!");
+    }else if(!regInt.test(document.getElementById('serviceAt8').value)&&document.getElementById('serviceAt8').value!=""){
+    	ret = false;
+    	alert("Please enter a decimal in the serviceAt textbox!");
+    }else if(!regInt.test(document.getElementById('serviceAt9').value)&&document.getElementById('serviceAt9').value!=""){
+    	ret = false;
+    	alert("Please enter a decimal in the serviceAt textbox!");
     }
     else if (!existServiceCode() && document.forms[0].services_checked.value<=0) {
 	    ret = false;
@@ -1205,7 +1236,7 @@ function toggleDiv(selectedBillForm, selectedBillFormName,billType)
 					<input type="text" name="serviceUnit<%=i%>" size="2" maxlength="4" style="width:20px;"
 					       value="<%=request.getParameter("serviceUnit"+i)!=null?request.getParameter("serviceUnit"+i):""%>"
 					       />@
-					<input type="text" name="serviceAt<%=i%>" size="3" maxlength="4" style="width:30px"
+					<input type="text" name="serviceAt<%=i%>" size="3" maxlength="4" style="width:30px" id="serviceAt<%=i%>"
 					       value="<%=request.getParameter("serviceAt"+i)!=null?request.getParameter("serviceAt"+i):""%>" /><br />
 <%	    } %>
 				    </td>
@@ -1218,7 +1249,7 @@ function toggleDiv(selectedBillForm, selectedBillFormName,billType)
 					<input type="text" name="serviceUnit<%=i%>" size="2" maxlength="2" style="width:20px;"
 					       value="<%=request.getParameter("serviceUnit"+i)!=null?request.getParameter("serviceUnit"+i):""%>"
 					       />@
-				        <input type="text" name="serviceAt<%=i%>" size="3" maxlength="4" style="width:30px"
+				        <input type="text" name="serviceAt<%=i%>" size="3" maxlength="4" style="width:30px" id="serviceAt<%=i%>"
 					       value="<%=request.getParameter("serviceAt"+i)!=null?request.getParameter("serviceAt"+i):""%>" /><br />
 <%	    } %>
 				    </td>

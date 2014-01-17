@@ -18,7 +18,9 @@
 package oscar.oscarBilling.ca.on.pageUtil;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import java.util.Vector;
@@ -26,10 +28,14 @@ import java.util.Vector;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
+import org.oscarehr.billing.CA.ON.dao.BillingClaimDAO;
 import org.oscarehr.billing.CA.ON.dao.BillingItemDao;
 import org.oscarehr.billing.CA.ON.dao.BillingONExtDao;
+import org.oscarehr.billing.CA.ON.dao.BillingONPaymentDao;
+import org.oscarehr.billing.CA.ON.model.BillingClaimHeader1;
 import org.oscarehr.billing.CA.ON.model.BillingItem;
 import org.oscarehr.billing.CA.ON.model.BillingONExt;
+import org.oscarehr.billing.CA.ON.model.BillingONPayment;
 import org.oscarehr.util.MiscUtils;
 import org.oscarehr.util.SpringUtils;
 
@@ -51,8 +57,6 @@ import oscar.util.StringUtils;
 public class BillingCorrectionPrep {
 	private static final Logger _logger = Logger
 			.getLogger(BillingCorrectionPrep.class);
-
-	private BillingOnItemDao billingOnItemDao;
 
 	JdbcBillingCorrection dbObj = new JdbcBillingCorrection();
 	BillingItemDao item = new BillingItemDao();
@@ -94,10 +98,9 @@ public class BillingCorrectionPrep {
 				this.updateExt("payDate", requestData);
 			}
 			ch1Obj.setStatus(status);
-
-			ch1Obj.setPay_program(requestData.getParameter("payProgram"));
-			if (requestData.getParameter("status").substring(0, 1).equals("N")) {
-				ch1Obj.setPay_program("NOT");
+			
+			if(requestData.getParameter("status").substring(0,1).equals("N")){
+				ch1Obj.setPay_program("NOT");				
 			}
 
 			ch1Obj.setRef_num(requestData.getParameter("rdohip"));
@@ -125,6 +128,8 @@ public class BillingCorrectionPrep {
 			ch1Obj.setProvince(requestData.getParameter("hc_type"));
 
 			ch1Obj.setLocation(requestData.getParameter("xml_slicode"));
+
+			ch1Obj.setPay_program(requestData.getParameter("payProgram"));
 			ret = dbObj.updateBillingClaimHeader(ch1Obj);
 			if (ch1Obj.getStatus().equals("D")) {
 				dbObj.updatedeleteBillingClaimHeaderTrans(ch1Obj);

@@ -207,6 +207,14 @@ public class JdbcBillingCorrection {
 		if (!retval) {
 			_logger.error("updateBillingStatus(sql = " + sql + ")");
 		}
+		
+		sql = "update billing_on_transaction set status='" + status + "',action_type='" + status + "' where ch1_id=" + id;
+		_logger.info("updateBillingStatus(sql = " + sql + ") by " + providerNo);
+		retval = dbObj.updateDBRecord(sql);
+		retval = dbLog.addBillingLog(providerNo, "updateBillingStatus", sql, id);
+		if (!retval) {
+			_logger.error("updateBillingStatus(sql = " + sql + ")");
+		}
 		return retval;
 	}
 
