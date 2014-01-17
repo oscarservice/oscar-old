@@ -291,8 +291,10 @@ public class JdbcBillingReviewImpl {
 			ch1Obj.setFirst_name(provider.getFirstName());
 			retval.add(ch1Obj);
 
-			sql = "select * from billing_on_item where ch1_id="
-					+ ch1Obj.getId() + " and status!='D'";
+			sql = "select boi.*,boip.paid,boip.refund,boip.discount from billing_on_item boi left join billing_on_item_payment boip ON boi.id=boip.billing_on_item_id where boi.ch1_id="
+					+ ch1Obj.getId() + " and boi.status!='D'";
+			// SELECT boi.*,boip.paid,boip.refund,boip.discount FROM billing_on_item boi 
+			// LEFT JOIN billing_on_item_payment boip ON boi.id=boip.billing_on_item_id WHERE boi.status!='D'
 
 			// _logger.info("getBillingHist(sql = " + sql + ")");
 
@@ -300,7 +302,7 @@ public class JdbcBillingReviewImpl {
 			String dx = "";
 			String strService = "";
 			String strServiceDate = "";
-			BigDecimal paid =new BigDecimal("0.00");
+			BigDecimal paid = new BigDecimal("0.00");
 			BigDecimal refund = new BigDecimal("0.00");
 			BigDecimal discount = new BigDecimal("0.00");
 			while (rs2.next()) {
@@ -308,9 +310,21 @@ public class JdbcBillingReviewImpl {
 						+ rs2.getString("ser_num") + ", ";
 				dx = rs2.getString("dx");
 				strServiceDate = rs2.getString("service_date");
-				paid = paid.add(rs2.getBigDecimal("paid"));
-				refund = refund.add(rs2.getBigDecimal("refund"));
-				discount = discount.add(rs2.getBigDecimal("discount"));
+				try {
+					paid = paid.add(rs2.getBigDecimal("paid"));
+				} catch (Exception e) {
+					paid = new BigDecimal("0.00");
+				}
+				try {
+					refund = refund.add(rs2.getBigDecimal("refund"));
+				} catch (Exception e) {
+					refund = new BigDecimal("0.00");
+				}
+				try {
+					discount = discount.add(rs2.getBigDecimal("discount"));
+				} catch (Exception e) {
+					discount = new BigDecimal("0.00");
+				}
 			}
 			rs2.close();
 			BillingItemData itObj = new BillingItemData();

@@ -150,7 +150,8 @@ if (isSiteAccessPrivacy || isTeamAccessPrivacy) {
 <%@page import="org.oscarehr.util.SpringUtils"%>
 <%@page import="org.oscarehr.common.model.ClinicNbr"%>
 <%@page import="org.oscarehr.common.dao.ClinicNbrDao"%>
-
+<%@page import="org.oscarehr.billing.CA.ON.dao.BillingONExtDao" %>
+<%@page import="org.oscarehr.billing.CA.ON.model.BillingONExt" %>
 <html:html locale="true">
 <head>
 <script type="text/javascript" src="<%= request.getContextPath() %>/js/global.js"></script>
@@ -301,10 +302,12 @@ function checkSettle(status) {
     }        
     else if( status == 'P') {
     	document.getElementById("thirdParty").style.display = "inline";
-    	document.getElementById("thirdPartyPymnt").style.display = "inline";
+    	//document.getElementById("thirdPartyPymnt").style.display = "inline";
     	
     	document.getElementById("payment").disabled = false;
-    	document.getElementById("oldPayment").disabled = false;
+    	if (document.getElementById("oldPayment") != null) {
+    		document.getElementById("oldPayment").disabled = false;    		
+    	}
     	document.getElementById("payDate").disabled = false;
     	document.getElementById("refund").disabled = false;
     	document.getElementById("billTo").disabled = false;
@@ -314,7 +317,9 @@ function checkSettle(status) {
     	document.getElementById("thirdPartyPymnt").style.display = "none";
     	
     	document.getElementById("payment").disabled = true;
-    	document.getElementById("oldPayment").disabled = true;
+    	if (document.getElementById("oldPayment") != null) {
+    		document.getElementById("oldPayment").disabled = true;
+    	}
     	document.getElementById("payDate").disabled = true;
     	document.getElementById("refund").disabled = true;
     	document.getElementById("billTo").disabled = true;
@@ -484,27 +489,50 @@ function checkSettle(status) {
 */
 
 				if(isMultiSiteProvider) {	
-					BigDecimal total_payment = BigDecimal.valueOf(0);
-					BigDecimal balance = BigDecimal.valueOf(0);
-					BillingONPaymentDao billingONPaymentDao = (BillingONPaymentDao) WebApplicationContextUtils.getWebApplicationContext(application).getBean("billingONPaymentDao");
-    					List<BillingONPayment> payments = billingONPaymentDao.listPaymentsByBillingNo(Integer.parseInt(request.getParameter("billing_no").trim()));
+					BigDecimal payment = BigDecimal.ZERO;
+					BigDecimal balance = BigDecimal.ZERO;
+					BigDecimal total = BigDecimal.ZERO;
+					BigDecimal refund = BigDecimal.ZERO;
+					BigDecimal discount = BigDecimal.ZERO;
+					
+					BillingONExtDao billingOnExtDao = (BillingONExtDao)WebApplicationContextUtils.getWebApplicationContext(application).getBean("billingONExtDao");
+					BillingONExt paymentItem = billingOnExtDao.getClaimExtItem(Integer.parseInt(request.getParameter("billing_no").trim()), Integer.parseInt(DemoNo), BillingONExtDao.KEY_PAYMENT);
+					if (paymentItem != null) {
+						payment = new BigDecimal(paymentItem.getValue());
+					}
+					BillingONExt discountItem = billingOnExtDao.getClaimExtItem(Integer.parseInt(request.getParameter("billing_no").trim()), Integer.parseInt(DemoNo), BillingONExtDao.KEY_DISCOUNT);
+					if (discountItem != null) {
+						discount = new BigDecimal(discountItem.getValue());
+					}
+					BillingONExt refundItem = billingOnExtDao.getClaimExtItem(Integer.parseInt(request.getParameter("billing_no").trim()), Integer.parseInt(DemoNo), BillingONExtDao.KEY_REFUND);
+					if (refundItem != null) {
+						refund = new BigDecimal(refundItem.getValue());
+					}
+					BillingONExt totalItem = billingOnExtDao.getClaimExtItem(Integer.parseInt(request.getParameter("billing_no").trim()), Integer.parseInt(DemoNo), BillingONExtDao.KEY_TOTAL);
+					if (totalItem != null) {
+						total = new BigDecimal(totalItem.getValue());
+					}
+					balance = total.subtract(payment).subtract(discount).subtract(refund);
+							
+					/*BillingONPaymentDao billingONPaymentDao = (BillingONPaymentDao) WebApplicationContextUtils.getWebApplicationContext(application).getBean("billingONPaymentDao");
+    				List<BillingONPayment> payments = billingONPaymentDao.listPaymentsByBillingNo(Integer.parseInt(request.getParameter("billing_no").trim()));
 					org.oscarehr.billing.CA.ON.model.BillingClaimHeader1 ch1 = null;
 					if(payments != null && payments.size()>0) {
 						BigDecimal sum = new BigDecimal(payments.get(0).getBillingONCheader1().getTotal());
-						total_payment = payments.get(payments.size()-1).getTotal_payment();
+						total_payment = new BigDecimal(payments.get(0).getBillingONCheader1().getPaid());
 						BigDecimal discount = payments.get(payments.size()-1).getTotal_discount();
 						BigDecimal refund = payments.get(payments.size()-1).getTotal_refund();
 					    balance = sum.subtract(total_payment).subtract(discount).subtract(refund);
       					}  
+					*/
 						//if(ch1!=null && ch1.getTotal()!=null)
 							
     						//balance = new BigDecimal(ch1.getTotal().replace("$","").replace(",","").replace(" ",""));
 
-                                        htmlPaid = "<br/>&nbsp;&nbsp;<span style='font-size:large;font-weight:bold'>Paid:</span>&nbsp;&nbsp;&nbsp;<span id='payment' style='font-size:large;font-weight:bold'>"
-						+ currency.format(total_payment) + "</span>";
+                    htmlPaid = "<br/>&nbsp;&nbsp;<span style='font-size:large;font-weight:bold'>Paid:</span>&nbsp;&nbsp;&nbsp;<span id='payment' style='font-size:large;font-weight:bold'>"
+						+ currency.format(payment) + "</span>";
 					htmlPaid += "&nbsp;&nbsp;&nbsp;&nbsp;<span style='font-size:large;font-weight:bold'>Balance:</span>&nbsp;&nbsp;&nbsp;<span id='balance' style='font-size:large;font-weight:bold'>"
-						+ currency.format(balance) + "</span>";
-
+						+ ((balance.compareTo(BigDecimal.ZERO) == -1) ? "-" : "") + currency.format(balance) + "</span>";
 
 					htmlPaid += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='javascript:display3rdPartyPayments()'>Payments List</a>";
 				}	

@@ -49,11 +49,7 @@ public class BillingOnItem implements Serializable {
     private String  dx1;
     private String  dx2;
     private String  status;
-    private BigDecimal paid;
-    private BigDecimal refund;
-    private BigDecimal discount;
     private Timestamp timestamp;
-    private int payment_typeID;
     public Integer getId() {
         return this.id;
     }
@@ -154,44 +150,7 @@ public class BillingOnItem implements Serializable {
         this.status = s;
     }
     
-    
-    public BigDecimal getPaid() {
-		return paid;
-	}
-
-	public void setPaid(BigDecimal paid) {
-		this.paid = paid;
-	}
-
-	public BigDecimal getRefund() {
-		return refund;
-	}
-
-	public void setRefund(BigDecimal refund) {
-		this.refund = refund;
-	}
-
-	public BigDecimal getDiscount() {
-		return discount;
-	}
-
-	public void setDiscount(BigDecimal discount) {
-		this.discount = discount;
-	}
-
 	public void setTimestamp(Timestamp t) {
         this.timestamp = t;
     }
-
-	public int getPayment_typeID() {
-		return payment_typeID;
-	}
-
-	public void setPayment_typeID(int payment_typeID) {
-		this.payment_typeID = payment_typeID;
-	}
-
-	
-	
-	
 }

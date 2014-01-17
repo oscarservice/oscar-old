@@ -18,6 +18,7 @@
 
 package oscar.oscarBilling.ca.on.data;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -326,7 +327,7 @@ public class JdbcBillingCorrection {
 				obj.add(ch1Obj);
 			}
 
-			sql = "select * from billing_on_item where ch1_id=" + id + " and status!='D'";
+			sql = "select boi.*,boip.paid,boip.refund,boip.discount from billing_on_item boi left join billing_on_item_payment boip on boi.id = boip.billing_on_item_id where boi.ch1_id=" + id + " and boi.status!='D'";
 			_logger.info("getBillingRecordObj(sql = " + sql + ")");
 			ResultSet rs2 = dbObj.searchDBRecord(sql);
 			while (rs2.next()) {
@@ -346,9 +347,22 @@ public class JdbcBillingCorrection {
 				itemObj.setDx2(rs2.getString("dx2"));
 				itemObj.setStatus(rs2.getString("status"));
 				itemObj.setTimestamp(rs2.getString("timestamp"));
-				itemObj.setPaid(rs2.getString("paid"));
-				itemObj.setRefund(rs2.getString("refund"));
-				itemObj.setDiscount(rs2.getString("discount"));
+				
+				try {
+					itemObj.setPaid(rs2.getString("paid"));
+				} catch (Exception e) {
+					itemObj.setPaid("0.00");
+				}
+				try {
+					itemObj.setRefund(rs2.getString("refund"));
+				} catch (Exception e) {
+					itemObj.setRefund("0.00");
+				}
+				try {
+					itemObj.setDiscount(rs2.getString("discount"));
+				} catch (Exception e) {
+					itemObj.setDiscount("0.00");
+				}
 				
 				obj.add(itemObj);
 			}

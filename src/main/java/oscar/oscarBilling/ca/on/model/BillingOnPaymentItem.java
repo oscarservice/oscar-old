@@ -92,8 +92,4 @@ public class BillingOnPaymentItem {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-    
-    
-   
-
 }

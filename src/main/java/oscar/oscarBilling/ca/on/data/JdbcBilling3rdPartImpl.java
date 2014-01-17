@@ -26,6 +26,7 @@ import java.util.Vector;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
+import org.oscarehr.billing.CA.ON.dao.BillingONExtDao;
 import org.oscarehr.common.dao.ClinicDAO;
 import org.oscarehr.common.model.Clinic;
 import org.oscarehr.util.MiscUtils;
@@ -37,7 +38,7 @@ import oscar.util.UtilDateUtilities;
 public class JdbcBilling3rdPartImpl {
 	private static final Logger _logger = Logger
 			.getLogger(JdbcBilling3rdPartImpl.class);
-	private ClinicDAO clinicDao = (ClinicDAO)SpringUtils.getBean("clinicDAO");
+	private ClinicDAO clinicDao = (ClinicDAO) SpringUtils.getBean("clinicDAO");
 
 	public static final String ACTIVE = "1";
 	public static final String INACTIVE = "0";
@@ -46,29 +47,31 @@ public class JdbcBilling3rdPartImpl {
 
 	public Properties get3rdPartBillProp(String invNo) {
 		Properties retval = new Properties();
-		String sql = "select * from billing_on_ext where billing_no=" + invNo + " and status = '" + ACTIVE + "'";
+		String sql = "select * from billing_on_ext where billing_no=" + invNo
+				+ " and status = '" + ACTIVE + "'";
 		ResultSet rs = dbObj.searchDBRecord(sql);
 
 		try {
 			while (rs.next()) {
-				retval.setProperty(rs.getString("key_val"), rs
-						.getString("value"));
+				retval.setProperty(rs.getString("key_val"),
+						rs.getString("value"));
 			}
 		} catch (SQLException e) {
 			_logger.error("get3rdPartBillProp(sql = " + sql + ")");
 		}
 		return retval;
 	}
-	
+
 	public Properties get3rdPartBillPropInactive(String invNo) {
 		Properties retval = new Properties();
-		String sql = "select * from billing_on_ext where billing_no=" + invNo + " and status = '" + INACTIVE + "'";
+		String sql = "select * from billing_on_ext where billing_no=" + invNo
+				+ " and status = '" + INACTIVE + "'";
 		ResultSet rs = dbObj.searchDBRecord(sql);
 
 		try {
 			while (rs.next()) {
-				retval.setProperty(rs.getString("key_val"), rs
-						.getString("value"));
+				retval.setProperty(rs.getString("key_val"),
+						rs.getString("value"));
 			}
 		} catch (SQLException e) {
 			_logger.error("get3rdPartBillProp(sql = " + sql + ")");
@@ -80,12 +83,12 @@ public class JdbcBilling3rdPartImpl {
 		Properties retval = new Properties();
 
 		Clinic clinic = clinicDao.getClinic();
-		if(clinic != null) {
+		if (clinic != null) {
 			retval.setProperty("clinic_name", clinic.getClinicName());
 			retval.setProperty("clinic_address", clinic.getClinicAddress());
 			retval.setProperty("clinic_city", clinic.getClinicCity());
 			retval.setProperty("clinic_province", clinic.getClinicProvince());
-            retval.setProperty("clinic_postal", clinic.getClinicPostal());
+			retval.setProperty("clinic_postal", clinic.getClinicPostal());
 			retval.setProperty("clinic_fax", clinic.getClinicFax());
 			retval.setProperty("clinic_phone", clinic.getClinicPhone());
 			retval.setProperty("clinic_fax", clinic.getClinicFax());
@@ -101,8 +104,8 @@ public class JdbcBilling3rdPartImpl {
 
 		try {
 			while (rs.next()) {
-				retval.setProperty(("" + rs.getInt("id")), rs
-						.getString("payment_type"));
+				retval.setProperty(("" + rs.getInt("id")),
+						rs.getString("payment_type"));
 			}
 		} catch (SQLException e) {
 			_logger.error("get3rdPayMethod(sql = " + sql + ")");
@@ -118,17 +121,24 @@ public class JdbcBilling3rdPartImpl {
 				+ StringEscapeUtils.escapeSql(val.getProperty("attention", ""))
 				+ "' ,'"
 				+ StringEscapeUtils.escapeSql(val.getProperty("company_name",
-						"")) + "'," + "'"
+						""))
+				+ "',"
+				+ "'"
 				+ StringEscapeUtils.escapeSql(val.getProperty("address", ""))
-				+ "'," + "'"
+				+ "',"
+				+ "'"
 				+ StringEscapeUtils.escapeSql(val.getProperty("city", ""))
-				+ "'," + "'"
+				+ "',"
+				+ "'"
 				+ StringEscapeUtils.escapeSql(val.getProperty("province", ""))
-				+ "'," + "'"
+				+ "',"
+				+ "'"
 				+ StringEscapeUtils.escapeSql(val.getProperty("postcode", ""))
-				+ "'," + "'"
+				+ "',"
+				+ "'"
 				+ StringEscapeUtils.escapeSql(val.getProperty("telephone", ""))
-				+ "'," + "'"
+				+ "',"
+				+ "'"
 				+ StringEscapeUtils.escapeSql(val.getProperty("fax", ""))
 				+ "')";
 		_logger.info("addOne3rdAddrRecord(sql = " + sql + ")");
@@ -163,44 +173,48 @@ public class JdbcBilling3rdPartImpl {
 		return retval;
 	}
 
-        public boolean add3rdBillExt(String billingNo, String demoNo, String key, String value) {
+	public boolean add3rdBillExt(String billingNo, String demoNo, String key,
+			String value) {
 		boolean retval = false;
 
 		String dateTime = UtilDateUtilities.getToday("yyyy-MM-dd HH:mm:ss");
-
-		String sql = "insert into billing_on_ext values(\\N, " + billingNo + "," + demoNo + ", '" + key + "', '"
-					+ value + "', '" + dateTime + "', '" + ACTIVE + "' )";
-                retval = dbObj.updateDBRecord(sql);
-                if (!retval) {
-                        _logger.error("add3rdBillExt(sql = " + sql + ")");
-                        return retval;
-                }
+		if (value == null && BillingONExtDao.isNumberKey(key)) {
+			value = "0.00";
+		}
+		String sql = "insert into billing_on_ext values(\\N, " + billingNo
+				+ "," + demoNo + ", '" + key + "', '" + value + "', '"
+				+ dateTime + "', '" + ACTIVE + "' )";
+		retval = dbObj.updateDBRecord(sql);
+		if (!retval) {
+			_logger.error("add3rdBillExt(sql = " + sql + ")");
+			return retval;
+		}
 
 		return retval;
 	}
 
-        public boolean keyExists(String billingNo, String key) {
-            boolean ret = false;
+	public boolean keyExists(String billingNo, String key) {
+		boolean ret = false;
 
-            String sql = "select billing_no from billing_on_ext where billing_no="
-                    + billingNo + " and key_val = '" + StringEscapeUtils.escapeSql(key) + "'";
+		String sql = "select billing_no from billing_on_ext where billing_no="
+				+ billingNo + " and key_val = '"
+				+ StringEscapeUtils.escapeSql(key) + "'";
 
-            ResultSet rs = dbObj.searchDBRecord(sql);
-            try {
-                if( rs.next() ) {
-                    ret = true;
-                }
-            }
-            catch( SQLException e ) {
-                MiscUtils.getLogger().error("Error", e);
-            }
+		ResultSet rs = dbObj.searchDBRecord(sql);
+		try {
+			if (rs.next()) {
+				ret = true;
+			}
+		} catch (SQLException e) {
+			MiscUtils.getLogger().error("Error", e);
+		}
 
-            return ret;
-        }
-        
-    public boolean updateKeyStatus(String billingNo, String key, String status) {
-		String sql = "update billing_on_ext set status = '" + status + "' where billing_no="
-				+ billingNo + " and key_val='"
+		return ret;
+	}
+
+	public boolean updateKeyStatus(String billingNo, String key, String status) {
+		String sql = "update billing_on_ext set status = '" + status
+				+ "' where billing_no=" + billingNo + " and key_val='"
 				+ StringEscapeUtils.escapeSql(key) + "'";
 		boolean retval = dbObj.updateDBRecord(sql);
 
@@ -210,13 +224,13 @@ public class JdbcBilling3rdPartImpl {
 		return retval;
 	}
 
-    /*
-     * We're updating a key--make sure it is active as well
-     */
+	/*
+	 * We're updating a key--make sure it is active as well
+	 */
 	public boolean updateKeyValue(String billingNo, String key, String value) {
 		String sql = "update billing_on_ext set value='"
-				+ StringEscapeUtils.escapeSql(value) + "', status = '" + ACTIVE + "' where billing_no="
-				+ billingNo + " and key_val='"
+				+ StringEscapeUtils.escapeSql(value) + "', status = '" + ACTIVE
+				+ "' where billing_no=" + billingNo + " and key_val='"
 				+ StringEscapeUtils.escapeSql(key) + "'";
 		boolean retval = dbObj.updateDBRecord(sql);
 
@@ -344,15 +358,17 @@ public class JdbcBilling3rdPartImpl {
 		}
 		return prop;
 	}
-        public Properties getGstTotal(String invNo) throws SQLException{
-            String sql = "SELECT value from billing_on_ext where key_val = 'gst' AND billing_no = '" + invNo + "';";
-            _logger.info("getGstTotal(sql= " + sql + ")");
 
-            ResultSet rs = DBHandler.GetSQL(sql);
-            Properties props = new Properties();
-            if (rs.next()){
-                props.setProperty("gst", rs.getString("value"));
-            }
-            return props;
-        }
+	public Properties getGstTotal(String invNo) throws SQLException {
+		String sql = "SELECT value from billing_on_ext where key_val = 'gst' AND billing_no = '"
+				+ invNo + "';";
+		_logger.info("getGstTotal(sql= " + sql + ")");
+
+		ResultSet rs = DBHandler.GetSQL(sql);
+		Properties props = new Properties();
+		if (rs.next()) {
+			props.setProperty("gst", rs.getString("value"));
+		}
+		return props;
+	}
 }

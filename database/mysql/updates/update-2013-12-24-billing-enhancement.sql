@@ -1,4 +1,21 @@
-DROP table billing_on_transaction;
+
+CREATE TABLE `billing_on_item_payment`(
+	`id` INT(12) NOT NULL PRIMARY KEY,
+	`ch1_id` INT(12) NOT NULL,
+	`billing_on_payment_id` INT(12) NOT NULL,
+	`billing_on_item_id` INT(12) NOT NULL,
+	`payment_timestamp` TIMESTAMP,
+	`paid` DECIMAL(10,2) NOT NULL,
+	`refund` DECIMAL(10,2) NOT NULL,
+	`discount` DECIMAL(10,2) NOT NULL,
+	KEY(`ch1_id`),
+	KEY(`billing_on_payment_id`),
+	KEY(`billing_on_item_id`),
+	CONSTRAINT `ch1_id_fk` FOREIGN KEY(`ch1_id`) REFERENCES `billing_on_cheader1`(`id`),
+	CONSTRAINT `billing_on_payment_id_fk` FOREIGN KEY(`billing_on_payment_id`) REFERENCES `billing_on_payment`(`id`),
+	CONSTRAINT `billing_on_item_id_fk` FOREIGN KEY(`billing_on_item_id`) REFERENCES `billing_on_item`(`id`)
+);
+
 CREATE TABLE `billing_on_transaction` (
   `id` int(12) NOT NULL AUTO_INCREMENT,
   `ch1_id` int(12) NOT NULL,
@@ -34,83 +51,10 @@ CREATE TABLE `billing_on_transaction` (
   PRIMARY KEY (`id`),
   KEY `ch1_id_fk` (`ch1_id`),
   KEY `payment_id_fk` (`payment_id`)
-) 
+);
 
-
-
-CREATE TABLE `billing_on_item_payment` (
-  `id` int(12) NOT NULL AUTO_INCREMENT,
-  `ch1_id` int(12) NOT NULL,
-  `billing_on_payment_id` int(12) NOT NULL,
-  `billing_on_item_id` int(12) DEFAULT NULL,
-  `payment_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `paid` decimal(10,2) DEFAULT NULL,
-  `refund` decimal(10,2) DEFAULT NULL,
-  `discount` decimal(10,2) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `ch1_id` (`ch1_id`)
-) 
-
-
-DROP table billing_on_payment;
-CREATE TABLE `billing_on_payment` (
-  `id` int(12) NOT NULL AUTO_INCREMENT,
-  `ch1_id` int(12) NOT NULL,
-  `creator` varchar(30) DEFAULT NULL,
-  `total_payment` decimal(10,2) NOT NULL,
-  `paymentTypeId` int(12) DEFAULT '1',
-  `paymentDate` date NOT NULL,
-  `total_refund` decimal(10,2) DEFAULT '0.00',
-  `total_discount` decimal(10,2) DEFAULT '0.00',
-  PRIMARY KEY (`id`),
-  KEY `ch1_id` (`ch1_id`)
-) 
-
-
-
-DROP table billing_on_item;
-CREATE TABLE `billing_on_item` (
-  `id` int(12) NOT NULL AUTO_INCREMENT,
-  `ch1_id` int(12) NOT NULL,
-  `transc_id` char(2) DEFAULT 'HE',
-  `rec_id` char(1) DEFAULT 'T',
-  `service_code` char(20) DEFAULT NULL,
-  `fee` varchar(7) DEFAULT '',
-  `ser_num` char(2) DEFAULT '01',
-  `service_date` date DEFAULT NULL,
-  `dx` char(4) DEFAULT '',
-  `dx1` char(4) DEFAULT '',
-  `dx2` char(4) DEFAULT '',
-  `status` char(1) DEFAULT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `paid` decimal(10,2) DEFAULT '1.00',
-  `refund` decimal(10,2) DEFAULT '1.00',
-  `discount` decimal(10,2) DEFAULT '1.00',
-  `payment_typeID` int(2) DEFAULT '1',
-  PRIMARY KEY (`id`),
-  KEY `ch1_id` (`ch1_id`),
-  KEY `dx_idx` (`dx`),
-  KEY `dx1_idx` (`dx1`),
-  KEY `dx2_idx` (`dx2`)
-) 
-
-
-DROP table billing_on_ext;
-CREATE TABLE `billing_on_ext` (
-  `id` int(12) NOT NULL AUTO_INCREMENT,
-  `billing_no` int(6) DEFAULT NULL,
-  `demographic_no` int(10) NOT NULL DEFAULT '0',
-  `key_val` varchar(50) DEFAULT NULL,
-  `value` varchar(255) DEFAULT NULL,
-  `date_time` datetime DEFAULT NULL,
-  `status` char(1) DEFAULT '1',
-  PRIMARY KEY (`id`),
-  KEY `key_val` (`key_val`),
-  KEY `billing_no` (`billing_no`)
-) 
-
-DROP table billing_on_print;
 CREATE TABLE `billing_on_print` (
 	`id` INT(12) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	`doc_name` VARCHAR(255)
 );
+

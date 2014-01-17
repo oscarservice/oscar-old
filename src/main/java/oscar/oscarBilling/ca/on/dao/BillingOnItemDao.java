@@ -127,7 +127,7 @@ public class BillingOnItemDao extends HibernateDaoSupport {
 //        }
         
         public void updateItemRefund(BillingOnItem item,String refund){
-        	item.setRefund(new BigDecimal(refund));
+        	//item.setRefund(new BigDecimal(refund));
         	getHibernateTemplate().update(item);
         }
         
@@ -138,8 +138,8 @@ public class BillingOnItemDao extends HibernateDaoSupport {
         }
         
         public void updateItemPayment(BillingOnItem item,String paid,String discount){
-        	item.setPaid(new BigDecimal(paid));
-        	item.setDiscount(new BigDecimal(discount));
+//        	item.setPaid(new BigDecimal(paid));
+//        	item.setDiscount(new BigDecimal(discount));
         	getHibernateTemplate().update(item);
         }
         
@@ -151,7 +151,7 @@ public class BillingOnItemDao extends HibernateDaoSupport {
         }
 
 		public void updatePaymentId(BillingOnItem item, int paymentid) {
-			item.setPayment_typeID(paymentid);
+			//item.setPayment_typeID(paymentid);
 			getHibernateTemplate().update(item);
 		}
 		

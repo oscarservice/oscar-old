@@ -1460,27 +1460,43 @@ CREATE TABLE billing_on_cheader2 (
   KEY ch1_id (ch1_id)
 ) ;
 
-CREATE TABLE billing_on_item (
-  id int(12) NOT NULL auto_increment,
-  ch1_id int(12) NOT NULL ,
-  transc_id char(2) default 'HE',
-  rec_id char(1) default 'T',
-  service_code char(20) default NULL,
-  fee varchar(7) default '',
-  ser_num char(2) default '01',
-  service_date date,
-  dx char(4) default '',
-  dx1 char(4) default '',
-  dx2 char(4) default '',
-  status char(1) default NULL,
-  timestamp timestamp,
-  paid decimal(10,2) NOT NULL DEFAULT 0.00,
-  refund decimal(10,2) NOT NULL DEFAULT 0.00,
-  discount decimal(10,2) NOT NULL,
-  payment_typeID int(2) NOT NULL,
-  PRIMARY KEY  (id),
-  KEY ch1_id (ch1_id)
-) ;
+CREATE TABLE `billing_on_payment` (
+  `id` int(12) NOT NULL AUTO_INCREMENT,
+  `ch1_id` int(12) NOT NULL,
+  `creator` varchar(30) DEFAULT NULL,
+  `total_payment` decimal(10,2) NOT NULL,
+  `paymentTypeId` int(12) DEFAULT '1',
+  `paymentDate` date NOT NULL,
+  `total_refund` decimal(10,2) DEFAULT '0.00',
+  `total_discount` decimal(10,2) DEFAULT '0.00',
+  PRIMARY KEY (`id`),
+  KEY `ch1_id` (`ch1_id`)
+); 
+
+CREATE TABLE `billing_on_item` (
+  `id` int(12) NOT NULL AUTO_INCREMENT,
+  `ch1_id` int(12) NOT NULL,
+  `transc_id` char(2) DEFAULT 'HE',
+  `rec_id` char(1) DEFAULT 'T',
+  `service_code` char(20) DEFAULT NULL,
+  `fee` varchar(7) DEFAULT '',
+  `ser_num` char(2) DEFAULT '01',
+  `service_date` date DEFAULT NULL,
+  `dx` char(4) DEFAULT '',
+  `dx1` char(4) DEFAULT '',
+  `dx2` char(4) DEFAULT '',
+  `status` char(1) DEFAULT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `paid` decimal(10,2) DEFAULT '1.00',
+  `refund` decimal(10,2) DEFAULT '1.00',
+  `discount` decimal(10,2) DEFAULT '1.00',
+  `payment_typeID` int(2) DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `ch1_id` (`ch1_id`),
+  KEY `dx_idx` (`dx`),
+  KEY `dx1_idx` (`dx1`),
+  KEY `dx2_idx` (`dx2`)
+);
 
 CREATE TABLE billing_on_favourite (
   id int(12) NOT NULL auto_increment,
@@ -1530,17 +1546,17 @@ CREATE TABLE billing_on_eareport (
   key (process_date)
 ) ;
 
-CREATE TABLE billing_on_ext (
-  id int(12) NOT NULL auto_increment,
-  billing_no int(6),
-  demographic_no int(10) NOT NULL default '0',
-  key_val varchar(50),
-  value varchar(255) ,
-  date_time datetime,
-  status char(1) default '1',
-  PRIMARY KEY  (id),
-  key (key_val),
-  key (billing_no)
+CREATE TABLE `billing_on_ext` (
+  `id` int(12) NOT NULL AUTO_INCREMENT,
+  `billing_no` int(6) DEFAULT NULL,
+  `demographic_no` int(10) NOT NULL DEFAULT '0',
+  `key_val` varchar(50) DEFAULT NULL,
+  `value` varchar(255) DEFAULT NULL,
+  `date_time` datetime DEFAULT NULL,
+  `status` char(1) DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `key_val` (`key_val`),
+  KEY `billing_no` (`billing_no`)
 ) ;
 
 CREATE TABLE ctl_billingtype (
@@ -3058,36 +3074,53 @@ CREATE TABLE `batch_billing` (
 );
 
 CREATE TABLE `billing_on_transaction` (
-  `id` INT(12) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `ch1_id` INT(12) NOT NULL,
-  `payment_id` INT(12) NOT NULL,
-  `billing_on_item_id` INT(12) NOT NULL,
-  `demographic_no` INT(10) NOT NULL,
-  `update_provider_no` VARCHAR(6) NOT NULL,
-  `update_datetime` TIMESTAMP NOT NULL,
-  `payment_date` DATE,
-  `ref_num` VARCHAR(6),
-  `province` CHAR(2),
-  `man_review` CHAR(1),
-  `billing_date` DATE,
-  `status` CHAR(1),
-  `pay_program` CHAR(3),
-  `paymentType` int(2),
-  `facility_num` CHAR(4),
-  `clinic` VARCHAR(30),
-  `provider_no` VARCHAR(6),
-  `creator` VARCHAR(30),
-  `visittype` CHAR(2),
-  `admission_date` DATE,
-  `sli_code` VARCHAR(10),
-  `service_code` VARCHAR(10),
-  `service_code_num` CHAR(2),
-  `service_code_invoiced` VARCHAR(64),
-  `service_code_paid` DECIMAL(10,2),
-  `service_code_refund` DECIMAL(10,2),
-  `service_code_discount` DECIMAL(10,2),
-  `dx_code` VARCHAR(3),
-  `billing_notes` VARCHAR(255)
+  `id` int(12) NOT NULL AUTO_INCREMENT,
+  `ch1_id` int(12) NOT NULL,
+  `payment_id` int(12) NOT NULL,
+  `billing_on_item_payment_id` int(12) NOT NULL,
+  `demographic_no` int(10) NOT NULL DEFAULT '0',
+  `update_provider_no` varchar(6) NOT NULL,
+  `update_datetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `payment_date` date DEFAULT NULL,
+  `ref_num` varchar(6) DEFAULT NULL,
+  `province` char(2) DEFAULT 'ON',
+  `man_review` char(1) DEFAULT NULL,
+  `billing_date` date DEFAULT NULL,
+  `status` char(1) DEFAULT NULL,
+  `pay_program` char(3) DEFAULT 'HCP',
+  `facility_num` char(4) DEFAULT NULL,
+  `clinic` varchar(30) DEFAULT NULL,
+  `provider_no` varchar(6) DEFAULT NULL,
+  `creator` varchar(30) DEFAULT NULL,
+  `visittype` char(2) DEFAULT NULL,
+  `admission_date` date DEFAULT NULL,
+  `sli_code` varchar(10) DEFAULT NULL,
+  `service_code` varchar(10) DEFAULT NULL,
+  `service_code_num` char(2) DEFAULT '01',
+  `service_code_invoiced` varchar(64) DEFAULT NULL,
+  `service_code_paid` decimal(10,2) DEFAULT NULL,
+  `service_code_refund` decimal(10,2) DEFAULT NULL,
+  `service_code_discount` decimal(10,2) DEFAULT NULL,
+  `dx_code` varchar(3) DEFAULT NULL,
+  `billing_notes` varchar(255) DEFAULT NULL,
+  `action_type` char(1) DEFAULT NULL,
+  `payment_typeID` int(2) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `ch1_id_fk` (`ch1_id`),
+  KEY `payment_id_fk` (`payment_id`)
+);
+
+CREATE TABLE `billing_on_item_payment` (
+  `id` int(12) NOT NULL AUTO_INCREMENT,
+  `ch1_id` int(12) NOT NULL,
+  `billing_on_payment_id` int(12) NOT NULL,
+  `billing_on_item_id` int(12) DEFAULT NULL,
+  `payment_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `paid` decimal(10,2) DEFAULT NULL,
+  `refund` decimal(10,2) DEFAULT NULL,
+  `discount` decimal(10,2) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `ch1_id` (`ch1_id`)
 );
 
 CREATE TABLE `billing_on_print` (

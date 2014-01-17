@@ -103,7 +103,7 @@ for(int i=0; i<aL.size(); i=i+2) {
 		BigDecimal refund = new BigDecimal(itObj.getRefund());
 		BigDecimal discount = new BigDecimal(itObj.getDiscount());
 		balance =balance.add(paid).add(refund).add(discount);
-		balance = balance.subtract(new BigDecimal(obj.getTotal()));
+		balance = new BigDecimal(obj.getTotal()).subtract(balance);
 	}
 %>
 	<tr bgcolor="<%=i%2==0?"#CCFF99":"white"%>">

@@ -60,7 +60,11 @@
 
 <%@page import="org.springframework.web.context.support.WebApplicationContextUtils"%>
 <%@page import="org.oscarehr.util.SpringUtils"%>
-
+<%@page import="org.oscarehr.billing.CA.ON.dao.BillingONExtDao" %>
+<%@page import="org.oscarehr.billing.CA.ON.model.BillingONExt" %>
+<%@page import="org.oscarehr.billing.CA.ON.dao.BillingOnItemPaymentDao" %>
+<%@page import="org.oscarehr.billing.CA.ON.model.*" %>
+<%@page import="org.oscarehr.billing.CA.ON.vo.*" %>
 <% 
 List<String> errors = new ArrayList<String>();
 
@@ -78,7 +82,7 @@ List<String> errors = new ArrayList<String>();
 	boolean isMultiSiteProvider = true;
 	List<String> mgrSites = new ArrayList<String>();
 	List<BillingONPayment> payments = (List<BillingONPayment>)request.getAttribute("paymentsList");
-	List<BillingOnItem> items = (List<BillingOnItem>)request.getAttribute("billingOnItems");
+	List<BillingItemPaymentVo> items = (List<BillingItemPaymentVo>)request.getAttribute("itemPaymentList");
 %>
 <security:oscarSec objectName="_team_billing_only" roleName="<%= roleName$ %>" rights="r" reverse="false">
 	<% isTeamBillingOnly=true; %>
@@ -188,7 +192,11 @@ function setValue(obj){
       			<th><font face="Helvetica">ADD / EDIT PAYMENT</font></th>
     		</tr>
   	</table>
-  	<%for(int i=0;i<items.size();i++){ %>
+  	<%
+  	//BillingOnItemPaymentDao billingOnItemPaymentDao = (BillingOnItemPaymentDao)SpringUtils.getBean(BillingOnItemPaymentDao.class);
+  	for(int i=0;i<items.size();i++){ 
+  		//BillingOnItemPayment boip = billingOnItemPaymentDao.find(items.get(i).get)
+  	%>
   	<table border="0" cellpadding="0" cellspacing="0" width="100%">
   	  <tr>
   	    <td width="100%">
@@ -212,7 +220,7 @@ function setValue(obj){
       	      <div></div>
       	      </td>
       	      <td align="left">
-      	      Service Code:&nbsp;<b><%=items.get(i).getService_code()%>&nbsp;$<%=items.get(i).getFee() %>&nbsp;Paid:&nbsp;$<%=items.get(i).getPaid() %></b>
+      	      Service Code:&nbsp;<b><%=items.get(i).getServiceCode()%>&nbsp;$<%=items.get(i).getTotal() %>&nbsp;Paid:&nbsp;$<%=items.get(i).getPaid() %></b>
       	      </td>
       	      <input type="hidden" name="service_code<%=i %>" value="<%=items.get(i).getId()%>"/>
 			</td>
@@ -263,20 +271,22 @@ org.oscarehr.billing.CA.ON.model.BillingClaimHeader1 ch1 = null;
 List balances = new ArrayList();
 if(payments != null && payments.size()>0) {
     ch1 = payments.get(0).getBillingONCheader1();
-  	
 	sum = new BigDecimal(payments.get(0).getBillingONCheader1().getTotal());
 	for(int i=0;i<payments.size();i++){
-	balance = BigDecimal.valueOf(0);
-	BigDecimal payment = payments.get(i).getTotal_payment();
-	BigDecimal discount = payments.get(i).getTotal_discount();
-	BigDecimal refund = payments.get(i).getTotal_refund();
-    balance= balance.add(payment).add(discount).add(refund);
-    balance = balance.subtract(sum);
-    balances.add(i, balance);
+		balance = BigDecimal.valueOf(0);
+		BigDecimal payment = payments.get(i).getTotal_payment();
+		BigDecimal discount = payments.get(i).getTotal_discount();
+		BigDecimal refund = payments.get(i).getTotal_refund();
+	    balance= balance.add(payment).add(discount).add(refund);
+	    balance = balance.subtract(sum);
+	    balances.add(i, balance);
 	}
     //balance = balance.subtract(sum);
     request.setAttribute("balance", currency.format(balance));	
-}    
+} else {
+	sum = (BigDecimal)request.getAttribute("totalInvoiced");
+	balance = (BigDecimal)request.getAttribute("balance");
+}
 %>
 <table border=0 cellspacing=0 cellpadding=0 width="100%" >
     	<tr  bgcolor="#CCCCFF">
@@ -293,7 +303,11 @@ if(payments != null && payments.size()>0) {
 			    <td><bean:write name="displayPayment" property="paymentDateFormatted" /> </td>
 			    <td><bean:write name="displayPayment" property="total_discount" /> </td>
 			    <td><bean:write name="displayPayment" property="total_refund" /> </td>
-			     <td><%= currency.format(balances.get(index++)) %> </td>
+			    <%if (((BigDecimal)balances.get(index++)).compareTo(BigDecimal.ZERO) == -1) {%>
+			    <td><%= "-" + currency.format(balances.get(index++)) %> </td>
+			    <%} else { %>
+			    <td><%= currency.format(balances.get(index++)) %> </td>
+			    <%} %>
 			    <td><a href="#" onClick="onEditPayment('<bean:write name="displayPayment" property="id" />',
 			    	'<bean:write name="displayPayment" property="total_payment" />',
 			    	'<bean:write name="displayPayment" property="paymentDateFormatted" />')">view</a>
@@ -302,7 +316,11 @@ if(payments != null && payments.size()>0) {
 		</logic:iterate>
 </logic:present>
 		<tr><td/><td/><td><b>Total:</b></td><td><b><%= currency.format(sum) %></b>
+		<%if (balance.compareTo(BigDecimal.ZERO) == -1) { %>
+		<tr><td/><td/><td><b>Balance:</b></td><td><b><%= "=" + currency.format(balance) %></b>
+		<%} else { %>
 		<tr><td/><td/><td><b>Balance:</b></td><td><b><%= currency.format(balance) %></b>
+		<%} %>
 
 	</table>
 

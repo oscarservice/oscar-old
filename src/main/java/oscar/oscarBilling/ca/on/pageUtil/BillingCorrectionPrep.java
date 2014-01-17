@@ -51,13 +51,13 @@ import oscar.util.StringUtils;
 public class BillingCorrectionPrep {
 	private static final Logger _logger = Logger
 			.getLogger(BillingCorrectionPrep.class);
-	
+
 	private BillingOnItemDao billingOnItemDao;
 
 	JdbcBillingCorrection dbObj = new JdbcBillingCorrection();
-	BillingItemDao item=new BillingItemDao();
+	BillingItemDao item = new BillingItemDao();
 
-	// 
+	//
 	public List getBillingRecordObj(String id) {
 		List ret = dbObj.getBillingRecordObj(id);
 		return ret;
@@ -79,7 +79,7 @@ public class BillingCorrectionPrep {
 	public boolean updateBillingClaimHeader(BillingClaimHeader1Data ch1Obj,
 			HttpServletRequest requestData) {
 		boolean ret = true;
-                String status;
+		String status;
 		if (isChangedBillingClaimHeader(ch1Obj, requestData)) {
 			int i = dbObj.addRepoClaimHeader(ch1Obj);
 			_logger.info("updateBillingClaimHeader(old value = " + i
@@ -88,26 +88,25 @@ public class BillingCorrectionPrep {
 					+ ch1Obj.getFacilty_num() + "|" + ch1Obj.getMan_review()
 					+ "|" + ch1Obj.getBilling_date() + "|"
 					+ ch1Obj.getProviderNo() + "|" + ch1Obj.getCreator());
-                        
-                        status = requestData.getParameter("status").substring(0,1);
-                        if( status.equals("S") && !ch1Obj.getStatus().equals(status)) {
-                            this.updateExt("payDate", requestData);
-                        }
-			ch1Obj.setStatus(status);
-			
-			ch1Obj.setPay_program(requestData.getParameter("payProgram"));
-			if(requestData.getParameter("status").substring(0,1).equals("N")){
-				ch1Obj.setPay_program("NOT");				
+
+			status = requestData.getParameter("status").substring(0, 1);
+			if (status.equals("S") && !ch1Obj.getStatus().equals(status)) {
+				this.updateExt("payDate", requestData);
 			}
-						
+			ch1Obj.setStatus(status);
+
+			ch1Obj.setPay_program(requestData.getParameter("payProgram"));
+			if (requestData.getParameter("status").substring(0, 1).equals("N")) {
+				ch1Obj.setPay_program("NOT");
+			}
+
 			ch1Obj.setRef_num(requestData.getParameter("rdohip"));
 			ch1Obj.setVisittype(requestData.getParameter("visittype"));
 
 			ch1Obj.setAdmission_date(requestData.getParameter("xml_vdate"));
 			ch1Obj.setFacilty_num(requestData.getParameter("clinic_ref_code"));
-			ch1Obj
-					.setMan_review(requestData.getParameter("m_review") == null ? ""
-							: "Y");
+			ch1Obj.setMan_review(requestData.getParameter("m_review") == null ? ""
+					: "Y");
 			ch1Obj.setBilling_date(requestData
 					.getParameter("xml_appointment_date"));
 			ch1Obj.setProviderNo(requestData.getParameter("provider_no"));
@@ -120,70 +119,81 @@ public class BillingCorrectionPrep {
 			ch1Obj.setProvider_rma_no(otemp.getRmaNo());
 			ch1Obj.setCreator((String) requestData.getSession().getAttribute(
 					"user"));
-			
+
 			ch1Obj.setClinic(requestData.getParameter("site"));
-			
+
 			ch1Obj.setProvince(requestData.getParameter("hc_type"));
-			
+
 			ch1Obj.setLocation(requestData.getParameter("xml_slicode"));
 			ret = dbObj.updateBillingClaimHeader(ch1Obj);
-			if(ch1Obj.getStatus().equals("D")){
+			if (ch1Obj.getStatus().equals("D")) {
 				dbObj.updatedeleteBillingClaimHeaderTrans(ch1Obj);
-			}else{
-			dbObj.updateBillingClaimHeaderTrans(ch1Obj);
+			} else {
+				dbObj.updateBillingClaimHeaderTrans(ch1Obj);
 			}
 		}
-		
-		//set inactive 3rd party payment record if user switched from 3rd party to some other pay program
-		String payProgram = requestData.getParameter("payProgram");				
-		if( requestData.getParameter("oldStatus").equals("thirdParty") && ("HCP".equals(payProgram) || "RMB".equals(payProgram) || "WCB".equals(payProgram)) ) {
-			setInactive("payment", requestData);
-			setInactive("refund", requestData);
-			setInactive("payDate", requestData);
+
+		// set inactive 3rd party payment record if user switched from 3rd party
+		// to some other pay program
+		String payProgram = requestData.getParameter("payProgram");
+		if (requestData.getParameter("oldStatus").equals("thirdParty")
+				&& ("HCP".equals(payProgram) || "RMB".equals(payProgram) || "WCB"
+						.equals(payProgram))) {
+			setInactive(BillingONExtDao.KEY_PAYMENT, requestData);
+			setInactive(BillingONExtDao.KEY_TOTAL, requestData);
+			setInactive(BillingONExtDao.KEY_DISCOUNT, requestData);
+			setInactive(BillingONExtDao.KEY_REFUND, requestData);
+			setInactive(BillingONExtDao.KEY_PAY_DATE, requestData);
 			setInactive("billTo", requestData);
 		}
 
 		// 3rd party elements
-		if(payProgram.matches(BillingDataHlp.BILLINGMATCHSTRING_3RDPARTY)) {
-		if (requestData.getParameter("payment") != null) {
-			ret = update3rdPartyItem("payment", requestData);
-            ret = update3rdPartyItem("refund", requestData);
-            ret = update3rdPartyItem("payDate", requestData);
-            ch1Obj.setPaid(requestData.getParameter("payment"));
-            ret = dbObj.updateBillingClaimHeader(ch1Obj);
-		}
+		if (payProgram.matches(BillingDataHlp.BILLINGMATCHSTRING_3RDPARTY)) {
+			if (requestData.getParameter("payment") != null) {
+				ret = update3rdPartyItem(BillingONExtDao.KEY_DISCOUNT, requestData);
+				ret = update3rdPartyItem(BillingONExtDao.KEY_TOTAL, requestData);
+				ret = update3rdPartyItem(BillingONExtDao.KEY_PAYMENT, requestData);
+				ret = update3rdPartyItem(BillingONExtDao.KEY_REFUND, requestData);
+				ret = update3rdPartyItem(BillingONExtDao.KEY_PAY_DATE, requestData);
+				ch1Obj.setPaid(requestData.getParameter("payment"));
+				ret = dbObj.updateBillingClaimHeader(ch1Obj);
+			}
 
-		if (requestData.getParameter("billTo") != null) {
-			ret = update3rdPartyItem("billTo", requestData);
-		}
+			if (requestData.getParameter("billTo") != null) {
+				ret = update3rdPartyItem("billTo", requestData);
+			}
 		}
 		return ret;
 	}
-	
-		public void setInactive(String key, HttpServletRequest request) {
-			JdbcBilling3rdPartImpl tobj = new JdbcBilling3rdPartImpl();
-			String billingNo = request.getParameter("xml_billing_no");
-			tobj.updateKeyStatus(billingNo, key, JdbcBilling3rdPartImpl.INACTIVE);
-		}
 
-        /*
-         * Need to use billing extension table to capture data for invoices in
-         * addition to 3rd party bills
-         */
-        public void updateExt(String key, HttpServletRequest request) {
-            update3rdPartyItem(key, request);
-        }
+	public void setInactive(String key, HttpServletRequest request) {
+		JdbcBilling3rdPartImpl tobj = new JdbcBilling3rdPartImpl();
+		String billingNo = request.getParameter("xml_billing_no");
+		tobj.updateKeyStatus(billingNo, key, JdbcBilling3rdPartImpl.INACTIVE);
+	}
 
-        public boolean update3rdPartyItem(String key, HttpServletRequest request) {
+	/*
+	 * Need to use billing extension table to capture data for invoices in
+	 * addition to 3rd party bills
+	 */
+	public void updateExt(String key, HttpServletRequest request) {
+		update3rdPartyItem(key, request);
+	}
+
+	public boolean update3rdPartyItem(String key, HttpServletRequest request) {
 		boolean ret = true;
 		JdbcBilling3rdPartImpl tobj = new JdbcBilling3rdPartImpl();
 		String billingNo = request.getParameter("xml_billing_no");
-		if( tobj.keyExists(billingNo, key) ) {
-                    ret = tobj.updateKeyValue(billingNo, key, request.getParameter(key));
-                }
-                else {
-                    ret = tobj.add3rdBillExt(billingNo, request.getParameter("demoNo"), key, request.getParameter(key));
-                }
+		if (tobj.keyExists(billingNo, key)) {
+			String val = request.getParameter(key);
+			if (val == null && BillingONExtDao.isNumberKey(key)) {
+				val = "0.00";
+			}
+			ret = tobj.updateKeyValue(billingNo, key, val);
+		} else {
+			ret = tobj.add3rdBillExt(billingNo, request.getParameter("demoNo"),
+					key, request.getParameter(key));
+		}
 		return ret;
 	}
 
@@ -191,22 +201,22 @@ public class BillingCorrectionPrep {
 		boolean ret = true;
 		JdbcBilling3rdPartImpl tobj = new JdbcBilling3rdPartImpl();
 		String billingNo = request.getParameter("xml_billing_no");
-		tobj.updateKeyValue(billingNo, "payment", request
-				.getParameter("payment"));
-		tobj
-				.updateKeyValue(billingNo, "refund", request
-						.getParameter("refund"));
+		tobj.updateKeyValue(billingNo, "payment",
+				request.getParameter("payment"));
+		tobj.updateKeyValue(billingNo, "refund", request.getParameter("refund"));
 		return ret;
 	}
 
 	public boolean updateBillingItem(List lItemObj, HttpServletRequest request) {
 		boolean ret = true; // dbObj.updateBillingClaimHeader(ch1Obj);
 		// _logger.info("updateBillingItem(old value = ");
-		
-		BillingClaimHeader1Data ch1Obj = (BillingClaimHeader1Data)lItemObj.get(0);
-		String updateProviderNo = (String) request.getSession().getAttribute("user");
+
+		BillingClaimHeader1Data ch1Obj = (BillingClaimHeader1Data) lItemObj
+				.get(0);
+		String updateProviderNo = (String) request.getSession().getAttribute(
+				"user");
 		lItemObj.remove(0);
-		
+
 		Vector vecName = new Vector();
 		Vector vecUnit = new Vector();
 		Vector vecFee = new Vector();
@@ -217,11 +227,13 @@ public class BillingCorrectionPrep {
 
 		for (int i = 0; i < BillingDataHlp.FIELD_MAX_SERVICE_NUM; i++) {
 			if (request.getParameter("servicecode" + i) != null
-					&& request.getParameter("servicecode" + i).length() > 0) { // == 5
+					&& request.getParameter("servicecode" + i).length() > 0) { // ==
+																				// 5
 				vecName.add(request.getParameter("servicecode" + i));
 				vecUnit.add(request.getParameter("billingunit" + i));
 				vecFee.add(request.getParameter("billingamount" + i));
-				vecStatus.add(request.getParameter("itemStatus" + i) == null ? "O"
+				vecStatus
+						.add(request.getParameter("itemStatus" + i) == null ? "O"
 								: "S");
 			}
 		}
@@ -230,8 +242,8 @@ public class BillingCorrectionPrep {
 		String claimId = "0";
 		for (int i = 0; i < lItemObj.size(); i++) {
 			BillingItemData iObj = (BillingItemData) lItemObj.get(i);
-			ret = changeItem(ch1Obj, iObj, updateProviderNo, dx, serviceDate, vecName, vecUnit, vecFee,
-					vecStatus);
+			ret = changeItem(ch1Obj, iObj, updateProviderNo, dx, serviceDate,
+					vecName, vecUnit, vecFee, vecStatus);
 			claimId = iObj.getCh1_id();
 			_logger.info(iObj.getService_code() + " lItemObj = " + ret);
 		}
@@ -242,7 +254,8 @@ public class BillingCorrectionPrep {
 			String sUnit = (String) vecUnit.get(i);
 			String sFee = (String) vecFee.get(i);
 			String sStatus = (String) vecStatus.get(i);
-			ret = addItem(ch1Obj, lItemObj, updateProviderNo, dx, serviceDate, sName, sUnit, sFee, sStatus);
+			ret = addItem(ch1Obj, lItemObj, updateProviderNo, dx, serviceDate,
+					sName, sUnit, sFee, sStatus);
 			_logger.info(sName + " lItemObj(value = " + ret);
 		}
 
@@ -250,18 +263,23 @@ public class BillingCorrectionPrep {
 		String newAmount = sumFee(vecFee);
 		_logger.info(" lItemObj(newAmount = " + newAmount);
 		updateAmount(newAmount, claimId);
-				
+
 		// update total field in billing_on_ext if pay_program is 3rd party
-		if (ch1Obj.getPay_program().matches(BillingDataHlp.BILLINGMATCHSTRING_3RDPARTY)) {
-			BillingONExtDao billOnExtDao = SpringUtils.getBean(BillingONExtDao.class);
+		if (ch1Obj.getPay_program().matches(
+				BillingDataHlp.BILLINGMATCHSTRING_3RDPARTY)) {
+			BillingONExtDao billOnExtDao = SpringUtils
+					.getBean(BillingONExtDao.class);
 			if (null != billOnExtDao) {
 				int billingNo = Integer.parseInt(ch1Obj.getId());
-				int demographicNo = Integer.parseInt(ch1Obj.getDemographic_no());
-				BillingONExt billOnExt = billOnExtDao.getClaimExtItem(billingNo, demographicNo, "payDate");
+				int demographicNo = Integer
+						.parseInt(ch1Obj.getDemographic_no());
+				BillingONExt billOnExt = billOnExtDao.getClaimExtItem(
+						billingNo, demographicNo, "payDate");
 				if (billOnExt != null) {
-					// update total,provider_no  payDate field has already been updated
-					billOnExtDao.setExtItem(billingNo, demographicNo, "total", newAmount
-							, billOnExt.getDateTime(), '1');
+					// update total,provider_no payDate field has already been
+					// updated
+					billOnExtDao.setExtItem(billingNo, demographicNo, "total",
+							newAmount, billOnExt.getDateTime(), '1');
 				}
 			}
 		}
@@ -269,7 +287,6 @@ public class BillingCorrectionPrep {
 		return ret;
 	}
 
-	
 	// billing correction
 	public String getBillingCodeDesc(String codeName) {
 		String ret = null;
@@ -302,7 +319,7 @@ public class BillingCorrectionPrep {
 	private boolean isChangedBillingClaimHeader(
 			BillingClaimHeader1Data existObj, HttpServletRequest request) {
 		boolean ret = false;
-		if(existObj == null) 
+		if (existObj == null)
 			return ret;
 		// _logger.info("isChangedBillingClaimHeader(old value = " +
 		// existObj.getStatus() + "|" + existObj.getRef_num()
@@ -311,64 +328,86 @@ public class BillingCorrectionPrep {
 		// + "|" + existObj.getBilling_date() + "|" + existObj.getProviderNo()
 		// + "|" + existObj.getPay_program());
 		String temp = request.getParameter("m_review") == null ? "" : "Y";
-		if (existObj.getStatus()!=null && request.getParameter("status")!=null && !existObj.getStatus().equals(
-				request.getParameter("status").substring(0, 1)))
+		if (existObj.getStatus() != null
+				&& request.getParameter("status") != null
+				&& !existObj.getStatus().equals(
+						request.getParameter("status").substring(0, 1)))
 			MiscUtils.getLogger().debug("status");
-		if (existObj.getPay_program()!=null && !existObj.getPay_program().equals(
-				request.getParameter("payProgram")))
+		if (existObj.getPay_program() != null
+				&& !existObj.getPay_program().equals(
+						request.getParameter("payProgram")))
 			MiscUtils.getLogger().debug("payProgram");
-		if (existObj.getRef_num()!=null && !existObj.getRef_num().equals(request.getParameter("rdohip")))
+		if (existObj.getRef_num() != null
+				&& !existObj.getRef_num()
+						.equals(request.getParameter("rdohip")))
 			MiscUtils.getLogger().debug("rdohip");
-		if (existObj.getVisittype()!=null && !existObj.getVisittype().equals(request.getParameter("visittype")))
+		if (existObj.getVisittype() != null
+				&& !existObj.getVisittype().equals(
+						request.getParameter("visittype")))
 			MiscUtils.getLogger().debug("visittype");
-		if (existObj.getAdmission_date()!=null && !existObj.getAdmission_date().equals(
-				request.getParameter("xml_vdate")))
+		if (existObj.getAdmission_date() != null
+				&& !existObj.getAdmission_date().equals(
+						request.getParameter("xml_vdate")))
 			MiscUtils.getLogger().debug("xml_vdate");
 
-		if (existObj.getFacilty_num()!=null && !existObj.getFacilty_num().equals(
-				request.getParameter("clinic_ref_code")))
+		if (existObj.getFacilty_num() != null
+				&& !existObj.getFacilty_num().equals(
+						request.getParameter("clinic_ref_code")))
 			MiscUtils.getLogger().debug("facNum:" + existObj.getFacilty_num());
-		if (existObj.getMan_review()!=null && !existObj.getMan_review().equals(temp))
-			MiscUtils.getLogger().debug("|" + existObj.getMan_review() + ":temp:" + temp
-					+ "|");
-		if (existObj.getBilling_date()!=null && !existObj.getBilling_date().equals(
-				request.getParameter("xml_appointment_date")))
+		if (existObj.getMan_review() != null
+				&& !existObj.getMan_review().equals(temp))
+			MiscUtils.getLogger().debug(
+					"|" + existObj.getMan_review() + ":temp:" + temp + "|");
+		if (existObj.getBilling_date() != null
+				&& !existObj.getBilling_date().equals(
+						request.getParameter("xml_appointment_date")))
 			MiscUtils.getLogger().debug("Billing_date");
-		if (existObj.getProviderNo()!=null && !existObj.getProviderNo().equals(
-				request.getParameter("provider_no")))
+		if (existObj.getProviderNo() != null
+				&& !existObj.getProviderNo().equals(
+						request.getParameter("provider_no")))
 			MiscUtils.getLogger().debug("getProvider_no");
 
-		if ((existObj.getStatus()!=null && request.getParameter("status")!=null && !existObj.getStatus().equals(
-				request.getParameter("status").substring(0, 1)))
-				|| (existObj.getPay_program()!=null && !existObj.getPay_program().equals(
-						request.getParameter("payProgram")))
-				|| (existObj.getRef_num()!=null && !existObj.getRef_num()
+		if ((existObj.getStatus() != null
+				&& request.getParameter("status") != null && !existObj
+				.getStatus().equals(
+						request.getParameter("status").substring(0, 1)))
+				|| (existObj.getPay_program() != null && !existObj
+						.getPay_program().equals(
+								request.getParameter("payProgram")))
+				|| (existObj.getRef_num() != null && !existObj.getRef_num()
 						.equals(request.getParameter("rdohip")))
-				|| (existObj.getVisittype()!=null && !existObj.getVisittype().equals(
-						request.getParameter("visittype")))
-				|| (existObj.getAdmission_date()!=null && !existObj.getAdmission_date().equals(
-						request.getParameter("xml_vdate")))
-				|| (existObj.getFacilty_num()!=null && !existObj.getFacilty_num().equals(
-						request.getParameter("clinic_ref_code")))
-				|| (existObj.getMan_review()!=null && !existObj.getMan_review().equals(temp))
-				|| (existObj.getBilling_date()!=null && !existObj.getBilling_date().equals(
-						request.getParameter("xml_appointment_date")))
-				|| (existObj.getComment()!=null && !existObj.getComment().equals(
-						request.getParameter("comment")))
-				|| (existObj.getProviderNo()!=null && !existObj.getProviderNo().equals(
-						request.getParameter("provider_no")))
-				|| (existObj.getLocation()!=null && !existObj.getLocation().equals(
-						request.getParameter("xml_slicode")))
-				|| !StringUtils.nullSafeEquals(existObj.getClinic(), request.getParameter("site"))
-                                || (existObj.getProvince()!=null && !existObj.getProvince().equals(
-						request.getParameter("hc_type")))) {
+				|| (existObj.getVisittype() != null && !existObj.getVisittype()
+						.equals(request.getParameter("visittype")))
+				|| (existObj.getAdmission_date() != null && !existObj
+						.getAdmission_date().equals(
+								request.getParameter("xml_vdate")))
+				|| (existObj.getFacilty_num() != null && !existObj
+						.getFacilty_num().equals(
+								request.getParameter("clinic_ref_code")))
+				|| (existObj.getMan_review() != null && !existObj
+						.getMan_review().equals(temp))
+				|| (existObj.getBilling_date() != null && !existObj
+						.getBilling_date().equals(
+								request.getParameter("xml_appointment_date")))
+				|| (existObj.getComment() != null && !existObj.getComment()
+						.equals(request.getParameter("comment")))
+				|| (existObj.getProviderNo() != null && !existObj
+						.getProviderNo().equals(
+								request.getParameter("provider_no")))
+				|| (existObj.getLocation() != null && !existObj.getLocation()
+						.equals(request.getParameter("xml_slicode")))
+				|| !StringUtils.nullSafeEquals(existObj.getClinic(),
+						request.getParameter("site"))
+				|| (existObj.getProvince() != null && !existObj.getProvince()
+						.equals(request.getParameter("hc_type")))) {
 			ret = true;
 		}
 		return ret;
 	}
 
 	// status...
-	private boolean changeItem(BillingClaimHeader1Data ch1Obj, BillingItemData oldObj, String updateProviderNo, String sDx,
+	private boolean changeItem(BillingClaimHeader1Data ch1Obj,
+			BillingItemData oldObj, String updateProviderNo, String sDx,
 			String serviceDate, Vector vecName, Vector vecUnit, Vector vecFee,
 			Vector vecStatus) {
 		boolean ret = true;
@@ -395,43 +434,50 @@ public class BillingCorrectionPrep {
 					return false;
 				oldObj.setSer_num(getUnit((String) vecUnit.get(i)));
 				oldObj.setFee(getFee((String) vecFee.get(i),
-						getUnit((String) vecUnit.get(i)), (String) vecName
-								.get(i), serviceDate));
+						getUnit((String) vecUnit.get(i)),
+						(String) vecName.get(i), serviceDate));
 				oldObj.setService_date(serviceDate);
 				oldObj.setDx(sDx);
 				oldObj.setStatus(cStatus);
-				//List<String> payProgram = dbObj.getPayprogramByBillNo(oldObj.getCh1_id());
+				// List<String> payProgram =
+				// dbObj.getPayprogramByBillNo(oldObj.getCh1_id());
 				ret = dbObj.updateBillingOneItem(oldObj);
-				if(ch1Obj.getPay_program().matches(BillingDataHlp.BILLINGMATCHSTRING_3RDPARTY)) {
-				dbObj.updateBillingOneItemPayment(oldObj);
+				if (ch1Obj.getPay_program().matches(
+						BillingDataHlp.BILLINGMATCHSTRING_3RDPARTY)) {
+					dbObj.updateBillingOneItemPayment(oldObj);
 				}
-				//dbObj.addBillingTransaction(oldObj, payProgram.get(0));
+				// dbObj.addBillingTransaction(oldObj, payProgram.get(0));
 				if (ret) {
-					dbObj.addUpdateOneBillItemTrans(ch1Obj, oldObj, updateProviderNo);
+					dbObj.addUpdateOneBillItemTrans(ch1Obj, oldObj,
+							updateProviderNo);
 				}
 			}
 		} else {
 			// delete the old item
 
 			oldObj.setStatus("D");
-			///List<String> payProgram = dbObj.getPayprogramByBillNo(oldObj.getCh1_id());
+			// /List<String> payProgram =
+			// dbObj.getPayprogramByBillNo(oldObj.getCh1_id());
 			ret = dbObj.updateBillingOneItem(oldObj);
-			if(ch1Obj.getPay_program().matches(BillingDataHlp.BILLINGMATCHSTRING_3RDPARTY)) {
-			dbObj.updateBillingOneItemPayment(oldObj);
+			if (ch1Obj.getPay_program().matches(
+					BillingDataHlp.BILLINGMATCHSTRING_3RDPARTY)) {
+				dbObj.updateBillingOneItemPayment(oldObj);
 			}
 			if (ret) {
-				dbObj.addDeleteOneBillItemTrans(ch1Obj, oldObj, updateProviderNo);
+				dbObj.addDeleteOneBillItemTrans(ch1Obj, oldObj,
+						updateProviderNo);
 			}
 		}
 
 		return ret;
 	}
 
-	private boolean addItem(BillingClaimHeader1Data ch1Obj, List lItemObj, String updateProviderNo, String sDx, String serviceDate,
+	private boolean addItem(BillingClaimHeader1Data ch1Obj, List lItemObj,
+			String updateProviderNo, String sDx, String serviceDate,
 			String sName, String sUnit, String sFee, String sStatus) {
 		boolean ret = true;
 		BillingItemData oldObj = null;
-        BillingItemData newObj = null;
+		BillingItemData newObj = null;
 		for (int i = 0; i < lItemObj.size(); i++) {
 			oldObj = (BillingItemData) lItemObj.get(i);
 			if (sName.equals(oldObj.getService_code())) {
@@ -440,7 +486,7 @@ public class BillingCorrectionPrep {
 			}
 		}
 		if (ret) {
-            newObj = new BillingItemData(oldObj);
+			newObj = new BillingItemData(oldObj);
 			newObj.setService_code(sName);
 			newObj.setSer_num(getUnit(sUnit));
 			newObj.setFee(getFee(sFee, getUnit(sUnit), sName, serviceDate));
@@ -452,30 +498,31 @@ public class BillingCorrectionPrep {
 			newObj.setRefund("0.00");
 			JdbcBillingClaimImpl myObj = new JdbcBillingClaimImpl();
 			int i = myObj.addOneItemRecord(newObj);
-			//int billingno= Integer.parseInt(oldObj.getCh1_id());
-			//List<BillingOnItem> items = billingOnItemDao
-					//.getBillingItemByCh1IdDesc(billingno);
-			//item.getShowBillingItemByCh1Id(a).get(0).getId();
-			//List<ItemBean> list=item.getBillingItemByIdDesc(a);
-			//List<BillingItem> list=item.getBillingItemByIdDesc(a);
-			//ItemBean str=list.get(0);
-			//BillingItem str =list.get(0);
+			// int billingno= Integer.parseInt(oldObj.getCh1_id());
+			// List<BillingOnItem> items = billingOnItemDao
+			// .getBillingItemByCh1IdDesc(billingno);
+			// item.getShowBillingItemByCh1Id(a).get(0).getId();
+			// List<ItemBean> list=item.getBillingItemByIdDesc(a);
+			// List<BillingItem> list=item.getBillingItemByIdDesc(a);
+			// ItemBean str=list.get(0);
+			// BillingItem str =list.get(0);
 			if (0 == i) {
 				return false;
 			}
-			if(ch1Obj.getPay_program().matches(BillingDataHlp.BILLINGMATCHSTRING_3RDPARTY)) {
-			int b=myObj.addOneItemPaymentRecord(newObj, i);
-			
-			
-			dbObj.addInsertOneBillItemTrans(ch1Obj, newObj, updateProviderNo,b);
-		}
-		else{
-			dbObj.addInsertOneBillItemTrans(ch1Obj, newObj, updateProviderNo,0);
-			
-		}
-			lItemObj.add(newObj);
+			if (ch1Obj.getPay_program().matches(
+					BillingDataHlp.BILLINGMATCHSTRING_3RDPARTY)) {
+				int b = myObj.addOneItemPaymentRecord(newObj, i);
+
+				dbObj.addInsertOneBillItemTrans(ch1Obj, newObj,
+						updateProviderNo, b);
+			} else {
+				dbObj.addInsertOneBillItemTrans(ch1Obj, newObj,
+						updateProviderNo, 0);
+
 			}
-		
+			lItemObj.add(newObj);
+		}
+
 		ret = true;
 		return ret;
 	}
@@ -487,10 +534,10 @@ public class BillingCorrectionPrep {
 	}
 
 	public List getBillingNoStatusByBillNo(String billNo) {
-	       List ret = dbObj.getBillingCH1NoStatusByBillNo(billNo);
-	       return ret;
+		List ret = dbObj.getBillingCH1NoStatusByBillNo(billNo);
+		return ret;
 	}
-	
+
 	// for appt unbill;
 	public boolean deleteBilling(String id, String status, String providerNo) {
 		boolean ret = dbObj.updateBillingStatus(id, status, providerNo);
@@ -529,7 +576,7 @@ public class BillingCorrectionPrep {
 			dbObj.updateBillingTotal(newAmount, claimId);
 		}
 	}
-	
+
 	private void updatePaid(String newAmount, String claimId) {
 		String oldTotal = dbObj.getBillingPaid(claimId);
 		if (!newAmount.equals(oldTotal)) {
@@ -545,11 +592,12 @@ public class BillingCorrectionPrep {
 		return ret;
 	}
 
-	private String getFee(String fee, String unit, String codeName, String billReferenceDate) {
+	private String getFee(String fee, String unit, String codeName,
+			String billReferenceDate) {
 		String ret = fee;
 		if (fee.length() == 0 || fee.equals(" ")) {
 			JdbcBillingReviewImpl dbObj = new JdbcBillingReviewImpl();
-			fee = dbObj.getCodeFee(codeName,billReferenceDate);
+			fee = dbObj.getCodeFee(codeName, billReferenceDate);
 			// calculate fee
 			BigDecimal bigCodeFee = new BigDecimal(fee);
 			BigDecimal bigCodeUnit = new BigDecimal(unit);

@@ -46,6 +46,7 @@ public class BillingONExtDao extends AbstractDao<BillingONExt>{
 	public final static String KEY_DISCOUNT = "discount";
 	public final static String KEY_PAY_DATE = "payDate";
 	public final static String KEY_PAY_METHOD = "payMethod";
+	public final static String KEY_TOTAL = "total";
 
 	public BillingONExtDao() {
         super(BillingONExt.class);
@@ -112,5 +113,14 @@ public class BillingONExtDao extends AbstractDao<BillingONExt>{
     		this.persist(res);
     	}
     }
-
+    
+    public static boolean isNumberKey(String key) {
+    	if (KEY_PAYMENT.equalsIgnoreCase(key) 
+    			|| KEY_DISCOUNT.equalsIgnoreCase(key) 
+    			|| KEY_TOTAL.equalsIgnoreCase(key) 
+    			|| KEY_REFUND.equalsIgnoreCase(key)) {
+    		return true;
+    	}
+    	return false;
+    }
 }
