@@ -128,7 +128,7 @@ public class JdbcBillingClaimImpl {
 		for (int i = 0; i < lVal.size(); i++) {
 			BillingItemData val = (BillingItemData) lVal.get(i);
 			String sql = "insert into billing_on_item_payment values(\\N, " + id + ", '" + paymentId + "', '" + val.id
-					+ "' , \\N,'" + val.paid+"','" + val.refund + "','" + val.discount + "','" + paymentType + "')";
+					+ "' , \\N,'" + val.paid+"','" + val.refund + "','" + val.discount + "')";
 			retval = dbObj.saveBillingRecord(sql);
 			if (0 == retval) {
 				_logger.error("addItemPaymentRecord(sql = " + sql + ")");

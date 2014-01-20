@@ -34,16 +34,16 @@ public class BillingOnItemPayment extends AbstractModel<Integer> implements Seri
 	private int ch1Id;
 
 	@Column(precision=10, scale=2)
-	private BigDecimal discount;
+	private BigDecimal discount = new BigDecimal("0.00");
 
 	@Column(precision=10, scale=2)
-	private BigDecimal paid;
+	private BigDecimal paid = new BigDecimal("0.00");
 
 	@Column(name="payment_timestamp", nullable=false)
 	private Timestamp paymentTimestamp;
 
 	@Column(precision=10, scale=2)
-	private BigDecimal refund;
+	private BigDecimal refund = new BigDecimal("0.00");
 
 	public BillingOnItemPayment() {
 	}

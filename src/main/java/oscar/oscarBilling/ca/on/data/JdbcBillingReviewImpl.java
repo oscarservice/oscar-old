@@ -312,19 +312,13 @@ public class JdbcBillingReviewImpl {
 				strServiceDate = rs2.getString("service_date");
 				try {
 					paid = paid.add(rs2.getBigDecimal("paid"));
-				} catch (Exception e) {
-					paid = new BigDecimal("0.00");
-				}
+				} catch (Exception e) {}
 				try {
 					refund = refund.add(rs2.getBigDecimal("refund"));
-				} catch (Exception e) {
-					refund = new BigDecimal("0.00");
-				}
+				} catch (Exception e) {}
 				try {
 					discount = discount.add(rs2.getBigDecimal("discount"));
-				} catch (Exception e) {
-					discount = new BigDecimal("0.00");
-				}
+				} catch (Exception e) {}
 			}
 			rs2.close();
 			BillingItemData itObj = new BillingItemData();
