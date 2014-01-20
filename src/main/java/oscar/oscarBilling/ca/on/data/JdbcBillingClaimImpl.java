@@ -314,7 +314,7 @@ public class JdbcBillingClaimImpl {
 		String sql = "insert into billing_on_item values(\\N, " + val.ch1_id + ", '" + val.transc_id + "', '"
 				+ val.rec_id + "', '" + val.service_code + "', '" + val.fee + "', '" + val.ser_num + "', '"
 				+ val.service_date + "', '" + val.dx + "', '" + val.dx1 + "', '" + val.dx2 + "', '" + val.status
-				+ "', \\N,' "+val.paid+"','"+val.refund+"','"+val.discount+"',"+1+")";
+				+ "', \\N)";
 		retval = dbObj.saveBillingRecord(sql);
 		if (retval == 0) {
 			_logger.error("addOneItemRecord(sql = " + sql + ")");
@@ -322,9 +322,9 @@ public class JdbcBillingClaimImpl {
 		return retval;
 	}
 	
-	public int addOneItemPaymentRecord(BillingItemData val, int id) {
+	public int addOneItemPaymentRecord(BillingItemData val, int id, int paymentId) {
 		int retval = 0;
-		String sql = "insert into billing_on_item_payment values(\\N, " + val.ch1_id + ", '" + 0 + "', '" + id + "', \\N,' "+val.paid+"','"+val.refund+"','"+val.discount+"')";
+		String sql = "insert into billing_on_item_payment values(\\N, " + val.ch1_id + ", '" + paymentId + "', '" + id + "', \\N,'"+val.paid+"','"+val.refund+"','"+val.discount+"')";
 		retval = dbObj.saveBillingRecord(sql);
 		if (retval == 0) { 
 			_logger.error("addOneItemRecord(sql = " + sql + ")");

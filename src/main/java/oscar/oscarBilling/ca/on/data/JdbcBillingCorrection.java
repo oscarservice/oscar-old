@@ -149,7 +149,7 @@ public class JdbcBillingCorrection {
 		String sql = "update billing_on_item set transc_id='" + val.transc_id + "', rec_id='" + val.rec_id
 				+ "', service_code='" + val.service_code + "', fee='" + val.fee + "', ser_num='" + val.ser_num
 				+ "', service_date='" + val.service_date + "', dx='" + val.dx + "', dx1='" + val.dx1 + "', dx2='"
-				+ val.dx2 + "', status='" + val.status + "', paid='" + val.paid + "', refund='" + val.refund + "', discount='" + val.discount + "' where id=" + val.id;
+				+ val.dx2 + "', status='" + val.status + "' where id=" + val.id;
 		_logger.info("updateBillingOneItem(sql = " + sql + ")");
 		retval = dbObj.updateDBRecord(sql);
 		if (!retval) {

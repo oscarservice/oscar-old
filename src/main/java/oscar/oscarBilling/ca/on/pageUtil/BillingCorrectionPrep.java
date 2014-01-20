@@ -36,6 +36,7 @@ import org.oscarehr.billing.CA.ON.model.BillingClaimHeader1;
 import org.oscarehr.billing.CA.ON.model.BillingItem;
 import org.oscarehr.billing.CA.ON.model.BillingONExt;
 import org.oscarehr.billing.CA.ON.model.BillingONPayment;
+import org.oscarehr.billing.CA.dao.BillingPaymentTypeDao;
 import org.oscarehr.util.MiscUtils;
 import org.oscarehr.util.SpringUtils;
 
@@ -88,7 +89,7 @@ public class BillingCorrectionPrep {
 			int i = dbObj.addRepoClaimHeader(ch1Obj);
 			_logger.info("updateBillingClaimHeader(old value = " + i
 					+ ch1Obj.getStatus() + "|" + ch1Obj.getRef_num() + "|"
-					+ ch1Obj.getAdmission_date() + "|"
+					+ ch1Obj.getAdmission_date() + "|" 
 					+ ch1Obj.getFacilty_num() + "|" + ch1Obj.getMan_review()
 					+ "|" + ch1Obj.getBilling_date() + "|"
 					+ ch1Obj.getProviderNo() + "|" + ch1Obj.getCreator());
@@ -516,7 +517,33 @@ public class BillingCorrectionPrep {
 			}
 			if (ch1Obj.getPay_program().matches(
 					BillingDataHlp.BILLINGMATCHSTRING_3RDPARTY)) {
-				int b = myObj.addOneItemPaymentRecord(newObj, i);
+				BillingONPaymentDao billingONPaymentDao =(BillingONPaymentDao) SpringUtils.getBean("billingONPaymentDao");
+				BillingClaimDAO billingONCHeader1Dao =(BillingClaimDAO) SpringUtils.getBean("billingClaimDAO");
+				BillingClaimHeader1 ch1 = billingONCHeader1Dao.find(Integer.parseInt(newObj.getCh1_id()));
+				BillingONPayment payment = null;
+				Date paymentDate = null;
+				String paymentTypeParam="1";
+	    		try {
+					paymentDate = new SimpleDateFormat("yyyy-MM-dd").parse(ch1Obj.getBilling_date());
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				
+				payment = new BillingONPayment();
+	    		payment.setTotal_payment(new BigDecimal(0));
+	    		payment.setTotal_discount(new BigDecimal(0));
+	    		payment.setTotal_refund(new BigDecimal(0));
+				payment.setPaymentDate(paymentDate);
+		    	payment.setBillingOnCheader1(ch1);
+		    	payment.setPaymentTypeId(paymentTypeParam);
+		    	payment.setCreator(ch1Obj.getProviderNo());
+		    	
+		    	//payment.setBillingPaymentType(type);
+		    	billingONPaymentDao.persist(payment);
+				
+				int b = myObj.addOneItemPaymentRecord(newObj, i ,payment.getId());
 
 				dbObj.addInsertOneBillItemTrans(ch1Obj, newObj,
 						updateProviderNo, b);
