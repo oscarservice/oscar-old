@@ -161,7 +161,7 @@ public class BillingONPaymentsAction extends DispatchAction {
 		int billNo = Integer.parseInt(request.getParameter("billingNo"));
 		String curProviderNo = (String) request.getSession().getAttribute("user");
 		String paymentTypeId = request.getParameter("paymentType");
-		if (paymentTypeId == null || !paymentTypeId.isEmpty()) {
+		if (paymentTypeId == null || paymentTypeId.isEmpty()) {
 			paymentTypeId = "0";
 		}
 
