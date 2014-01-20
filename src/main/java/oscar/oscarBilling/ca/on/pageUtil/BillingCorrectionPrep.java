@@ -504,14 +504,6 @@ public class BillingCorrectionPrep {
 			newObj.setRefund("0.00");
 			JdbcBillingClaimImpl myObj = new JdbcBillingClaimImpl();
 			int i = myObj.addOneItemRecord(newObj);
-			// int billingno= Integer.parseInt(oldObj.getCh1_id());
-			// List<BillingOnItem> items = billingOnItemDao
-			// .getBillingItemByCh1IdDesc(billingno);
-			// item.getShowBillingItemByCh1Id(a).get(0).getId();
-			// List<ItemBean> list=item.getBillingItemByIdDesc(a);
-			// List<BillingItem> list=item.getBillingItemByIdDesc(a);
-			// ItemBean str=list.get(0);
-			// BillingItem str =list.get(0);
 			if (0 == i) {
 				return false;
 			}
@@ -529,7 +521,6 @@ public class BillingCorrectionPrep {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
 				
 				payment = new BillingONPayment();
 	    		payment.setTotal_payment(new BigDecimal(0));
@@ -537,7 +528,7 @@ public class BillingCorrectionPrep {
 	    		payment.setTotal_refund(new BigDecimal(0));
 				payment.setPaymentDate(paymentDate);
 		    	payment.setBillingOnCheader1(ch1);
-		    	payment.setPaymentTypeId(paymentTypeParam);
+		    	payment.setPaymentTypeId(Integer.parseInt(paymentTypeParam));
 		    	payment.setCreator(ch1Obj.getProviderNo());
 		    	
 		    	//payment.setBillingPaymentType(type);
