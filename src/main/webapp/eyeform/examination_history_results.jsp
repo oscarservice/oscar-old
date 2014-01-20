@@ -147,7 +147,7 @@
 				</table>
 			</tr>
 	 	</table>
-<%// if((!"eyeform3".equals(eyeform)) && (!"eyeform3.1".equals(eyeform)) && (!"eyeform3.2".equals(eyeform))){%>
+<%if(!"eyeform3.1".equals(eyeform)){%>
 		<h5>Simple field history:</h5>
 		<table class="display" style="width:20%">
 		<tr style="background-color: rgb(204, 204, 255);">
@@ -196,7 +196,7 @@
 				}
 			%>
 </table>
-<%//}%>
+<%}%>
 <%if("eyeform3.1".equals(eyeform)){%>
 <table width="100%" cellpadding="1" cellspacing="4" border="0">
 <%if(fieldList.contains("Glasses Rx")){%>
