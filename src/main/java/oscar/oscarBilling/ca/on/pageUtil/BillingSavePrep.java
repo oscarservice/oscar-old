@@ -58,10 +58,6 @@ public class BillingSavePrep {
 		claim1Obj.setId(((Integer)billingId).toString());
 		if (val.size() > 1) {
 			ret = dbObj.addItemRecord((List) val.get(1), billingNo);
-// Here, we can't get the payment id			
-//			if (claim1Obj.getPay_program().substring(0,3).matches(BillingDataHlp.BILLINGMATCHSTRING_3RDPARTY)) {
-//				dbObj.addItemPaymentRecord((List) val.get(1), billingNo);
-//			}
 			if (!ret)
 				return false;
 		} else {

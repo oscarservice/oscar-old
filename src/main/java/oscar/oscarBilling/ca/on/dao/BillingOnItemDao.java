@@ -62,15 +62,6 @@ public class BillingOnItemDao extends HibernateDaoSupport {
             return rs;
         }
         
-        public List<BillingOnPaymentItem> getBillingItemByIdNew(Integer id) {
-            String queryStr = "FROM BillingOnPaymentItem b WHERE b.billing_on_item_id = "+id;
-
-            @SuppressWarnings("unchecked")
-            List<BillingOnPaymentItem> rs = getHibernateTemplate().find(queryStr);
-
-            return rs;
-        }
-
         public List<BillingOnItem> getBillingItemByCh1Id(Integer ch1_id) {
             String queryStr = "FROM BillingOnItem b WHERE b.ch1_id = "+ch1_id+" ORDER BY b.id";
 

@@ -114,7 +114,7 @@ public class BillingONCHeader1Dao extends AbstractDao<BillingONCHeader1>{
 
 	public void updatePaid(int billNo, BigDecimal sumPaid) {
 		Query query = entityManager.createQuery("update BillingONCHeader1 ch set ch.paid=? where ch.id=?");
-		query.setParameter(1, sumPaid.toString());
+		query.setParameter(1, sumPaid);
 		query.setParameter(2, billNo);
 		query.executeUpdate();
 	}

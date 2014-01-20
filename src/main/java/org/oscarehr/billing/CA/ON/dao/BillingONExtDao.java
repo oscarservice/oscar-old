@@ -66,7 +66,7 @@ public class BillingONExtDao extends AbstractDao<BillingONExt>{
     }
     
     public String getClaimExtRefund(int billingNo){
-    	String sql = "select value from billing_on_ext  where billing_No = " + billingNo + " AND key_val='refund'";
+    	String sql = "select value from billing_on_ext where billing_No = " + billingNo + " AND key_val='refund'";
         //query.setParameter("billingNo", billingNo);
 		ResultSet rs = dbObj.searchDBRecord(sql);
 
@@ -80,6 +80,40 @@ public class BillingONExtDao extends AbstractDao<BillingONExt>{
 			//refund = null;
 		}
         return refund;
+    }
+    
+    public String getClaimExtPayment(int billingNo){
+    	String sql = "select value from billing_on_ext where billing_No = " + billingNo + " AND key_val='payment'";
+        //query.setParameter("billingNo", billingNo);
+		ResultSet rs = dbObj.searchDBRecord(sql);
+
+        String payment="0.00";
+        try {
+			while (rs.next()) {
+				payment = rs.getString("value");
+			}
+		} catch (SQLException e) {
+			//_logger.error("getHtmlfilename(sql = " + sql + ")");
+			//refund = null;
+		}
+        return payment;
+    }
+    
+    public String getClaimExtDiscount(int billingNo){
+    	String sql = "select value from billing_on_ext where billing_No = " + billingNo + " AND key_val='discount'";
+        //query.setParameter("billingNo", billingNo);
+		ResultSet rs = dbObj.searchDBRecord(sql);
+
+        String discount="0.00";
+        try {
+			while (rs.next()) {
+				discount = rs.getString("value");
+			}
+		} catch (SQLException e) {
+			//_logger.error("getHtmlfilename(sql = " + sql + ")");
+			//refund = null;
+		}
+        return discount;
     }
 
     public BillingONExt getClaimExtItem(Integer billingNo, Integer demographicNo, String keyVal) throws NonUniqueResultException {

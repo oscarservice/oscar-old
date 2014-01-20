@@ -23,9 +23,19 @@
  */
 package org.oscarehr.billing.CA.ON.dao;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.oscarehr.billing.CA.ON.model.BillingClaimHeader1;
+import org.oscarehr.billing.CA.ON.model.BillingONPayment;
 import org.oscarehr.billing.CA.ON.model.BillingOnTransaction;
 import org.oscarehr.common.dao.AbstractDao;
 import org.springframework.stereotype.Repository;
+
+import oscar.oscarBilling.ca.on.data.BillingDataHlp;
+import oscar.oscarBilling.ca.on.model.BillingOnItem;
 
 @Repository
 public class BillingOnTransactionDao extends AbstractDao<BillingOnTransaction> {
@@ -34,4 +44,44 @@ public class BillingOnTransactionDao extends AbstractDao<BillingOnTransaction> {
         super(BillingOnTransaction.class);
     }
 	
+	public BillingOnTransaction getTransTemplate(BillingClaimHeader1 cheader1, BillingOnItem billItem, BillingONPayment billPayment, String curProviderNo) {
+		int billNo = cheader1.getId();
+		Date curDate = billPayment.getPaymentDate();
+		SimpleDateFormat admissionDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		BillingOnTransaction billTrans = new BillingOnTransaction();
+		billTrans.setActionType(BillingDataHlp.ACTION_TYPE.C.name());
+		try {
+			billTrans.setAdmissionDate(admissionDateFormat.parse(cheader1.getAdmission_date()));
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			billTrans.setAdmissionDate(null);
+		}
+		billTrans.setBillingDate(cheader1.getBilling_date());
+		billTrans.setBillingNotes(cheader1.getComment1());
+		billTrans.setCh1Id(billNo);
+		billTrans.setClinic(cheader1.getClinic());
+		billTrans.setCreator(cheader1.getCreator());
+		billTrans.setDemographicNo(cheader1.getDemographic_no());
+		billTrans.setDxCode(billItem.getDx());
+		billTrans.setFacilityNum(cheader1.getFacilty_num());
+		billTrans.setManReview(cheader1.getMan_review());
+		billTrans.setPaymentDate(curDate);
+		billTrans.setPaymentId(billPayment.getId());
+		billTrans.setPaymentType(billPayment.getPaymentTypeId());
+		billTrans.setPayProgram(cheader1.getPay_program());
+		billTrans.setProviderNo(cheader1.getProvider_no());
+		billTrans.setProvince(cheader1.getProvince());
+		billTrans.setRefNum(cheader1.getRef_num());
+		billTrans.setServiceCode(billItem.getService_code());
+		billTrans.setServiceCodeInvoiced(billItem.getFee());
+		billTrans.setServiceCodeNum(billItem.getSer_num());
+		billTrans.setSliCode(cheader1.getLocation());
+		billTrans.setStatus(billItem.getStatus());
+		billTrans.setUpdateDatetime(new Timestamp(curDate.getTime()));
+		billTrans.setUpdateProviderNo(curProviderNo);
+		billTrans.setVisittype(cheader1.getVisittype());
+		
+		return billTrans;
+	}
 }

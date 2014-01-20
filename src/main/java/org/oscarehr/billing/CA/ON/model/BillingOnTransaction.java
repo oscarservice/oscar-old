@@ -63,8 +63,8 @@ public class BillingOnTransaction extends AbstractModel<Integer> implements Seri
 	@Column(name="billing_notes", length=255)
 	private String billingNotes;
 
-	@Column(name="billing_on_item_id", nullable=false)
-	private int billingOnItemId;
+	@Column(name="billing_on_item_payment_id", nullable=false)
+	private int billingOnItemPaymentId;
 
 	@Column(name="ch1_id", nullable=false)
 	private int ch1Id;
@@ -97,9 +97,6 @@ public class BillingOnTransaction extends AbstractModel<Integer> implements Seri
 	@Column(name="payment_id", nullable=false)
 	private int paymentId;
 
-	@Column(length=1)
-	private int paymentType = 0;
-
 	@Column(name="provider_no", length=6)
 	private String providerNo;
 
@@ -113,7 +110,7 @@ public class BillingOnTransaction extends AbstractModel<Integer> implements Seri
 	private String serviceCode;
 
 	@Column(name="service_code_discount", precision=10, scale=2)
-	private BigDecimal serviceCodeDiscount;
+	private BigDecimal serviceCodeDiscount = new BigDecimal("0.00");;
 
 	@Column(name="service_code_invoiced", length=64)
 	private String serviceCodeInvoiced;
@@ -122,10 +119,10 @@ public class BillingOnTransaction extends AbstractModel<Integer> implements Seri
 	private String serviceCodeNum = "01";
 
 	@Column(name="service_code_paid", precision=10, scale=2)
-	private BigDecimal serviceCodePaid;
+	private BigDecimal serviceCodePaid = new BigDecimal("0.00");;
 
 	@Column(name="service_code_refund", precision=10, scale=2)
-	private BigDecimal serviceCodeRefund;
+	private BigDecimal serviceCodeRefund = new BigDecimal("0.00");
 
 	@Column(name="sli_code", length=10)
 	private String sliCode;
@@ -141,6 +138,9 @@ public class BillingOnTransaction extends AbstractModel<Integer> implements Seri
 
 	@Column(length=2)
 	private String visittype;
+	
+	@Column(name="payment_type_id", length=2)
+	private int paymentType;
 
 	public BillingOnTransaction() {
 	}
@@ -185,12 +185,12 @@ public class BillingOnTransaction extends AbstractModel<Integer> implements Seri
 		this.billingNotes = billingNotes;
 	}
 
-	public int getBillingOnItemId() {
-		return this.billingOnItemId;
+	public int getBillingOnItemPaymentId() {
+		return billingOnItemPaymentId;
 	}
 
-	public void setBillingOnItemId(int billingOnItemId) {
-		this.billingOnItemId = billingOnItemId;
+	public void setBillingOnItemPaymentId(int billingOnItemPaymentId) {
+		this.billingOnItemPaymentId = billingOnItemPaymentId;
 	}
 
 	public int getCh1Id() {

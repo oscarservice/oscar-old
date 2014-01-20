@@ -123,12 +123,12 @@ public class JdbcBillingClaimImpl {
 		return (retval != 0);
 	}
 	
-	public boolean addItemPaymentRecord(List lVal, int id,int paymentId) {
+	public boolean addItemPaymentRecord(List lVal, int id, int paymentId, int paymentType) {
 		int retval = 0;
 		for (int i = 0; i < lVal.size(); i++) {
 			BillingItemData val = (BillingItemData) lVal.get(i);
 			String sql = "insert into billing_on_item_payment values(\\N, " + id + ", '" + paymentId + "', '" + val.id
-					+ "' , \\N,'"+val.paid+"','"+val.refund+"','"+val.discount+"')";
+					+ "' , \\N,'" + val.paid+"','" + val.refund + "','" + val.discount + "','" + paymentType + "')";
 			retval = dbObj.saveBillingRecord(sql);
 			if (0 == retval) {
 				_logger.error("addItemPaymentRecord(sql = " + sql + ")");
@@ -298,12 +298,11 @@ public class JdbcBillingClaimImpl {
 	    		payment.setTotal_refund(new BigDecimal(0));
 				payment.setPaymentDate(paymentDate);
 		    	payment.setBillingOnCheader1(ch1);
-		    	payment.setPaymentTypeId(paymentTypeParam);
 		    	payment.setCreator(provider_no);
 		    	
 		    	//payment.setBillingPaymentType(type);
 		    	billingONPaymentDao.persist(payment);
-		    	addItemPaymentRecord((List) vecObj.get(1), id ,payment.getId());
+		    	addItemPaymentRecord((List) vecObj.get(1), id , payment.getId(), Integer.parseInt(paymentTypeParam));
 		    	addCreate3rdInvoiceTrans((BillingClaimHeader1Data) vecObj.get(0), (List<BillingItemData>)vecObj.get(1), payment.getId(),paymentTypeParam);
 	    	}
         }

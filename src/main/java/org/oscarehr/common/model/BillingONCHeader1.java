@@ -19,6 +19,7 @@
 package org.oscarehr.common.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -82,8 +83,8 @@ public class BillingONCHeader1 extends AbstractModel<Integer> implements Seriali
 	private String billingDate = null;
 	@Column(name = "billing_time")
 	private String billingTime = null; //time format
-	private String total = null;
-	private String paid = null;
+	private BigDecimal total = null;
+	private BigDecimal paid = null;
 	private String status = null;
 	@Column(name = "comment1")
 	private String comment = null;
@@ -139,8 +140,8 @@ public class BillingONCHeader1 extends AbstractModel<Integer> implements Seriali
 		this.province = province;
 		this.billingDate = df.format(billingDate);
 		this.billingTime = df.format(billingTime);
-		this.total = Utility.toCurrency(total);
-		this.paid = Utility.toCurrency(paid);
+		this.total = BigDecimal.ZERO;
+		this.paid = BigDecimal.ZERO;
 		this.status = status;
 		this.comment = comment;
 		this.visitType = visitType;
@@ -334,24 +335,20 @@ public class BillingONCHeader1 extends AbstractModel<Integer> implements Seriali
 		this.billingTime = (new SimpleDateFormat("HH:mm:ss")).format(billingTime);
 	}
 
-	public Long getTotal() {
-		if(this.total != null && this.total.length()>0) return Math.round(Double.parseDouble(this.total)*100);
-		else return 0L;
+	public BigDecimal getTotal() {
+		return this.total;
 	}
 
-	public void setTotal(Long total) {
-		if(total != null && this.total.length()>0) this.total = Utility.toCurrency(total/100);
-		else this.total = "0.00";
+	public void setTotal(BigDecimal total) {
+		this.total = total;
 	}
 
-	public Long getPaid() {
-		if(this.paid != null && this.paid.length()>0) return Math.round(Double.parseDouble(this.paid)*100);
-		else return 0L;
+	public BigDecimal getPaid() {
+		return this.paid;
 	}
 
-	public void setPaid(Long paid) {
-		if(paid != null && this.paid.length()>0) this.paid = Utility.toCurrency(paid/100);
-		else this.paid = "0.00";
+	public void setPaid(BigDecimal paid) {
+		this.paid = paid;
 	}
 
 	public String getStatus() {
