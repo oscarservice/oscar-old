@@ -1870,7 +1870,7 @@ span.ge{
              
 			 <td><input name="specs.odSph<%=num1%>" id="odSph<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value35%>"/></td>
 			 <td><input name="specs.odCyl<%=num1%>" id="odCyl<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value36%>"/></td>
-			 <td><input name="specs.odAxi<%=num1%>" id="odAxis<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value37%>"/></td>
+			 <td><input name="specs.odAxis<%=num1%>" id="odAxis<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"   onfocus="whiteField(this);" value="<%=value37%>"/></td>
 			 <td><input name="specs.odAdd<%=num1%>" id="odAdd<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value38%>"/></td>
 			 <td><input name="specs.odPrism<%=num1%>" id="odPrism<%=num1%>" type="text" tabindex="<%=num_tab ++%>" maxlength="6" class="examfieldgrey" size="6"  onfocus="whiteField(this);" value="<%=value39%>"/></td>		
 			 <td width="8%"></td>
