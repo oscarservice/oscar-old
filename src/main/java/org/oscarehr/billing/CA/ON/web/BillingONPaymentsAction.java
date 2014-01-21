@@ -37,6 +37,9 @@ import java.util.Vector;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -280,7 +283,7 @@ public class BillingONPaymentsAction extends DispatchAction {
 				}
 				billItem = itemList.get(0);
 			} catch (Exception e) {
-				e.printStackTrace();
+				logger.info(e.toString());
 				continue;
 			}
 			
@@ -366,6 +369,59 @@ public class BillingONPaymentsAction extends DispatchAction {
 
 		return listPayments(actionMapping, actionForm, request, response);
 
+	}
+	
+	public ActionForward viewPayment(ActionMapping actionMapping,
+			ActionForm actionForm, HttpServletRequest request,
+			HttpServletResponse response) {
+		String id = request.getParameter("paymentId");
+		int paymentId = 0;
+		try {
+			paymentId = Integer.parseInt(id);
+			if (paymentId == 0) {
+				return actionMapping.findForward("failure");
+			}
+		} catch (Exception e) {
+			logger.info(e.toString());
+			return actionMapping.findForward("failure");
+		}
+		BillingONPayment billPayment = billingONPaymentDao.find(paymentId);
+		if (billPayment == null) {
+			return actionMapping.findForward("failure");
+		}
+		List<BillingOnItemPayment> itemPaymentList = billingOnItemPaymentDao.getItemsByPaymentId(paymentId);
+		if (itemPaymentList == null) {
+			return actionMapping.findForward("failure");
+		}
+		JSONArray payDetail = new JSONArray();
+		JSONObject typeObj = new JSONObject();
+		typeObj.put("paymentType", billPayment.getPaymentTypeId());
+		payDetail.add(typeObj);
+		for (BillingOnItemPayment itemPayment : itemPaymentList) {
+			JSONObject itemObj = new JSONObject();
+			itemObj.put("id", itemPayment.getBillingOnItemId());
+			if (itemPayment.getRefund().compareTo(BigDecimal.ZERO) == 0) {
+				itemObj.put("type", "payment");
+				itemObj.put("payment", itemPayment.getPaid());
+				itemObj.put("discount", itemPayment.getDiscount());
+			} else {
+				itemObj.put("type", "refund");
+				itemObj.put("refund", itemPayment.getRefund());
+			}
+			payDetail.add(itemObj);
+		}
+		response.setCharacterEncoding("utf-8"); 
+        response.setContentType("html/text");
+		try {
+			response.getWriter().print(payDetail.toString());
+			response.getWriter().flush();
+			response.getWriter().close();
+		} catch (Exception e) {
+			logger.info(e.toString());
+			return actionMapping.findForward("failure");
+		}
+		
+		return null;
 	}
 
 	public void setBillingONPaymentDao(BillingONPaymentDao paymentDao) {

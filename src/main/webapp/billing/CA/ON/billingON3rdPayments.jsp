@@ -123,24 +123,63 @@ if(billingNo == null) errors.add("Wrong parameters");
 <script type="text/javascript"
 	src="../../../share/calendar/lang/<bean:message key="global.javascript.calendar"/>"></script>
 <script type="text/javascript" src="../../../share/calendar/calendar-setup.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/share/javascript/jquery/jquery-1.4.2.js"></script>
 <script type="text/javascript">
+
 function onViewPayment(id, sum, date, type) {
-	document.getElementById('paymentId').value = id;
-	document.getElementById('payment').value = sum;
-	document.getElementById('paymentDate').value = date;
-	
-<logic:present name="paymentTypeList" scope="request">
-    <logic:iterate id="billingPaymentType" name="paymentTypeList">
-	elem = document.getElementById('paymentType<bean:write name='billingPaymentType' property='id'/>');
-	if(type == '<bean:write name='billingPaymentType' property='id'/>') elem.checked=true;
-	else elem.checked=false;
-    </logic:iterate>
-</logic:present>	
-	
+	jQuery.ajax({
+		url: "<%=request.getContextPath()%>/billing/CA/ON/billingON3rdPayments.do",
+		type: "GET",
+		async: "false",
+		timeout: 30000,
+		data: {method:"viewPayment",paymentId:id},
+		dataType: "json",
+		success: function (data) {
+			if (data == null || data.length == 1) {
+				return;
+			}
+			var paymentTypeObj = data.shift();
+			// hide save button
+			jQuery("#saveBtn").css("display", "none");
+			jQuery("#editBtn").css("display", "inline");
+			// clear all values
+			jQuery("select option[value='payment']").attr("selected", "selected");
+			jQuery("tr[id^='itemPayment'] input[id^='payment'] ").val("0.00");
+			jQuery("tr[id^='itemPayment'] input[id^='discount'] ").val("0.00");
+			jQuery("input[name='paymentType']")[parseInt(paymentTypeObj.paymentType)].checked=true;
+			jQuery("#paymentDate").val("");
+			
+			jQuery(data).each(function () {
+				var elem = jQuery("#itemPayment" + this.id);
+				if (elem == null) {
+					return;
+				}
+				if (this.type == "payment") {
+					elem.find("select")[0].selectedIndex=0;
+					elem.find("input[id^='payment']")[0].value=this.payment;
+					elem.find("input[id^='discount']")[0].value=this.discount;
+				} else if (this.type == "refund") {
+					elem.find("select")[0].selectedIndex=1;
+					elem.find("input[id^='refund']")[0].value=this.refund;
+				}
+			});
+		},
+		error: function() {
+			alert("Error happeded!");
+		}
+	});
 }
-function onDeletePayment(id) {
-	window.location.href='billingON3rdPayments.do?method=deletePayment&id='+id+'&billingNo='+<%= billingNo %>;
+
+function clickEditBtn() {
+	jQuery("#editBtn").css("display", "none");
+	jQuery("select option[value='payment']").attr("selected", "selected");
+	jQuery("tr[id^='itemPayment'] input[id^='payment'] ").val("0.00");
+	jQuery("tr[id^='itemPayment'] input[id^='discount'] ").val("0.00");
+	jQuery("input[name='paymentType']")[0].checked=true;
+	jQuery("#paymentDate").val("");
+	jQuery("#saveBtn").css("display", "inline");
 }
+
 function checkInput() {
 	var validInput = true;
 	
@@ -152,26 +191,18 @@ function checkInput() {
 	if(validInput) document.forms['editPayment'].submit();
 	return false;
 }
+
 function setStatus(obj){
 	var i = obj.id;
 	var str = obj.options[obj.selectedIndex].value;
 	if(str=="refund"){
-		document.getElementById("cdis"+i).disabled=true;
 		document.getElementById("discount"+i).disabled=true;
 	}
 	if(str=="payment"){
-		document.getElementById("cdis"+i).disabled=false;
 		document.getElementById("discount"+i).disabled=false;
 	}
 }
 
-function setValue(obj){
-	if(obj.isChecked){
-		obj.value="false";
-	}else{
-		obj.value="true";
-	}
-}
 </script>
 <title><bean:message key="admin.admin.editBillPaymentList"/></title>
 </head>
@@ -201,18 +232,18 @@ function setValue(obj){
 				sign = "-";
 			}
 		%>
-			<tr BGCOLOR="#EEEEFF">
+			<tr id="itemPayment<%=vo.getItemId() %>" BGCOLOR="#EEEEFF">
 				<td width="30%">
 					<div align="right">
-						<select id="<%=i%>" name="sel<%=i%>"onchange="setStatus(this);">
+						<select id="sel<%=i%>" name="sel<%=i%>" onchange="setStatus(this);">
 							<option value="payment">Payment</option>
 	       		 			<option value="refund">Refund</option>
 						</select>
 	        		</div>
 	      		</td>
 				<td width="70%" align="left">
-					<input type="text" name="payment<%=i %>" id="payment" value="0.00" WIDTH="8" HEIGHT="20" border="0" hspace="2" maxlength="50" />
-					<input style="display:none" type="checkbox" id="cdis<%=i%>"name="Discount" onclick="setValue(this);"/>Discount     <input type="text" id="discount<%=i%>"name="discount<%=i %>" value="0.00">
+					<input type="text" name="payment<%=i %>" id="payment<%=i %>" value="0.00" WIDTH="8" HEIGHT="20" border="0" hspace="2" maxlength="50" />
+					Discount     <input type="text" id="discount<%=i%>"name="discount<%=i %>" value="0.00">
 				</td>
     		</tr>
 			<tr BGCOLOR="#EEEEFF">
@@ -251,7 +282,8 @@ function setValue(obj){
       	    	<td nowrap align="center"> 
       	      		 <input type="text" name="paymentDate" id="paymentDate" onDblClick="calToday(this)" size="10" value="">
 					<a id="btn_date"><img title="Calendar" src="../../../images/cal.gif" alt="Calendar" border="0" /></a>
-      	      		<input type="submit" name="submitBtn" value="    Save  " onClick="checkInput(); return false;" /> 
+      	      		<input type="submit" id="saveBtn" name="submitBtn" value="    Save  " onClick="checkInput(); return false;" />
+      	      		<input type="button" id="editBtn" style="display:none" value="    Edit  " onClick="clickEditBtn(); return true;" />
       	    	</td> 
     	  	</tr>
     	</table>
@@ -260,9 +292,6 @@ function setValue(obj){
 </logic:present>
 
 <%
-	String billClinic = null;
-	int count = 0;
-	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:MM");
 	BigDecimal sum = BigDecimal.valueOf(0);
 	BigDecimal balance = BigDecimal.valueOf(0);
 	int index = 0;
@@ -281,6 +310,7 @@ function setValue(obj){
 	sum = (BigDecimal)request.getAttribute("totalInvoiced");
 	balance = (BigDecimal)request.getAttribute("balance");
 %>
+
 	<table border=0 cellspacing=0 cellpadding=0 width="100%" >
     	<tr  bgcolor="#CCCCFF">
     		<th><font face="Helvetica">PAYMENTS LIST</font></th>
@@ -312,9 +342,7 @@ function setValue(obj){
 				    <%}else{ %>
 				    <td><%= currency.format(balances.get(index++)) %> </td>
 				    <%} %>
-				    <td><a href="#" onClick="onEditPayment('<bean:write name="displayPayment" property="id" />',
-				    	'<bean:write name="displayPayment" property="total_payment" />',
-				    	'<bean:write name="displayPayment" property="paymentDateFormatted" />')">view</a>
+				    <td><a href="#" onClick="onViewPayment('<bean:write name="displayPayment" property="id" />')">view</a>
 				    </td>	
 				</tr>    
 				</logic:iterate>

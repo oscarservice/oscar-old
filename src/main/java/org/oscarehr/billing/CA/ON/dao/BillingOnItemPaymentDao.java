@@ -21,9 +21,17 @@ public class BillingOnItemPaymentDao extends AbstractDao<BillingOnItemPayment>{
 		return getSingleResultOrNull(query);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<BillingOnItemPayment> getAllByItemId(int itemId) {
 		Query query = entityManager.createQuery("select boip from BillingOnItemPayment boip where boip.billingOnItemId =?1");
 		query.setParameter(1, itemId);
+		return query.getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<BillingOnItemPayment> getItemsByPaymentId(int paymentId) {
+		Query query = entityManager.createQuery("select boip from BillingOnItemPayment boip where boip.billingOnPaymentId = ?1");
+		query.setParameter(1, paymentId);
 		return query.getResultList();
 	}
 }
