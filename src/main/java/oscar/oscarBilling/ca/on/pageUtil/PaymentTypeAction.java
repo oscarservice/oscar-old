@@ -37,17 +37,19 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
+import org.oscarehr.billing.CA.ON.dao.BillingONPaymentDao;
 import org.oscarehr.billing.CA.dao.BillingPaymentTypeDao;
 import org.oscarehr.billing.CA.model.BillingPaymentType;
 import org.oscarehr.util.MiscUtils;
 
 public class PaymentTypeAction extends DispatchAction {
 	private BillingPaymentTypeDao billingPaymentTypeDao;
-
-	public BillingPaymentTypeDao getBillingPaymentTypeDao() {
-		return billingPaymentTypeDao;
+	private BillingONPaymentDao billPaymentDao;
+	
+	public void setBillPaymentDao(BillingONPaymentDao billPaymentDao) {
+		this.billPaymentDao = billPaymentDao;
 	}
-
+	
 	public void setBillingPaymentTypeDao(BillingPaymentTypeDao billingPaymentTypeDao) {
 		this.billingPaymentTypeDao = billingPaymentTypeDao;
 	}
@@ -100,7 +102,7 @@ public class PaymentTypeAction extends DispatchAction {
 			}
 		}
 		
-		return actionMapping.findForward("null");
+		return null;
 	}
 	
 	public ActionForward editType(ActionMapping actionMapping, ActionForm actionForm,
@@ -125,7 +127,6 @@ public class PaymentTypeAction extends DispatchAction {
 						old.setPaymentType(paymentType);
 						billingPaymentTypeDao.merge(old);
 						retMap.put("ret", "0");
-						//return actionMapping.findForward("success");
 					}
 				}
 			} catch (Exception e) {
@@ -142,6 +143,41 @@ public class PaymentTypeAction extends DispatchAction {
 			}
 		}
 		
-		return actionMapping.findForward("null");
+		return null;
+	}
+	
+	public ActionForward removeType(ActionMapping actionMapping, ActionForm actionForm,
+            HttpServletRequest request, HttpServletResponse servletResponse) {
+		int paymentTypeId = 0;
+		JSONObject ret = new JSONObject();
+		try {
+			paymentTypeId = Integer.parseInt(request.getParameter("paymentTypeId"));
+		} catch (Exception e) {
+			MiscUtils.getLogger().info(e.toString());
+			ret.put("ret", 1);
+			ret.put("reason", e.toString());
+		}
+		if (paymentTypeId != 0) {
+			int count = billPaymentDao.getCountOfPaymentByPaymentTypeId(paymentTypeId);
+			if (count == 0) {
+				billingPaymentTypeDao.remove(paymentTypeId);
+				ret.put("ret", 0);
+			} else {
+				ret.put("ret", 1);
+				ret.put("reason", "This payment type has been used in some payment!");
+			}
+		}
+		
+		servletResponse.setCharacterEncoding("utf-8"); 
+		servletResponse.setContentType("html/text");
+		try {
+			servletResponse.getWriter().print(ret.toString());
+			servletResponse.getWriter().flush();
+			servletResponse.getWriter().close();
+		} catch (Exception e) {
+			MiscUtils.getLogger().info(e.toString());
+		}
+		
+		return null;
 	}
 }

@@ -128,6 +128,13 @@ public class BillingONPaymentDao extends AbstractDao<BillingONPayment>{
     	query.setParameter("billingNo", billingNo);
     	return (Integer) query.getSingleResult();
     }
+    
+    public int getCountOfPaymentByPaymentTypeId(int paymentTypeId) {
+    	Query query = entityManager.createQuery("select count(bp.id) from BillingONPayment bp where bp.paymentTypeId = ?1");
+    	query.setParameter(1, paymentTypeId);
+    	Number countResult=(Number) query.getSingleResult();
+    	return countResult.intValue();
+    }
 /*
     private Long convertToLong(BigDecimal param) {
     	BigDecimal res = param.multiply(BigDecimal.valueOf(100));
