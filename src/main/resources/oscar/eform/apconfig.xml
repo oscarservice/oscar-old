@@ -377,6 +377,16 @@
         <ap-output>${last_name}, ${first_name}</ap-output>
     </databaseap>
     <databaseap>
+        <ap-name>doctor_last_name</ap-name>
+        <ap-sql>SELECT provider.last_name  FROM provider, demographic WHERE demographic.demographic_no=${demographic} AND demographic.provider_no=provider.provider_no</ap-sql>
+        <ap-output>${last_name}</ap-output>
+    </databaseap>
+    <databaseap>
+        <ap-name>doctor_first_name</ap-name>
+        <ap-sql>SELECT provider.first_name  FROM provider, demographic WHERE demographic.demographic_no=${demographic} AND demographic.provider_no=provider.provider_no</ap-sql>
+        <ap-output>${first_name}</ap-output>
+    </databaseap>
+    <databaseap>
 		<ap-name>doctor_provider_no</ap-name>
 		<ap-sql>SELECT provider_no FROM demographic WHERE demographic_no=${demographic}</ap-sql>
 		<ap-output>${provider_no}</ap-output>
