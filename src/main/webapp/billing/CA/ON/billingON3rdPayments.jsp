@@ -124,7 +124,7 @@ if(billingNo == null) errors.add("Wrong parameters");
 	src="../../../share/calendar/lang/<bean:message key="global.javascript.calendar"/>"></script>
 <script type="text/javascript" src="../../../share/calendar/calendar-setup.js"></script>
 <script type="text/javascript">
-function onEditPayment(id, sum, date, type) {
+function onViewPayment(id, sum, date, type) {
 	document.getElementById('paymentId').value = id;
 	document.getElementById('payment').value = sum;
 	document.getElementById('paymentDate').value = date;
@@ -195,9 +195,9 @@ function setValue(obj){
 		<%
 		for(int i=0;i<items.size();i++){ 
 			BillingItemPaymentVo vo = items.get(i);
-			BigDecimal balance = vo.getTotal().subtract(vo.getPaid()).subtract(vo.getDiscount()).subtract(vo.getRefund());
+			BigDecimal itemBalance = vo.getTotal().subtract(vo.getPaid()).subtract(vo.getDiscount()).subtract(vo.getRefund());
 			String sign = "";
-			if (balance.compareTo(BigDecimal.ZERO) == -1) {
+			if (itemBalance.compareTo(BigDecimal.ZERO) == -1) {
 				sign = "-";
 			}
 		%>
@@ -220,7 +220,7 @@ function setValue(obj){
 					<div></div>
 				</td>
 				<td align="left">
-					Service Code:&nbsp;<b><%=vo.getServiceCode()%>&nbsp;$<%=vo.getTotal() %>&nbsp;Balance:&nbsp;<%=sign %>$<%=balance %></b>
+					Service Code:&nbsp;<b><%=vo.getServiceCode()%>&nbsp;$<%=vo.getTotal() %>&nbsp;Balance:&nbsp;<%=sign %>$<%=itemBalance %></b>
 					<input type="hidden" name="itemId<%=i %>" value="<%=vo.getItemId()%>"/>
 				</td>
 			</tr>
@@ -260,32 +260,26 @@ function setValue(obj){
 </logic:present>
 
 <%
-
-
-String billClinic = null;
-int count = 0;
-SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:MM");
-BigDecimal sum = BigDecimal.valueOf(0);
-BigDecimal balance = BigDecimal.valueOf(0);
-int index = 0;
-List balances = new ArrayList();
-if(items != null && items.size()>0) {
-	for(int i=0;i<items.size();i++){
-		balance = BigDecimal.ZERO;
-		BigDecimal total = items.get(i).getTotal();
-		BigDecimal payment = items.get(i).getPaid();
-		BigDecimal discount = items.get(i).getDiscount();
-		BigDecimal refund = items.get(i).getRefund();
-	    balance= balance.add(payment).add(discount).add(refund);
-	    balance = total.subtract(payment).subtract(discount).subtract(refund);
-	    balances.add(balance);
+	String billClinic = null;
+	int count = 0;
+	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:MM");
+	BigDecimal sum = BigDecimal.valueOf(0);
+	BigDecimal balance = BigDecimal.valueOf(0);
+	int index = 0;
+	List balances = new ArrayList();
+	if(items != null && items.size()>0) {
+		for(int i=0;i<items.size();i++){
+			balance = BigDecimal.ZERO;
+			BigDecimal total = items.get(i).getTotal();
+			BigDecimal payment = items.get(i).getPaid();
+			BigDecimal discount = items.get(i).getDiscount();
+			BigDecimal refund = items.get(i).getRefund();
+		    balance = total.subtract(payment).subtract(discount).subtract(refund);
+		    balances.add(balance);
+		}
 	}
-    //balance = balance.subtract(sum);
-    request.setAttribute("balance", currency.format(balance));	
-} else {
 	sum = (BigDecimal)request.getAttribute("totalInvoiced");
 	balance = (BigDecimal)request.getAttribute("balance");
-}
 %>
 	<table border=0 cellspacing=0 cellpadding=0 width="100%" >
     	<tr  bgcolor="#CCCCFF">

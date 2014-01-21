@@ -90,6 +90,12 @@ public class BillingONPaymentsAction extends DispatchAction {
 			ActionForm actionForm, HttpServletRequest request,
 			HttpServletResponse response) {
 		Integer billingNo = Integer.parseInt(request.getParameter("billingNo"));
+		
+		List<BillingONPayment> paymentLists = billingONPaymentDao.listPaymentsByBillingNo(billingNo);
+		if (paymentLists != null && paymentLists.size() > 0) {
+			request.setAttribute("paymentsList", paymentLists);
+		}
+		
 		List<BillingOnItem> items = billingOnItemDao.getShowBillingItemByCh1Id(billingNo);
 		List<BillingItemPaymentVo> itemPaymentList = new ArrayList<BillingItemPaymentVo>();
 		for (BillingOnItem item : items) {
@@ -154,9 +160,6 @@ public class BillingONPaymentsAction extends DispatchAction {
 			HttpServletResponse response) {
 
 		Date curDate = new Date();
-		Vector<String> payments = new Vector<String>();
-		Vector<String> discounts = new Vector<String>();
-		Vector<String> refunds = new Vector<String>();
 		int itemSize = Integer.parseInt(request.getParameter("size"));
 		int billNo = Integer.parseInt(request.getParameter("billingNo"));
 		String curProviderNo = (String) request.getSession().getAttribute("user");
@@ -166,16 +169,37 @@ public class BillingONPaymentsAction extends DispatchAction {
 		}
 
 		// get all paid, discount and refund list
+		BigDecimal sumPaid = BigDecimal.ZERO;
+		BigDecimal sumRefund = BigDecimal.ZERO;
+		BigDecimal sumDiscount = BigDecimal.ZERO;
 		for (int i = 0; i < itemSize; i++) {
 			String payment = request.getParameter("payment" + i);
 			String discount = request.getParameter("discount" + i);
 			String itemId = request.getParameter("itemId" + i);
 			if (billingOnItemDao.getBillingItemById(Integer.parseInt(itemId)).size() > 0) {
 				if ("payment".equals(request.getParameter("sel" + i))) {
-					payments.add(payment);
-					discounts.add(discount);
+					BigDecimal pay = BigDecimal.ZERO;
+					BigDecimal dicnt = BigDecimal.ZERO;
+					try {
+						pay = new BigDecimal(payment);
+					} catch (Exception e) {}
+					if (pay.compareTo(BigDecimal.ZERO) == 1) {
+						sumPaid = sumPaid.add(pay);
+					}
+					try {
+						dicnt = new BigDecimal(discount);
+					} catch (Exception e) {}
+					if (dicnt.compareTo(BigDecimal.ZERO) == 1) {
+						sumDiscount = sumDiscount.add(dicnt);
+					}
 				} else if ("refund".equals(request.getParameter("sel" + i))) {
-					refunds.add(payment);
+					BigDecimal refundTmp = BigDecimal.ZERO;
+					try {
+						refundTmp = new BigDecimal(payment);
+					} catch (Exception e) {}
+					if (refundTmp.compareTo(BigDecimal.ZERO) == 1) {
+						sumRefund = sumRefund.add(refundTmp);
+					}
 				}
 			}
 		}
@@ -186,28 +210,17 @@ public class BillingONPaymentsAction extends DispatchAction {
 			return actionMapping.findForward("failure");
 		}
 		String demographicNo = cheader1.getDemographic_no().toString();
-		BigDecimal sumPaid = new BigDecimal(cheader1.getPaid());
-		BigDecimal sumRefund = BigDecimal.ZERO;
-		BigDecimal sumDiscount = BigDecimal.ZERO;
-		for (int i = 0; i < payments.size(); i++) {
-			sumPaid = sumPaid.add(new BigDecimal(payments.get(i)));
-		}
-		for (int i = 0; i < refunds.size(); i++) {
-			sumRefund = sumRefund.add(new BigDecimal(refunds.get(i)));
-		}
-		for (int i = 0; i < discounts.size(); i++) {
-			sumDiscount = sumDiscount.add(new BigDecimal(discounts.get(i)));
-		}
-
+	
 		// 1.update billing_on_cheader1 and billing_on_ext table: payment
 		JdbcBilling3rdPartImpl tExtObj = new JdbcBilling3rdPartImpl();
 		if (sumPaid.compareTo(BigDecimal.ZERO) == 1) {
-			cheader1.setPaid(sumPaid.toString());
+			BigDecimal sumPaidTmp = sumPaid.add(new BigDecimal(cheader1.getPaid()));
+			cheader1.setPaid(sumPaidTmp.toString());
 			billingClaimDAO.merge(cheader1);
 			if (tExtObj.keyExists(Integer.toString(billNo), BillingONExtDao.KEY_PAYMENT)) {
-				tExtObj.updateKeyValue(Integer.toString(billNo), BillingONExtDao.KEY_PAYMENT, sumPaid.toString());
+				tExtObj.updateKeyValue(Integer.toString(billNo), BillingONExtDao.KEY_PAYMENT, sumPaidTmp.toString());
 			} else {
-				tExtObj.add3rdBillExt(Integer.toString(billNo), demographicNo, BillingONExtDao.KEY_PAYMENT, sumPaid.toString());
+				tExtObj.add3rdBillExt(Integer.toString(billNo), demographicNo, BillingONExtDao.KEY_PAYMENT, sumPaidTmp.toString());
 			}
 		}
 		
@@ -377,5 +390,10 @@ public class BillingONPaymentsAction extends DispatchAction {
 	
 	public void setBillingOnItemPaymentDao(BillingOnItemPaymentDao billingOnItemPaymentDao) {
 		this.billingOnItemPaymentDao = billingOnItemPaymentDao;
+	}
+
+	public void setBillingOnTransactionDao(
+			BillingOnTransactionDao billingOnTransactionDao) {
+		this.billingOnTransactionDao = billingOnTransactionDao;
 	}
 }
