@@ -192,14 +192,14 @@ function checkInput() {
 	return false;
 }
 
-function setStatus(obj){
-	var i = obj.id;
-	var str = obj.options[obj.selectedIndex].value;
-	if(str=="refund"){
-		document.getElementById("discount"+i).disabled=true;
-	}
-	if(str=="payment"){
-		document.getElementById("discount"+i).disabled=false;
+function setStatus(selIndex, idx){
+	switch (selIndex) {
+	case 0:
+		document.getElementById("discount" + idx).disabled=false;
+		break;
+	case 1:
+		document.getElementById("discount" + idx).disabled=true;
+		break;
 	}
 }
 
@@ -235,7 +235,7 @@ function setStatus(obj){
 			<tr id="itemPayment<%=vo.getItemId() %>" BGCOLOR="#EEEEFF">
 				<td width="30%">
 					<div align="right">
-						<select id="sel<%=i%>" name="sel<%=i%>" onchange="setStatus(this);">
+						<select id="sel<%=i%>" name="sel<%=i%>" onchange="setStatus(this.selectedIndex,<%=i%>);">
 							<option value="payment">Payment</option>
 	       		 			<option value="refund">Refund</option>
 						</select>

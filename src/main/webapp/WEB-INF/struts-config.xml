@@ -546,9 +546,6 @@
 			<form-property name="episode" type="org.oscarehr.common.model.Episode"/>
 		</form-bean>
 		<form-bean name="importDemoForm" type="oscar.oscarDemographic.data.ImportDemoForm" />
-		
-		<form-bean name="uploadInvoiceBgImg" type="org.oscarehr.billing.CA.ON.web.InvoiceBgImgUploadForm" />
-		
 	</form-beans>
 
 	<global-forwards>
@@ -559,9 +556,7 @@
 	</global-forwards>
 
 	<action-mappings>
-	<action path="/billing/CA/ON/uploadInvoiceBgImg" scope="request" type="org.oscarehr.billing.CA.ON.web.UploadInvoiceBgImgAction" name="uploadInvoiceBgImg">
-		<forward name="success" path="/admin/invoiceBgImgManage.jsp"></forward>
-	</action>
+
 	<action path="/eform/importPortal" scope="request" type="com.oscar.eformportal.ws.service.ImportPortal" >
 			<forward name="import" path="/eform/efmformmanager.jsp" redirect="true" ></forward>
 	</action>
