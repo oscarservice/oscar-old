@@ -83,6 +83,7 @@ List<String> errors = new ArrayList<String>();
 	boolean isMultiSiteProvider = true;
 	List<String> mgrSites = new ArrayList<String>();
 	List<BillingItemPaymentVo> items = (List<BillingItemPaymentVo>)request.getAttribute("itemPaymentList");
+	List<BillingONPayment> paymentLists = (List<BillingONPayment>)request.getAttribute("paymentsList");
 %>
 <security:oscarSec objectName="_team_billing_only" roleName="<%= roleName$ %>" rights="r" reverse="false">
 	<% isTeamBillingOnly=true; %>
@@ -126,7 +127,7 @@ if(billingNo == null) errors.add("Wrong parameters");
 <script type="text/javascript" src="<%=request.getContextPath()%>/share/javascript/jquery/jquery-1.4.2.js"></script>
 <script type="text/javascript">
 
-function onViewPayment(id, sum, date, type) {
+function onViewPayment(id) {
 	jQuery.ajax({
 		url: "<%=request.getContextPath()%>/billing/CA/ON/billingON3rdPayments.do",
 		type: "GET",
@@ -135,9 +136,10 @@ function onViewPayment(id, sum, date, type) {
 		data: {method:"viewPayment",paymentId:id},
 		dataType: "json",
 		success: function (data) {
-			if (data == null || data.length == 1) {
+			if (data == null || data.length == 2) {
 				return;
 			}
+			var paymentDateObj = data.shift();
 			var paymentTypeObj = data.shift();
 			// hide save button
 			jQuery("#saveBtn").css("display", "none");
@@ -146,8 +148,9 @@ function onViewPayment(id, sum, date, type) {
 			jQuery("select option[value='payment']").attr("selected", "selected");
 			jQuery("tr[id^='itemPayment'] input[id^='payment'] ").val("0.00");
 			jQuery("tr[id^='itemPayment'] input[id^='discount'] ").val("0.00");
-			jQuery("input[name='paymentType']")[parseInt(paymentTypeObj.paymentType)].checked=true;
-			jQuery("#paymentDate").val("");
+			jQuery("tr[id^='itemPayment'] input[id^='discount'] ").attr("disabled", "false");
+			jQuery("input[name='paymentType']").filter("input[value='" + paymentTypeObj.paymentType + "']")[0].checked=true;
+			jQuery("#paymentDate").val(paymentDateObj.paymentDate);
 			
 			jQuery(data).each(function () {
 				var elem = jQuery("#itemPayment" + this.id);
@@ -160,7 +163,8 @@ function onViewPayment(id, sum, date, type) {
 					elem.find("input[id^='discount']")[0].value=this.discount;
 				} else if (this.type == "refund") {
 					elem.find("select")[0].selectedIndex=1;
-					elem.find("input[id^='refund']")[0].value=this.refund;
+					elem.find("input[id^='payment']")[0].value=this.refund;
+					elem.find("input[id^='discount']")[0].disabled=true;
 				}
 			});
 		},
@@ -212,7 +216,7 @@ function setStatus(selIndex, idx){
 
 
 <logic:present name="paymentTypeList" scope="request">
-    <form name="editPayment" id="editPayment" method="get" action="<%=request.getContextPath() %>/billing/CA/ON/billingON3rdPayments.do">
+    <form name="editPayment" id="editPayment" method="GET" action="<%=request.getContextPath() %>/billing/CA/ON/billingON3rdPayments.do">
 	  	<input type="hidden" name="method" value="savePayment" />
 	  	<input type="hidden" name="billingNo" value="<%= billingNo %>" />
 	  	<input type="hidden" name="id" id="paymentId" value="" />
@@ -251,7 +255,7 @@ function setStatus(selIndex, idx){
 					<div></div>
 				</td>
 				<td align="left">
-					Service Code:&nbsp;<b><%=vo.getServiceCode()%>&nbsp;$<%=vo.getTotal() %>&nbsp;Balance:&nbsp;<%=sign %>$<%=itemBalance %></b>
+					Service Code:&nbsp;<b><%=vo.getServiceCode()%>&nbsp;$<%=vo.getTotal() %>&nbsp;Balance:&nbsp;<%=sign %><%=currency.format(itemBalance) %></b>
 					<input type="hidden" name="itemId<%=i %>" value="<%=vo.getItemId()%>"/>
 				</td>
 			</tr>
@@ -296,13 +300,13 @@ function setStatus(selIndex, idx){
 	BigDecimal balance = BigDecimal.valueOf(0);
 	int index = 0;
 	List balances = new ArrayList();
-	if(items != null && items.size()>0) {
-		for(int i=0;i<items.size();i++){
+	if(paymentLists != null && paymentLists.size()>0) {
+		BigDecimal total = new BigDecimal(paymentLists.get(0).getBillingONCheader1().getTotal());
+		for(int i=0;i<paymentLists.size();i++){
 			balance = BigDecimal.ZERO;
-			BigDecimal total = items.get(i).getTotal();
-			BigDecimal payment = items.get(i).getPaid();
-			BigDecimal discount = items.get(i).getDiscount();
-			BigDecimal refund = items.get(i).getRefund();
+			BigDecimal payment = paymentLists.get(i).getTotal_payment();
+			BigDecimal discount = paymentLists.get(i).getTotal_discount();
+			BigDecimal refund = paymentLists.get(i).getTotal_refund();
 		    balance = total.subtract(payment).subtract(discount).subtract(refund);
 		    balances.add(balance);
 		}
@@ -337,19 +341,19 @@ function setStatus(selIndex, idx){
 				    <td><bean:write name="displayPayment" property="paymentDateFormatted" /> </td>
 				    <td><bean:write name="displayPayment" property="total_discount" /> </td>
 				    <td><bean:write name="displayPayment" property="total_refund" /> </td>
-				    <%if(((BigDecimal)balances.get(index)).compareTo(BigDecimal.ZERO) == -1){%>
+					<%if(((BigDecimal)balances.get(index)).compareTo(BigDecimal.ZERO) == -1){%>
 				    <td><%= "-" + currency.format(balances.get(index++)) %> </td>
 				    <%}else{ %>
 				    <td><%= currency.format(balances.get(index++)) %> </td>
 				    <%} %>
-				    <td><a href="#" onClick="onViewPayment('<bean:write name="displayPayment" property="id" />')">view</a>
+				    <td><a href="#" onClick="onViewPayment('<bean:write name="displayPayment" property="id" />');return false;">view</a>
 				    </td>	
 				</tr>    
 				</logic:iterate>
 			</logic:present>
 			<tr><td/><td/><td><b>Total:</b></td><td><b><%= currency.format(sum) %></b>
 			<%if (balance.compareTo(BigDecimal.ZERO) == -1) { %>
-			<tr><td/><td/><td><b>Balance:</b></td><td><b><%= "=" + currency.format(balance) %></b>
+			<tr><td/><td/><td><b>Balance:</b></td><td><b><%= "-" + currency.format(balance) %></b>
 			<%} else { %>
 			<tr><td/><td/><td><b>Balance:</b></td><td><b><%= currency.format(balance) %></b>
 			<%} %>
