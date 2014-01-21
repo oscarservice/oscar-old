@@ -54,6 +54,7 @@
 <%@page import="org.oscarehr.common.dao.DemographicCustDao" %>
 <%@page import="oscar.oscarBilling.ca.on.data.BillingDataHlp" %>
 <%@page import="org.oscarehr.billing.CA.ON.dao.*" %>
+<%@page import="java.math.*" %>
 
 
 
@@ -845,13 +846,32 @@ if (bMultisites) { %>
 		{%>
 		<%if(cheader1s.get(i).getPayProgram().matches(BillingDataHlp.BILLINGMATCHSTRING_3RDPARTY)){ 
 			String refund=billingOnExt.getClaimExtRefund(cheader1s.get(i).getId());
+			String payment1=billingOnExt.getClaimExtPayment(cheader1s.get(i).getId());
+			String discount=billingOnExt.getClaimExtDiscount(cheader1s.get(i).getId());
+			String payment=payment1.substring(0, 6);
+			BigDecimal b1 = new BigDecimal(refund);
+			BigDecimal b2 = new BigDecimal(payment);
+			//double d2 = b6.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+			//BigDecimal b2 = new BigDecimal(Double.toString(d2));
+			BigDecimal b3 = new BigDecimal(discount);
+			BigDecimal total=cheader1s.get(i).getTotal();
+			double d = total.subtract(b2).doubleValue();
+			BigDecimal b4 = new BigDecimal(Double.toString(d));
+			double d1 = b4.subtract(b3).doubleValue();
+			BigDecimal b5 = new BigDecimal(Double.toString(d1));
+			double balance1 = b5.subtract(b1).doubleValue();
+			BigDecimal b7 = new BigDecimal(balance1);
+			double balance = b7.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+            if(balance!=0){
+
 		%>
 			<tr>
 				<td align="center"><a href="#" onclick="popupPage(600,800, '<%=request.getContextPath() %>/billing/CA/ON/billingONCorrection.jsp?billing_no=<%=cheader1s.get(i).getId()%>')"><font color="red">Inv #<%=cheader1s.get(i).getId() %></font></a></td>
 				<td align="center"><font color="red"><%=cheader1s.get(i).getTimestamp() %></font></td>
-				<td align="center"><font color="red">$<%=(double)cheader1s.get(i).getTotal()/100 %></font></td>
-				<td align="center"><font color="red">$<%=refund %></font></td>
+				<td align="center"><font color="red">$<%=cheader1s.get(i).getTotal() %></font></td>
+				<td align="center"><font color="red">$<%=balance %></font></td>
 			</tr>
+		<%}%>
 		<%}%>
 		<%}%>
 	<%} %>
