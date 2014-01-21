@@ -869,7 +869,11 @@ if (bMultisites) { %>
 				<td align="center"><a href="#" onclick="popupPage(600,800, '<%=request.getContextPath() %>/billing/CA/ON/billingONCorrection.jsp?billing_no=<%=cheader1s.get(i).getId()%>')"><font color="red">Inv #<%=cheader1s.get(i).getId() %></font></a></td>
 				<td align="center"><font color="red"><%=cheader1s.get(i).getTimestamp() %></font></td>
 				<td align="center"><font color="red">$<%=cheader1s.get(i).getTotal() %></font></td>
+<<<<<<< HEAD
 				<td align="center"><font color="red">$<%=balance %></font></td>
+=======
+				<td align="center"><font color="red">$<%=refund %></font></td>
+>>>>>>> 049d0185e85ef5695afe24f4aaf7e25c1482c08f
 			</tr>
 		<%}%>
 		<%}%>

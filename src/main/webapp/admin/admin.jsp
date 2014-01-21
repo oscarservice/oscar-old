@@ -534,10 +534,6 @@ div.logoutBox {
 					<a href='#'	onclick='popupPage(300,750,&quot;<html:rewrite page="/billing/CA/ON/managePaymentType.do"/>&quot;);return false;'><bean:message key="admin.admin.managePaymentType"/></a>
 			</li>
 			
-			<li>
-					<a href='#'	onclick='popupPage(300,750,&quot;<html:rewrite page="/admin/invoiceBgImgManage.jsp"/>&quot;);return false;'><bean:message key="admin.admin.setInvoiceLetterHead"/></a>
-			</li>
-			
 			<%
 				}
 			%>

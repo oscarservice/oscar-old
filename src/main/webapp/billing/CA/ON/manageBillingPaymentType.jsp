@@ -37,9 +37,9 @@ body {
 </style>
 
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Manage Billing Payment Type</title>
-
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-1.7.1.min.js"></script>
+	<title>Manage Billing Payment Type</title>
 </head>
 
 <%
@@ -63,7 +63,7 @@ body {
 			<tr bgcolor="#CCCCFF">
 				<th>Id</th>
 				<th>Type</th>
-				<th></th>
+				<th colspan="2">Operation</th>
 			</tr>
 			<%
 				int count = 0;
@@ -83,8 +83,12 @@ body {
 				%>
 				<td><%=paymentType.getId()%></td>
 				<td><%=paymentType.getPaymentType()%></td>
-				<td><a
-					href="<%=request.getContextPath()%>/billing/CA/ON/editBillingPaymentType.jsp?id=<%=paymentType.getId()%>&type=<%=paymentType.getPaymentType()%>">Edit</a></td>
+				<td>
+				<a href="<%=request.getContextPath()%>/billing/CA/ON/editBillingPaymentType.jsp?id=<%=paymentType.getId()%>&type=<%=paymentType.getPaymentType()%>">Edit</a>
+				</td>
+				<td>
+				<a href="#" paymentTypeId="<%=paymentType.getId()%>">Delete</a>
+				</td>
 			</tr>
 			<%
 				}
@@ -100,3 +104,36 @@ body {
 	</center>
 </body>
 </html>
+
+<script type="text/javascript">
+
+jQuery(document).ready(function() {
+	jQuery("tr td:nth-child(4)").on("click", "a", function(event) {
+		jQuery.ajax({
+			url: "<%=request.getContextPath()%>/billing/CA/ON/managePaymentType.do",
+			type: "get",
+			async: "false",
+			timeout: 30000,
+			dataType: "json",
+			data: {method: "removeType", paymentTypeId: event.target.getAttribute("paymentTypeId")},
+			success: function (data) {
+				if (data == null) {
+					alert("Error happened after getting response!");
+				}
+				if (parseInt(data.ret) == 0) {
+					alert("Successed deleting the payment type!");
+					location.href = "<%=request.getContextPath()%>/billing/CA/ON/managePaymentType.do?method=listAllType";
+				} else {
+					alert("Failed to delete the payment type, reason:" + data.reason);
+				}
+			},
+			error: function() {
+				alert("Error happened!!");
+			}
+		});
+		return false;
+	});
+})
+
+</script>
+
