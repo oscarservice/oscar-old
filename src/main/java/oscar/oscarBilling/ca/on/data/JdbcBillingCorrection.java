@@ -491,12 +491,12 @@ public class JdbcBillingCorrection {
 		dbObj.saveBillingRecord(sql);
 	}
 	
-	public void addInsertOneBillItemTrans(BillingClaimHeader1Data billHeader, BillingItemData billItem, String updateProviderNo,int id) {
+	public void addInsertOneBillItemTrans(BillingClaimHeader1Data billHeader, BillingItemData billItem, String updateProviderNo,int id,int paymentId) {
 		StringBuffer sqlBuf = new StringBuffer();
 		sqlBuf.append("insert into billing_on_transaction values");
 		sqlBuf.append("(\\N,");
 		sqlBuf.append(billItem.getCh1_id() + ","); // cheader1_id
-		sqlBuf.append("'',"); // paymentId
+		sqlBuf.append("'" + paymentId + "',"); // paymentId
 		sqlBuf.append(id + ","); // billing_on_item_id
 		sqlBuf.append(billHeader.getDemographic_no() + ","); // demographic_no
 		sqlBuf.append("'" + updateProviderNo + "',"); // update_provider_no

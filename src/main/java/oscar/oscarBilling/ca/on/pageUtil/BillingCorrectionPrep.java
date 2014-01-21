@@ -537,10 +537,10 @@ public class BillingCorrectionPrep {
 				int b = myObj.addOneItemPaymentRecord(newObj, i ,payment.getId());
 
 				dbObj.addInsertOneBillItemTrans(ch1Obj, newObj,
-						updateProviderNo, b);
+						updateProviderNo, b,payment.getId());
 			} else {
 				dbObj.addInsertOneBillItemTrans(ch1Obj, newObj,
-						updateProviderNo, 0);
+						updateProviderNo, 0,0);
 
 			}
 			lItemObj.add(newObj);
