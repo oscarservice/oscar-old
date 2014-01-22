@@ -36,9 +36,12 @@ import org.oscarehr.billing.CA.ON.model.BillingClaimHeader1;
 import org.oscarehr.billing.CA.ON.model.BillingItem;
 import org.oscarehr.billing.CA.ON.model.BillingONExt;
 import org.oscarehr.billing.CA.ON.model.BillingONPayment;
+import org.oscarehr.billing.CA.ON.model.BillingOnItemPayment;
 import org.oscarehr.billing.CA.dao.BillingPaymentTypeDao;
 import org.oscarehr.util.MiscUtils;
 import org.oscarehr.util.SpringUtils;
+import org.oscarehr.billing.CA.ON.dao.BillingOnItemPaymentDao;
+
 
 import oscar.oscarBilling.ca.on.dao.BillingOnItemDao;
 import oscar.oscarBilling.ca.on.data.BillingClaimHeader1Data;
@@ -470,8 +473,11 @@ public class BillingCorrectionPrep {
 				dbObj.updateBillingOneItemPayment(oldObj);
 			}
 			if (ret) {
+				BillingOnItemPaymentDao billingOnItemPaymentDao =(BillingOnItemPaymentDao) SpringUtils.getBean("billingOnItemPaymentDao");
+				//BillingOnItemPaymentDao billingOnItemPaymentDao=new BillingOnItemPaymentDao();
+				List<BillingOnItemPayment> list=billingOnItemPaymentDao.getAllByItemId(Integer.parseInt(oldObj.getId()));
 				dbObj.addDeleteOneBillItemTrans(ch1Obj, oldObj,
-						updateProviderNo);
+						updateProviderNo,list.get(0).getBillingOnPaymentId(),list.get(0).getId());
 			}
 		}
 

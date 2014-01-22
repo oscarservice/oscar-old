@@ -647,14 +647,14 @@ public class JdbcBillingCorrection {
 		dbObj.saveBillingRecord(sqlBuf.toString());
 	}
 	
-	public void addDeleteOneBillItemTrans(BillingClaimHeader1Data billHeader, BillingItemData billItem, String updateProviderNo) {
+	public void addDeleteOneBillItemTrans(BillingClaimHeader1Data billHeader, BillingItemData billItem, String updateProviderNo,int paymentId,int itempaymentId) {
 		StringBuffer sqlBuf = new StringBuffer();
 		sqlBuf.append("insert into billing_on_transaction values");
 		sqlBuf.append("(\\N,");
 		sqlBuf.append(billItem.getCh1_id() + ","); // cheader1_id
-		sqlBuf.append("'',"); // paymentId
-		sqlBuf.append(0 + ","); // billing_on_item_id
-		sqlBuf.append(billHeader.getDemographic_no() + ","); // demographic_no
+		sqlBuf.append( paymentId + ","); // paymentId
+		sqlBuf.append( itempaymentId + ","); // billing_on_item_id
+		sqlBuf.append( billHeader.getDemographic_no() + ","); // demographic_no
 		sqlBuf.append("'" + updateProviderNo + "',"); // update_provider_no
 		sqlBuf.append("CURRENT_TIMESTAMP,"); // update_datetime
 		sqlBuf.append("CURRENT_DATE,"); // payment_date
