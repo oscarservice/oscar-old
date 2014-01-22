@@ -471,7 +471,7 @@ public class BillingCorrectionPrep {
 			if (ch1Obj.getPay_program().matches(
 					BillingDataHlp.BILLINGMATCHSTRING_3RDPARTY)) {
 				dbObj.updateBillingOneItemPayment(oldObj);
-			}
+			
 			if (ret) {
 				BillingOnItemPaymentDao billingOnItemPaymentDao =(BillingOnItemPaymentDao) SpringUtils.getBean("billingOnItemPaymentDao");
 				//BillingOnItemPaymentDao billingOnItemPaymentDao=new BillingOnItemPaymentDao();
@@ -479,8 +479,11 @@ public class BillingCorrectionPrep {
 				dbObj.addDeleteOneBillItemTrans(ch1Obj, oldObj,
 						updateProviderNo,list.get(0).getBillingOnPaymentId(),list.get(0).getId());
 			}
+		}else {
+			dbObj.addDeleteOneBillItemTransHcp(ch1Obj, oldObj,updateProviderNo);
+			
 		}
-
+		}
 		return ret;
 	}
 

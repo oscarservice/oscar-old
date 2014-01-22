@@ -689,4 +689,44 @@ public class JdbcBillingCorrection {
 		sqlBuf.append(")");
 		dbObj.saveBillingRecord(sqlBuf.toString());
 	}
+	
+	public void addDeleteOneBillItemTransHcp(BillingClaimHeader1Data billHeader, BillingItemData billItem, String updateProviderNo) {
+		StringBuffer sqlBuf = new StringBuffer();
+		sqlBuf.append("insert into billing_on_transaction values");
+		sqlBuf.append("(\\N,");
+		sqlBuf.append(billItem.getCh1_id() + ","); // cheader1_id
+		sqlBuf.append( 0 + ","); // paymentId
+		sqlBuf.append( 0 + ","); // billing_on_item_id
+		sqlBuf.append( billHeader.getDemographic_no() + ","); // demographic_no
+		sqlBuf.append("'" + updateProviderNo + "',"); // update_provider_no
+		sqlBuf.append("CURRENT_TIMESTAMP,"); // update_datetime
+		sqlBuf.append("CURRENT_DATE,"); // payment_date
+		sqlBuf.append("'" + billHeader.getRef_num() + "',"); // ref_num
+		sqlBuf.append("'" + billHeader.getProvince() + "',"); // province
+		sqlBuf.append("'" + billHeader.getMan_review() + "',"); // man_review
+		sqlBuf.append("'" + billHeader.getBilling_date() + "',"); // billing_date
+		sqlBuf.append("'" + BillingDataHlp.BILLINGFILE_STATUS_DELETED + "',"); // status
+		sqlBuf.append("'" + billHeader.getPay_program() + "',"); // pay_program
+		//sqlBuf.append("'" + billHeader.getPayee() + "',"); // paymentType
+		sqlBuf.append("'" + billHeader.getFacilty_num() + "',"); // facility_num
+		sqlBuf.append("'" + billHeader.getClinic() + "',"); // clinic
+		sqlBuf.append("'" + billHeader.getProviderNo() + "',"); // provider_no
+		sqlBuf.append("'" + billHeader.getCreator() + "',"); // creator
+		sqlBuf.append("'" + billHeader.getVisittype() + "',"); // visittype
+		sqlBuf.append("'" + billHeader.getAdmission_date() + "',"); // admission_date
+		sqlBuf.append("'" + billHeader.getLocation() + "',"); // sli_code
+		sqlBuf.append("'" + billItem.getService_code() + "',"); // service_code
+		sqlBuf.append("'" + billItem.getSer_num() + "',"); // service_code_num
+		sqlBuf.append("'" + billItem.getFee() + "',"); // service_code_invoiced
+		sqlBuf.append("'" + billItem.getPaid() + "',"); // service_code_paid
+		sqlBuf.append("'" + billItem.getRefund() + "',"); // service_code_refund
+		sqlBuf.append("'" + billItem.getDiscount() + "',"); // service_code_discount
+		sqlBuf.append("'" + billItem.getDx() + "',"); // dx_code
+		sqlBuf.append("'" + billHeader.getComment() + "',"); // billing_notes
+		sqlBuf.append("'" + BillingDataHlp.ACTION_TYPE.D.name() + "',"); // action_type
+		sqlBuf.append("'" + 1 + "'");//paymenttypeId
+		sqlBuf.append(")");
+		dbObj.saveBillingRecord(sqlBuf.toString());
+	}
+	
 }
