@@ -860,14 +860,14 @@ function GetTextTop(){
 			var FileName = ListItemArr[1];
 			if (i <1){
 				textTop += "\t\t\tif (DoctorName.indexOf(&quot;" + UserName + "&quot;) &gt;= 0){\n";
-				textTop += "\t\t\t\tSignatureHolder.innerHTML = &quot;&lt;img id=&quot;SignatureImage&quot; src=&quot;$%7Boscar_image_path%7D" + FileName + "&quot;&gt;&quot;;\n";
+				textTop += "\t\t\t\tSignatureHolder.innerHTML = &quot;&lt;img id=\\&quot;SignatureImage\\&quot; src=\\&quot;$%7Boscar_image_path%7D" + FileName + "\\&quot;&gt;&quot;;\n";
 			} else if (i>=1){
 				textTop += "\t\t\t}else if(DoctorName.indexOf(&quot;" + UserName + "&quot;) &gt;= 0){\n";
-				textTop += "\t\t\t\tSignatureHolder.innerHTML = &quot;&lt;img id=&quot;SignatureImage&quot; src=&quot;$%7Boscar_image_path%7D" + FileName + "&quot;&gt;&quot;;\n";
+				textTop += "\t\t\t\tSignatureHolder.innerHTML = &quot;&lt;img id=\\&quot;SignatureImage\\&quot; src=\\&quot;$%7Boscar_image_path%7D" + FileName + "\\&quot;&gt;&quot;;\n";
 			}
 		}
 		textTop += "\t\t\t} else {\n";
-		textTop += "\t\t\t\tSignatureHolder.innerHTML = &quot;&lt;div id=&quot;SignatureImage&quot;&gt;&lt;/div&gt;&quot;;\n";
+		textTop += "\t\t\t\tSignatureHolder.innerHTML = &quot;&lt;div id=\\&quot;SignatureImage\\&quot;&gt;&lt;/div&gt;&quot;;\n";
 		textTop += "\t\t\t}\n";
 		textTop += "\t\t\tdocument.getElementById(&quot;SubmittedBy&quot;).value = SignBy;\n";
 		textTop += "\t\t}else if (SignBy == &quot;current_user&quot;){\n";
@@ -878,18 +878,18 @@ function GetTextTop(){
 			var FileName = ListItemArr[1];
 			if (i<1){
 				textTop += "\t\t\tif (CurrentUserName.indexOf(&quot;" + UserName + "&quot;) &gt;= 0){\n";
-				textTop += "\t\t\t\tSignatureHolder.innerHTML = &quot;&lt;img id=&quot;SignatureImage&quot; src=&quot;$%7Boscar_image_path%7D" + FileName + "&quot;&gt;&quot;;\n";
+				textTop += "\t\t\t\tSignatureHolder.innerHTML = &quot;&lt;img id=\\&quot;SignatureImage\\&quot; src=\\&quot;$%7Boscar_image_path%7D" + FileName + "\\&quot;&gt;&quot;;\n";
 			} else if (i>=1){
 				textTop += "\t\t\t}else if(CurrentUserName.indexOf(&quot;" + UserName + "&quot;) &gt;= 0){\n";
-				textTop += "\t\t\t\tSignatureHolder.innerHTML = &quot;&lt;img id=&quot;SignatureImage&quot; src=&quot;$%7Boscar_image_path%7D" + FileName + "&quot;&gt;&quot;;\n";
+				textTop += "\t\t\t\tSignatureHolder.innerHTML = &quot;&lt;img id=\\&quot;SignatureImage\\&quot; src=\\&quot;$%7Boscar_image_path%7D" + FileName + "\\&quot;&gt;&quot;;\n";
 			}
 		}
 		textTop += "\t\t\t} else {\n";
-		textTop += "\t\t\t\tSignatureHolder.innerHTML = &quot;&lt;div id=&quot;SignatureImage&quot;&gt;&lt;/div&gt;&quot;;\n";
+		textTop += "\t\t\t\tSignatureHolder.innerHTML = &quot;&lt;div id=\\&quot;SignatureImage\\&quot;&gt;&lt;/div&gt;&quot;;\n";
 		textTop += "\t\t\t}\n";
 		textTop += "\t\t\tdocument.getElementById(&quot;SubmittedBy&quot;).value = SignBy;\n";
 		textTop += "\t\t}else if (SignBy == &quot;none&quot;){\n";
-		textTop += "\t\t\tSignatureHolder.innerHTML = &quot;&lt;div id=&quot;SignatureImage&quot;&gt;&lt;/div&gt;&quot;;\n";
+		textTop += "\t\t\tSignatureHolder.innerHTML = &quot;&lt;div id=\\&quot;SignatureImage\\&quot;&gt;&lt;/div&gt;&quot;;\n";
 		textTop += "\t\t}\n";
 		textTop += "\t\tresizeSignature();\n";
 
