@@ -26,7 +26,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
@@ -300,14 +302,16 @@ public class JdbcBillingReviewImpl {
 
 			ResultSet rs2 = dbObj.searchDBRecord(sql);
 			String dx = "";
-			String strService = "";
+			Set<String> serviceCodeSet = new HashSet<String>();
+			
 			String strServiceDate = "";
 			BigDecimal paid = new BigDecimal("0.00");
 			BigDecimal refund = new BigDecimal("0.00");
 			BigDecimal discount = new BigDecimal("0.00");
 			while (rs2.next()) {
-				strService += rs2.getString("service_code") + " x "
-						+ rs2.getString("ser_num") + ", ";
+				String strService = rs2.getString("service_code") + " x "
+						+ rs2.getString("ser_num") + "";
+				serviceCodeSet.add(strService);
 				dx = rs2.getString("dx");
 				strServiceDate = rs2.getString("service_date");
 				try {
@@ -322,7 +326,14 @@ public class JdbcBillingReviewImpl {
 			}
 			rs2.close();
 			BillingItemData itObj = new BillingItemData();
-			itObj.setService_code(strService);
+			StringBuffer codeBuf = new StringBuffer();
+			for (String codeStr : serviceCodeSet) {
+				codeBuf.append(codeStr + ",");
+			}
+			if (codeBuf.length() > 0) {
+				codeBuf.deleteCharAt(codeBuf.length() - 1);
+			}
+			itObj.setService_code(codeBuf.toString());
 			itObj.setDx(dx);
 			itObj.setService_date(strServiceDate);
 			itObj.setPaid(paid.toString());

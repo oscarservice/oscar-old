@@ -95,9 +95,10 @@ public class BillingONPaymentsAction extends DispatchAction {
 		Integer billingNo = Integer.parseInt(request.getParameter("billingNo"));
 		
 		List<BillingONPayment> paymentLists = billingONPaymentDao.listPaymentsByBillingNo(billingNo);
-		if (paymentLists != null && paymentLists.size() > 0) {
-			request.setAttribute("paymentsList", paymentLists);
+		if (paymentLists == null) {
+			paymentLists = new ArrayList<BillingONPayment>();
 		}
+		request.setAttribute("paymentsList", paymentLists);
 		
 		List<BillingOnItem> items = billingOnItemDao.getShowBillingItemByCh1Id(billingNo);
 		List<BillingItemPaymentVo> itemPaymentList = new ArrayList<BillingItemPaymentVo>();
@@ -303,7 +304,7 @@ public class BillingONPaymentsAction extends DispatchAction {
 					itemDiscnt = new BigDecimal(discount);
 				} catch (Exception e) {}
 				
-				if (itemPayment.compareTo(BigDecimal.ZERO) == 0 || itemDiscnt.compareTo(BigDecimal.ZERO) == 0) {
+				if (itemPayment.compareTo(BigDecimal.ZERO) == 0 && itemDiscnt.compareTo(BigDecimal.ZERO) == 0) {
 					continue;
 				}
 				billItemPayment.setPaid(itemPayment);
@@ -394,9 +395,17 @@ public class BillingONPaymentsAction extends DispatchAction {
 			return actionMapping.findForward("failure");
 		}
 		JSONArray payDetail = new JSONArray();
+
+		// payment date object
+		JSONObject paymentDateObj = new JSONObject();
+		paymentDateObj.put("paymentDate", new SimpleDateFormat("yyyy-MM-dd").format(billPayment.getPaymentDate()));
+		payDetail.add(paymentDateObj);
+		
+		// payment type object
 		JSONObject typeObj = new JSONObject();
 		typeObj.put("paymentType", billPayment.getPaymentTypeId());
 		payDetail.add(typeObj);
+		
 		for (BillingOnItemPayment itemPayment : itemPaymentList) {
 			JSONObject itemObj = new JSONObject();
 			itemObj.put("id", itemPayment.getBillingOnItemId());

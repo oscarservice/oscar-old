@@ -26,6 +26,9 @@ import java.util.Vector;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
+import org.oscarehr.billing.CA.ON.dao.BillingOnItemPaymentDao;
+import org.oscarehr.billing.CA.ON.model.BillingOnItemPayment;
+import org.oscarehr.util.SpringUtils;
 
 public class JdbcBillingCorrection {
 	private static final Logger _logger = Logger.getLogger(JdbcBillingCorrection.class);
@@ -335,8 +338,10 @@ public class JdbcBillingCorrection {
 				obj.add(ch1Obj);
 			}
 
-			sql = "select boi.*,boip.paid,boip.refund,boip.discount from billing_on_item boi left join billing_on_item_payment boip on boi.id = boip.billing_on_item_id where boi.ch1_id=" + id + " and boi.status!='D'";
+			sql = "select * from billing_on_item where ch1_id=" + id + " and status!='D'";
 			_logger.info("getBillingRecordObj(sql = " + sql + ")");
+			BillingOnItemPaymentDao billItemPaymentDao = (BillingOnItemPaymentDao)SpringUtils.getBean(BillingOnItemPaymentDao.class);
+			
 			ResultSet rs2 = dbObj.searchDBRecord(sql);
 			while (rs2.next()) {
 				itemObj = new BillingItemData();
@@ -356,21 +361,20 @@ public class JdbcBillingCorrection {
 				itemObj.setStatus(rs2.getString("status"));
 				itemObj.setTimestamp(rs2.getString("timestamp"));
 				
-				try {
-					itemObj.setPaid(rs2.getString("paid"));
-				} catch (Exception e) {
-					itemObj.setPaid("0.00");
+				List<BillingOnItemPayment> itemPayList = billItemPaymentDao.getAllByItemId(Integer.parseInt(itemObj.getId()));
+				BigDecimal sumPaid = BigDecimal.ZERO;
+				BigDecimal sumDiscount = BigDecimal.ZERO;
+				BigDecimal sumRefund = BigDecimal.ZERO;
+				if (itemPayList != null) {
+					for (BillingOnItemPayment itemPay : itemPayList) {
+						sumPaid = sumPaid.add(itemPay.getPaid());
+						sumDiscount = sumDiscount.add(itemPay.getDiscount());
+						sumRefund = sumRefund.add(itemPay.getRefund());
+					}
 				}
-				try {
-					itemObj.setRefund(rs2.getString("refund"));
-				} catch (Exception e) {
-					itemObj.setRefund("0.00");
-				}
-				try {
-					itemObj.setDiscount(rs2.getString("discount"));
-				} catch (Exception e) {
-					itemObj.setDiscount("0.00");
-				}
+				itemObj.setPaid(sumPaid.toString());
+				itemObj.setDiscount(sumDiscount.toString());
+				itemObj.setRefund(sumRefund.toString());
 				
 				obj.add(itemObj);
 			}
