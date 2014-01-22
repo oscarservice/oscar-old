@@ -146,9 +146,9 @@ function onViewPayment(id) {
 			jQuery("#editBtn").css("display", "inline");
 			// clear all values
 			jQuery("select option[value='payment']").attr("selected", "selected");
-			jQuery("tr[id^='itemPayment'] input[id^='payment'] ").val("0.00");
-			jQuery("tr[id^='itemPayment'] input[id^='discount'] ").val("0.00");
-			jQuery("tr[id^='itemPayment'] input[id^='discount'] ").attr("disabled", "false");
+			jQuery("tr[id^='itemPayment'] input[id^='payment']").val("0.00");
+			jQuery("tr[id^='itemPayment'] input[id^='discount']").val("0.00");
+			jQuery("tr[id^='itemPayment'] input[id^='discount']").removeAttr("disabled");
 			jQuery("input[name='paymentType']").filter("input[value='" + paymentTypeObj.paymentType + "']")[0].checked=true;
 			jQuery("#paymentDate").val(paymentDateObj.paymentDate);
 			
@@ -177,8 +177,8 @@ function onViewPayment(id) {
 function clickEditBtn() {
 	jQuery("#editBtn").css("display", "none");
 	jQuery("select option[value='payment']").attr("selected", "selected");
-	jQuery("tr[id^='itemPayment'] input[id^='payment'] ").val("0.00");
-	jQuery("tr[id^='itemPayment'] input[id^='discount'] ").val("0.00");
+	jQuery("tr[id^='itemPayment'] input[id^='payment']").val("0.00");
+	jQuery("tr[id^='itemPayment'] input[id^='discount']").val("0.00");
 	jQuery("input[name='paymentType']")[0].checked=true;
 	jQuery("#paymentDate").val("");
 	jQuery("#saveBtn").css("display", "inline");
@@ -192,8 +192,32 @@ function checkInput() {
 	    alert('Payment Date is required');
 	    validInput = false;
 	}
-	if(validInput) document.forms['editPayment'].submit();
-	return false;
+	if (validInput) {
+		// document.forms['editPayment'].submit();
+		jQuery.ajax({
+			url: "<%=request.getContextPath()%>/billing/CA/ON/billingON3rdPayments.do",
+			type: "GET",
+			async: "fasle",
+			timeout: 30000,
+			data: jQuery("#editPayment").serialize(),
+			dataType: "json",
+			success: function(data) {
+				if (data == null) {
+					alert("Error happened after getting response!");
+					return;
+				}
+				if (data.ret == 0) {
+					alert("Save payments successfully!");
+				} else {
+					alert(data.reason);
+				}
+				location.reload(true);
+			},
+			error: function() {
+				alert("Error happened while saving payments!");
+			}
+		});
+	}
 }
 
 function setStatus(selIndex, idx){
@@ -211,12 +235,10 @@ function setStatus(selIndex, idx){
 <title><bean:message key="admin.admin.editBillPaymentList"/></title>
 </head>
 
-<body bgcolor="ivory" text="#000000" topmargin="0" leftmargin="0"
-	rightmargin="0" onload="refreshParent()">
-
+<body bgcolor="ivory" text="#000000" topmargin="0" leftmargin="0" rightmargin="0">
 
 <logic:present name="paymentTypeList" scope="request">
-    <form name="editPayment" id="editPayment" method="GET" action="<%=request.getContextPath() %>/billing/CA/ON/billingON3rdPayments.do">
+    <form name="editPayment" id="editPayment" method="GET" action="">
 	  	<input type="hidden" name="method" value="savePayment" />
 	  	<input type="hidden" name="billingNo" value="<%= billingNo %>" />
 	  	<input type="hidden" name="id" id="paymentId" value="" />
@@ -286,7 +308,7 @@ function setStatus(selIndex, idx){
       	    	<td nowrap align="center"> 
       	      		 <input type="text" name="paymentDate" id="paymentDate" onDblClick="calToday(this)" size="10" value="">
 					<a id="btn_date"><img title="Calendar" src="../../../images/cal.gif" alt="Calendar" border="0" /></a>
-      	      		<input type="submit" id="saveBtn" name="submitBtn" value="    Save  " onClick="checkInput(); return false;" />
+      	      		<input type="button" id="saveBtn" name="submitBtn" value="    Save  " onClick="checkInput(); return false;" />
       	      		<input type="button" id="editBtn" style="display:none" value="    Edit  " onClick="clickEditBtn(); return true;" />
       	    	</td> 
     	  	</tr>
@@ -369,10 +391,4 @@ function setStatus(selIndex, idx){
 </html>
 <script type="text/javascript">
     Calendar.setup( { inputField : "paymentDate", ifFormat : "%Y-%m-%d", showsTime :false, button : "btn_date", singleClick : true, step : 1 } );
-    function refreshParent() {
-    	window.opener.document.getElementById('payment').innerHTML =  '<%= request.getAttribute("total")==null ? "$0.00" : request.getAttribute("total") %>';
-    //	window.opener.document.getElementById('refund').innerHTML =  '<%= request.getAttribute("refund")==null ? "$0.00" : request.getAttribute("refund") %>';
-    	window.opener.document.getElementById('balance').innerHTML =  '<%= request.getAttribute("balance")==null ? "$0.00" : request.getAttribute("balance") %>';
-    	
-    }
 </script>
