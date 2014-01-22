@@ -254,11 +254,11 @@ public class BillingONPaymentsAction extends DispatchAction {
 			} catch (Exception e) {
 				MiscUtils.getLogger().info(e.toString());
 			}
-			sumDiscount = sumDiscount.add(extDiscount);
+			BigDecimal sumDiscountTmp = sumDiscount.add(extDiscount);
 			if (tExtObj.keyExists(Integer.toString(billNo), BillingONExtDao.KEY_DISCOUNT)) {
-				tExtObj.updateKeyValue(Integer.toString(billNo), BillingONExtDao.KEY_DISCOUNT, sumDiscount.toString());
+				tExtObj.updateKeyValue(Integer.toString(billNo), BillingONExtDao.KEY_DISCOUNT, sumDiscountTmp.toString());
 			} else {
-				tExtObj.add3rdBillExt(Integer.toString(billNo), demographicNo, BillingONExtDao.KEY_DISCOUNT, sumDiscount.toString());
+				tExtObj.add3rdBillExt(Integer.toString(billNo), demographicNo, BillingONExtDao.KEY_DISCOUNT, sumDiscountTmp.toString());
 			}
 		}
 		
@@ -270,11 +270,11 @@ public class BillingONPaymentsAction extends DispatchAction {
 			} catch (Exception e) {
 				MiscUtils.getLogger().info(e.toString());
 			}
-			sumRefund = sumRefund.add(extRefund);
+			BigDecimal sumRefundTmp = sumRefund.add(extRefund);
 			if (tExtObj.keyExists(Integer.toString(billNo), BillingONExtDao.KEY_REFUND)) {
-				tExtObj.updateKeyValue(Integer.toString(billNo), BillingONExtDao.KEY_REFUND, sumRefund.toString());
+				tExtObj.updateKeyValue(Integer.toString(billNo), BillingONExtDao.KEY_REFUND, sumRefundTmp.toString());
 			} else {
-				tExtObj.add3rdBillExt(Integer.toString(billNo), demographicNo, BillingONExtDao.KEY_REFUND, sumRefund.toString());
+				tExtObj.add3rdBillExt(Integer.toString(billNo), demographicNo, BillingONExtDao.KEY_REFUND, sumRefundTmp.toString());
 			}
 		}
 
