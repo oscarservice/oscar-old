@@ -207,7 +207,25 @@ public class BillingONPaymentsAction extends DispatchAction {
 				}
 			}
 		}
-
+		JSONObject ret = new JSONObject();
+		if (sumPaid.compareTo(BigDecimal.ZERO) == 0
+				&& sumDiscount.compareTo(BigDecimal.ZERO) == 0
+				&& sumRefund.compareTo(BigDecimal.ZERO) == 0) {
+			ret.put("ret", 1);
+			ret.put("reason", "Payments, discounts and refunds can't be all zeros!!");
+			response.setCharacterEncoding("utf-8");
+			response.setContentType("html/text");
+			try {
+				response.getWriter().print(ret.toString());
+				response.getWriter().flush();
+				response.getWriter().close();
+			} catch (Exception e) {
+				logger.info(e.toString());
+				return actionMapping.findForward("failure");
+			}
+			return null;
+		}
+		
 		// count sum of paid,refund,discount
 		BillingClaimHeader1 cheader1 = billingClaimDAO.find(billNo);
 		if (cheader1 == null) {
@@ -328,8 +346,18 @@ public class BillingONPaymentsAction extends DispatchAction {
 			}
 			billingOnItemPaymentDao.persist(billItemPayment);
 		}
-
-		return listPayments(actionMapping, actionForm, request, response);
+		ret.put("ret", 0);
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("html/text");
+		try {
+			response.getWriter().print(ret.toString());
+			response.getWriter().flush();
+			response.getWriter().close();
+		} catch (Exception e) {
+			logger.info(e.toString());
+			return actionMapping.findForward("failure");
+		}
+		return null;
 
 	}
 
