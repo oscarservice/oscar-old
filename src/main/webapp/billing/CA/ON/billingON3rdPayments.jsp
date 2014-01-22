@@ -324,12 +324,15 @@ function setStatus(selIndex, idx){
 	List balances = new ArrayList();
 	if(paymentLists != null && paymentLists.size()>0) {
 		BigDecimal total = new BigDecimal(paymentLists.get(0).getBillingONCheader1().getTotal());
+		BigDecimal sumOfPay = BigDecimal.ZERO;
+		BigDecimal sumOfDiscount = BigDecimal.ZERO;
+		BigDecimal sumOfRefund = BigDecimal.ZERO;
 		for(int i=0;i<paymentLists.size();i++){
 			balance = BigDecimal.ZERO;
-			BigDecimal payment = paymentLists.get(i).getTotal_payment();
-			BigDecimal discount = paymentLists.get(i).getTotal_discount();
-			BigDecimal refund = paymentLists.get(i).getTotal_refund();
-		    balance = total.subtract(payment).subtract(discount).subtract(refund);
+			sumOfPay = sumOfPay.add(paymentLists.get(i).getTotal_payment());
+			sumOfDiscount = sumOfDiscount.add(paymentLists.get(i).getTotal_discount());
+			sumOfRefund = sumOfRefund.add(paymentLists.get(i).getTotal_refund());
+		    balance = total.subtract(sumOfPay).subtract(sumOfDiscount).subtract(sumOfRefund);
 		    balances.add(balance);
 		}
 	}
