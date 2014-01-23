@@ -621,7 +621,6 @@ if(bFlag) {
 		<td width="320"><strong><bean:message
 			key="billing.billingCorrection.formHCType" />:</strong> <select
 			name="hc_type" style="font-size: 80%;">
-                        <option value="ON" <%=HCTYPE.equals("ON")?" selected":""%>>ON-Ontario</option>
                         <option value="OT" <%=HCTYPE.equals("OT")?" selected":""%>>OT-Other</option>
 			<option value="AB" <%=HCTYPE.equals("AB")?" selected":""%>>AB-Alberta</option>
                         <option value="BC" <%=HCTYPE.equals("BC")?" selected":""%>>BC-British Columbia</option>
@@ -631,6 +630,7 @@ if(bFlag) {
                         <option value="NT" <%=HCTYPE.equals("NT")?" selected":""%>>NT-Northwest Territory</option>
                         <option value="NS" <%=HCTYPE.equals("NS")?" selected":""%>>NS-Nova Scotia</option>
                         <option value="NU" <%=HCTYPE.equals("NU")?" selected":""%>>NU-Nunavut</option>
+                        <option selected="selected" value="ON" <%=HCTYPE.equals("ON")?" selected":""%>>ON-Ontario</option>
                         <option value="PE" <%=HCTYPE.equals("PE")?" selected":""%>>PE-Prince Edward Island</option>
                         <option value="QC" <%=HCTYPE.equals("QC")?" selected":""%>>QC-Quebec</option>
                         <option value="SK" <%=HCTYPE.equals("SK")?" selected":""%>>SK-Saskatchewan</option>
@@ -725,7 +725,7 @@ if(bFlag) {
 				key="billing.billingCorrection.formSelectBillType" /></option>
 			<option value="H" <%=BillType.equals("H")?"selected":""%>><bean:message
 				key="billing.billingCorrection.formBillTypeH" /></option>
-			<option value="O" <%=BillType.equals("O")?"selected":""%>><bean:message
+			<option selected="selected" value="O" <%=BillType.equals("O")?"selected":""%>><bean:message
 				key="billing.billingCorrection.formBillTypeO" /></option>
 			<option value="P" <%=BillType.equals("P")?"selected":""%>><bean:message
 				key="billing.billingCorrection.formBillTypeP" /></option>
