@@ -233,6 +233,43 @@ function setStatus(selIndex, idx){
 }
 
 
+function validatePaymentNumberic(idx) {
+	var oldVal = "0.00";
+	var val = document.getElementById("payment" + idx).value;
+	if (val.length == 0) {
+		document.getElementById("payment" + idx).value = "0.00";
+		oldVal = "0.00";
+		return;
+	}
+	//var regexNumberic = /^([1-9]\d*|0)(\.\d{1,2})?$/;
+	var regexNumberic = /^([1-9]\d{0,9}|0)(\.\d{1,2})?$/;
+	if (!regexNumberic.test(val)) {
+		document.getElementById("payment" + idx).value = oldVal;
+		alert("Please enter digital numbers !");
+		return;
+	}
+	oldVal = val;
+}
+
+
+function validateDiscountNumberic(idx) {
+	var oldVal = "0.00";
+	var val = document.getElementById("discount" + idx).value;
+	if (val.length == 0) {
+		document.getElementById("discount" + idx).value = "0.00";
+		oldVal = "0.00";
+		return;
+	}
+	//var regexNumberic = /^([1-9]\d*|0)(\.\d{1,2})?$/;
+	var regexNumberic = /^([1-9]\d{0,9}|0)(\.\d{1,2})?$/;
+	if (!regexNumberic.test(val)) {
+		document.getElementById("discount" + idx).value = oldVal;
+		alert("Please enter digital numbers !");
+		return;
+	}
+	oldVal = val;
+}
+
 </script>
 <title><bean:message key="admin.admin.editBillPaymentList"/></title>
 </head>
@@ -263,15 +300,15 @@ function setStatus(selIndex, idx){
 			<tr id="itemPayment<%=vo.getItemId() %>" BGCOLOR="#EEEEFF">
 				<td width="30%">
 					<div align="right">
-						<select id="sel<%=i%>" name="sel<%=i%>" onchange="setStatus(this.selectedIndex,<%=i%>);">
+						<select id="sel<%=i%>" name="sel<%=i%>" onchange="setStatus(this.selectedIndex,<%=i %>);">
 							<option value="payment">Payment</option>
 	       		 			<option value="refund">Refund</option>
 						</select>
 	        		</div>
 	      		</td>
 				<td width="70%" align="left">
-					<input type="text" name="payment<%=i %>" id="payment<%=i %>" value="0.00" WIDTH="8" HEIGHT="20" border="0" hspace="2" maxlength="50" />
-					Discount     <input type="text" id="discount<%=i%>"name="discount<%=i %>" value="0.00">
+					<input type="text" name="payment<%=i %>" id="payment<%=i %>" value="0.00" WIDTH="8" HEIGHT="20" border="0" hspace="2" maxlength="50" onchange="validatePaymentNumberic(<%=i %>)"/>
+					Discount     <input type="text" id="discount<%=i%>"name="discount<%=i %>" value="0.00" onchange="validateDiscountNumberic(<%=i %>)">
 				</td>
     		</tr>
 			<tr BGCOLOR="#EEEEFF">

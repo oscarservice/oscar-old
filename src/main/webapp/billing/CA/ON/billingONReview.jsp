@@ -286,6 +286,43 @@ boolean dupServiceCode = false;
                     if( element != null )
                         element.value = subtotal;
                 }
+                
+                function validatePaymentNumberic(idx) {
+                	var oldVal = document.getElementById("percCodeSubtotal_" + idx).value;
+                	var val = document.getElementById("paid_" + idx).value;
+                	/* if (val.length == 0) {
+                		document.getElementById("paid_" + idx).value = "0.00";
+                		oldVal = "0.00";
+                		return;
+                	} */
+                	//var regexNumberic = /^([1-9]\d*|0)(\.\d{1,2})?$/;
+                	var regexNumberic = /^([1-9]\d{0,9}|0)(\.\d{1,2})?$/;
+                	if (!regexNumberic.test(val)) {
+                		document.getElementById("paid_" + idx).value = oldVal;
+                		alert("Please enter digital numbers !");
+                		return;
+                	}
+                	oldVal = val;
+                }
+
+
+                function validateDiscountNumberic(idx) {
+                	var oldVal = "0.00";
+                	var val = document.getElementById("discount_" + idx).value;
+                	if (val.length == 0) {
+                		document.getElementById("discount_" + idx).value = "0.00";
+                		oldVal = "0.00";
+                		return;
+                	}
+                	//var regexNumberic = /^([1-9]\d*|0)(\.\d{1,2})?$/;
+                	var regexNumberic = /^([1-9]\d{0,9}|0)(\.\d{1,2})?$/;
+                	if (!regexNumberic.test(val)) {
+                		document.getElementById("discount_" + idx).value = oldVal;
+                		alert("Please enter digital numbers !");
+                		return;
+                	}
+                	oldVal = val;
+                }
 
 	//-->
 
@@ -588,7 +625,7 @@ window.onload=function(){
                     <span style="color:red; float:left;"><%=strWarning%></span>
                     <%}%>
                     <span style="float:right;"> <%=codeFee %> x <%=codeUnit %> <% if (!codeAt.equals("1")){%> x <%=codeAt %> <%}%><% if (gstFlag.equals("1")){%> + <%=percent%>% GST<%}%> =
-				<input type="text" name="percCodeSubtotal_<%=i %>" size="5" value="<%=codeTotal %>" />
+				<input type="text" name="percCodeSubtotal_<%=i %>" size="5" value="<%=codeTotal %>" id="percCodeSubtotal_<%=i %>"/>
 				<input type="hidden" name="xserviceCode_<%=i %>" value="<%=codeName %>" />
 				<input type="hidden" name="xserviceUnit_<%=i %>" value="<%=codeUnit %>" />
                     </span>
@@ -597,8 +634,8 @@ window.onload=function(){
 					<td width='25%'><%=propCodeDesc.getProperty(codeName, "") %></td>
 				<%}else{%>
 				<td nowrap width='8%'><%=codeName%></td>
-				<td nowrap width='8%'><input type="text" id="paid_<%=i%>" name="paid_<%=i %>" value="<%=codeTotal %>" onBlur="calculatePayment();"/></td>
-				<td nowrap width='8%'><input type="text" id="discount_<%=i%>" name="discount_<%=i %>" value="0.00"onBlur="calculateDiscount();"/></td>
+				<td nowrap width='8%'><input type="text" id="paid_<%=i%>" name="paid_<%=i %>" value="<%=codeTotal %>" onBlur="calculatePayment();" onchange="validatePaymentNumberic(<%=i %>)"/></td>
+				<td nowrap width='8%'><input type="text" id="discount_<%=i%>" name="discount_<%=i %>" value="0.00" onBlur="calculateDiscount();" onchange="validateDiscountNumberic(<%=i %>)"/></td>
 				<%}%>
 			</tr>
 			<%

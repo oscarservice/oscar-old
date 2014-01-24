@@ -327,6 +327,24 @@ function checkSettle(status) {
 
 }
 
+function validateAmountNumberic(idx) {
+	var oldVal = document.getElementById("billingamounttmp" + idx).value;
+	var val = document.getElementById("billingamount" + idx).value;
+	if (val.length == 0) {
+		document.getElementById("billingamount" + idx).value = "0.00";
+		oldVal = "0.00";
+		return;
+	}
+	//var regexNumberic = /^([1-9]\d*|0)(\.\d{1,2})?$/;
+	var regexNumberic = /^([1-9]\d{0,9}|0)(\.\d{1,2})?$/;
+	if (!regexNumberic.test(val)) {
+		document.getElementById("billingamount" + idx).value = oldVal;
+		alert("Please enter digital numbers !");
+		return;
+	}
+	oldVal = val;
+}
+
 //-->
 </script>
 </head>
@@ -1009,7 +1027,9 @@ function changeSite(sel) {
 			name="xml_billing_amount<%=rowCount%>" value="<%=billAmount%>">
 		<input type="text" style="width: 100%" size="5" maxlength="6"
 			id="billingamount<%=rowCount-1%>" name="billingamount<%=rowCount-1%>"
-			value="<%=billAmount%>" onchange="javascript:validateNum(this)"></th>
+			value="<%=billAmount%>" onchange="validateAmountNumberic(<%=rowCount-1 %>)"></th>
+		<input type="hidden" id="billingamounttmp<%=rowCount-1%>" value="<%=billAmount %>" />
+			
 		<td align="center"><input type="checkbox"
 			name="itemStatus<%=rowCount-1%>" id="itemStatus<%=rowCount-1%>"
 			value="S" <%=itemStatus %>></td>
