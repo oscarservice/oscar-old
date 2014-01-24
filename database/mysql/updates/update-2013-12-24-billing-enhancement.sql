@@ -1,5 +1,5 @@
 CREATE TABLE `billing_on_item_payment`(
-	`id` INT(12) NOT NULL PRIMARY KEY,
+	`id` INT(12) NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	`ch1_id` INT(12) NOT NULL,
 	`billing_on_payment_id` INT(12) NOT NULL,
 	`billing_on_item_id` INT(12) NOT NULL,

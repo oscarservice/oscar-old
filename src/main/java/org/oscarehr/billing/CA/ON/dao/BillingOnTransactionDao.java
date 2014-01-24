@@ -32,6 +32,7 @@ import org.oscarehr.billing.CA.ON.model.BillingClaimHeader1;
 import org.oscarehr.billing.CA.ON.model.BillingONPayment;
 import org.oscarehr.billing.CA.ON.model.BillingOnTransaction;
 import org.oscarehr.common.dao.AbstractDao;
+import org.oscarehr.util.MiscUtils;
 import org.springframework.stereotype.Repository;
 
 import oscar.oscarBilling.ca.on.data.BillingDataHlp;
@@ -52,9 +53,9 @@ public class BillingOnTransactionDao extends AbstractDao<BillingOnTransaction> {
 		billTrans.setActionType(BillingDataHlp.ACTION_TYPE.C.name());
 		try {
 			billTrans.setAdmissionDate(admissionDateFormat.parse(cheader1.getAdmission_date()));
-		} catch (ParseException e1) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			MiscUtils.getLogger().info(e.toString());
 			billTrans.setAdmissionDate(null);
 		}
 		billTrans.setBillingDate(cheader1.getBilling_date());
