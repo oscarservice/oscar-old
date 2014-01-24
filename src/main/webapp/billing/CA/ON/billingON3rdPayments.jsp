@@ -68,6 +68,7 @@
 <%@page import="java.math.BigDecimal" %>
 <% 
 List<String> errors = new ArrayList<String>();
+ String datetime=new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
 
 	boolean bMultisites = org.oscarehr.common.IsPropertiesOn.isMultisitesEnable();
 	if(session.getAttribute("user") == null ) response.sendRedirect("../logout.jsp");
@@ -231,11 +232,12 @@ function setStatus(selIndex, idx){
 	}
 }
 
+
 </script>
 <title><bean:message key="admin.admin.editBillPaymentList"/></title>
 </head>
 
-<body bgcolor="ivory" text="#000000" topmargin="0" leftmargin="0" rightmargin="0">
+<body bgcolor="ivory" text="#000000" topmargin="0" leftmargin="0" rightmargin="0" >
 
 <logic:present name="paymentTypeList" scope="request">
     <form name="editPayment" id="editPayment" method="GET" action="">
@@ -306,7 +308,7 @@ function setStatus(selIndex, idx){
 		<table border="0" cellpadding="0" cellspacing="0" width="100%"> 
 	  		<tr bgcolor="#CCCCFF"> 
       	    	<td nowrap align="center"> 
-      	      		 <input type="text" name="paymentDate" id="paymentDate" onDblClick="calToday(this)" size="10" value="">
+      	      		 <input type="text" name="paymentDate" id="paymentDate" onDblClick="calToday(this)" size="10" value="<%=datetime%>">
 					<a id="btn_date"><img title="Calendar" src="../../../images/cal.gif" alt="Calendar" border="0" /></a>
       	      		<input type="button" id="saveBtn" name="submitBtn" value="    Save  " onClick="checkInput(); return false;" />
       	      		<input type="button" id="editBtn" style="display:none" value="    Edit  " onClick="clickEditBtn(); return true;" />
