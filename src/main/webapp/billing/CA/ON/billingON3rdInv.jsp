@@ -152,10 +152,10 @@ String percent = gstProp.getProperty("gstPercent", "");
 <% 
 BigDecimal bdBal = new BigDecimal(ch1Obj.getTotal()).setScale(2, BigDecimal.ROUND_HALF_UP);
 BigDecimal bdPay = new BigDecimal(prop3rdPart.getProperty("payment","0.00")).setScale(2, BigDecimal.ROUND_HALF_UP);
+BigDecimal bdDis = new BigDecimal(prop3rdPart.getProperty("discount","0.00")).setScale(2, BigDecimal.ROUND_HALF_UP);
 BigDecimal bdRef = new BigDecimal(prop3rdPart.getProperty("refund","0.00")).setScale(2, BigDecimal.ROUND_HALF_UP);
 //bdBal = bdPay.subtract(bdBal);
-bdBal = bdBal.subtract(bdPay);
-bdBal = bdBal.add(bdRef);
+bdBal = bdBal.subtract(bdPay).subtract(bdDis).subtract(bdRef);
 //BigDecimal bdGst = new BigDecimal(propGst.getProperty("gst", "")).setScale(2, BigDecimal.ROUND_HALF_UP);
 %>
 <table width="100%" border="0">
@@ -167,6 +167,10 @@ bdBal = bdBal.add(bdRef);
 	<tr align="right">
 		<td>Payments:</td>
 		<td><%=prop3rdPart.getProperty("payment","0.00") %></td>
+	</tr>
+	<tr align="right">
+		<td>Discounts:</td>
+		<td><%=prop3rdPart.getProperty("discount","0.00") %></td>
 	</tr>
 	<tr align="right">
 		<td>Refunds:</td>
