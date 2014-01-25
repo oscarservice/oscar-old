@@ -183,7 +183,27 @@ public class SunnyBrookImportDemoUtil
 
 				// get Demographic VO from map
 				demographic = demographicUtil.prepareDemographicVO(patientDtlMap, null);
-				Demographic existingDemographic = demographicUtil.getDemographicFromDB(demographic.getHin());
+				
+				/**
+				 * if HIN is null or empty, then check for firstname, lastname, gender, DOB. if matching
+				 * record found for these, then update the demographic,
+				 * otherwise import it as a new demographic
+				 */
+				
+				Demographic existingDemographic = null;
+				if(demographic.getHin()==null || demographic.getHin().trim().length()==0)
+				{
+					//if HIN is null or blank
+					//check similar record based on firstname, lastname, gender, DOB.
+
+					existingDemographic = demographicUtil.getDemographicFromDB(demographic.getFirstName(), demographic.getLastName(), demographic.getSex(), demographic.getBirthDay());
+				}
+				else
+				{
+					//if HIN is not null
+					existingDemographic = demographicUtil.getDemographicFromDB(demographic.getHin());	
+				}
+				
 				if (existingDemographic != null)
 				{
 					resultMap.put("DEMO_EXISTS", "true");
@@ -527,6 +547,34 @@ class DemographicUtil
 				demographicExtDao.saveDemographicExt(demographic.getDemographicNo(), "wPhoneExt", ext);
 			}
 		}
+	}
+	
+	public Demographic getDemographicFromDB(String firstName, String lastName, String gender, Calendar dob)
+	{
+		Demographic demographic = null;
+		DemographicDao demographicDao = (DemographicDao) SpringUtils.getBean("demographicDao");
+
+		String year_of_birth = "", month_of_birth = "", date_of_birth = "";
+		if(dob!=null)
+		{
+			year_of_birth = dob.get(Calendar.YEAR)+"";
+			month_of_birth = (dob.get(Calendar.MONTH)+1)+"";
+			date_of_birth = dob.get(Calendar.DAY_OF_MONTH)+"";
+		}
+		List<Demographic> existingDemoList = demographicDao.getDemographicWithLastFirstDOBExact(lastName, firstName, year_of_birth, month_of_birth, date_of_birth);
+		if(existingDemoList!=null)
+		{
+			for (Demographic demographic2 : existingDemoList)
+			{
+				if(gender!=null && demographic2!=null && demographic2.getSex()!=null && demographic2.getSex().equalsIgnoreCase(gender))
+				{
+					demographic = demographic2;
+					break;
+				}
+			}
+		}
+		
+		return demographic;
 	}
 	
 	public Demographic getDemographicFromDB(String hin)
