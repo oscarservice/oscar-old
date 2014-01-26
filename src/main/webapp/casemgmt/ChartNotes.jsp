@@ -141,9 +141,21 @@ try
     	notesLoader(0, notesIncrement, demographicNo);
     	<%
     	boolean encLoadAllNotesAtOnce = OscarProperties.getInstance().getBooleanProperty("encounter_load_all_notes_at_once", "true");
-    	if(!encLoadAllNotesAtOnce){
+		oscar.OscarProperties props1 = oscar.OscarProperties.getInstance();
+	    String eyeform = props1.getProperty("cme_js");
+		String encLoadNotesNumber = "";
+		int loadNumber = 0;
+		if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
+			encLoadNotesNumber = OscarProperties.getInstance().getProperty("encounter_load_notes_number");
+			if((encLoadNotesNumber != null) && (!encLoadNotesNumber.equals(""))){
+				loadNumber = Integer.parseInt(encLoadNotesNumber);
+			}
+		}
+    	if((!encLoadAllNotesAtOnce) && (loadNumber <= 0)){
     	%>
     	notesScrollCheckInterval = setInterval('notesIncrementAndLoadMore()', 2000);
+		<%}else if(loadNumber > 0){%>
+		$("notesLoading").innerHTML = "<img src='../images/DMSLoader.gif'>Loading Notes...";
     	<%}else{%>
     	$("notesLoading").innerHTML = "<img src='../images/DMSLoader.gif'>Loading All Notes...";
     	<%}%>
