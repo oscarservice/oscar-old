@@ -2549,8 +2549,9 @@ public class MeasurementFormatter {
 			}
 		}
 		
-		
-		sb.append("OD ");
+		if(num > 0){
+			sb.append("OD ");
+		}
 		if(isPresent("duc_rur")) {
 			sb.append(getValue("duc_rur"));
 			if(getValue("duc_rur").length() < num){
@@ -2577,7 +2578,10 @@ public class MeasurementFormatter {
 				sb.append(" ");
 			}
 		}
-		sb.append(" OS ");
+		
+		if(num1 > 0){
+			sb.append(" OS ");
+		}
 		if(isPresent("duc_lur")) {
 			sb.append(getValue("duc_lur"));
 			if(getValue("duc_lur").length() < num){
@@ -2604,7 +2608,9 @@ public class MeasurementFormatter {
 				sb.append(" ");
 			}
 		}
-		sb.append(" OU ");
+		if(num2 > 0){
+			sb.append(" OU ");
+		}
 		if(isPresent("dip_ur")) {
 			sb.append(getValue("dip_ur"));
 			if(getValue("dip_ur").length() < num){

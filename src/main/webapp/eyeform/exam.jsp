@@ -258,6 +258,64 @@
 
 <script>
 //if have value under slidy block set the color to brown
+function changeclass(number){
+	var i = number;
+	if(document.getElementById("gl_date"+ i).value.length > 0){
+		document.getElementById("gl_date"+ i).className = "examfieldwhite" ;
+	}else{
+		document.getElementById("gl_date"+ i).className = "examfieldgrey" ;
+	}
+	if(document.getElementById("odSph" + i).value.length > 0){
+		document.getElementById("odSph" + i).className = "examfieldwhite" ;
+	}else{
+		document.getElementById("odSph" + i).className = "examfieldgrey" ;
+	}
+	if(document.getElementById("odCyl" + i).value.length > 0){
+		document.getElementById("odCyl" + i).className = "examfieldwhite" ;
+	}else{
+		document.getElementById("odCyl" + i).className = "examfieldgrey" ;
+	}
+	if(document.getElementById("odAxis" + i).value.length > 0){
+		document.getElementById("odAxis" + i).className = "examfieldwhite" ;
+	}else{
+		document.getElementById("odAxis" + i).className = "examfieldgrey" ;
+	}
+	if(document.getElementById("odAdd" + i).value.length > 0){
+		document.getElementById("odAdd" + i).className = "examfieldwhite" ;
+	}else{
+		document.getElementById("odAdd" + i).className = "examfieldgrey" ;
+	}
+	if(document.getElementById("odPrism" + i).value.length > 0){
+		document.getElementById("odPrism" + i).className = "examfieldwhite" ;
+	}else{
+		document.getElementById("odPrism" + i).className = "examfieldgrey" ;
+	}
+	if(document.getElementById("osSph" + i).value.length > 0){
+		document.getElementById("osSph" + i).className = "examfieldwhite" ;
+	}else{
+		document.getElementById("osSph" + i).className = "examfieldgrey" ;
+	}
+	if(document.getElementById("osCyl" + i).value.length > 0){
+		document.getElementById("osCyl" + i).className = "examfieldwhite" ;
+	}else{
+		document.getElementById("osCyl" + i).className = "examfieldgrey" ;
+	}
+	if(document.getElementById("osAxis"+ i).value.length > 0){
+		document.getElementById("osAxis"+ i).className = "examfieldwhite" ;
+	}else{
+		document.getElementById("osAxis"+ i).className = "examfieldgrey" ;
+	}
+	if(document.getElementById("osAdd"+ i).value.length > 0){
+		document.getElementById("osAdd"+ i).className = "examfieldwhite" ;
+	}else{
+		document.getElementById("osAdd"+ i).className = "examfieldgrey" ;
+	}
+	if(document.getElementById("osPrism"+ i).value.length > 0){
+		document.getElementById("osPrism"+ i).className = "examfieldwhite" ;
+	}else{
+		document.getElementById("osPrism"+ i).className = "examfieldgrey" ;
+	}
+}
 var note_str = document.getElementById("note1").value;
 function demo1() {
 	var type001=document.getElementById("type001").value;
@@ -373,6 +431,7 @@ function demo1() {
 
 		note_str = document.getElementById("note4").value;
 	}
+	changeclass(1);
 }
 
 function demo2() {
@@ -487,6 +546,7 @@ function demo2() {
 
 		note_str = document.getElementById("note4").value;
 	}
+	changeclass(2);
 }
 
 function demo3() {
@@ -600,7 +660,7 @@ function demo3() {
 
 		note_str = document.getElementById("note3").value;
 	}
-	
+	changeclass(3);
 }
 function demo4() {
 	var type004=document.getElementById("type004").value;
@@ -713,6 +773,7 @@ function demo4() {
 
 		note_str = document.getElementById("note4").value;
 	}
+	changeclass(4);
 }
 
 function touchColor() {
@@ -1328,17 +1389,22 @@ function collapseAll() {
 		}
 	});
 }
+var sumbitform = false;
 var rowID=1;
 rowID = Number(document.getElementById("shownum").value) + 1;
 if(Number(document.getElementById("shownum").value) == 0){
 	rowID = 2;
 }
+
 function insRow()
 {
+	sumbitform = true;
 	var tab_num = 0;
 	var row = rowID -1;
 	tab_num = document.getElementById("osPrism"+row.toString()).tabIndex + 2;
+	
 	if(rowID<5){
+		document.getElementById("shownum").value = rowID;
 		var rowNo=rowID;
 		var x=document.getElementById('myTable').insertRow(rowID+1);
 		var h1=x.insertCell(0);
@@ -1358,7 +1424,7 @@ function insRow()
 		var h15=x.insertCell(14);
 		var h16=x.insertCell(15);
 
-		h1.innerHTML="<div><select style='width:100px;' name='specs.type"+rowNo+"' id='type00"+rowNo+"'><option value='distance'>distance</option><option value='bifocal'>bifocal</option><option value='invis bfocal'>invis bfocal</option><option value='reading'>reading</option></select></div>";
+		h1.innerHTML="<div><select style='width:100px;' onchange='demo"+rowNo+"()' name='specs.type"+rowNo+"' id='type00"+rowNo+"'><option value='distance'>distance</option><option value='bifocal'>bifocal</option><option value='invis bfocal'>invis bfocal</option><option value='reading'>reading</option></select></div>";
 		h2.innerHTML="<div><input name='specs.odSph"+rowNo+"' id='odSph"+rowNo+"' type='text' tabindex='"+tab_num+"' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
 		tab_num ++;
 		h3.innerHTML="<div><input name='specs.odCyl"+rowNo+"' id='odCyl"+rowNo+"' type='text' tabindex='"+tab_num+"' maxlength='6' class='examfieldgrey' size='6'  onfocus='whiteField(this);'></div>";
@@ -1484,6 +1550,255 @@ function hxOpen4()
  window.open("../eyeform/glassHX.jsp?specs.id="+id+"&type="+type+"&dateStr="+date+"&odSph="+odSph+"&odCyl="+odCyl+"&odAxis="+odAxis+"&odAdd="+odAdd+"&odPrism="+odPrism+"&osSph="+osSph+"&osCyl="+osCyl+"&osAxis="+osAxis+"&osAdd="+osAdd+"&osPrism="+osPrism+"&appointment_no="+appno+"&demographic_no="+demno+"",'anwin','width=400,height=300');
 
 }
+
+function hxForm_sumbit(){
+	
+	var num = Number(document.getElementById("shownum").value);
+
+	var postData = "";
+	
+	if((num > 0)){
+		for(var i = 1;i <= num; i++){
+			if(postData.length > 0) {
+				postData += "&";
+				var name = jQuery("#type00" + i).attr("name");
+				var value = jQuery("#type00" + i).val();
+				var data = name + "=" + encodeURIComponent(value);
+				postData += data;
+			}else{
+				var name = jQuery("#type00" + i).attr("name");
+				var value = jQuery("#type00" + i).val();
+				var data = name + "=" + encodeURIComponent(value);
+				postData += data;
+			}
+			if(jQuery("#specs.id" + i).attr("class") != "examfieldwhite"){
+				/*if(postData.length > 0) {
+					postData += "&";
+				}
+				var name = jQuery("#specs.id" + i).attr("name");
+				var value = null;
+				var data = name + "=" + encodeURIComponent(value);
+				postData += data;*/
+			}else{
+				if(postData.length > 0) {
+					postData += "&";
+				}
+				sumbitform = true;
+				var name = jQuery("#specs.id" + i).attr("name");
+				var value = jQuery("#specs.id" + i).val();
+				var data = name + "=" + encodeURIComponent(value);
+				postData += data;
+			}
+			if(jQuery("#gl_date" + i).attr("class") != "examfieldwhite") {
+				/*if(postData.length > 0) {
+					postData += "&";
+				}
+				var name = jQuery("#gl_date" + i).attr("name");
+				var value = null;
+				var data = name + "=" + "null";
+				postData += data;	*/	
+			}else{
+				if(postData.length > 0) {
+					postData += "&";
+				}
+				sumbitform = true;
+				var name = jQuery("#gl_date" + i).attr("name");
+				var value = jQuery("#gl_date" + i).val();
+				var data = name + "=" + encodeURIComponent(value);
+				postData += data;
+			}
+			if(jQuery("#odSph" + i).attr("class") != "examfieldwhite") {
+				/*if(postData.length > 0) {
+					postData += "&";
+				}
+				var name = jQuery("#odSph" + i).attr("name");
+				var value = null;
+				var data = name + "=" + encodeURIComponent(value);
+				postData += data;	*/
+			}else{
+				if(postData.length > 0) {
+					postData += "&";
+				}
+				sumbitform = true;
+				var name = jQuery("#odSph" + i).attr("name");
+				var value = jQuery("#odSph" + i).val();
+				var data = name + "=" + encodeURIComponent(value);
+				postData += data;
+			}
+			if(jQuery("#odCyl" + i).attr("class") != "examfieldwhite") {
+				/*if(postData.length > 0) {
+					postData += "&";
+				}
+				var name = jQuery("#odCyl" + i).attr("name");
+				var value = null;
+				var data = name + "=" + encodeURIComponent(value);
+				postData += data;	*/	
+			}else{
+				if(postData.length > 0) {
+					postData += "&";
+				}
+				sumbitform = true;
+				var name = jQuery("#odCyl" + i).attr("name");
+				var value = jQuery("#odCyl" + i).val();
+				var data = name + "=" + encodeURIComponent(value);
+				postData += data;
+			}
+			if(jQuery("#odAxis" + i).attr("class") != "examfieldwhite") {
+				/*if(postData.length > 0) {
+					postData += "&";
+				}
+				var name = jQuery("#odAxis" + i).attr("name");
+				var value = null;
+				var data = name + "=" + encodeURIComponent(value);
+				postData += data;	*/	
+			}else{
+				if(postData.length > 0) {
+					postData += "&";
+				}
+				sumbitform = true;
+				var name = jQuery("#odAxis" + i).attr("name");
+				var value = jQuery("#odAxis" + i).val();
+				var data = name + "=" + encodeURIComponent(value);
+				postData += data;
+			}
+			if(jQuery("#odAdd" + i).attr("class") != "examfieldwhite") {
+				/*if(postData.length > 0) {
+					postData += "&";
+				}
+				var name = jQuery("#odAdd" + i).attr("name");
+				var value = null;
+				var data = name + "=" + encodeURIComponent(value);
+				postData += data;	*/	
+			}else{
+				if(postData.length > 0) {
+					postData += "&";
+				}
+				sumbitform = true;
+				var name = jQuery("#odAdd" + i).attr("name");
+				var value = jQuery("#odAdd" + i).val();
+				var data = name + "=" + encodeURIComponent(value);
+				postData += data;
+			}
+			if(jQuery("#odPrism" + i).attr("class") != "examfieldwhite") {
+				/*if(postData.length > 0) {
+					postData += "&";
+				}
+				var name = jQuery("#odPrism" + i).attr("name");
+				var value = null;
+				var data = name + "=" + encodeURIComponent(value);
+				postData += data;	*/	
+			}else{
+				if(postData.length > 0) {
+					postData += "&";
+				}
+				sumbitform = true;
+				var name = jQuery("#odPrism" + i).attr("name");
+				var value = jQuery("#odPrism" + i).val();
+				var data = name + "=" + encodeURIComponent(value);
+				postData += data;
+			}
+			if(jQuery("#osSph" + i).attr("class") != "examfieldwhite") {
+				/*if(postData.length > 0) {
+					postData += "&";
+				}
+				var name = jQuery("#osSph" + i).attr("name");
+				var value = null;
+				var data = name + "=" + encodeURIComponent(value);
+				postData += data;	*/	
+			}else{
+				if(postData.length > 0) {
+					postData += "&";
+				}
+				sumbitform = true;
+				var name = jQuery("#osSph" + i).attr("name");
+				var value = jQuery("#osSph" + i).val();
+				var data = name + "=" + encodeURIComponent(value);
+				postData += data;
+			}
+			if(jQuery("#osCyl" + i).attr("class") != "examfieldwhite") {
+			/*	if(postData.length > 0) {
+					postData += "&";
+				}
+				var name = jQuery("#osCyl" + i).attr("name");
+				var value = null;
+				var data = name + "=" + encodeURIComponent(value);
+				postData += data;	*/
+			}else{
+				if(postData.length > 0) {
+					postData += "&";
+				}
+				sumbitform = true;
+				var name = jQuery("#osCyl" + i).attr("name");
+				var value = jQuery("#osCyl" + i).val();
+				var data = name + "=" + encodeURIComponent(value);
+				postData += data;
+			}
+			if(jQuery("#osAxis" + i).attr("class") != "examfieldwhite") {
+			/*	if(postData.length > 0) {
+					postData += "&";
+				}
+				var name = jQuery("#osAxis" + i).attr("name");
+				var value = null;
+				var data = name + "=" + encodeURIComponent(value);
+				postData += data;	*/	
+			}else{
+				if(postData.length > 0) {
+					postData += "&";
+				}
+				sumbitform = true;
+				var name = jQuery("#osAxis" + i).attr("name");
+				var value = jQuery("#osAxis" + i).val();
+				var data = name + "=" + encodeURIComponent(value);
+				postData += data;
+			}
+			if(jQuery("#osAdd" + i).attr("class") != "examfieldwhite") {
+			/*	if(postData.length > 0) {
+					postData += "&";
+				}
+				var name = jQuery("#osAdd" + i).attr("name");
+				var value = null;
+				var data = name + "=" + encodeURIComponent(value);
+				postData += data;	*/	
+			}else{
+				if(postData.length > 0) {
+					postData += "&";
+				}
+				sumbitform = true;
+				var name = jQuery("#osAdd" + i).attr("name");
+				var value = jQuery("#osAdd" + i).val();
+				var data = name + "=" + encodeURIComponent(value);
+				postData += data;
+			}
+			if(jQuery("#osPrism" + i).attr("class") != "examfieldwhite") {
+			/*	if(postData.length > 0) {
+					postData += "&";
+				}
+				var name = jQuery("#osPrism" + i).attr("name");
+				var value = null
+				var data = name + "=" + encodeURIComponent(value);
+				postData += data;	*/	
+			}else{
+				if(postData.length > 0) {
+					postData += "&";
+				}
+				sumbitform = true;
+				var name = jQuery("#osPrism" + i).attr("name");
+				var value = jQuery("#osPrism" + i).val();
+				var data = name + "=" + encodeURIComponent(value);
+				postData += data;
+			}
+		}
+	}
+
+	if(sumbitform){
+		//document.getElementById('hxForm').submit();
+		//alert(postData);
+		var appointmentNo=document.getElementById("appointment_no").value; 
+		var demographicNo=document.getElementById("demographic_no").value;
+		//alert(ctx+'/eyeform/SpecsHistory.do?action=save&demographicNo='+demographicNo+'&appointmentNo='+appointmentNo);
+		jQuery.ajax({type:'POST',url:ctx+'/eyeform/SpecsHistory.do?method=save&specs.demographicNo='+demographicNo+'&specs.appointmentNo='+appointmentNo,data:postData,success: function(){}});
+	}
+}
 </script>
 
 <style type="text/css">
@@ -1588,7 +1903,8 @@ span.ge{
 </style>
 <span style="font-size:10px">
 	<%if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){%>
-	<a id="save_measurements" href="javascript:void(0)"  onclick="document.getElementById('hxForm').submit();">[Save Measurements]</a>
+<!--	<a id="save_measurements" href="javascript:void(0)"  onclick="document.getElementById('hxForm').submit();">[Save Measurements]</a>-->
+	<a id="save_measurements" href="javascript:void(0)"  onclick="hxForm_sumbit();">[Save Measurements]</a>
 	<%}else{%>
 	<a id="save_measurements" href="#">[Save Measurements]</a>
 	<%}%>

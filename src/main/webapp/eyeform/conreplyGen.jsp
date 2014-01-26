@@ -93,6 +93,10 @@ select {
 	
 	oscar.OscarProperties props1 = oscar.OscarProperties.getInstance();
 	String eyeform = props1.getProperty("cme_js");
+	String exam_val = (String)request.getAttribute("old_examination");
+	if(exam_val == null){
+		exam_val = "";
+	}
 %>
 
 <style type="text/css">
@@ -821,6 +825,7 @@ jQuery(document).ready(function() {
 							<td width="74%">
 							<%if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){%>
 								<div contentEditable="true" name="cp.examination" id="cp.examination" style="display:block;border:1px solid gray;overflow:scroll;height:150px;width:970px;overflow-x:hidden;word-wrap:break-word;">
+								<%=exam_val%>
 								</div>
 							<%}else{%>
 								<html:textarea rows="7" style="width:100%" property="cp.examination"/>	

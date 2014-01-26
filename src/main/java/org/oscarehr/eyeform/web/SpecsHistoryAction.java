@@ -106,18 +106,78 @@ public class SpecsHistoryAction extends DispatchAction {
 
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		DynaValidatorForm f = (DynaValidatorForm) form;
+		
+		boolean inster1 = false;
+		boolean inster2 = false;
+		boolean inster3 = false;
+		boolean inster4 = false;
 		String type = request.getParameter("specs.type1");
 		String date = request.getParameter("specs.dateStr1");
+		if(date != null){
+			inster1 = true;
+		}else{
+			date = "";
+		}
 		String odSph = request.getParameter("specs.odSph1");
+		if(odSph != null){
+			inster1 = true;
+		}else{
+			odSph = "";
+		}
 		String odCyl = request.getParameter("specs.odCyl1");
+		if(odCyl != null){
+			inster1 = true;
+		}else{
+			odCyl = "";
+		}
 		String odAxis = request.getParameter("specs.odAxis1");
+		if(odAxis != null){
+			inster1 = true;
+		}else{
+			odAxis = "";
+		}
 		String odAdd = request.getParameter("specs.odAdd1");
+		if(odAdd != null){
+			inster1 = true;
+		}else{
+			odAdd = "";
+		}
 		String odPrism = request.getParameter("specs.odPrism1");
+		if(odPrism != null){
+			inster1 = true;
+		}else{
+			odPrism = "";
+		}
 		String osSph = request.getParameter("specs.osSph1");
+		if(osSph != null){
+			inster1 = true;
+		}else{
+			osSph = "";
+		}
 		String osCyl = request.getParameter("specs.osCyl1");
+		if(osCyl != null){
+			inster1 = true;
+		}else{
+			osCyl = "";
+		}
 		String osAxis = request.getParameter("specs.osAxis1");
+		if(osAxis != null){
+			inster1 = true;
+		}else{
+			osAxis = "";
+		}
 		String osAdd = request.getParameter("specs.osAdd1");
+		if(osAdd != null){
+			inster1 = true;
+		}else{
+			osAdd = "";
+		}
 		String osPrism = request.getParameter("specs.osPrism1");
+		if(osPrism != null){
+			inster1 = true;
+		}else{
+			osPrism = "";
+		}
 		int demographicNo = Integer.parseInt(request
 				.getParameter("specs.demographicNo"));
 		int appointmentNo = Integer.parseInt(request
@@ -125,42 +185,207 @@ public class SpecsHistoryAction extends DispatchAction {
 
 		String type2 = request.getParameter("specs.type2");
 		String date2 = request.getParameter("specs.dateStr2");
+		if(date2 != null){
+			inster2 = true;
+		}else{
+			date2 = "";
+		}
 		String odSph2 = request.getParameter("specs.odSph2");
+		if(odSph2 != null){
+			inster2 = true;
+		}else{
+			odSph2 = "";
+		}
 		String odCyl2 = request.getParameter("specs.odCyl2");
+		if(odCyl2 != null){
+			inster2 = true;
+		}else{
+			odCyl2 = "";
+		}
 		String odAxis2 = request.getParameter("specs.odAxis2");
+		if(odAxis2 != null){
+			inster2 = true;
+		}else{
+			odAxis2 = "";
+		}
 		String odAdd2 = request.getParameter("specs.odAdd2");
+		if(odAdd2 != null){
+			inster2 = true;
+		}else{
+			odAdd2 = "";
+		}
 		String odPrism2 = request.getParameter("specs.odPrism2");
+		if(odPrism2 != null){
+			inster2 = true;
+		}else{
+			odPrism2 = "";
+		}
 		String osSph2 = request.getParameter("specs.osSph2");
+		if(osSph2 != null){
+			inster2 = true;
+		}else{
+			osSph2 = "";
+		}
 		String osCyl2 = request.getParameter("specs.osCyl2");
+		if(osCyl2 != null){
+			inster2 = true;
+		}else{
+			osCyl2 = "";
+		}
 		String osAxis2 = request.getParameter("specs.osAxis2");
+		if(osAxis2 != null){
+			inster2 = true;
+		}else{
+			osAxis2 = "";
+		}
 		String osAdd2 = request.getParameter("specs.osAdd2");
+		if(osAdd2 != null){
+			inster2 = true;
+		}else{
+			osAdd2 = "";
+		}
 		String osPrism2 = request.getParameter("specs.osPrism2");
+		if(osPrism2 != null){
+			inster2 = true;
+		}else{
+			osPrism2 = "";
+		}
 
 		String type3 = request.getParameter("specs.type3");
 		String date3 = request.getParameter("specs.dateStr3");
+		if(date3 != null){
+			inster3 = true;
+		}else{
+			date3 = "";
+		}
 		String odSph3 = request.getParameter("specs.odSph3");
+		if(odSph3 != null){
+			inster3 = true;
+		}else{
+			odSph3 = "";
+		}
 		String odCyl3 = request.getParameter("specs.odCyl3");
+		if(odCyl3 != null){
+			inster3 = true;
+		}else{
+			odCyl3 = "";
+		}
 		String odAxis3 = request.getParameter("specs.odAxis3");
+		if(odAxis3 != null){
+			inster3 = true;
+		}else{
+			odAxis3 = "";
+		}
 		String odAdd3 = request.getParameter("specs.odAdd3");
+		if(odAdd3 != null){
+			inster3 = true;
+		}else{
+			odAdd3 = "";
+		}
 		String odPrism3 = request.getParameter("specs.odPrism3");
+		if(odPrism3 != null){
+			inster3 = true;
+		}else{
+			odPrism3 = "";
+		}
 		String osSph3 = request.getParameter("specs.osSph3");
+		if(osSph3 != null){
+			inster3 = true;
+		}else{
+			osSph3 = "";
+		}
 		String osCyl3 = request.getParameter("specs.osCyl3");
+		if(osCyl3 != null){
+			inster3 = true;
+		}else{
+			osCyl3 = "";
+		}
 		String osAxis3 = request.getParameter("specs.osAxis3");
+		if(osAxis3 != null){
+			inster3 = true;
+		}else{
+			osAxis3 = "";
+		}
 		String osAdd3 = request.getParameter("specs.osAdd3");
+		if(osAdd3 != null){
+			inster3 = true;
+		}else{
+			osAdd3 = "";
+		}
 		String osPrism3 = request.getParameter("specs.osPrism3");
+		if(osPrism3 != null){
+			inster3 = true;
+		}else{
+			osPrism3 = "";
+		}
 
 		String type4 = request.getParameter("specs.type4");
 		String date4 = request.getParameter("specs.dateStr4");
+		if(date4 != null){
+			inster4 = true;
+		}else{
+			date4 = "";
+		}
 		String odSph4 = request.getParameter("specs.odSph4");
+		if(odSph4 != null){
+			inster4 = true;
+		}else{
+			odSph4 = "";
+		}
 		String odCyl4 = request.getParameter("specs.odCyl4");
+		if(odCyl4 != null){
+			inster4 = true;
+		}else{
+			odCyl4 = "";
+		}
 		String odAxis4 = request.getParameter("specs.odAxis4");
+		if(odAxis4 != null){
+			inster4 = true;
+		}else{
+			odAxis4 = "";
+		}
 		String odAdd4 = request.getParameter("specs.odAdd4");
+		if(odAdd4 != null){
+			inster4 = true;
+		}else{
+			odAdd4 = "";
+		}
 		String odPrism4 = request.getParameter("specs.odPrism4");
+		if(odPrism4 != null){
+			inster4 = true;
+		}else{
+			odPrism4 = "";
+		}
 		String osSph4 = request.getParameter("specs.osSph4");
+		if(osSph4 != null){
+			inster4 = true;
+		}else{
+			osSph4 = "";
+		}
 		String osCyl4 = request.getParameter("specs.osCyl4");
+		if(osCyl4 != null){
+			inster4 = true;
+		}else{
+			osCyl4 = "";
+		}
 		String osAxis4 = request.getParameter("specs.osAxis4");
+		if(osAxis4 != null){
+			inster4 = true;
+		}else{
+			osAxis4 = "";
+		}
 		String osAdd4 = request.getParameter("specs.osAdd4");
+		if(osAdd4 != null){
+			inster4 = true;
+		}else{
+			osAdd4 = "";
+		}
 		String osPrism4 = request.getParameter("specs.osPrism4");
+		if(osPrism4 != null){
+			inster4 = true;
+		}else{
+			osPrism4 = "";
+		}
 		
 		
 
@@ -180,7 +405,7 @@ public class SpecsHistoryAction extends DispatchAction {
 			specs.setId(null);
 		}
 
-		if (date != null) {
+		if (inster1) {
 			specs.setDateStr(date);
 			Date updateTime=new Date();
 			specs.setUpdateTime(updateTime);
@@ -227,7 +452,7 @@ public class SpecsHistoryAction extends DispatchAction {
 			specs2.setId(Integer.parseInt(request.getParameter("specs.id2")));
 		}
 
-		if (date2 != null) {
+		if (inster2) {
 
 			specs2.setDateStr(date2);
 			Date updateTime2=new Date();
@@ -272,7 +497,7 @@ public class SpecsHistoryAction extends DispatchAction {
 			specs3.setId(Integer.parseInt(request.getParameter("specs.id3")));
 		}
 
-		if (date3 != null) {
+		if (inster3) {
 			specs3.setDateStr(date3);
 			Date updateTime3=new Date();
 			specs3.setUpdateTime(updateTime3);
@@ -315,7 +540,7 @@ public class SpecsHistoryAction extends DispatchAction {
 			specs4.setId(Integer.parseInt(request.getParameter("specs.id4")));
 		}
 
-		if (date4 != null) {
+		if (inster4) {
 			specs4.setDateStr(date4);
 			Date updateTime4=new Date();
 			specs4.setUpdateTime(updateTime4);

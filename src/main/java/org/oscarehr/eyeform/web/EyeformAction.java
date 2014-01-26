@@ -451,7 +451,12 @@ public class EyeformAction extends DispatchAction {
            MeasurementsDao measurementsDao = (MeasurementsDao) SpringUtils.getBean("measurementsDao");
            if(requestId > 0) {
         	   String tmp = consultationRequestExtDao.getConsultationRequestExtsByKey(requestId, "specialProblem");
-        	   request.setAttribute("specialProblem", StringEscapeUtils.escapeJavaScript(tmp));
+        	   if((whichEyeForm != null) && ((whichEyeForm.equals("eyeform3"))|| ("eyeform3.1".equals(whichEyeForm)) || ("eyeform3.2".equals(whichEyeForm)))){
+        		   tmp = tmp.replaceAll("\n", "<br>");
+        		   request.setAttribute("specialProblem", tmp);
+        	   }else{
+        		   request.setAttribute("specialProblem", StringEscapeUtils.escapeJavaScript(tmp));
+        	   }
            } else {
         	   request.setAttribute("specialProblem", "");
            }
@@ -1031,7 +1036,7 @@ public class EyeformAction extends DispatchAction {
 				cp = crDao.find(new Integer(cpId));
 				request.setAttribute("newFlag", "false");
 				appNo = cp.getAppointmentNo();
-
+				
 				ProfessionalSpecialist specialist = professionalSpecialistDao.find(cp.getReferralId());
 				if(specialist != null) {
 					referraldoc = specialist.getLastName() + "," + specialist.getFirstName();
@@ -1106,6 +1111,14 @@ public class EyeformAction extends DispatchAction {
 			request.setAttribute("reason", cp.getReason());
 
 			String whichEyeForm = OscarProperties.getInstance().getProperty("cme_js","");
+			
+			if(("eyeform3".equals(whichEyeForm)) || ("eyeform3.1".equals(whichEyeForm)) || ("eyeform3.2".equals(whichEyeForm))){
+				if(cp.getExamination() != null){
+					String examination = cp.getExamination();
+					examination = examination.replaceAll("\n", "<BR>");
+					request.setAttribute("old_examination",examination);
+				}
+			}
 			
 			Boolean includeCPPForPrevAppts = null;
 			String eyeform_onlyPrintCurrentVisit = OscarProperties.getInstance().getProperty("eyeform_onlyPrintCurrentVisit");
@@ -1364,6 +1377,15 @@ public class EyeformAction extends DispatchAction {
             DynaValidatorForm crForm = (DynaValidatorForm) form;
             EyeformConsultationReport cp = (EyeformConsultationReport) crForm.get("cp");
             EyeformConsultationReport consultReport = null;
+            
+            oscar.OscarProperties props1 = oscar.OscarProperties.getInstance();
+            String eyeform = props1.getProperty("cme_js");
+            String examination = "";
+            if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
+            	HttpSession session = request.getSession();
+            	examination = (String)session.getAttribute("examination");
+            }
+            cp.setExamination(examination);
             
             //Integer id=cp.getId();
         	Integer id = null;

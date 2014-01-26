@@ -147,7 +147,14 @@ jQuery(document).ready(function(){
 	jQuery("#medsButtonBar").append("<input type=\"button\" class=\"btn\" value=\"Ocular Meds\" onclick=\"currentProAdd('oMeds','currentMedications');\"/>&nbsp;");
 	jQuery("#medsButtonBar").append("<input type=\"button\" class=\"btn\" value=\"Other Meds\" onclick=\"currentProAdd('otherMeds','currentMedications');\"/>&nbsp;");
 <% } %>
+	<%
+	String eyeform = oscarVariables.getProperty("cme_js");
+	if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
+	%>
+	document.getElementById("ext_specialProblem").innerHTML = "<%= request.getAttribute("specialProblem")%>";
+	<%}else{ %>
 	jQuery("#ext_specialProblem").val('<%=request.getAttribute("specialProblem") %>');
+	<%} %>
 	if(jQuery("[name='ext_appNo']").val() == 'null') {
 		jQuery("[name='ext_appNo']").val('<%=request.getAttribute("appNo") %>');
 	}
