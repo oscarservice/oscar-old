@@ -138,7 +138,7 @@ public class BillingCorrectionPrep {
 			if (ch1Obj.getStatus().equals("D")) {
 				dbObj.updatedeleteBillingClaimHeaderTrans(ch1Obj);
 			} else {
-				dbObj.updateBillingClaimHeaderTrans(ch1Obj);
+				//dbObj.updateBillingClaimHeaderTrans(ch1Obj);
 			}
 		}
 
@@ -453,7 +453,7 @@ public class BillingCorrectionPrep {
 				ret = dbObj.updateBillingOneItem(oldObj);
 				if (ch1Obj.getPay_program().matches(
 						BillingDataHlp.BILLINGMATCHSTRING_3RDPARTY)) {
-					dbObj.updateBillingOneItemPayment(oldObj);
+					//dbObj.updateBillingOneItemPayment(oldObj);
 				}
 				// dbObj.addBillingTransaction(oldObj, payProgram.get(0));
 				if (ret) {
@@ -470,7 +470,7 @@ public class BillingCorrectionPrep {
 			ret = dbObj.updateBillingOneItem(oldObj);
 			if (ch1Obj.getPay_program().matches(
 					BillingDataHlp.BILLINGMATCHSTRING_3RDPARTY)) {
-				dbObj.updateBillingOneItemPayment(oldObj);
+				//dbObj.updateBillingOneItemPayment(oldObj);
 			
 			if (ret) {
 				BillingOnItemPaymentDao billingOnItemPaymentDao =(BillingOnItemPaymentDao) SpringUtils.getBean("billingOnItemPaymentDao");
@@ -518,7 +518,7 @@ public class BillingCorrectionPrep {
 			}
 			if (ch1Obj.getPay_program().matches(
 					BillingDataHlp.BILLINGMATCHSTRING_3RDPARTY)) {
-				BillingONPaymentDao billingONPaymentDao =(BillingONPaymentDao) SpringUtils.getBean("billingONPaymentDao");
+				/*BillingONPaymentDao billingONPaymentDao =(BillingONPaymentDao) SpringUtils.getBean("billingONPaymentDao");
 				BillingClaimDAO billingONCHeader1Dao =(BillingClaimDAO) SpringUtils.getBean("billingClaimDAO");
 				BillingClaimHeader1 ch1 = billingONCHeader1Dao.find(Integer.parseInt(newObj.getCh1_id()));
 				BillingONPayment payment = null;
@@ -543,10 +543,10 @@ public class BillingCorrectionPrep {
 		    	//payment.setBillingPaymentType(type);
 		    	billingONPaymentDao.persist(payment);
 				
-				int b = myObj.addOneItemPaymentRecord(newObj, i ,payment.getId());
+				int b = myObj.addOneItemPaymentRecord(newObj, i ,payment.getId());*/
 
 				dbObj.addInsertOneBillItemTrans(ch1Obj, newObj,
-						updateProviderNo, b,payment.getId());
+						updateProviderNo, 0,0);
 			} else {
 				dbObj.addInsertOneBillItemTrans(ch1Obj, newObj,
 						updateProviderNo, 0,0);

@@ -161,9 +161,13 @@ public class BillingONPaymentsAction extends DispatchAction {
 	
 	public ActionForward savePayment(ActionMapping actionMapping,
 			ActionForm actionForm, HttpServletRequest request,
-			HttpServletResponse response) {
+			HttpServletResponse response) throws ParseException {
 
 		Date curDate = new Date();
+		String paymentdate1=request.getParameter("paymentDate");
+		SimpleDateFormat sim=new SimpleDateFormat("yyyy-MM-dd");
+	    Date paymentdate=sim.parse(paymentdate1);
+		
 		int itemSize = Integer.parseInt(request.getParameter("size"));
 		int billNo = Integer.parseInt(request.getParameter("billingNo"));
 		String curProviderNo = (String) request.getSession().getAttribute("user");
@@ -282,7 +286,7 @@ public class BillingONPaymentsAction extends DispatchAction {
 		BillingONPayment billPayment = new BillingONPayment();
 		billPayment.setBillingOnCheader1(cheader1);
 		billPayment.setCreator(curProviderNo);
-		billPayment.setPaymentDate(curDate);
+		billPayment.setPaymentDate(paymentdate);
 		billPayment.setPaymentTypeId(Integer.parseInt(paymentTypeId));
 		billPayment.setTotal_payment(sumPaid);
 		billPayment.setTotal_discount(sumDiscount);
@@ -305,12 +309,15 @@ public class BillingONPaymentsAction extends DispatchAction {
 				logger.info(e.toString());
 				continue;
 			}
-			
+            
+			String str=paymentdate1+" 00:00:00";
+     		SimpleDateFormat sim1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    	    Date paymentdatetmp=sim1.parse(str);
 			BillingOnItemPayment billItemPayment = new BillingOnItemPayment();
 			billItemPayment.setBillingOnItemId(Integer.parseInt(itemId));
 			billItemPayment.setBillingOnPaymentId(billPayment.getId());
 			billItemPayment.setCh1Id(billNo);
-			billItemPayment.setPaymentTimestamp(new Timestamp(curDate.getTime()));
+			billItemPayment.setPaymentTimestamp(new Timestamp(paymentdatetmp.getTime()));
 			
 			if ("payment".equals(request.getParameter("sel" + i))) {
 				BigDecimal itemPayment = BigDecimal.ZERO;
@@ -327,7 +334,8 @@ public class BillingONPaymentsAction extends DispatchAction {
 				}
 				billItemPayment.setPaid(itemPayment);
 				billItemPayment.setDiscount(itemDiscnt);
-				BillingOnTransaction billTrans = billingOnTransactionDao.getTransTemplate(cheader1, billItem, billPayment, curProviderNo);
+				billingOnItemPaymentDao.persist(billItemPayment);
+				BillingOnTransaction billTrans = billingOnTransactionDao.getTransTemplate(cheader1, billItem, billPayment, curProviderNo,billItemPayment.getId());
 				billTrans.setServiceCodePaid(itemPayment);
 				billTrans.setServiceCodeDiscount(itemDiscnt);
 				billingOnTransactionDao.persist(billTrans);
@@ -340,11 +348,12 @@ public class BillingONPaymentsAction extends DispatchAction {
 					continue;
 				}
 				billItemPayment.setRefund(itemRefund);
-				BillingOnTransaction billTrans = billingOnTransactionDao.getTransTemplate(cheader1, billItem, billPayment, curProviderNo);
+				billingOnItemPaymentDao.persist(billItemPayment);
+				BillingOnTransaction billTrans = billingOnTransactionDao.getTransTemplate(cheader1, billItem, billPayment, curProviderNo,billItemPayment.getId());
 				billTrans.setServiceCodeRefund(itemRefund);
 				billingOnTransactionDao.persist(billTrans);
 			}
-			billingOnItemPaymentDao.persist(billItemPayment);
+			//billingOnItemPaymentDao.persist(billItemPayment);
 		}
 		ret.put("ret", 0);
 		response.setCharacterEncoding("utf-8");

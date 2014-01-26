@@ -45,9 +45,11 @@ public class BillingOnTransactionDao extends AbstractDao<BillingOnTransaction> {
         super(BillingOnTransaction.class);
     }
 	
-	public BillingOnTransaction getTransTemplate(BillingClaimHeader1 cheader1, BillingOnItem billItem, BillingONPayment billPayment, String curProviderNo) {
+	public BillingOnTransaction getTransTemplate(BillingClaimHeader1 cheader1, BillingOnItem billItem, BillingONPayment billPayment, String curProviderNo,int itempaymentId) {
 		int billNo = cheader1.getId();
-		Date curDate = billPayment.getPaymentDate();
+		//Date curDate1 = billPayment.getPaymentDate();
+		Date curDate=new Date();
+		String staus="P";
 		SimpleDateFormat admissionDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		BillingOnTransaction billTrans = new BillingOnTransaction();
 		billTrans.setActionType(BillingDataHlp.ACTION_TYPE.C.name());
@@ -78,10 +80,11 @@ public class BillingOnTransactionDao extends AbstractDao<BillingOnTransaction> {
 		billTrans.setServiceCodeInvoiced(billItem.getFee());
 		billTrans.setServiceCodeNum(billItem.getSer_num());
 		billTrans.setSliCode(cheader1.getLocation());
-		billTrans.setStatus(billItem.getStatus());
+		billTrans.setStatus(staus);
 		billTrans.setUpdateDatetime(new Timestamp(curDate.getTime()));
 		billTrans.setUpdateProviderNo(curProviderNo);
 		billTrans.setVisittype(cheader1.getVisittype());
+		billTrans.setBillingOnItemPaymentId(itempaymentId);
 		
 		return billTrans;
 	}

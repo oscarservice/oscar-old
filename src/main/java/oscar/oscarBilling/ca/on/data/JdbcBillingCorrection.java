@@ -497,6 +497,10 @@ public class JdbcBillingCorrection {
 	
 	public void addInsertOneBillItemTrans(BillingClaimHeader1Data billHeader, BillingItemData billItem, String updateProviderNo,int id,int paymentId) {
 		StringBuffer sqlBuf = new StringBuffer();
+		String staus="P";
+		if(billHeader.getAdmission_date().equals("")){
+			billHeader.setAdmission_date(billHeader.getBilling_date());
+		}
 		sqlBuf.append("insert into billing_on_transaction values");
 		sqlBuf.append("(\\N,");
 		sqlBuf.append(billItem.getCh1_id() + ","); // cheader1_id
@@ -510,7 +514,7 @@ public class JdbcBillingCorrection {
 		sqlBuf.append("'" + billHeader.getProvince() + "',"); // province
 		sqlBuf.append("'" + billHeader.getMan_review() + "',"); // man_review
 		sqlBuf.append("'" + billItem.getService_date() + "',"); // billing_date
-		sqlBuf.append("'" + billItem.getStatus() + "',"); // status
+		sqlBuf.append("'" + staus + "',"); // status
 		sqlBuf.append("'" + billHeader.getPay_program() + "',"); // pay_program
 		//sqlBuf.append("'" + billHeader.getPayee() + "',"); // paymentType
 		sqlBuf.append("'" + billHeader.getFacilty_num() + "',"); // facility_num
@@ -536,6 +540,9 @@ public class JdbcBillingCorrection {
 	
 	public void addUpdateOneBillItemTrans(BillingClaimHeader1Data billHeader, BillingItemData billItem, String updateProviderNo) {
 		StringBuffer sqlBuf = new StringBuffer();
+		if(billHeader.getAdmission_date().equals("")){
+			billHeader.setAdmission_date(billHeader.getBilling_date());
+		}
 		sqlBuf.append("insert into billing_on_transaction values");
 		sqlBuf.append("(\\N,");
 		sqlBuf.append(billItem.getCh1_id() + ","); // cheader1_id
@@ -653,6 +660,9 @@ public class JdbcBillingCorrection {
 	
 	public void addDeleteOneBillItemTrans(BillingClaimHeader1Data billHeader, BillingItemData billItem, String updateProviderNo,int paymentId,int itempaymentId) {
 		StringBuffer sqlBuf = new StringBuffer();
+		if(billHeader.getAdmission_date().equals("")){
+			billHeader.setAdmission_date(billHeader.getBilling_date());
+		}
 		sqlBuf.append("insert into billing_on_transaction values");
 		sqlBuf.append("(\\N,");
 		sqlBuf.append(billItem.getCh1_id() + ","); // cheader1_id

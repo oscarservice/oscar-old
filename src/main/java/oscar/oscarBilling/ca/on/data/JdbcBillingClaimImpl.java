@@ -143,7 +143,9 @@ public class JdbcBillingClaimImpl {
 		if (billItemList.size() < 1) {
 			return;
 		}
-		
+		if(billHeader.getAdmission_date().equals("")){
+			billHeader.setAdmission_date(billHeader.getBilling_date());
+		}
 		StringBuffer sqlBuf = new StringBuffer();
 		sqlBuf.append("insert into billing_on_transaction values");
 
@@ -244,6 +246,7 @@ public class JdbcBillingClaimImpl {
 	
 	@SuppressWarnings("unchecked")
 	public boolean add3rdBillExt(Map<String,String>mVal, int id, Vector vecObj) {
+		BillingClaimHeader1Data claim1Obj = (BillingClaimHeader1Data) vecObj.get(0);
 		boolean retval = true;
 		String[] temp = { "billTo", "remitTo", "total", "payment", "discount", "provider_no", "gst", "payDate", "payMethod"};
 		String demoNo = mVal.get("demographic_no");
@@ -298,7 +301,7 @@ public class JdbcBillingClaimImpl {
 	    		payment.setTotal_refund(new BigDecimal(0));
 				payment.setPaymentDate(paymentDate);
 		    	payment.setBillingOnCheader1(ch1);
-		    	payment.setCreator(provider_no);
+		    	payment.setCreator(claim1Obj.getCreator());
 		    	payment.setPaymentTypeId(Integer.parseInt(paymentTypeParam));
 		    	
 		    	//payment.setBillingPaymentType(type);
