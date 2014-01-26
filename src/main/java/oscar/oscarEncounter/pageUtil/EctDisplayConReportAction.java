@@ -77,7 +77,7 @@ public class EctDisplayConReportAction extends EctDisplayAction {
     String winName = "ConReport" + bean.demographicNo;
     String pathview, pathedit;
     Demographic d= demographicDao.getClientByDemographicNo(Integer.valueOf(bean.demographicNo));
-    pathview = request.getContextPath() + "/eyeform/ConsultationReportList.do?method=list&cr.demographicNo=" + bean.demographicNo + "&dmname=" + d.getFormattedName();
+    pathview = request.getContextPath() + "/eyeform/ConsultationReportList.do?method=list&cr.demographicNo=" + bean.demographicNo + "&dmname=" + d.getFormattedName() + "&appNo="+appointmentNo;
     pathedit = request.getContextPath() + "/eyeform/Eyeform.do?method=prepareConReport&demographicNo="+bean.demographicNo + "&appNo="+appointmentNo + "&flag=new&cpp="+cpp;
 
     String url = "popupPage(500,900,'" + winName + "','" + pathview + "')";
