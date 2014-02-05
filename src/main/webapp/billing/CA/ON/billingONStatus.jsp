@@ -662,10 +662,12 @@ if(statusType.equals("_")) { %>
 		   Provider provider = providerDao.getProvider(provider_no);
 		   //<xml_p_specialty_code>60</xml_p_specialty_code><xml_p_billinggroup_no>6339</xml_p_billinggroup_no>
 		   String comments = provider.getComments()==null?"":provider.getComments();
-		   String group_new = comments==null?"":(comments.length()>23?comments.substring(comments.indexOf("<xml_p_billinggroup_no>")+23, comments.indexOf("</xml_p_billinggroup_no>")):"");
-		   if(group_new.equals("") || groups.contains(group_new)) 
-		   	   continue;
-		   groups.add(group_new);		  
+		   if(comments.indexOf("<xml_p_billinggroup_no>") > 0) {
+			   String group_new = comments.length()>23?comments.substring(comments.indexOf("<xml_p_billinggroup_no>")+23, comments.indexOf("</xml_p_billinggroup_no>")):"";
+			   if(group_new.equals("") || groups.contains(group_new)) 
+			   	   continue;
+			   groups.add(group_new);	
+		   }
 	   }	   
 	   
 	   java.util.Collections.sort(groups);
@@ -697,10 +699,12 @@ for(int ii=0; ii<groups.size(); ii++) {
     	   String provider_no = ch1Obj.getProviderNo();
 		   Provider provider = providerDao.getProvider(provider_no);
 		   String comments = provider.getComments()==null?"":provider.getComments();
-		   String groupNo = comments.length()>23?comments.substring(comments.lastIndexOf("<xml_p_billinggroup_no>")+23, comments.indexOf("</xml_p_billinggroup_no>")):"";
-		   if(!groupNo.equals(group_display))
-	    	   continue;
-	       
+		   if(comments.indexOf("<xml_p_billinggroup_no>") > 0) {		   
+		   		String groupNo = comments.length()>23?comments.substring(comments.lastIndexOf("<xml_p_billinggroup_no>")+23, comments.indexOf("</xml_p_billinggroup_no>")):"";
+		   		if(!groupNo.equals(group_display))
+	    	   		continue;
+		   }
+		   
 		   //Filter by provider no.		   
 		   if(!provider_no.equalsIgnoreCase(provider_no_display))
 			   continue;
