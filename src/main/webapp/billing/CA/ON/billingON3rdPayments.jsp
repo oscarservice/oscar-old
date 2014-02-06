@@ -128,8 +128,20 @@ if(billingNo == null) errors.add("Wrong parameters");
 <script type="text/javascript" src="<%=request.getContextPath()%>/share/javascript/jquery/jquery-1.4.2.js"></script>
 <script type="text/javascript">
 
+function popupPage(vheight,vwidth,varpage) {
+  var page = "" + varpage;
+  windowprops = "height="+vheight+",width="+vwidth+",location=no,scrollbars=yes,menubars=no,toolbars=no,resizable=yes,screenX=0,screenY=0,top=0,left=0";
+  var popup=window.open(page, "viewPayment", windowprops);
+    if (popup != null) {
+	    if (popup.opener == null) {
+	      popup.opener = self;
+	    }
+    	popup.focus();
+    }
+}
+
 function onViewPayment(id) {
-	jQuery.ajax({
+	<%-- jQuery.ajax({
 		url: "<%=request.getContextPath()%>/billing/CA/ON/billingON3rdPayments.do",
 		type: "GET",
 		async: "false",
@@ -172,7 +184,8 @@ function onViewPayment(id) {
 		error: function() {
 			alert("Error happeded!");
 		}
-	});
+	}); --%>
+	popupPage(500,500, "<%=request.getContextPath()%>/billing/CA/ON/billingON3rdPayments.do?method=viewPayment_ext&billPaymentId=" + id);
 }
 
 function clickEditBtn() {
@@ -410,7 +423,7 @@ function validateDiscountNumberic(idx) {
 				    <%}else{ %>
 				    <td><%= currency.format(balances.get(index++)) %> </td>
 				    <%} %>
-				    <td><a href="#" onClick="onViewPayment('<bean:write name="displayPayment" property="id" />');return false;">view</a>
+				    <td><a href="javascript:onViewPayment('<bean:write name="displayPayment" property="id" />')">view</a>
 				    </td>	
 				</tr>    
 				</logic:iterate>

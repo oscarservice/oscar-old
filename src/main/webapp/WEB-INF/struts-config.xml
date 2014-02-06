@@ -2531,6 +2531,7 @@
 		<action path="/billing/CA/ON/billingON3rdPayments" scope="request" type="org.springframework.web.struts.DelegatingActionProxy" parameter="method">
 			<forward name="success" path="/billing/CA/ON/billingON3rdPayments.jsp"/>
 			<forward name="failure" path="/billing/CA/ON/billingON3rdPayments.jsp"/>
+			<forward name="viewPayment" path="/billing/CA/ON/billingON3rdViewPayment.jsp"/>
 		</action>	
 		<action name="BillingDocumentErrorReportUploadForm" path="/billing/CA/ON/displayMOHXML" scope="request" type="org.oscarehr.billing.CA.ON.web.DisplayMOHXMLAction">
             		<forward name="success" path="/billing/CA/ON/billingLreport.jsp" />

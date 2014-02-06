@@ -469,6 +469,44 @@ public class BillingONPaymentsAction extends DispatchAction {
 		
 		return null;
 	}
+	
+	public ActionForward viewPayment_ext(ActionMapping actionMapping,
+			ActionForm actionForm, HttpServletRequest request,
+			HttpServletResponse response) {
+		// 1.get payment details according to billing_on_item_payment
+		int billPaymentId = 0;
+		try {
+			billPaymentId = Integer.parseInt(request.getParameter("billPaymentId"));
+		} catch (Exception e) {
+			MiscUtils.getLogger().info(e.toString());
+			return null;
+		}
+		BillingONPayment billPayment = billingONPaymentDao.find(billPaymentId);
+		if (billPayment == null) {
+			return null;
+		}
+		request.setAttribute("billPayment", billPayment);
+		List<BillingItemPaymentVo> itemPaymentVoList = new ArrayList<BillingItemPaymentVo>();
+		List<BillingOnItemPayment> itemPaymentList = billingOnItemPaymentDao.getItemsByPaymentId(billPaymentId);
+		for (BillingOnItemPayment itemPayment : itemPaymentList) {
+			List<BillingOnItem> billItemList = billingOnItemDao.getBillingItemById(itemPayment.getBillingOnItemId());
+			if (billItemList == null || billItemList.size() == 0) {
+				continue;
+			}
+			BillingItemPaymentVo itemPaymentVo = new BillingItemPaymentVo();
+			itemPaymentVo.setItemId(itemPayment.getBillingOnItemId());
+			itemPaymentVo.setServiceCode(billItemList.get(0).getService_code());
+			itemPaymentVo.setTotal(new BigDecimal(billItemList.get(0).getFee()).setScale(2, BigDecimal.ROUND_HALF_UP));
+			itemPaymentVo.setPaid(itemPayment.getPaid());
+			itemPaymentVo.setDiscount(itemPayment.getDiscount());
+			itemPaymentVo.setRefund(itemPayment.getRefund());
+			itemPaymentVoList.add(itemPaymentVo);
+		}
+		
+		request.setAttribute("itemPaymentVoList", itemPaymentVoList);
+
+		return actionMapping.findForward("viewPayment");
+	}
 
 	public void setBillingONPaymentDao(BillingONPaymentDao paymentDao) {
 		this.billingONPaymentDao = paymentDao;
