@@ -481,7 +481,7 @@ public class BillingCorrectionPrep {
 			billTrans.setCreator(updateProviderNo);
 			billTrans.setDemographicNo(billCheader1.getDemographic_no());
 			billTrans.setDxCode(sDx);
-			billTrans.setFacilityNum(billCheader1.getStatus());
+			billTrans.setFacilityNum(billCheader1.getFacilty_num());
 			billTrans.setManReview(billCheader1.getMan_review());
 			billTrans.setProviderNo(billCheader1.getProvider_no());
 			billTrans.setProvince(billCheader1.getProvince());
@@ -516,7 +516,7 @@ public class BillingCorrectionPrep {
 				billTrans.setCreator(updateProviderNo);
 				billTrans.setDemographicNo(billCheader1.getDemographic_no());
 				billTrans.setDxCode(sDx);
-				billTrans.setFacilityNum(billCheader1.getStatus());
+				billTrans.setFacilityNum(billCheader1.getFacilty_num());
 				billTrans.setManReview(billCheader1.getMan_review());
 				billTrans.setProviderNo(billCheader1.getProvider_no());
 				billTrans.setProvince(billCheader1.getProvince());
@@ -725,7 +725,7 @@ public class BillingCorrectionPrep {
 			billTrans.setCreator(updateProviderNo);
 			billTrans.setDemographicNo(billCheader1.getDemographic_no());
 			billTrans.setDxCode(sDx);
-			billTrans.setFacilityNum(billCheader1.getStatus());
+			billTrans.setFacilityNum(billCheader1.getFacilty_num());
 			billTrans.setManReview(billCheader1.getMan_review());
 			billTrans.setProviderNo(billCheader1.getProvider_no());
 			billTrans.setProvince(billCheader1.getProvince());

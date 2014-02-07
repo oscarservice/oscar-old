@@ -520,7 +520,7 @@ public class JdbcBillingCorrection {
 		billTrans.setCreator(updateProviderNo);
 		billTrans.setDemographicNo(Integer.parseInt(billHeader.getDemographic_no()));
 		billTrans.setDxCode(billItem.getDx());
-		billTrans.setFacilityNum(billHeader.getStatus());
+		billTrans.setFacilityNum(billHeader.getFacilty_num());
 		billTrans.setManReview(billHeader.getMan_review());
 		billTrans.setProviderNo(billHeader.getProviderNo());
 		billTrans.setProvince(billHeader.getProvince());
@@ -572,7 +572,7 @@ public class JdbcBillingCorrection {
 		billTrans.setCreator(updateProviderNo);
 		billTrans.setDemographicNo(Integer.parseInt(billHeader.getDemographic_no()));
 		billTrans.setDxCode(billItem.getDx());
-		billTrans.setFacilityNum(billHeader.getStatus());
+		billTrans.setFacilityNum(billHeader.getFacilty_num());
 		billTrans.setManReview(billHeader.getMan_review());
 		billTrans.setProviderNo(billHeader.getProviderNo());
 		billTrans.setProvince(billHeader.getProvince());
