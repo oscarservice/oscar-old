@@ -75,62 +75,6 @@ public class JdbcBillingCorrection {
 		}
 		return retval;
 	}
-	
-	public boolean updateBillingClaimHeaderTrans(BillingClaimHeader1Data ch1Obj) {
-		boolean retval = false;
-		String sql = "update billing_on_transaction set  pay_program='" + ch1Obj.getPay_program() + "'," + " ref_num='" + ch1Obj.getRef_num() + "'," + " facility_num='"
-				+ ch1Obj.getFacilty_num() + "'," + " admission_date='" + ch1Obj.getAdmission_date() + "',"
-				 + " man_review='" + ch1Obj.getMan_review() + "',"
-				+ " sli_code='" + ch1Obj.getLocation()
-
-				+ "'," + " demographic_no='" + ch1Obj.getDemographic_no() + "'," + " update_provider_no='"
-				+ ch1Obj.getProviderNo() + "'," 
-			    + " province='" + ch1Obj.getProvince() + "'," + " billing_date='"
-				+ ch1Obj.getBilling_date() + "'," + " status='" + ch1Obj.getStatus()
-				+ "',"  + " visittype='" + ch1Obj.getVisittype() + "',"
-				+ " creator='" + ch1Obj.getCreator()+ "',"
-				+ " action_type='" + "U"+ "',"
-                + " update_datetime=CURRENT_TIMESTAMP"
-				+ ", clinic=" + (ch1Obj.getClinic()==null?"null":"'"+ch1Obj.getClinic()+"'")
-
-				+ " where ch1_id=" + ch1Obj.getId();
-		_logger.info("updateBillingClaimHeaderTrans(sql = " + sql + ")");
-
-		retval = dbObj.updateDBRecord(sql);
-
-		if (!retval) {
-			_logger.error("updateBillingClaimHeader(sql = " + sql + ")");
-		}
-		return retval;
-	}
-	
-	public boolean updatedeleteBillingClaimHeaderTrans(BillingClaimHeader1Data ch1Obj) {
-		boolean retval = false;
-		String sql = "update billing_on_transaction set  pay_program='" + ch1Obj.getPay_program() + "'," + " ref_num='" + ch1Obj.getRef_num() + "'," + " facility_num='"
-				+ ch1Obj.getFacilty_num() + "'," + " admission_date='" + ch1Obj.getAdmission_date() + "',"
-				 + " man_review='" + ch1Obj.getMan_review() + "',"
-				+ " sli_code='" + ch1Obj.getLocation()
-
-				+ "'," + " demographic_no='" + ch1Obj.getDemographic_no() + "'," + " update_provider_no='"
-				+ ch1Obj.getProviderNo() + "'," 
-			    + " province='" + ch1Obj.getProvince() + "'," + " billing_date='"
-				+ ch1Obj.getBilling_date() + "'," + " status='" + ch1Obj.getStatus()
-				+ "',"  + " visittype='" + ch1Obj.getVisittype() + "',"
-				+ " creator='" + ch1Obj.getCreator()+ "',"
-				+ " action_type='" + "D"+ "',"
-                + " update_datetime=CURRENT_TIMESTAMP"
-				+ ", clinic=" + (ch1Obj.getClinic()==null?"null":"'"+ch1Obj.getClinic()+"'")
-
-				+ " where ch1_id=" + ch1Obj.getId();
-		_logger.info("updateBillingClaimHeaderTrans(sql = " + sql + ")");
-
-		retval = dbObj.updateDBRecord(sql);
-
-		if (!retval) {
-			_logger.error("updateBillingClaimHeader(sql = " + sql + ")");
-		}
-		return retval;
-	}
 
 	public int addRepoClaimHeader(BillingClaimHeader1Data val) {
 		int retval = 0;
@@ -218,13 +162,6 @@ public class JdbcBillingCorrection {
 			_logger.error("updateBillingStatus(sql = " + sql + ")");
 		}
 		
-		sql = "update billing_on_transaction set status='" + status + "',action_type='" + status + "' where ch1_id=" + id;
-		_logger.info("updateBillingStatus(sql = " + sql + ") by " + providerNo);
-		retval = dbObj.updateDBRecord(sql);
-		retval = dbLog.addBillingLog(providerNo, "updateBillingStatus", sql, id);
-		if (!retval) {
-			_logger.error("updateBillingStatus(sql = " + sql + ")");
-		}
 		return retval;
 	}
 
@@ -495,7 +432,7 @@ public class JdbcBillingCorrection {
 		return ret;
 	}
 
-	public void addInsertOneBillItemTrans(BillingClaimHeader1Data billHeader, BillingItemData billItem, String updateProviderNo, int id, int paymentId) {
+	public void addInsertOneBillItemTrans(BillingClaimHeader1Data billHeader, BillingItemData billItem, String updateProviderNo) {
 		BillingOnTransactionDao billOnTransDao = (BillingOnTransactionDao)SpringUtils.getBean(BillingOnTransactionDao.class);
 		if (billOnTransDao == null) {
 			return;
@@ -517,7 +454,7 @@ public class JdbcBillingCorrection {
 		billTrans.setBillingNotes(billHeader.getComment());
 		billTrans.setCh1Id(Integer.parseInt(billHeader.getId()));
 		billTrans.setClinic(billHeader.getClinic());
-		billTrans.setCreator(updateProviderNo);
+		billTrans.setCreator(billHeader.getCreator());
 		billTrans.setDemographicNo(Integer.parseInt(billHeader.getDemographic_no()));
 		billTrans.setDxCode(billItem.getDx());
 		billTrans.setFacilityNum(billHeader.getFacilty_num());
@@ -528,7 +465,7 @@ public class JdbcBillingCorrection {
 		billTrans.setRefNum(billHeader.getRef_num());
 		
 		billTrans.setPaymentDate(null);
-		billTrans.setPaymentId(paymentId);
+		billTrans.setPaymentId(0);
 		billTrans.setPaymentType(0);
 		
 		billTrans.setServiceCode(billItem.getService_code());
@@ -569,9 +506,8 @@ public class JdbcBillingCorrection {
 		billTrans.setBillingNotes(billHeader.getComment());
 		billTrans.setCh1Id(Integer.parseInt(billHeader.getId()));
 		billTrans.setClinic(billHeader.getClinic());
-		billTrans.setCreator(updateProviderNo);
+		billTrans.setCreator(billHeader.getCreator());
 		billTrans.setDemographicNo(Integer.parseInt(billHeader.getDemographic_no()));
-		billTrans.setDxCode(billItem.getDx());
 		billTrans.setFacilityNum(billHeader.getFacilty_num());
 		billTrans.setManReview(billHeader.getMan_review());
 		billTrans.setProviderNo(billHeader.getProviderNo());
@@ -585,27 +521,17 @@ public class JdbcBillingCorrection {
 		billTrans.setServiceCode(billItem.getService_code());
 		billTrans.setServiceCodeInvoiced(billItem.getFee());
 		billTrans.setServiceCodeNum(billItem.getSer_num());
-		try {
-			billTrans.setServiceCodePaid(new BigDecimal(billItem.getPaid()));
-		} catch (Exception e) {
-			billTrans.setServiceCodePaid(new BigDecimal("0.00"));
-		}
-		try {
-			billTrans.setServiceCodeDiscount(new BigDecimal(billItem.getDiscount()));
-		} catch (Exception e) {
-			billTrans.setServiceCodePaid(new BigDecimal("0.00"));
-		}
-		try {
-			billTrans.setServiceCodeRefund(new BigDecimal(billItem.getRefund()));
-		} catch (Exception e) {
-			billTrans.setServiceCodePaid(new BigDecimal("0.00"));
-		}
+		billTrans.setDxCode(billItem.getDx());
+		billTrans.setStatus(billItem.getStatus());
+		
+		billTrans.setServiceCodePaid(BigDecimal.ZERO);
+		billTrans.setServiceCodePaid(BigDecimal.ZERO);
+		billTrans.setServiceCodePaid(BigDecimal.ZERO);
 		
 		billTrans.setSliCode(billHeader.getLocation());
 		billTrans.setUpdateProviderNo(updateProviderNo);
 		billTrans.setVisittype(billHeader.getVisittype());
 		billTrans.setUpdateDatetime(new Timestamp(new Date().getTime()));
-		billTrans.setStatus(billItem.getStatus());
 		
 		billOnTransDao.persist(billTrans);
 	}

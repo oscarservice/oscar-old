@@ -38,7 +38,7 @@
 			boolean bs = bObj.updateBillingClaimHeader(ch1Obj, request);
 
 			// update item objs
-			if(lObj.size() > 1) {
+			if(lObj.size() > 1 && !"D".equals(ch1Obj.getStatus())) {
 				//lObj.remove(0);
 				bs = bObj.updateBillingItem(lObj, request);
 			}

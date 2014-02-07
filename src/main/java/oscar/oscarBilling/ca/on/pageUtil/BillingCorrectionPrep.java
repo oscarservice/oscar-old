@@ -141,11 +141,6 @@ public class BillingCorrectionPrep {
 
 			ch1Obj.setPay_program(requestData.getParameter("payProgram"));
 			ret = dbObj.updateBillingClaimHeader(ch1Obj);
-			if (ch1Obj.getStatus().equals("D")) {
-				dbObj.updatedeleteBillingClaimHeaderTrans(ch1Obj);
-			} else {
-				//dbObj.updateBillingClaimHeaderTrans(ch1Obj);
-			}
 		}
 
 		// set inactive 3rd party payment record if user switched from 3rd party
@@ -538,53 +533,9 @@ public class BillingCorrectionPrep {
 					
 					// update item_payments
 					if (billOnItemPaymentList != null && billOnItemPaymentList.size() > 0) {
-						BillingONPaymentDao billOnPaymentDao = (BillingONPaymentDao)SpringUtils.getBean(BillingONPaymentDao.class);
-						Timestamp ts = new Timestamp(new Date().getTime());
 						for (BillingOnItemPayment billOnItemPayment : billOnItemPaymentList) {
 							billOnItemPayment.setBillingOnItemId(newBillItem.getId());
-							billOnItemPaymentDao.merge(billOnItemPayment);
-							
-							// add one transaction: modify service code item payment record
-							billTrans = new BillingOnTransaction();
-							billTrans.setActionType(BillingDataHlp.ACTION_TYPE.U.name());
-							try {
-								billTrans.setAdmissionDate(new SimpleDateFormat("yyyy-MM-dd").parse(billCheader1.getAdmission_date()));
-							} catch (Exception e) {
-								// TODO Auto-generated catch block
-								billTrans.setAdmissionDate(null);
-							}
-							billTrans.setBillingDate(billCheader1.getBilling_date());
-							billTrans.setBillingNotes(billCheader1.getComment1());
-							billTrans.setCh1Id(billCheader1.getId());
-							billTrans.setClinic(billCheader1.getClinic());
-							billTrans.setCreator(updateProviderNo);
-							billTrans.setDemographicNo(billCheader1.getDemographic_no());
-							billTrans.setDxCode(sDx);
-							billTrans.setFacilityNum(billCheader1.getStatus());
-							billTrans.setManReview(billCheader1.getMan_review());
-							billTrans.setProviderNo(billCheader1.getProvider_no());
-							billTrans.setProvince(billCheader1.getProvince());
-							billTrans.setPayProgram(billCheader1.getPay_program());
-							billTrans.setRefNum(billCheader1.getRef_num());
-							
-							BillingONPayment billOnPayment = billOnPaymentDao.find(billOnItemPayment.getBillingOnPaymentId());
-							billTrans.setPaymentDate(billOnPayment.getPaymentDate());
-							billTrans.setPaymentId(billOnItemPayment.getBillingOnPaymentId());
-							billTrans.setPaymentType(billOnPayment.getPaymentTypeId());
-							
-							billTrans.setServiceCode(serviceCode);
-							billTrans.setServiceCodeInvoiced(fee);
-							billTrans.setServiceCodePaid(billOnItemPayment.getPaid());
-							billTrans.setServiceCodeDiscount(billOnItemPayment.getDiscount());
-							billTrans.setServiceCodeRefund(billOnItemPayment.getRefund());
-							billTrans.setServiceCodeNum(unit);
-							
-							billTrans.setSliCode(billCheader1.getLocation());
-							billTrans.setUpdateProviderNo(updateProviderNo);
-							billTrans.setVisittype(billCheader1.getVisittype());
-							billTrans.setUpdateDatetime(ts);
-							billTrans.setStatus(status);
-							billOnTransDao.persist(billTrans);
+							billOnItemPaymentDao.merge(billOnItemPayment);							
 						}
 					}
 				}
@@ -647,7 +598,7 @@ public class BillingCorrectionPrep {
 			if (0 == i) {
 				return false;
 			}
-			dbObj.addInsertOneBillItemTrans(ch1Obj, newObj, updateProviderNo, i, 0);
+			dbObj.addInsertOneBillItemTrans(ch1Obj, newObj, updateProviderNo);
 			lItemObj.add(newObj);
 		}
 
@@ -669,9 +620,6 @@ public class BillingCorrectionPrep {
 	// for appt unbill;
 	public boolean deleteBilling(String id, String status, String providerNo) {
 		boolean ret = dbObj.updateBillingStatus(id, status, providerNo);
-		if (ret) {
-			// record delete operation in billing_on_transaction table
-		}
 		return ret;
 	}
 
@@ -705,37 +653,6 @@ public class BillingCorrectionPrep {
 		String oldTotal = dbObj.getBillingTotal(claimId);
 		if (!newAmount.equals(oldTotal)) {
 			dbObj.updateBillingTotal(newAmount, claimId);
-			
-			// add one transaction: bill total changed!
-			BillingClaimDAO billClaimDao = (BillingClaimDAO)SpringUtils.getBean(BillingClaimDAO.class);
-			BillingClaimHeader1 billCheader1 = billClaimDao.find(Integer.parseInt(claimId));
-			BillingOnTransactionDao billOnTransDao = (BillingOnTransactionDao)SpringUtils.getBean(BillingOnTransactionDao.class);
-			BillingOnTransaction billTrans = new BillingOnTransaction();
-			billTrans.setActionType(BillingDataHlp.ACTION_TYPE.D.name());
-			try {
-				billTrans.setAdmissionDate(new SimpleDateFormat("yyyy-MM-dd").parse(billCheader1.getAdmission_date()));
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				billTrans.setAdmissionDate(null);
-			}
-			billTrans.setBillingDate(billCheader1.getBilling_date());
-			billTrans.setBillingNotes(billCheader1.getComment1());
-			billTrans.setCh1Id(billCheader1.getId());
-			billTrans.setClinic(billCheader1.getClinic());
-			billTrans.setCreator(updateProviderNo);
-			billTrans.setDemographicNo(billCheader1.getDemographic_no());
-			billTrans.setDxCode(sDx);
-			billTrans.setFacilityNum(billCheader1.getFacilty_num());
-			billTrans.setManReview(billCheader1.getMan_review());
-			billTrans.setProviderNo(billCheader1.getProvider_no());
-			billTrans.setProvince(billCheader1.getProvince());
-			billTrans.setRefNum(billCheader1.getRef_num());
-			billTrans.setSliCode(billCheader1.getLocation());
-			billTrans.setUpdateProviderNo(updateProviderNo);
-			billTrans.setVisittype(billCheader1.getVisittype());
-			billTrans.setUpdateDatetime(new Timestamp(new Date().getTime()));
-			billTrans.setStatus(billCheader1.getStatus());
-			billOnTransDao.persist(billTrans);
 		}
 	}
 
