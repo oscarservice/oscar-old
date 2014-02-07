@@ -116,6 +116,7 @@
     <![endif]-->
 <% } %>
 <script type="text/javascript" src="<%= request.getContextPath() %>/js/global.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery-1.7.1.min.js"></script>
 <title><bean:message key="appointment.editappointment.title" /></title>
 
 <script language="javascript">
@@ -808,13 +809,7 @@ if (bMultisites) { %>
 <hr />
 
 <% if (isSiteSelected) { %>
-<table width="95%" align="center">
-<tr>
-	<th width="40%"><font color="red">Outstanding 3rd Invoices</font></th>
-	<th width="20%"><font color="red">Invoice Date</font></th>
-	<th><font color="red">Amount</font></th>
-	<th><font color="red">Balance</font></th>
-	</tr>
+<table width="95%" align="center" id="belowTbl">
 	<tr>
 		<td colspan="3"><input type="submit"
 			onclick="document.forms['EDITAPPT'].displaymode.value='Cut';"
@@ -841,36 +836,39 @@ if (bMultisites) { %>
 		
 		</td>
 	</tr>
-	<%if(cheader1s.size()>0){
-		for(int i=0;i<cheader1s.size();i++)
-		{%>
-		<%if(cheader1s.get(i).getPayProgram().matches(BillingDataHlp.BILLINGMATCHSTRING_3RDPARTY)){ 
-			String refund=billingOnExt.getClaimExtRefund(cheader1s.get(i).getId());
-			String payment=billingOnExt.getClaimExtPayment(cheader1s.get(i).getId());
-			String discount=billingOnExt.getClaimExtDiscount(cheader1s.get(i).getId());
-			BigDecimal b1 = new BigDecimal(refund);
-			BigDecimal b2 = new BigDecimal(payment);
-			BigDecimal b3 = new BigDecimal(discount);
-			BigDecimal total=cheader1s.get(i).getTotal();
-			double d = total.subtract(b2).doubleValue();
-			BigDecimal b4 = new BigDecimal(Double.toString(d));
-			double d1 = b4.subtract(b3).doubleValue();
-			BigDecimal b5 = new BigDecimal(Double.toString(d1));
-			double balance = b5.subtract(b1).doubleValue();
-
-            if(balance!=0){
-
-		%>
-			<tr>
-				<td align="center"><a href="#" onclick="popupPage(600,800, '<%=request.getContextPath() %>/billing/CA/ON/billingONCorrection.jsp?billing_no=<%=cheader1s.get(i).getId()%>')"><font color="red">Inv #<%=cheader1s.get(i).getId() %></font></a></td>
-				<td align="center"><font color="red"><%=cheader1s.get(i).getTimestamp() %></font></td>
-				<td align="center"><font color="red">$<%=cheader1s.get(i).getTotal() %></font></td>
-				<td align="center"><font color="red">$<%=balance %></font></td>
-			</tr>
-		<%}%>
-		<%}%>
-		<%}%>
-	<%} %>
+	<%if(cheader1s.size()>0){%>
+		<tr>
+		<th width="40%"><font color="red">Outstanding 3rd Invoices</font></th>
+		<th width="20%"><font color="red">Invoice Date</font></th>
+		<th><font color="red">Amount</font></th>
+		<th><font color="red">Balance</font></th>
+		</tr>
+		<%for(int i=0;i<cheader1s.size();i++) {
+			if(cheader1s.get(i).getPayProgram().matches(BillingDataHlp.BILLINGMATCHSTRING_3RDPARTY)){ 
+				String refund=billingOnExt.getClaimExtRefund(cheader1s.get(i).getId());
+				String payment=billingOnExt.getClaimExtPayment(cheader1s.get(i).getId());
+				String discount=billingOnExt.getClaimExtDiscount(cheader1s.get(i).getId());
+				BigDecimal b1 = new BigDecimal(refund);
+				BigDecimal b2 = new BigDecimal(payment);
+				BigDecimal b3 = new BigDecimal(discount);
+				BigDecimal total=cheader1s.get(i).getTotal();
+				double d = total.subtract(b2).doubleValue();
+				BigDecimal b4 = new BigDecimal(Double.toString(d));
+				double d1 = b4.subtract(b3).doubleValue();
+				BigDecimal b5 = new BigDecimal(Double.toString(d1));
+				double balance = b5.subtract(b1).doubleValue();
+				
+            	if(balance!=0) { %>
+					<tr>
+						<td align="center"><a href="#" onclick="popupPage(600,800, '<%=request.getContextPath() %>/billing/CA/ON/billingONCorrection.jsp?billing_no=<%=cheader1s.get(i).getId()%>')"><font color="red">Inv #<%=cheader1s.get(i).getId() %></font></a></td>
+						<td align="center"><font color="red"><%=cheader1s.get(i).getTimestamp() %></font></td>
+						<td align="center"><font color="red">$<%=cheader1s.get(i).getTotal() %></font></td>
+						<td align="center"><font color="red">$<%=balance %></font></td>
+					</tr>
+				<%}
+			}
+		}
+	 } %>
 </table>
 <% } %>
 
@@ -1014,6 +1012,14 @@ Currently this is only used in the mobile version -->
 <script type="text/javascript">
 var loc = document.forms['EDITAPPT'].location;
 if(loc.nodeName.toUpperCase() == 'SELECT') loc.style.backgroundColor=loc.options[loc.selectedIndex].style.backgroundColor;
+
+jQuery(document).ready(function(){
+	var belowTbl = jQuery("#belowTbl");
+	if (belowTbl != null && belowTbl.length > 0 && belowTbl.find("tr").length == 2) {
+		jQuery(belowTbl.find("tr")[1]).remove();
+	} 
+});
+
 </script>
 
 </html:html>

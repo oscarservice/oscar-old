@@ -244,7 +244,11 @@ public class BillingSavePrep {
 			}else{
 				claimItem[i].setDiscount("0.00");
 			}
-			claimItem[i].setStatus("O");
+			if(val.getParameter("xml_billtype").substring(0,3).matches(BillingDataHlp.BILLINGMATCHSTRING_3RDPARTY)) {
+				claimItem[i].setStatus("P");
+			} else {
+				claimItem[i].setStatus("O");
+			}
 		}
 
 		return claimItem;

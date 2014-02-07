@@ -237,7 +237,13 @@ public class BillingCorrectionPrep {
 			vecName.add(request.getParameter("servicecode" + i));
 			vecUnit.add(request.getParameter("billingunit" + i));
 			vecFee.add(request.getParameter("billingamount" + i));
-			vecStatus.add(request.getParameter("itemStatus" + i) == null ? "O" : "S");
+			String billStatus = request.getParameter("itemStatus" + i);
+			if (billStatus != null) {
+				vecStatus.add("S");
+			} else {
+				vecStatus.add(ch1Obj.getStatus());
+			}
+			
 		}
 
 		// update item first
@@ -488,7 +494,7 @@ public class BillingCorrectionPrep {
 			billTrans.setUpdateProviderNo(updateProviderNo);
 			billTrans.setVisittype(billCheader1.getVisittype());
 			billTrans.setUpdateDatetime(new Timestamp(new Date().getTime()));
-			billTrans.setStatus(oldObj.getStatus());
+			billTrans.setStatus("D");
 			billOnTransDao.persist(billTrans);
 			
 			if (serviceCode != null && !serviceCode.isEmpty()) {
