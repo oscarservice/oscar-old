@@ -310,14 +310,14 @@ public class BillingONPaymentsAction extends DispatchAction {
 				continue;
 			}
             
-			String str=paymentdate1+" 00:00:00";
-     		SimpleDateFormat sim1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    	    Date paymentdatetmp=sim1.parse(str);
+			//String str=paymentdate1+" 00:00:00";
+     		//SimpleDateFormat sim1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    	    //Date paymentdatetmp=sim1.parse(str);
 			BillingOnItemPayment billItemPayment = new BillingOnItemPayment();
 			billItemPayment.setBillingOnItemId(Integer.parseInt(itemId));
 			billItemPayment.setBillingOnPaymentId(billPayment.getId());
 			billItemPayment.setCh1Id(billNo);
-			billItemPayment.setPaymentTimestamp(new Timestamp(paymentdatetmp.getTime()));
+			billItemPayment.setPaymentTimestamp(new Timestamp(curDate.getTime()));
 			
 			if ("payment".equals(request.getParameter("sel" + i))) {
 				BigDecimal itemPayment = BigDecimal.ZERO;
