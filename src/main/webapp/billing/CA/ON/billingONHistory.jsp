@@ -121,7 +121,8 @@ for(int i=0; i<aL.size(); i=i+2) {
 		BigDecimal b2 = new BigDecimal(paymenttmp);
 		BigDecimal b3 = new BigDecimal(discounttmp);
 		//BigDecimal total=new BigDecimal(obj.getTotal());
-		balancetmp =balancetmp.add(b1).add(b2).add(b3);
+		//balancetmp =balancetmp.add(b1).add(b2).add(b3);
+		balancetmp =balancetmp.add(b2).add(b3);
 		//double d = total.subtract(b2).doubleValue();
 		//BigDecimal b4 = new BigDecimal(Double.toString(d));
 		//double d1 = b4.subtract(b3).doubleValue();
