@@ -151,7 +151,8 @@ public class BillingONPaymentsAction extends DispatchAction {
 		if (totalItem != null) {
 			total = new BigDecimal(totalItem.getValue());
 		}
-		balance = total.subtract(payment).subtract(discount).subtract(refund);
+		//balance = total.subtract(payment).subtract(discount).subtract(refund);
+		balance = total.subtract(payment).subtract(discount);
 		
 		request.setAttribute("totalInvoiced", total);
 		request.setAttribute("balance", balance);

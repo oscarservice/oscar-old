@@ -530,7 +530,8 @@ function validateAmountNumberic(idx) {
 					if (totalItem != null) {
 						total = new BigDecimal(totalItem.getValue());
 					}
-					balance = total.subtract(payment).subtract(discount).subtract(refund);
+					//balance = total.subtract(payment).subtract(discount).subtract(refund);
+					balance = total.subtract(payment).subtract(discount);
 							
 					/*BillingONPaymentDao billingONPaymentDao = (BillingONPaymentDao) WebApplicationContextUtils.getWebApplicationContext(application).getBean("billingONPaymentDao");
     				List<BillingONPayment> payments = billingONPaymentDao.listPaymentsByBillingNo(Integer.parseInt(request.getParameter("billing_no").trim()));

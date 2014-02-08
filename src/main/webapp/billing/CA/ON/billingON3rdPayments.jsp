@@ -304,7 +304,8 @@ function validateDiscountNumberic(idx) {
 		<%
 		for(int i=0;i<items.size();i++){ 
 			BillingItemPaymentVo vo = items.get(i);
-			BigDecimal itemBalance = vo.getTotal().subtract(vo.getPaid()).subtract(vo.getDiscount()).subtract(vo.getRefund());
+			//BigDecimal itemBalance = vo.getTotal().subtract(vo.getPaid()).subtract(vo.getDiscount()).subtract(vo.getRefund());
+			BigDecimal itemBalance = vo.getTotal().subtract(vo.getPaid()).subtract(vo.getDiscount());
 			String sign = "";
 			if (itemBalance.compareTo(BigDecimal.ZERO) == -1) {
 				sign = "-";
@@ -384,7 +385,8 @@ function validateDiscountNumberic(idx) {
 			sumOfPay = sumOfPay.add(paymentLists.get(i).getTotal_payment());
 			sumOfDiscount = sumOfDiscount.add(paymentLists.get(i).getTotal_discount());
 			sumOfRefund = sumOfRefund.add(paymentLists.get(i).getTotal_refund());
-		    balance = total.subtract(sumOfPay).subtract(sumOfDiscount).subtract(sumOfRefund);
+		    //balance = total.subtract(sumOfPay).subtract(sumOfDiscount).subtract(sumOfRefund);
+		    balance = total.subtract(sumOfPay).subtract(sumOfDiscount);
 		    balances.add(balance);
 		}
 	}
