@@ -401,6 +401,7 @@ div.dxBox input {
 </style>
 <script type="text/javascript" src="../../../share/javascript/prototype.js"></script>
 <script type="text/javascript" src="../../../share/javascript/nifty.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-1.7.1.min.js"></script>
 <link rel="stylesheet" type="text/css" href="../../../share/css/niftyCorners.css" />
 <link rel="stylesheet" type="text/css" href="../../../share/css/niftyPrint.css" media="print"/>
 
@@ -415,7 +416,7 @@ window.onload=function(){
 
 </head>
 
-<body topmargin="0" onload="showtotal(),showPayment()">
+<body topmargin="0" onload="showtotal(),calculatePayment()">
 
 <form method="post" name="titlesearch" action="billingONSave.jsp" onsubmit="return onSave();">
     <input type="hidden" name="url_back" value="<%=request.getParameter("url_back")%>">
@@ -831,48 +832,45 @@ if(request.getParameter("xml_billtype")!=null && !request.getParameter("xml_bill
                              + "Tel: "+provider.getClinicPhone() +"\n"
                              + "Fax: "+provider.getClinicFax() ;
 
-if (codeValid) { %>
-%>
+if (codeValid) {
+	// for satellite clinics
+	String clinicAddress = null;
+	// get Site ID from billingON.jsp
+	if (bMultisites) {
+		String siteName = request.getParameter("site");
+		SiteDao siteDao = (SiteDao)WebApplicationContextUtils.getWebApplicationContext(application).getBean("siteDao");
+	  	List<Site> sites = siteDao.getActiveSitesByProviderNo((String) session.getAttribute("user"));
+	  	Site s = ApptUtil.getSiteFromName(sites, siteName);
+	
+	  	if (s==null)
+	  		clinicAddress = strClinicAddr;
+	  	else {
+	  		clinicAddress = s.getName()+"\n"+s.getAddress()+"\n"+s.getCity()+", "+s.getProvince()+" "+s.getPostal()+"\nTel: "+s.getPhone()+"\nFax: "+s.getFax();
+	  	}
 
-<%
-// for satellite clinics
-String clinicAddress = null;
-// get Site ID from billingON.jsp
-if (bMultisites) {
-	String siteName = request.getParameter("site");
-	SiteDao siteDao = (SiteDao)WebApplicationContextUtils.getWebApplicationContext(application).getBean("siteDao");
-  	List<Site> sites = siteDao.getActiveSitesByProviderNo((String) session.getAttribute("user"));
-  	Site s = ApptUtil.getSiteFromName(sites, siteName);
-
-  	if (s==null)
-  		clinicAddress = strClinicAddr;
-  	else {
-  		clinicAddress = s.getName()+"\n"+s.getAddress()+"\n"+s.getCity()+", "+s.getProvince()+" "+s.getPostal()+"\nTel: "+s.getPhone()+"\nFax: "+s.getFax();
-  	}
-
-} else {
-	String siteID = request.getParameter("siteId");
-	OscarProperties props2 = OscarProperties.getInstance();
-	if(props2.getProperty("clinicSatelliteCity") != null) {
-	    //compare the site id with clinicSatelliteCity to get the current address index
-	    //in properties file  clinicSatelliteCity and scheduleSiteID must have same value
-	    String[] clinicCity = props2.getProperty("clinicSatelliteCity", "").split("\\|");
-	    //current address index
-	    int siteFlag = 0;
-	    for(int i = 0; i < clinicCity.length; i++){
-	    	if (siteID.equals(clinicCity[i]))	siteFlag = i;
-	    }
-	    String[] temp0 = props2.getProperty("clinicSatelliteName", "").split("\\|");
-	    String[] temp1 = props2.getProperty("clinicSatelliteAddress", "").split("\\|");
-	    String[] temp3 = props2.getProperty("clinicSatelliteProvince", "").split("\\|");
-	    String[] temp4 = props2.getProperty("clinicSatellitePostal", "").split("\\|");
-	    String[] temp5 = props2.getProperty("clinicSatellitePhone", "").split("\\|");
-	    String[] temp6 = props2.getProperty("clinicSatelliteFax", "").split("\\|");
-	    clinicAddress = temp0[siteFlag]+"\n"+temp1[siteFlag] + "\n" + clinicCity[siteFlag] + ", " + temp3[siteFlag] + " " + temp4[siteFlag] + "\nTel: " + temp5[siteFlag] + "\nFax: " + temp6[siteFlag];
-	}else{
-		clinicAddress = strClinicAddr;
+	} else {
+		String siteID = request.getParameter("siteId");
+		OscarProperties props2 = OscarProperties.getInstance();
+		if(props2.getProperty("clinicSatelliteCity") != null) {
+		    //compare the site id with clinicSatelliteCity to get the current address index
+		    //in properties file  clinicSatelliteCity and scheduleSiteID must have same value
+		    String[] clinicCity = props2.getProperty("clinicSatelliteCity", "").split("\\|");
+		    //current address index
+		    int siteFlag = 0;
+		    for(int i = 0; i < clinicCity.length; i++){
+		    	if (siteID.equals(clinicCity[i]))	siteFlag = i;
+		    }
+		    String[] temp0 = props2.getProperty("clinicSatelliteName", "").split("\\|");
+		    String[] temp1 = props2.getProperty("clinicSatelliteAddress", "").split("\\|");
+		    String[] temp3 = props2.getProperty("clinicSatelliteProvince", "").split("\\|");
+		    String[] temp4 = props2.getProperty("clinicSatellitePostal", "").split("\\|");
+		    String[] temp5 = props2.getProperty("clinicSatellitePhone", "").split("\\|");
+		    String[] temp6 = props2.getProperty("clinicSatelliteFax", "").split("\\|");
+		    clinicAddress = temp0[siteFlag]+"\n"+temp1[siteFlag] + "\n" + clinicCity[siteFlag] + ", " + temp3[siteFlag] + " " + temp4[siteFlag] + "\nTel: " + temp5[siteFlag] + "\nFax: " + temp6[siteFlag];
+		}else{
+			clinicAddress = strClinicAddr;
+		}
 	}
-}
 %>
 <tr><td>
 		<table border="1" width="100%" bordercolorlight="#99A005" bordercolordark="#FFFFFF">
@@ -940,43 +938,27 @@ if (bMultisites) {
 
 <script language="JavaScript">
 function calculatePayment(){
-    var payment=0;
-	for(var j=0;j<10;j++){
-	    var obj = document.getElementById("paid_"+j);
-	    if(obj!=null){
-	       	if(obj.value!=''){
-	       		payment =parseFloat(payment)+parseFloat(obj.value);
-	       	}
-		}
-	}
-	document.getElementById("payment").value =payment;
-	document.getElementById("total_payment").value=payment;
-}
+    var payment = 0;
+    jQuery("input[id^='paid_']").each(function(index) {
+    	if (this != null && this.value.length > 0) {
+    		payment = parseFloat(payment) + parseFloat(this.value);
+    		payment = payment.toFixed(2);
+    	}
+    });
 
-function showPayment(){
-    var payment=0;
-	for(var j=0;j<10;j++){
-	    var obj = document.getElementById("paid_"+j);
-	    if(obj!=null){
-	       	if(obj.value!=''){
-	       		payment =parseFloat(payment)+parseFloat(obj.value);
-	       	}
-		}
-	}
-	document.getElementById("payment").value =payment;
+	document.getElementById("payment").value=payment;
 	document.getElementById("total_payment").value=payment;
 }
 
 function calculateDiscount(){
-	var discount=0;
-	for(var i=0;i<10;i++){
-	    var obj = document.getElementById("discount_"+i);
-		if(obj!=null){
-		    if(obj.value!=''){
-		    	discount = parseFloat(discount)+parseFloat(obj.value);
-			}
+	var discount = 0;
+	jQuery("input[id^='paid_']").each(function(index) {
+		if (this != null && this.value.length > 0) {
+			discount = parseFloat(discount) + parseFloat(this.value);
+			discount = discount.toFixed(2);
 		}
-	}
+	});
+	
 	document.getElementById("discount").value = discount;
 	document.getElementById("total_discount").value = discount;
 }
