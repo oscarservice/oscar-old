@@ -35,6 +35,7 @@ import org.apache.log4j.Logger;
 import org.apache.struts.util.LabelValueBean;
 import org.oscarehr.PMmodule.dao.ProviderDao;
 import org.oscarehr.billing.CA.ON.dao.BillingClaimDAO;
+import org.oscarehr.billing.CA.ON.dao.BillingOnItemPaymentDao;
 import org.oscarehr.billing.CA.ON.model.BillingClaimHeader1;
 import org.oscarehr.common.model.Provider;
 import org.oscarehr.util.MiscUtils;
@@ -190,15 +191,14 @@ public class JdbcBillingReviewImpl {
 				+ startDate + " " + endDate + " " + billType + " " + dx + " "
 				+ visitType + " " + serviceCodes;
 		temp = temp.trim().startsWith("and") ? temp.trim().substring(3) : temp;
-		String sql = "SELECT ch1.id,pay_program,demographic_no,demographic_name,billing_date,billing_time,"
-				+ "ch1.status,provider_no,provider_ohip_no,apptProvider_no,timestamp1,total,ch1.paid,clinic,"
-				+ "bi.fee, bi.service_code, bi.dx ,bi.paid "
-				+ "FROM billing_on_cheader1 ch1 LEFT JOIN billing_on_item bi ON ch1.id=bi.ch1_id "
+		String sql = "SELECT ch1.id,ch1.pay_program,ch1.demographic_no,ch1.demographic_name,ch1.billing_date,ch1.billing_time,"
+				+ "ch1.status,ch1.provider_no,ch1.provider_ohip_no,ch1.apptProvider_no,ch1.timestamp1,ch1.total,ch1.paid,ch1.clinic,"
+				+ "bi.fee, bi.service_code, bi.dx, bi.id as billing_on_item_id "
+				+ "FROM billing_on_item bi LEFT JOIN billing_on_cheader1 ch1 ON ch1.id=bi.ch1_id "
 				+ "WHERE "
 				+ temp
-				+ serviceCodes
 				+ " and bi.status!='D' "
-				+ " ORDER BY billing_date, billing_time";
+				+ " ORDER BY ch1.billing_date, ch1.billing_time";
 		
 		_logger.info("getBill(sql = " + sql + ")");
 		ResultSet rs = dbObj.searchDBRecord(sql);
@@ -207,7 +207,7 @@ public class JdbcBillingReviewImpl {
 			try {
 				String prevId = null;
 				String prevPaid = null;
-
+				BillingOnItemPaymentDao billOnItemPaymentDao = (BillingOnItemPaymentDao)SpringUtils.getBean(BillingOnItemPaymentDao.class);
 				while (rs.next()) {
 
 					boolean bSameBillCh1 = false;
@@ -232,7 +232,8 @@ public class JdbcBillingReviewImpl {
 					 * else ch1Obj.setPaid("0.00");
 					 */
 					if("PAT".equals(rs.getString("pay_program"))){
-						ch1Obj.setPaid(rs.getString(18));
+						BigDecimal amountPaid = billOnItemPaymentDao.getAmountPaidByItemId(rs.getInt(18));
+						ch1Obj.setPaid(amountPaid.toString());
 					}else{
 						if (!(ch1Obj.getId().equals(prevId) && rs.getString("paid")
 								.equals(prevPaid))) {
