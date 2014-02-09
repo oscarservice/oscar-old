@@ -323,6 +323,24 @@ boolean dupServiceCode = false;
                 	}
                 	oldVal = val;
                 }
+                
+                function validateFeeNumberic(idx) {
+                	var oldVal = "0.00";
+                	var val = document.getElementById("percCodeSubtotal_" + idx).value;
+                	if (val.length == 0) {
+                		document.getElementById("percCodeSubtotal_" + idx).value = "0.00";
+                		oldVal = "0.00";
+                		return;
+                	}
+                	//var regexNumberic = /^([1-9]\d*|0)(\.\d{1,2})?$/;
+                	var regexNumberic = /^([1-9]\d{0,9}|0)(\.\d{1,2})?$/;
+                	if (!regexNumberic.test(val)) {
+                		document.getElementById("percCodeSubtotal_" + idx).value = oldVal;
+                		alert("Please enter digital numbers !");
+                		return;
+                	}
+                	oldVal = val;
+                }
 
 	//-->
 
@@ -626,7 +644,7 @@ window.onload=function(){
                     <span style="color:red; float:left;"><%=strWarning%></span>
                     <%}%>
                     <span style="float:right;"> <%=codeFee %> x <%=codeUnit %> <% if (!codeAt.equals("1")){%> x <%=codeAt %> <%}%><% if (gstFlag.equals("1")){%> + <%=percent%>% GST<%}%> =
-				<input type="text" name="percCodeSubtotal_<%=i %>" size="5" value="<%=codeTotal %>" id="percCodeSubtotal_<%=i %>"/>
+				<input type="text" name="percCodeSubtotal_<%=i %>" size="5" value="<%=codeTotal %>" id="percCodeSubtotal_<%=i %>" onBlur="calculateTotal();" onchange="validateFeeNumberic(<%=i%>)"/>
 				<input type="hidden" name="xserviceCode_<%=i %>" value="<%=codeName %>" />
 				<input type="hidden" name="xserviceUnit_<%=i %>" value="<%=codeUnit %>" />
                     </span>
@@ -689,7 +707,7 @@ window.onload=function(){
                         if (codeValid) {
 			%>
 			<tr>
-				<td align='right' colspan='3' class="myGreen">Total: <input type="text" id="total" name="total" size="5" value="0.00" />
+				<td align='right' colspan='3' class="myGreen">Total: <input type="text" id="total" name="total" size="5" value="0.00" onchange="onTotalChanged();"/>
 				<input type="hidden" name="totalItem" value="<%=vecServiceParam[0].size() %>" /></td>
 <script Language="JavaScript">
 <!--
@@ -938,7 +956,7 @@ if (codeValid) {
 
 <script language="JavaScript">
 function calculatePayment(){
-    var payment = 0;
+    var payment = 0.00;
     jQuery("input[id^='paid_']").each(function(index) {
     	if (this != null && this.value.length > 0) {
     		payment = parseFloat(payment) + parseFloat(this.value);
@@ -951,8 +969,8 @@ function calculatePayment(){
 }
 
 function calculateDiscount(){
-	var discount = 0;
-	jQuery("input[id^='paid_']").each(function(index) {
+	var discount = 0.00;
+	jQuery("input[id^='discount_']").each(function(index) {
 		if (this != null && this.value.length > 0) {
 			discount = parseFloat(discount) + parseFloat(this.value);
 			discount = discount.toFixed(2);
@@ -961,6 +979,33 @@ function calculateDiscount(){
 	
 	document.getElementById("discount").value = discount;
 	document.getElementById("total_discount").value = discount;
+}
+
+function calculateTotal() {
+	var total = 0.00;
+	jQuery("input[id^='percCodeSubtotal_']").each(function (index) {
+		if (this != null && this.value.length > 0) {
+			total = parseFloat(total) + parseFloat(this.value);
+			total = total.toFixed(2);
+		}
+	});
+	jQuery("#total").val(total);
+	jQuery("#gstBilledTotal").val(total);
+	jQuery("#stotal").val(total);
+}
+
+function onTotalChanged() {
+	var val = document.getElementById("total").value;
+	var regexNumberic = /^([1-9]\d{0,9}|0)(\.\d{1,2})?$/;
+	if (!regexNumberic.test(val)) {
+		calculateTotal();
+		alert("Please enter digital numbers !");
+		return;
+	}
+	
+	var total = jQuery("#total").val();
+	jQuery("#gstBilledTotal").val(total);
+	jQuery("#stotal").val(total);
 }
 
 function addToDiseaseRegistry(){

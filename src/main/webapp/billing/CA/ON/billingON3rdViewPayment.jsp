@@ -51,14 +51,14 @@ BillingONPayment billPayment = (BillingONPayment)request.getAttribute("billPayme
 				<th>Discount</th>
 				<th>Refund</th>
 			</tr>
-			<logic:present name="itemPaymentVoList" scope="request">
-				<logic:iterate id="itemPayment" name="itemPaymentVoList" indexId="idx">
+			<logic:present name="itemDataList" scope="request">
+				<logic:iterate id="itemData" name="itemDataList" indexId="idx">
 				<tr align="center">
-					<td><bean:write name="itemPayment" property="itemId"/></td>
-					<td><bean:write name="itemPayment" property="serviceCode"/></td>
-					<td><bean:write name="itemPayment" property="paid"/></td>
-					<td><bean:write name="itemPayment" property="discount"/></td>
-					<td><bean:write name="itemPayment" property="refund"/></td>
+					<td><bean:write name="itemData" property="id"/></td>
+					<td><bean:write name="itemData" property="service_code"/></td>
+					<td><bean:write name="itemData" property="paid"/></td>
+					<td><bean:write name="itemData" property="discount"/></td>
+					<td><bean:write name="itemData" property="refund"/></td>
 				</tr>
 				</logic:iterate>
 			</logic:present>

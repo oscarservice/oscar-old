@@ -33,9 +33,11 @@ import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
 import org.oscarehr.billing.CA.ON.dao.BillingClaimDAO;
 import org.oscarehr.billing.CA.ON.dao.BillingONPaymentDao;
+import org.oscarehr.billing.CA.ON.dao.BillingOnItemPaymentDao;
 import org.oscarehr.billing.CA.ON.dao.BillingOnTransactionDao;
 import org.oscarehr.billing.CA.ON.model.BillingClaimHeader1;
 import org.oscarehr.billing.CA.ON.model.BillingONPayment;
+import org.oscarehr.billing.CA.ON.model.BillingOnItemPayment;
 import org.oscarehr.billing.CA.ON.model.BillingOnTransaction;
 import org.oscarehr.billing.CA.dao.BillingPaymentTypeDao;
 import org.oscarehr.billing.CA.model.BillingPaymentType;
@@ -128,16 +130,33 @@ public class JdbcBillingClaimImpl {
 	
 	public boolean addItemPaymentRecord(List lVal, int id, int paymentId, int paymentType) {
 		int retval = 0;
+		BillingOnItemPayment billOnItemPayment = null;
+		Timestamp ts = new Timestamp(new Date().getTime());
+		BillingOnItemPaymentDao billOnItemPaymentDao = (BillingOnItemPaymentDao)SpringUtils.getBean(BillingOnItemPaymentDao.class);
 		for (int i = 0; i < lVal.size(); i++) {
 			BillingItemData val = (BillingItemData) lVal.get(i);
-			String sql = "insert into billing_on_item_payment values(\\N, " + id + ", '" + paymentId + "', '" + val.id
-					+ "' , \\N,'" + val.paid+"','" + val.refund + "','" + val.discount + "')";
-			retval = dbObj.saveBillingRecord(sql);
-			if (0 == retval) {
-				_logger.error("addItemPaymentRecord(sql = " + sql + ")");
-				return false;
+			billOnItemPayment = new BillingOnItemPayment();
+			billOnItemPayment.setBillingOnItemId(Integer.parseInt(val.getId()));
+			billOnItemPayment.setBillingOnPaymentId(paymentId);
+			billOnItemPayment.setCh1Id(id);
+			try {
+				billOnItemPayment.setDiscount(new BigDecimal(val.getDiscount()).setScale(2, BigDecimal.ROUND_HALF_UP));
+			} catch (Exception e) {
+				billOnItemPayment.setDiscount(new BigDecimal("0.00"));
 			}
-			val.setId(((Integer)retval).toString());
+			try {
+				billOnItemPayment.setPaid(new BigDecimal(val.getPaid()).setScale(2, BigDecimal.ROUND_HALF_UP));
+			} catch (Exception e) {
+				billOnItemPayment.setPaid(new BigDecimal("0.00"));
+			}
+			billOnItemPayment.setPaymentTimestamp(ts);
+			try {
+				billOnItemPayment.setRefund(new BigDecimal(val.getRefund()).setScale(2, BigDecimal.ROUND_HALF_UP));
+			} catch (Exception e) {
+				billOnItemPayment.setRefund(new BigDecimal("0.00"));
+			}
+			billOnItemPaymentDao.persist(billOnItemPayment);
+			val.setId(billOnItemPayment.getId().toString());
 		}
 		return (retval != 0);
 	}

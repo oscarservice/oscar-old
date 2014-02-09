@@ -23,6 +23,7 @@
 
 package org.oscarehr.billing.CA.ON.dao;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
@@ -52,7 +53,7 @@ public class BillingONExtDao extends AbstractDao<BillingONExt>{
 	public final static String KEY_PAY_METHOD = "payMethod";
 	public final static String KEY_TOTAL = "total";
 	
-	BillingONDataHelp dbObj = new BillingONDataHelp();
+	//BillingONDataHelp dbObj = new BillingONDataHelp();
 
 
 	public BillingONExtDao() {
@@ -65,57 +66,27 @@ public class BillingONExtDao extends AbstractDao<BillingONExt>{
         return query.getResultList();
     }
     
-    public String getClaimExtRefund(int billingNo){
-    	String sql = "select value from billing_on_ext where billing_No = " + billingNo + " AND key_val='refund'";
-        //query.setParameter("billingNo", billingNo);
-		ResultSet rs = dbObj.searchDBRecord(sql);
-
-        String refund="0.00";
-        try {
-			while (rs.next()) {
-				refund = rs.getString("value");
-			}
-		} catch (SQLException e) {
-			//_logger.error("getHtmlfilename(sql = " + sql + ")");
-			//refund = null;
-		}
-        return refund;
+    public BigDecimal getAccountVal(int billingNo, String key) {
+    	BigDecimal val = new BigDecimal("0.00").setScale(2, BigDecimal.ROUND_HALF_UP);
+    	if (!KEY_TOTAL.equals(key) && !KEY_PAYMENT.equals(key) && !KEY_DISCOUNT.equals(key) && !KEY_REFUND.equals(key)) {
+    		return val;
+    	}
+    	
+    	Query query = entityManager.createQuery("select ext from BillingONExt ext where ext.billingNo = ?1 and ext.keyVal = ?2");
+    	query.setParameter(1, billingNo);
+    	query.setParameter(2, key);
+    	BillingONExt ext = null;
+    	try {
+    		ext = (BillingONExt) query.getSingleResult();
+    	} catch (Exception e) {}
+    	
+    	if (ext != null) {
+    		val = new BigDecimal(ext.getValue()).setScale(2, BigDecimal.ROUND_HALF_UP);
+    	}
+    	
+    	return val;
     }
-    
-    public String getClaimExtPayment(int billingNo){
-    	String sql = "select value from billing_on_ext where billing_No = " + billingNo + " AND key_val='payment'";
-        //query.setParameter("billingNo", billingNo);
-		ResultSet rs = dbObj.searchDBRecord(sql);
-
-        String payment="0.00";
-        try {
-			while (rs.next()) {
-				payment = rs.getString("value");
-			}
-		} catch (SQLException e) {
-			//_logger.error("getHtmlfilename(sql = " + sql + ")");
-			//refund = null;
-		}
-        return payment;
-    }
-    
-    public String getClaimExtDiscount(int billingNo){
-    	String sql = "select value from billing_on_ext where billing_No = " + billingNo + " AND key_val='discount'";
-        //query.setParameter("billingNo", billingNo);
-		ResultSet rs = dbObj.searchDBRecord(sql);
-
-        String discount="0.00";
-        try {
-			while (rs.next()) {
-				discount = rs.getString("value");
-			}
-		} catch (SQLException e) {
-			//_logger.error("getHtmlfilename(sql = " + sql + ")");
-			//refund = null;
-		}
-        return discount;
-    }
-
+ 
     public BillingONExt getClaimExtItem(Integer billingNo, Integer demographicNo, String keyVal) throws NonUniqueResultException {
     	String filter1 = (billingNo == null ? "" : "ext.billingNo = :billingNo");
     	String filter2 = (demographicNo == null ? "" : "ext.demographicNo = :demographicNo");

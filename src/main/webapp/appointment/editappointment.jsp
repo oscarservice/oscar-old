@@ -70,7 +70,7 @@
   ApptData apptObj = ApptUtil.getAppointmentFromSession(request);
  // List<BillingONCHeader1> cheader1s = cheader1Dao.getBillCheader1ByDemographicNo(Integer.parseInt(apptObj.getDemographic_no()));
  List<BillingONCHeader1> cheader1s = cheader1Dao.getBillCheader1ByDemographicNoNew(Integer.parseInt(demographic_nox));
- BillingONExtDao billingOnExt=new BillingONExtDao();
+ BillingONExtDao billingOnExtDao = (BillingONExtDao)SpringUtils.getBean(BillingONExtDao.class);
   oscar.OscarProperties pros = oscar.OscarProperties.getInstance();
   String strEditable = pros.getProperty("ENABLE_EDIT_APPT_STATUS");
 
@@ -845,20 +845,12 @@ if (bMultisites) { %>
 		</tr>
 		<%for(int i=0;i<cheader1s.size();i++) {
 			if(cheader1s.get(i).getPayProgram().matches(BillingDataHlp.BILLINGMATCHSTRING_3RDPARTY)){ 
-				String refund=billingOnExt.getClaimExtRefund(cheader1s.get(i).getId());
-				String payment=billingOnExt.getClaimExtPayment(cheader1s.get(i).getId());
-				String discount=billingOnExt.getClaimExtDiscount(cheader1s.get(i).getId());
-				BigDecimal b1 = new BigDecimal(refund);
-				BigDecimal b2 = new BigDecimal(payment);
-				BigDecimal b3 = new BigDecimal(discount);
-				BigDecimal total=cheader1s.get(i).getTotal();
-				double d = total.subtract(b2).doubleValue();
-				BigDecimal b4 = new BigDecimal(Double.toString(d));
-				double d1 = b4.subtract(b3).doubleValue();
-				BigDecimal b5 = new BigDecimal(Double.toString(d1));
-				double balance = b5.subtract(b1).doubleValue();
+				BigDecimal payment = billingOnExtDao.getAccountVal(cheader1s.get(i).getId(), billingOnExtDao.KEY_PAYMENT);
+				BigDecimal discount = billingOnExtDao.getAccountVal(cheader1s.get(i).getId(), billingOnExtDao.KEY_DISCOUNT);
+				BigDecimal total = cheader1s.get(i).getTotal();
+				BigDecimal balance = total.subtract(payment).subtract(discount);
 				
-            	if(balance!=0) { %>
+            	if(balance.compareTo(BigDecimal.ZERO) != 0) { %>
 					<tr>
 						<td align="center"><a href="#" onclick="popupPage(600,800, '<%=request.getContextPath() %>/billing/CA/ON/billingONCorrection.jsp?billing_no=<%=cheader1s.get(i).getId()%>')"><font color="red">Inv #<%=cheader1s.get(i).getId() %></font></a></td>
 						<td align="center"><font color="red"><%=cheader1s.get(i).getTimestamp() %></font></td>

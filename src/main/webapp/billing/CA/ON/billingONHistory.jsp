@@ -36,6 +36,7 @@
 	errorPage="errorpage.jsp"%>
 <%@ page import="oscar.oscarBilling.ca.on.data.*"%>
 <%@page import="org.oscarehr.billing.CA.ON.dao.*" %>
+<%@page import="org.oscarehr.util.SpringUtils" %>
 
 <%@ taglib uri="/WEB-INF/security.tld" prefix="security"%>
 <jsp:useBean id="providerBean" class="java.util.Properties"
@@ -80,7 +81,7 @@
 	</tr>
 	<% // new billing records
 JdbcBillingReviewImpl dbObj = new JdbcBillingReviewImpl();
-	BillingONExtDao billingOnExt=new BillingONExtDao();
+BillingONExtDao billingOnExtDao = (BillingONExtDao)SpringUtils.getBean(BillingONExtDao.class);
 String limit = " limit " + strLimit1 + "," + strLimit2;
 List aL = dbObj.getBillingHist(request.getParameter("demographic_no"), Integer.parseInt(strLimit2), Integer.parseInt(strLimit1), null, null);
 int nItems=0;
@@ -104,31 +105,13 @@ for(int i=0; i<aL.size(); i=i+2) {
 
 	
 	//BigDecimal balance = new BigDecimal("0.00");
-	BigDecimal balancetmp = new BigDecimal("0.00");
-	double balance=0.00;
+	BigDecimal balance = new BigDecimal("0.00");
 	if("PAT".equals(strBillType)||"PAT Settled".equals(strBillType)){
-		//BigDecimal paid = new BigDecimal(itObj.getPaid());
-		//BigDecimal refund = new BigDecimal(itObj.getRefund());
-		//BigDecimal discount = new BigDecimal(itObj.getDiscount());
-		//balance =balance.add(paid).add(refund).add(discount);
-		//balance = new BigDecimal(obj.getTotal()).subtract(balance);
-		
-		String refundtmp=billingOnExt.getClaimExtRefund(Integer.parseInt(obj.getId()));
-		String paymenttmp=billingOnExt.getClaimExtPayment(Integer.parseInt(obj.getId()));
-		String discounttmp=billingOnExt.getClaimExtDiscount(Integer.parseInt(obj.getId()));
-		
-		BigDecimal b1 = new BigDecimal(refundtmp);
-		BigDecimal b2 = new BigDecimal(paymenttmp);
-		BigDecimal b3 = new BigDecimal(discounttmp);
-		//BigDecimal total=new BigDecimal(obj.getTotal());
-		//balancetmp =balancetmp.add(b1).add(b2).add(b3);
-		balancetmp =balancetmp.add(b2).add(b3);
-		//double d = total.subtract(b2).doubleValue();
-		//BigDecimal b4 = new BigDecimal(Double.toString(d));
-		//double d1 = b4.subtract(b3).doubleValue();
-		//BigDecimal b5 = new BigDecimal(Double.toString(d1));
-		balancetmp = new BigDecimal(obj.getTotal()).subtract(balancetmp);
-		balance  = balancetmp.setScale(3,BigDecimal.ROUND_HALF_UP).doubleValue(); 
+		int billingNo = Integer.parseInt(obj.getId());
+		BigDecimal payment = billingOnExtDao.getAccountVal(billingNo, billingOnExtDao.KEY_PAYMENT);
+		BigDecimal discount = billingOnExtDao.getAccountVal(billingNo, billingOnExtDao.KEY_DISCOUNT);
+		BigDecimal total = new BigDecimal(obj.getTotal()).setScale(2, BigDecimal.ROUND_HALF_UP);
+		balance = total.subtract(payment).subtract(discount);
 	}
 %>
 	<tr bgcolor="<%=i%2==0?"#CCFF99":"white"%>">

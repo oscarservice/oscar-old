@@ -64,7 +64,7 @@
 <%@page import="org.oscarehr.billing.CA.ON.model.BillingONExt" %>
 <%@page import="org.oscarehr.billing.CA.ON.dao.BillingOnItemPaymentDao" %>
 <%@page import="org.oscarehr.billing.CA.ON.model.*" %>
-<%@page import="org.oscarehr.billing.CA.ON.vo.*" %>
+<%@page import="oscar.oscarBilling.ca.on.data.BillingItemData" %>
 <%@page import="java.math.BigDecimal" %>
 <% 
 List<String> errors = new ArrayList<String>();
@@ -83,7 +83,7 @@ List<String> errors = new ArrayList<String>();
 
 	boolean isMultiSiteProvider = true;
 	List<String> mgrSites = new ArrayList<String>();
-	List<BillingItemPaymentVo> items = (List<BillingItemPaymentVo>)request.getAttribute("itemPaymentList");
+	List<BillingItemData> items = (List<BillingItemData>)request.getAttribute("itemDataList");
 	List<BillingONPayment> paymentLists = (List<BillingONPayment>)request.getAttribute("paymentsList");
 %>
 <security:oscarSec objectName="_team_billing_only" roleName="<%= roleName$ %>" rights="r" reverse="false">
@@ -141,50 +141,6 @@ function popupPage(vheight,vwidth,varpage) {
 }
 
 function onViewPayment(id) {
-	<%-- jQuery.ajax({
-		url: "<%=request.getContextPath()%>/billing/CA/ON/billingON3rdPayments.do",
-		type: "GET",
-		async: "false",
-		timeout: 30000,
-		data: {method:"viewPayment",paymentId:id},
-		dataType: "json",
-		success: function (data) {
-			if (data == null || data.length == 2) {
-				return;
-			}
-			var paymentDateObj = data.shift();
-			var paymentTypeObj = data.shift();
-			// hide save button
-			jQuery("#saveBtn").css("display", "none");
-			jQuery("#editBtn").css("display", "inline");
-			// clear all values
-			jQuery("select option[value='payment']").attr("selected", "selected");
-			jQuery("tr[id^='itemPayment'] input[id^='payment']").val("0.00");
-			jQuery("tr[id^='itemPayment'] input[id^='discount']").val("0.00");
-			jQuery("tr[id^='itemPayment'] input[id^='discount']").removeAttr("disabled");
-			jQuery("input[name='paymentType']").filter("input[value='" + paymentTypeObj.paymentType + "']")[0].checked=true;
-			jQuery("#paymentDate").val(paymentDateObj.paymentDate);
-			
-			jQuery(data).each(function () {
-				var elem = jQuery("#itemPayment" + this.id);
-				if (elem == null) {
-					return;
-				}
-				if (this.type == "payment") {
-					elem.find("select")[0].selectedIndex=0;
-					elem.find("input[id^='payment']")[0].value=this.payment;
-					elem.find("input[id^='discount']")[0].value=this.discount;
-				} else if (this.type == "refund") {
-					elem.find("select")[0].selectedIndex=1;
-					elem.find("input[id^='payment']")[0].value=this.refund;
-					elem.find("input[id^='discount']")[0].disabled=true;
-				}
-			});
-		},
-		error: function() {
-			alert("Error happeded!");
-		}
-	}); --%>
 	popupPage(500,500, "<%=request.getContextPath()%>/billing/CA/ON/billingON3rdPayments.do?method=viewPayment_ext&billPaymentId=" + id);
 }
 
@@ -303,15 +259,18 @@ function validateDiscountNumberic(idx) {
 		<table BORDER="3" CELLPADDING="0" CELLSPACING="0" WIDTH="100%" BGCOLOR="#C0C0C0">
 		<%
 		for(int i=0;i<items.size();i++){ 
-			BillingItemPaymentVo vo = items.get(i);
-			//BigDecimal itemBalance = vo.getTotal().subtract(vo.getPaid()).subtract(vo.getDiscount()).subtract(vo.getRefund());
-			BigDecimal itemBalance = vo.getTotal().subtract(vo.getPaid()).subtract(vo.getDiscount());
+			BillingItemData billItemData = items.get(i);
+			BigDecimal itemTotal = new BigDecimal(billItemData.getFee()).setScale(2, BigDecimal.ROUND_HALF_UP);
+			BigDecimal itemPaid = new BigDecimal(billItemData.getPaid()).setScale(2, BigDecimal.ROUND_HALF_UP);
+			BigDecimal itemDiscount = new BigDecimal(billItemData.getDiscount()).setScale(2, BigDecimal.ROUND_HALF_UP);
+
+			BigDecimal itemBalance = itemTotal.subtract(itemPaid).subtract(itemDiscount);
 			String sign = "";
 			if (itemBalance.compareTo(BigDecimal.ZERO) == -1) {
 				sign = "-";
 			}
 		%>
-			<tr id="itemPayment<%=vo.getItemId() %>" BGCOLOR="#EEEEFF">
+			<tr id="itemPayment<%=billItemData.getId() %>" BGCOLOR="#EEEEFF">
 				<td width="30%">
 					<div align="right">
 						<select id="sel<%=i%>" name="sel<%=i%>" onchange="setStatus(this.selectedIndex,<%=i %>);">
@@ -330,8 +289,8 @@ function validateDiscountNumberic(idx) {
 					<div></div>
 				</td>
 				<td align="left">
-					Service Code:&nbsp;<b><%=vo.getServiceCode()%>&nbsp;$<%=vo.getTotal() %>&nbsp;Balance:&nbsp;<%=sign %><%=currency.format(itemBalance) %></b>
-					<input type="hidden" name="itemId<%=i %>" value="<%=vo.getItemId()%>"/>
+					Service Code:&nbsp;<b><%=billItemData.getService_code()%>&nbsp;$<%=billItemData.getFee() %>&nbsp;Balance:&nbsp;<%=sign %><%=currency.format(itemBalance) %></b>
+					<input type="hidden" name="itemId<%=i %>" value="<%=billItemData.getId()%>"/>
 				</td>
 			</tr>
 			<%if (i == (items.size() - 1)) {%>

@@ -113,20 +113,6 @@ public class JdbcBillingCorrection {
 		return retval;
 	}
 	
-	public boolean updateBillingOneItemPayment(BillingItemData val) {
-		boolean retval = false;
-		String sql = "update billing_on_item_payment set paid='" + val.paid + "', refund='" + val.refund + "', discount='" + val.discount + "' where billing_on_item_id=" + val.id;
-		_logger.info("updateBillingOneItempayment(sql = " + sql + ")");
-		retval = dbObj.updateDBRecord(sql);
-		if (!retval) {
-			_logger.error("updateBillingOneItempayment(sql = " + sql + ")");
-			return retval;
-		}
-		return retval;
-	}
-	
-
-	
 	public int addRepoOneItem(BillingItemData val) {
 		int retval = 0;
 		String sql = "insert into billing_on_repo values(\\N, " + " " + val.id + " ," + "'billing_on_item'," + "'"

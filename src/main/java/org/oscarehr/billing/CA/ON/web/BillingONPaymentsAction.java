@@ -30,9 +30,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Vector;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -55,23 +53,14 @@ import org.oscarehr.billing.CA.ON.model.BillingONExt;
 import org.oscarehr.billing.CA.ON.model.BillingONPayment;
 import org.oscarehr.billing.CA.ON.model.BillingOnItemPayment;
 import org.oscarehr.billing.CA.ON.model.BillingOnTransaction;
-import org.oscarehr.billing.CA.ON.vo.BillingItemPaymentVo;
 import org.oscarehr.billing.CA.dao.BillingPaymentTypeDao;
 import org.oscarehr.billing.CA.model.BillingPaymentType;
-import org.oscarehr.common.dao.BillingONCHeader1Dao;
-import org.oscarehr.common.model.BillingONCHeader1;
 import org.oscarehr.util.MiscUtils;
-import org.oscarehr.util.SpringUtils;
 
 import oscar.oscarBilling.ca.on.dao.BillingOnItemDao;
-import oscar.oscarBilling.ca.on.data.BillingClaimHeader1Data;
-import oscar.oscarBilling.ca.on.data.BillingDataHlp;
+import oscar.oscarBilling.ca.on.data.BillingItemData;
 import oscar.oscarBilling.ca.on.data.JdbcBilling3rdPartImpl;
-import oscar.oscarBilling.ca.on.data.JdbcBillingCorrection;
-import oscar.oscarBilling.ca.on.model.BillingOnCHeader1;
 import oscar.oscarBilling.ca.on.model.BillingOnItem;
-import oscar.oscarBilling.ca.on.model.BillingOnPaymentItem;
-import oscar.oscarBilling.ca.on.pageUtil.BillingCorrectionPrep;
 
 /**
  * 
@@ -101,7 +90,7 @@ public class BillingONPaymentsAction extends DispatchAction {
 		request.setAttribute("paymentsList", paymentLists);
 		
 		List<BillingOnItem> items = billingOnItemDao.getShowBillingItemByCh1Id(billingNo);
-		List<BillingItemPaymentVo> itemPaymentList = new ArrayList<BillingItemPaymentVo>();
+		List<BillingItemData> itemDataList = new ArrayList<BillingItemData>();
 		for (BillingOnItem item : items) {
 			List<BillingOnItemPayment> paymentList = billingOnItemPaymentDao.getAllByItemId(item.getId());
 			BigDecimal payment = BigDecimal.ZERO;
@@ -113,17 +102,18 @@ public class BillingONPaymentsAction extends DispatchAction {
 				refund = refund.add(payIter.getRefund());
 			}
 			
-			BillingItemPaymentVo itemPayment = new BillingItemPaymentVo();
-			itemPayment.setItemId(item.getId());
-			itemPayment.setServiceCode(item.getService_code());
-			itemPayment.setPaid(payment);
-			itemPayment.setRefund(refund);
-			itemPayment.setTotal(new BigDecimal(item.getFee()));
-			itemPayment.setDiscount(discount);
-			itemPaymentList.add(itemPayment);
+			BillingItemData itemData = new BillingItemData();
+			itemData.setId(item.getId().toString());
+			itemData.setService_code(item.getService_code());
+			itemData.setFee(item.getFee());
+			itemData.setPaid(payment.toString());
+			itemData.setDiscount(discount.toString());
+			itemData.setRefund(refund.toString());
+			
+			itemDataList.add(itemData);
 		}
 		
-		request.setAttribute("itemPaymentList", itemPaymentList);
+		request.setAttribute("itemDataList", itemDataList);
 		List<BillingPaymentType> paymentTypes = billingPaymentTypeDao.list();
 		request.setAttribute("paymentTypeList", paymentTypes);
 		
@@ -132,7 +122,6 @@ public class BillingONPaymentsAction extends DispatchAction {
 		BigDecimal payment = BigDecimal.ZERO;
 		BigDecimal balance = BigDecimal.ZERO;
 		BigDecimal total = BigDecimal.ZERO;
-		BigDecimal refund = BigDecimal.ZERO;
 		BigDecimal discount = BigDecimal.ZERO;
 		
 		BillingONExt paymentItem = billingONExtDao.getClaimExtItem(billingNo, demographicNo, BillingONExtDao.KEY_PAYMENT);
@@ -145,13 +134,11 @@ public class BillingONPaymentsAction extends DispatchAction {
 		}
 		BillingONExt refundItem = billingONExtDao.getClaimExtItem(billingNo, demographicNo, BillingONExtDao.KEY_REFUND);
 		if (refundItem != null) {
-			refund = new BigDecimal(refundItem.getValue());
 		}
 		BillingONExt totalItem = billingONExtDao.getClaimExtItem(billingNo, demographicNo, BillingONExtDao.KEY_TOTAL);
 		if (totalItem != null) {
 			total = new BigDecimal(totalItem.getValue());
 		}
-		//balance = total.subtract(payment).subtract(discount).subtract(refund);
 		balance = total.subtract(payment).subtract(discount);
 		
 		request.setAttribute("totalInvoiced", total);
@@ -253,12 +240,7 @@ public class BillingONPaymentsAction extends DispatchAction {
 		
 		// 2.update billing_on_ext table: discount
 		if (sumDiscount.compareTo(BigDecimal.ZERO) == 1) {
-			BigDecimal extDiscount = BigDecimal.ZERO;
-			try {
-				extDiscount = new BigDecimal(billingONExtDao.getClaimExtDiscount(billNo));
-			} catch (Exception e) {
-				MiscUtils.getLogger().info(e.toString());
-			}
+			BigDecimal extDiscount = billingONExtDao.getAccountVal(billNo, billingONExtDao.KEY_DISCOUNT);
 			BigDecimal sumDiscountTmp = sumDiscount.add(extDiscount);
 			if (tExtObj.keyExists(Integer.toString(billNo), BillingONExtDao.KEY_DISCOUNT)) {
 				tExtObj.updateKeyValue(Integer.toString(billNo), BillingONExtDao.KEY_DISCOUNT, sumDiscountTmp.toString());
@@ -269,12 +251,7 @@ public class BillingONPaymentsAction extends DispatchAction {
 		
 		// 3.update billing_on_ext table: refund
 		if (sumRefund.compareTo(BigDecimal.ZERO) == 1) {
-			BigDecimal extRefund = BigDecimal.ZERO;
-			try {
-				extRefund = new BigDecimal(billingONExtDao.getClaimExtRefund(billNo));
-			} catch (Exception e) {
-				MiscUtils.getLogger().info(e.toString());
-			}
+			BigDecimal extRefund = billingONExtDao.getAccountVal(billNo, billingONExtDao.KEY_REFUND);
 			BigDecimal sumRefundTmp = sumRefund.add(extRefund);
 			if (tExtObj.keyExists(Integer.toString(billNo), BillingONExtDao.KEY_REFUND)) {
 				tExtObj.updateKeyValue(Integer.toString(billNo), BillingONExtDao.KEY_REFUND, sumRefundTmp.toString());
@@ -487,24 +464,24 @@ public class BillingONPaymentsAction extends DispatchAction {
 			return null;
 		}
 		request.setAttribute("billPayment", billPayment);
-		List<BillingItemPaymentVo> itemPaymentVoList = new ArrayList<BillingItemPaymentVo>();
+		List<BillingItemData> itemDataList = new ArrayList<BillingItemData>();
 		List<BillingOnItemPayment> itemPaymentList = billingOnItemPaymentDao.getItemsByPaymentId(billPaymentId);
 		for (BillingOnItemPayment itemPayment : itemPaymentList) {
 			List<BillingOnItem> billItemList = billingOnItemDao.getBillingItemById(itemPayment.getBillingOnItemId());
 			if (billItemList == null || billItemList.size() == 0) {
 				continue;
 			}
-			BillingItemPaymentVo itemPaymentVo = new BillingItemPaymentVo();
-			itemPaymentVo.setItemId(itemPayment.getBillingOnItemId());
-			itemPaymentVo.setServiceCode(billItemList.get(0).getService_code());
-			itemPaymentVo.setTotal(new BigDecimal(billItemList.get(0).getFee()).setScale(2, BigDecimal.ROUND_HALF_UP));
-			itemPaymentVo.setPaid(itemPayment.getPaid());
-			itemPaymentVo.setDiscount(itemPayment.getDiscount());
-			itemPaymentVo.setRefund(itemPayment.getRefund());
-			itemPaymentVoList.add(itemPaymentVo);
+			BillingItemData itemData = new BillingItemData();
+			itemData.setId(Integer.toString(itemPayment.getBillingOnItemId()));
+			itemData.setService_code(billItemList.get(0).getService_code());
+			itemData.setFee(billItemList.get(0).getFee());
+			itemData.setPaid(itemPayment.getPaid().toString());
+			itemData.setDiscount(itemPayment.getDiscount().toString());
+			itemData.setRefund(itemPayment.getRefund().toString());
+			itemDataList.add(itemData);
 		}
 		
-		request.setAttribute("itemPaymentVoList", itemPaymentVoList);
+		request.setAttribute("itemDataList", itemDataList);
 
 		return actionMapping.findForward("viewPayment");
 	}

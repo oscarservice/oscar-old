@@ -296,9 +296,6 @@ public class JdbcBillingReviewImpl {
 
 			sql = "select boi.*,boip.paid,boip.refund,boip.discount from billing_on_item boi left join billing_on_item_payment boip ON boi.id=boip.billing_on_item_id where boi.ch1_id="
 					+ ch1Obj.getId() + " and boi.status!='D'";
-			// SELECT boi.*,boip.paid,boip.refund,boip.discount FROM billing_on_item boi 
-			// LEFT JOIN billing_on_item_payment boip ON boi.id=boip.billing_on_item_id WHERE boi.status!='D'
-
 			// _logger.info("getBillingHist(sql = " + sql + ")");
 
 			ResultSet rs2 = dbObj.searchDBRecord(sql);

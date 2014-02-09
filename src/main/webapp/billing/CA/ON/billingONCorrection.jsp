@@ -489,22 +489,6 @@ function validateAmountNumberic(idx) {
 					thirdParty = true;
 					Properties tProp = tObj.get3rdPartBillProp(request.getParameter("billing_no").trim());	
 					NumberFormat currency = NumberFormat.getCurrencyInstance(Locale.US);
-/*					
-					String strTotalPayment = (tProp.getProperty("payment") == null ? "0.00" : tProp.getProperty("payment").replace(",","."));
-					String strTotalRefund = (tProp.getProperty("refund") == null ? "0.00" : tProp.getProperty("refund").replace(",","."));
-//					String strTotalTotal = (tProp.getProperty("total") == null ? "0.00" : tProp.getProperty("total").replace(",","."));
-
-					BigDecimal totalPayment = BigDecimal.valueOf(Double.valueOf(strTotalPayment));
-					BigDecimal totalRefund = BigDecimal.valueOf(Double.valueOf(strTotalRefund));
-					BigDecimal totalTotal = new BigDecimal(ch1Obj.getTotal().replace("$","").replace(",",""));
-                                        BigDecimal balance = totalTotal.subtract(totalPayment);
-                                        balance = balance.add(totalRefund);
-
-                                        htmlPaid = "<br/>&nbsp;&nbsp;<span style='font-size:large;font-weight:bold'>Total:</span>&nbsp;&nbsp;&nbsp;<span id='payment' style='font-size:large;font-weight:bold'>"
-						+ currency.format(totalPayment.subtract(totalRefund)) + "</span>";
-					htmlPaid += "&nbsp;&nbsp;<span style='font-size:large;font-weight:bold'>Balance:</span>&nbsp;&nbsp;&nbsp;<span id='payment' style='font-size:large;font-weight:bold'>"
-						+ currency.format(totalTotal.subtract(totalPayment)) + "</span>";
-*/
 
 				if(isMultiSiteProvider) {	
 					BigDecimal payment = BigDecimal.ZERO;
@@ -530,29 +514,12 @@ function validateAmountNumberic(idx) {
 					if (totalItem != null) {
 						total = new BigDecimal(totalItem.getValue());
 					}
-					//balance = total.subtract(payment).subtract(discount).subtract(refund);
 					balance = total.subtract(payment).subtract(discount);
-							
-					/*BillingONPaymentDao billingONPaymentDao = (BillingONPaymentDao) WebApplicationContextUtils.getWebApplicationContext(application).getBean("billingONPaymentDao");
-    				List<BillingONPayment> payments = billingONPaymentDao.listPaymentsByBillingNo(Integer.parseInt(request.getParameter("billing_no").trim()));
-					org.oscarehr.billing.CA.ON.model.BillingClaimHeader1 ch1 = null;
-					if(payments != null && payments.size()>0) {
-						BigDecimal sum = new BigDecimal(payments.get(0).getBillingONCheader1().getTotal());
-						total_payment = new BigDecimal(payments.get(0).getBillingONCheader1().getPaid());
-						BigDecimal discount = payments.get(payments.size()-1).getTotal_discount();
-						BigDecimal refund = payments.get(payments.size()-1).getTotal_refund();
-					    balance = sum.subtract(total_payment).subtract(discount).subtract(refund);
-      					}  
-					*/
-						//if(ch1!=null && ch1.getTotal()!=null)
-							
-    						//balance = new BigDecimal(ch1.getTotal().replace("$","").replace(",","").replace(" ",""));
 
                     htmlPaid = "<br/>&nbsp;&nbsp;<span style='font-size:large;font-weight:bold'>Paid:</span>&nbsp;&nbsp;&nbsp;<span id='payment' style='font-size:large;font-weight:bold'>"
 						+ currency.format(payment) + "</span>";
 					htmlPaid += "&nbsp;&nbsp;&nbsp;&nbsp;<span style='font-size:large;font-weight:bold'>Balance:</span>&nbsp;&nbsp;&nbsp;<span id='balance' style='font-size:large;font-weight:bold'>"
 						+ ((balance.compareTo(BigDecimal.ZERO) == -1) ? "-" : "") + currency.format(balance) + "</span>";
-
 					htmlPaid += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='javascript:display3rdPartyPayments()'>Payments List</a>";
 				}	
                     		payer = tProp.getProperty("billTo");
