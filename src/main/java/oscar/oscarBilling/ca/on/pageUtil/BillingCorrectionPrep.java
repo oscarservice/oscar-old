@@ -141,6 +141,16 @@ public class BillingCorrectionPrep {
 
 			ch1Obj.setPay_program(requestData.getParameter("payProgram"));
 			ret = dbObj.updateBillingClaimHeader(ch1Obj);
+			
+			if ("D".equals(ch1Obj.getStatus())) {
+				// change status in billing_on_item table
+				BillingOnItemDao billOnItemDao = (BillingOnItemDao)SpringUtils.getBean(BillingOnItemDao.class);
+				List<BillingOnItem> billOnItems = billOnItemDao.getBillingItemByCh1Id(Integer.parseInt(ch1Obj.getId()));
+				for (BillingOnItem billOnItem : billOnItems) {
+					billOnItem.setStatus("D");
+					billOnItemDao.addBillingOnItem(billOnItem); // this statement can update billing_on_item table 
+				}
+			}
 		}
 
 		// set inactive 3rd party payment record if user switched from 3rd party
@@ -626,6 +636,15 @@ public class BillingCorrectionPrep {
 	// for appt unbill;
 	public boolean deleteBilling(String id, String status, String providerNo) {
 		boolean ret = dbObj.updateBillingStatus(id, status, providerNo);
+		if ("D".equals(status)) {
+			// change status in billing_on_item table
+			BillingOnItemDao billOnItemDao = (BillingOnItemDao)SpringUtils.getBean(BillingOnItemDao.class);
+			List<BillingOnItem> billOnItems = billOnItemDao.getBillingItemByCh1Id(Integer.parseInt(id));
+			for (BillingOnItem billOnItem : billOnItems) {
+				billOnItem.setStatus("D");
+				billOnItemDao.addBillingOnItem(billOnItem); // this statement can update billing_on_item table 
+			}
+		}
 		return ret;
 	}
 
