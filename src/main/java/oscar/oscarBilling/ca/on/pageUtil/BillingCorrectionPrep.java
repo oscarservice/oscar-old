@@ -496,6 +496,7 @@ public class BillingCorrectionPrep {
 			billTrans.setManReview(billCheader1.getMan_review());
 			billTrans.setProviderNo(billCheader1.getProvider_no());
 			billTrans.setProvince(billCheader1.getProvince());
+			billTrans.setPayProgram(billCheader1.getPay_program());
 			billTrans.setRefNum(billCheader1.getRef_num());
 			billTrans.setServiceCode(oldObj.getService_code());
 			billTrans.setServiceCodeNum(oldObj.getSer_num());
@@ -529,6 +530,7 @@ public class BillingCorrectionPrep {
 				billTrans.setDxCode(sDx);
 				billTrans.setFacilityNum(billCheader1.getFacilty_num());
 				billTrans.setManReview(billCheader1.getMan_review());
+				billTrans.setPayProgram(billCheader1.getPay_program());
 				billTrans.setProviderNo(billCheader1.getProvider_no());
 				billTrans.setProvince(billCheader1.getProvince());
 				billTrans.setRefNum(billCheader1.getRef_num());
