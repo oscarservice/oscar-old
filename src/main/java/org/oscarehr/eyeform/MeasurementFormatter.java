@@ -2549,262 +2549,265 @@ public class MeasurementFormatter {
 			}
 		}
 		
-		if(num > 0){
-			sb.append("OD ");
-		}
-		if(isPresent("duc_rur")) {
-			sb.append(getValue("duc_rur"));
-			if(getValue("duc_rur").length() < num){
-				int n = num - getValue("duc_rur").length();
-				for(int i = 0;i < n;i ++){
+		if((num == 0) && (num1 == 0) && (num2 == 0)){
+			
+		}else{
+			if(num > 0){
+				sb.append("OD ");
+			}
+			if(isPresent("duc_rur")) {
+				sb.append(getValue("duc_rur"));
+				if(getValue("duc_rur").length() < num){
+					int n = num - getValue("duc_rur").length();
+					for(int i = 0;i < n;i ++){
+						sb.append(" ");
+					}
+				}
+			}else{
+				for(int i = 0;i < num;i ++){
 					sb.append(" ");
 				}
 			}
-		}else{
-			for(int i = 0;i < num;i ++){
-				sb.append(" ");
-			}
-		}
-		if(isPresent("duc_rul")) {
-			sb.append(" " +getValue("duc_rul"));
-			if(getValue("duc_rul").length() < num){
-				int n = num - getValue("duc_rul").length();
-				for(int i = 0;i < n;i ++){
+			if(isPresent("duc_rul")) {
+				sb.append(" " +getValue("duc_rul"));
+				if(getValue("duc_rul").length() < num){
+					int n = num - getValue("duc_rul").length();
+					for(int i = 0;i < n;i ++){
+						sb.append(" ");
+					}
+				}
+			}else{
+				for(int i = 0;i < num;i ++){
 					sb.append(" ");
 				}
 			}
-		}else{
-			for(int i = 0;i < num;i ++){
-				sb.append(" ");
+			
+			if(num1 > 0){
+				sb.append(" OS ");
 			}
-		}
-		
-		if(num1 > 0){
-			sb.append(" OS ");
-		}
-		if(isPresent("duc_lur")) {
-			sb.append(getValue("duc_lur"));
-			if(getValue("duc_lur").length() < num){
-				int n = num1 - getValue("duc_lur").length();
-				for(int i = 0;i < n;i ++){
+			if(isPresent("duc_lur")) {
+				sb.append(getValue("duc_lur"));
+				if(getValue("duc_lur").length() < num){
+					int n = num1 - getValue("duc_lur").length();
+					for(int i = 0;i < n;i ++){
+						sb.append(" ");
+					}
+				}
+			}else{
+				for(int i = 0;i < num1;i ++){
 					sb.append(" ");
 				}
 			}
-		}else{
-			for(int i = 0;i < num1;i ++){
-				sb.append(" ");
-			}
-		}
-		if(isPresent("duc_lul")) {
-			sb.append(" " +getValue("duc_lul"));
-			if(getValue("duc_lul").length() < num){
-				int n = num1 - getValue("duc_lul").length();
-				for(int i = 0;i < n;i ++){
+			if(isPresent("duc_lul")) {
+				sb.append(" " +getValue("duc_lul"));
+				if(getValue("duc_lul").length() < num){
+					int n = num1 - getValue("duc_lul").length();
+					for(int i = 0;i < n;i ++){
+						sb.append(" ");
+					}
+				}
+			}else{
+				for(int i = 0;i < num1;i ++){
 					sb.append(" ");
 				}
 			}
-		}else{
-			for(int i = 0;i < num1;i ++){
-				sb.append(" ");
+			if(num2 > 0){
+				sb.append(" OU ");
 			}
-		}
-		if(num2 > 0){
-			sb.append(" OU ");
-		}
-		if(isPresent("dip_ur")) {
-			sb.append(getValue("dip_ur"));
-			if(getValue("dip_ur").length() < num){
-				int n = num2 - getValue("dip_ur").length();
-				for(int i = 0;i < n;i ++){
+			if(isPresent("dip_ur")) {
+				sb.append(getValue("dip_ur"));
+				if(getValue("dip_ur").length() < num){
+					int n = num2 - getValue("dip_ur").length();
+					for(int i = 0;i < n;i ++){
+						sb.append(" ");
+					}
+				}
+			}else{
+				for(int i = 0;i < num2;i ++){
 					sb.append(" ");
 				}
 			}
-		}else{
-			for(int i = 0;i < num2;i ++){
-				sb.append(" ");
-			}
-		}
-		if(isPresent("dip_u")) {
-			sb.append(" " +getValue("dip_u"));
-			if(getValue("dip_u").length() < num){
-				int n = num2 - getValue("dip_u").length();
-				for(int i = 0;i < n;i ++){
+			if(isPresent("dip_u")) {
+				sb.append(" " +getValue("dip_u"));
+				if(getValue("dip_u").length() < num){
+					int n = num2 - getValue("dip_u").length();
+					for(int i = 0;i < n;i ++){
+						sb.append(" ");
+					}
+				}
+			}else{
+				for(int i = 0;i < num2;i ++){
 					sb.append(" ");
 				}
 			}
-		}else{
-			for(int i = 0;i < num2;i ++){
-				sb.append(" ");
-			}
-		}
-		sb.append("\n");
-		
-		sb.append("  ");
-		if(isPresent("duc_rr")) {
-			sb.append(" " +getValue("duc_rr"));	
-			if(getValue("duc_rr").length() < num){
-				int n = num - getValue("duc_rr").length();
-				for(int i = 0;i < n;i ++){
+			sb.append("\n");
+			
+			sb.append("  ");
+			if(isPresent("duc_rr")) {
+				sb.append(" " +getValue("duc_rr"));	
+				if(getValue("duc_rr").length() < num){
+					int n = num - getValue("duc_rr").length();
+					for(int i = 0;i < n;i ++){
+						sb.append(" ");
+					}
+				}
+			}else{
+				for(int i = 0;i < num;i ++){
 					sb.append(" ");
 				}
 			}
-		}else{
-			for(int i = 0;i < num;i ++){
-				sb.append(" ");
-			}
-		}
-		if(isPresent("duc_rl")) {
-			sb.append(" " +getValue("duc_rl"));
-			if(getValue("duc_rl").length() < num){
-				int n = num - getValue("duc_rl").length();
-				for(int i = 0;i < n;i ++){
+			if(isPresent("duc_rl")) {
+				sb.append(" " +getValue("duc_rl"));
+				if(getValue("duc_rl").length() < num){
+					int n = num - getValue("duc_rl").length();
+					for(int i = 0;i < n;i ++){
+						sb.append(" ");
+					}
+				}
+			}else{
+				for(int i = 0;i < num;i ++){
 					sb.append(" ");
 				}
 			}
-		}else{
-			for(int i = 0;i < num;i ++){
-				sb.append(" ");
-			}
-		}
-		sb.append("   ");
-		if(isPresent("duc_lr")) {
-			sb.append(" " +getValue("duc_lr"));
-			if(getValue("duc_lr").length() < num){
-				int n = num1 - getValue("duc_lr").length();
-				for(int i = 0;i < n;i ++){
+			sb.append("   ");
+			if(isPresent("duc_lr")) {
+				sb.append(" " +getValue("duc_lr"));
+				if(getValue("duc_lr").length() < num){
+					int n = num1 - getValue("duc_lr").length();
+					for(int i = 0;i < n;i ++){
+						sb.append(" ");
+					}
+				}
+			}else{
+				for(int i = 0;i < num1;i ++){
 					sb.append(" ");
 				}
 			}
-		}else{
-			for(int i = 0;i < num1;i ++){
-				sb.append(" ");
-			}
-		}
-		if(isPresent("duc_ll")) {
-			sb.append(" " +getValue("duc_ll"));
-			if(getValue("duc_ll").length() < num){
-				int n = num1 - getValue("duc_ll").length();
-				for(int i = 0;i < n;i ++){
+			if(isPresent("duc_ll")) {
+				sb.append(" " +getValue("duc_ll"));
+				if(getValue("duc_ll").length() < num){
+					int n = num1 - getValue("duc_ll").length();
+					for(int i = 0;i < n;i ++){
+						sb.append(" ");
+					}
+				}
+			}else{
+				for(int i = 0;i < num1;i ++){
 					sb.append(" ");
 				}
 			}
-		}else{
-			for(int i = 0;i < num1;i ++){
-				sb.append(" ");
-			}
-		}
-		sb.append("   ");
-		if(isPresent("dip_r")) {
-			sb.append(" " +getValue("dip_r"));
-			if(getValue("dip_r").length() < num){
-				int n = num2 - getValue("dip_r").length();
-				for(int i = 0;i < n;i ++){
+			sb.append("   ");
+			if(isPresent("dip_r")) {
+				sb.append(" " +getValue("dip_r"));
+				if(getValue("dip_r").length() < num){
+					int n = num2 - getValue("dip_r").length();
+					for(int i = 0;i < n;i ++){
+						sb.append(" ");
+					}
+				}
+			}else{
+				for(int i = 0;i < num2;i ++){
 					sb.append(" ");
 				}
 			}
-		}else{
-			for(int i = 0;i < num2;i ++){
-				sb.append(" ");
-			}
-		}
-		if(isPresent("dip_p")) {
-			sb.append(" " +getValue("dip_p"));
-			if(getValue("dip_p").length() < num){
-				int n = num2 - getValue("dip_p").length();
-				for(int i = 0;i < n;i ++){
+			if(isPresent("dip_p")) {
+				sb.append(" " +getValue("dip_p"));
+				if(getValue("dip_p").length() < num){
+					int n = num2 - getValue("dip_p").length();
+					for(int i = 0;i < n;i ++){
+						sb.append(" ");
+					}
+				}
+			}else{
+				for(int i = 0;i < num1;i ++){
 					sb.append(" ");
 				}
 			}
-		}else{
-			for(int i = 0;i < num1;i ++){
-				sb.append(" ");
-			}
-		}
-		sb.append("\n");
-		
-		sb.append("  ");
-		if(isPresent("duc_rdr")) {
-			sb.append(" " +getValue("duc_rdr"));
-			if(getValue("duc_rdr").length() < num){
-				int n = num - getValue("duc_rdr").length();
-				for(int i = 0;i < n;i ++){
+			sb.append("\n");
+			
+			sb.append("  ");
+			if(isPresent("duc_rdr")) {
+				sb.append(" " +getValue("duc_rdr"));
+				if(getValue("duc_rdr").length() < num){
+					int n = num - getValue("duc_rdr").length();
+					for(int i = 0;i < n;i ++){
+						sb.append(" ");
+					}
+				}
+			}else{
+				for(int i = 0;i < num;i ++){
 					sb.append(" ");
 				}
 			}
-		}else{
-			for(int i = 0;i < num;i ++){
-				sb.append(" ");
-			}
-		}
-		if(isPresent("duc_rdl")) {
-			sb.append(" " +getValue("duc_rdl"));
-			if(getValue("duc_rdl").length() < num){
-				int n = num - getValue("duc_rdl").length();
-				for(int i = 0;i < n;i ++){
+			if(isPresent("duc_rdl")) {
+				sb.append(" " +getValue("duc_rdl"));
+				if(getValue("duc_rdl").length() < num){
+					int n = num - getValue("duc_rdl").length();
+					for(int i = 0;i < n;i ++){
+						sb.append(" ");
+					}
+				}
+			}else{
+				for(int i = 0;i < num;i ++){
 					sb.append(" ");
 				}
 			}
-		}else{
-			for(int i = 0;i < num;i ++){
-				sb.append(" ");
-			}
-		}
-		sb.append("   ");
-		if(isPresent("duc_ldr")) {
-			sb.append(" " +getValue("duc_ldr"));
-			if(getValue("duc_ldr").length() < num){
-				int n = num1 - getValue("duc_ldr").length();
-				for(int i = 0;i < n;i ++){
+			sb.append("   ");
+			if(isPresent("duc_ldr")) {
+				sb.append(" " +getValue("duc_ldr"));
+				if(getValue("duc_ldr").length() < num){
+					int n = num1 - getValue("duc_ldr").length();
+					for(int i = 0;i < n;i ++){
+						sb.append(" ");
+					}
+				}
+			}else{
+				for(int i = 0;i < num1;i ++){
 					sb.append(" ");
 				}
 			}
-		}else{
-			for(int i = 0;i < num1;i ++){
-				sb.append(" ");
-			}
-		}
-		if(isPresent("duc_ldl")) {
-			sb.append(" " +getValue("duc_ldl"));
-			if(getValue("duc_ldl").length() < num){
-				int n = num1 - getValue("duc_ldl").length();
-				for(int i = 0;i < n;i ++){
+			if(isPresent("duc_ldl")) {
+				sb.append(" " +getValue("duc_ldl"));
+				if(getValue("duc_ldl").length() < num){
+					int n = num1 - getValue("duc_ldl").length();
+					for(int i = 0;i < n;i ++){
+						sb.append(" ");
+					}
+				}
+			}else{
+				for(int i = 0;i < num1;i ++){
 					sb.append(" ");
 				}
 			}
-		}else{
-			for(int i = 0;i < num1;i ++){
-				sb.append(" ");
-			}
-		}
-		sb.append("   ");
-		if(isPresent("dip_dr")) {
-			sb.append(" " +getValue("dip_dr"));
-			if(getValue("dip_dr").length() < num){
-				int n = num2 - getValue("dip_dr").length();
-				for(int i = 0;i < n;i ++){
+			sb.append("   ");
+			if(isPresent("dip_dr")) {
+				sb.append(" " +getValue("dip_dr"));
+				if(getValue("dip_dr").length() < num){
+					int n = num2 - getValue("dip_dr").length();
+					for(int i = 0;i < n;i ++){
+						sb.append(" ");
+					}
+				}
+			}else{
+				for(int i = 0;i < num2;i ++){
 					sb.append(" ");
 				}
 			}
-		}else{
-			for(int i = 0;i < num2;i ++){
-				sb.append(" ");
-			}
-		}
-		if(isPresent("dip_d")) {
-			sb.append(" " +getValue("dip_d"));
-			if(getValue("dip_d").length() < num){
-				int n = num2 - getValue("dip_d").length();
-				for(int i = 0;i < n;i ++){
+			if(isPresent("dip_d")) {
+				sb.append(" " +getValue("dip_d"));
+				if(getValue("dip_d").length() < num){
+					int n = num2 - getValue("dip_d").length();
+					for(int i = 0;i < n;i ++){
+						sb.append(" ");
+					}
+				}
+			}else{
+				for(int i = 0;i < num2;i ++){
 					sb.append(" ");
 				}
 			}
-		}else{
-			for(int i = 0;i < num2;i ++){
-				sb.append(" ");
-			}
+			sb.append("\n");
 		}
-		sb.append("\n");
-		
 		
 		/*if(isPresent("duc_rur")) {
 			sb.append(getValue("duc_rur"));

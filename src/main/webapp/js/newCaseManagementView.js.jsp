@@ -1523,13 +1523,15 @@ function minView(e) {
     //$(txt).style.height = divHeight;
 
     var txtId = "txt" + nId;
-    var line = $(txtId).innerHTML.substr(0,90);
+    //var line = $(txtId).innerHTML.substr(0,90);
+    var line = $(txtId).innerHTML.substr(0,60);
     line = line.replace(/<br>/g," ");
     var dateValue = $(dateId) != null ? $(dateId).innerHTML : "";
     dateValue = dateValue.substring(0,dateValue.indexOf(" "));
-    line = "<div id='" + date + "' style='font-size:1.0em; width:10%;'><b>" + dateValue + "<\/b><\/div><div id='" + content + "' style='float:left; font-size:1.0em; width:70%;'>" + line + "<\/div>";
+    //line = "<div id='" + date + "' style='font-size:1.0em; width:10%;'><b>" + dateValue + "<\/b><\/div><div id='" + content + "' style='float:left; font-size:1.0em; width:70%;'>" + line + "<\/div>";
+    line = "<div id='" + content + "' style=''>" + line + "<\/div>";
     $("txt"+nId).hide();
-    $("sig"+nId).hide();
+    //$("sig"+nId).hide();
     new Insertion.Top(txt,line);
 
 
@@ -1546,11 +1548,29 @@ function minView(e) {
         func = "editNote(event);";
     }
     var anchor = "<a title='Edit' id='edit"+ nId + "' href='#' onclick='" + func + " return false;' style='float: right; margin-right: 5px; font-size:8px;'>Edit</a>";
-    new Insertion.After(print, anchor);
+    //new Insertion.After(print, anchor);
 
 
     img = "<img title='Maximize Display' alt='Maximize Display' id='xpImg" + nId + "' name='expandViewTrigger' onclick='xpandView(event)' style='float:right; margin-right:5px; margin-top: 2px;' src='" + ctx + "/oscarEncounter/graphics/triangle_down.gif'>";
-    new Insertion.Top(txt, img);
+    
+	var attribName = "anno" + (new Date().getTime());
+	var attribAnchor = "<input id='anno" + nId + "' height='10px;' width='10px' type='image' src='" + ctx + "/oscarEncounter/graphics/annotation.png' title='" + annotationLabel + "' style='float: right; margin-right: 5px; margin-bottom: 3px;'" +
+        	"onclick=\"window.open('" + ctx + "/annotation/annotation.jsp?atbname=" + attribName + "&table_id=" + nId + "&display=EChartNote&demo=" + demographicNo + "','anwin','width=400,height=500');$('annotation_attribname').value='" + attribName + "'; return false;\">";
+	var printimg = "<img title='Print' id='print" + nId + "' alt='Toggle Print Note' onclick='togglePrint(" + nId + ", event)' style='float:right; margin-right:5px;' src='" + ctx + "/oscarEncounter/graphics/printer.png'>";
+			
+	var annoAnchor = "anno" + nId;
+	var printImg = "print" + nId;
+	
+	if ($(annoAnchor) != null)
+    	Element.remove(annoAnchor);
+	if ($(printImg) != null)
+    	Element.remove(printImg);
+		
+	new Insertion.Top(txt,attribAnchor);
+	new Insertion.Top(txt, anchor);	
+	new Insertion.Top(txt, printimg);
+	new Insertion.Top(txt, img);
+	
     Element.observe(txt, 'click', xpandView);
 }
 
@@ -1583,7 +1603,7 @@ function xpandViewById(id) {
 
 
     Element.remove(img);
-    Element.remove(date);
+    //Element.remove(date);
     Element.remove(content);
 
 

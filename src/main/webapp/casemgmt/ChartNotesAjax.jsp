@@ -251,6 +251,9 @@ int maxId = 0;
 		String strCurrentNcId = null;
 		List<NoteDisplay> noteDisplays = new ArrayList<NoteDisplay>();
 		List<NoteDisplay> noteDisplays1 = new ArrayList<NoteDisplay>();
+		
+		int count1 = 0;
+		
 		for (idx = 0; idx < noteSize; ++idx)
 		{
 
@@ -357,6 +360,24 @@ int maxId = 0;
 			}
 
 			//String metaDisplay = (hideMetaData)?"none":"block";
+			
+			oscar.OscarProperties props1 = oscar.OscarProperties.getInstance();
+			String eyeform = props1.getProperty("cme_js");
+			String encLoadNotesNumber = "";
+			int loadNumber = 0;
+			if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
+				encLoadNotesNumber = OscarProperties.getInstance().getProperty("encounter_load_notes_number");
+				if((encLoadNotesNumber != null) && (!encLoadNotesNumber.equals(""))){
+					loadNumber = Integer.parseInt(encLoadNotesNumber);
+				}
+				if(noteDisplay == "block"){
+					count1 ++;
+				}
+				if(count1 > loadNumber){
+					break;
+				}
+			}
+			
 		%>
 		<div id="nc<%=offset > 0 ? offset : ""%><%=idx+1%>" style="display:<%=noteDisplay %>" class="note<%=note.isDocument()||note.isCpp()||note.isEformData()||note.isEncounterForm()||note.isInvoice()?"":" noteRounded"%>">
 			<input type="hidden" id="signed<%=globalNoteId%>" value="<%=note.isSigned()%>">
