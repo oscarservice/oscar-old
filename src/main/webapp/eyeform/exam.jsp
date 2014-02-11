@@ -114,83 +114,1131 @@
 	String value42 = "";
 	String value43 = "";
 	String value44 = "";
-	String note1= "";
-	String note2= "";
-	String note3= "";
-	String note4= "";
 	String glass_show = "style=\"display:none\"";
 	int num = 0;
 	int num1 = 0;
 	int num_tab = 33;
-	int specs_appno1 = 0;
-	int specs_appno2 = 0;
-	int specs_appno3 = 0;
-	int specs_appno4 = 0;
+	int[] bg_status = new int[44];
+	int count = 0;
+	int count1 = 0;
+	int appo_now = Integer.parseInt(appo);
 	if(specs.size() > 0){
 		value1 = specs.get(0).getDateStr();
+		if(value1 == null){
+			for(int i = 1;i < specs.size();i ++){
+				value1 = specs.get(i).getDateStr();
+				if(value1 != null){
+					if(appo_now == specs.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value1 == null){
+				value1 = "";
+			}
+		}else{
+			if(appo_now == specs.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
 		value2 = specs.get(0).getOdSph();
+		if(value2 == null){
+			for(int i = 1;i < specs.size();i ++){
+				value2 = specs.get(i).getOdSph();
+				if(value2 != null){
+					if(appo_now == specs.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value2 == null){
+				value2 = "";
+			}
+		}else{
+			if(appo_now == specs.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
 		value3 = specs.get(0).getOdCyl();
+		if(value3 == null){
+			for(int i = 1;i < specs.size();i ++){
+				value3 = specs.get(i).getOdCyl();
+				if(value3 != null){
+					if(appo_now == specs.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value3 == null){
+				value3 = "";
+			}
+		}else{
+			if(appo_now == specs.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
 		value4 = specs.get(0).getOdAxis();
+		if(value4 == null){
+			for(int i = 1;i < specs.size();i ++){
+				value4 = specs.get(i).getOdAxis();
+				if(value4 != null){
+					if(appo_now == specs.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value4 == null){
+				value4 = "";
+			}
+		}else{
+			if(appo_now == specs.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
 		value5 = specs.get(0).getOdAdd();
+		if(value5 == null){
+			for(int i = 1;i < specs.size();i ++){
+				value5 = specs.get(i).getOdAdd();
+				if(value5 != null){
+					if(appo_now == specs.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value5 == null){
+				value5 = "";
+			}
+		}else{
+			if(appo_now == specs.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
 		value6 = specs.get(0).getOdPrism();
+		if(value6 == null){
+			for(int i = 1;i < specs.size();i ++){
+				value6 = specs.get(i).getOdPrism();
+				if(value6 != null){
+					if(appo_now == specs.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value6 == null){
+				value6 = "";
+			}
+		}else{
+			if(appo_now == specs.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
 		value7 = specs.get(0).getOsSph();
+		if(value7 == null){
+			for(int i = 1;i < specs.size();i ++){
+				value7 = specs.get(i).getOsSph();
+				if(value7 != null){
+					if(appo_now == specs.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value7 == null){
+				value7 = "";
+			}
+		}else{
+			if(appo_now == specs.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
 		value8 = specs.get(0).getOsCyl();
+		if(value8 == null){
+			for(int i = 1;i < specs.size();i ++){
+				value8 = specs.get(i).getOsCyl();
+				if(value8 != null){
+					if(appo_now == specs.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value8 == null){
+				value8 = "";
+			}
+		}else{
+			if(appo_now == specs.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
 		value9 = specs.get(0).getOsAxis();
+		if(value9 == null){
+			for(int i = 1;i < specs.size();i ++){
+				value9 = specs.get(i).getOsAxis();
+				if(value9 != null){
+					if(appo_now == specs.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value9 == null){
+				value9 = "";
+			}
+		}else{
+			if(appo_now == specs.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
 		value10 = specs.get(0).getOsAdd();
+		if(value10 == null){
+			for(int i = 1;i < specs.size();i ++){
+				value10 = specs.get(i).getOsAdd();
+				if(value10 != null){
+					if(appo_now == specs.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value10 == null){
+				value10 = "";
+			}
+		}else{
+			if(appo_now == specs.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
 		value11 = specs.get(0).getOsPrism();
-		note1 = specs.get(0).getNote();
-		specs_appno1 = specs.get(0).getAppointmentNo();
+		if(value11 == null){
+			for(int i = 1;i < specs.size();i ++){
+				value11 = specs.get(i).getOsPrism();
+				if(value11 != null){
+					if(appo_now == specs.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value11 == null){
+				value11 = "";
+			}
+		}else{
+			if(appo_now == specs.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
+
 		glass_show = "";
 		num ++;
 	}
 	if(specs1.size() > 0){
 		value12 = specs1.get(0).getDateStr();
+		if(value12 == null){
+			for(int i = 1;i < specs1.size();i ++){
+				value12 = specs1.get(i).getDateStr();
+				if(value12 != null){
+					if(appo_now == specs1.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value12 == null){
+				value12 = "";
+			}
+		}else{
+			if(appo_now == specs1.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
 		value13 = specs1.get(0).getOdSph();
+		if(value13 == null){
+			for(int i = 1;i < specs1.size();i ++){
+				value13 = specs1.get(i).getOdSph();
+				if(value13 != null){
+					if(appo_now == specs1.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value13 == null){
+				value13 = "";
+			}
+		}else{
+			if(appo_now == specs1.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
 		value14 = specs1.get(0).getOdCyl();
+		if(value14 == null){
+			for(int i = 1;i < specs1.size();i ++){
+				value14 = specs1.get(i).getOdCyl();
+				if(value14 != null){
+					if(appo_now == specs1.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value14 == null){
+				value14 = "";
+			}
+		}else{
+			if(appo_now == specs1.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
 		value15 = specs1.get(0).getOdAxis();
+		if(value15 == null){
+			for(int i = 1;i < specs1.size();i ++){
+				value15 = specs1.get(i).getOdAxis();
+				if(value15 != null){
+					if(appo_now == specs1.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value15 == null){
+				value15 = "";
+			}
+		}else{
+			if(appo_now == specs1.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
 		value16 = specs1.get(0).getOdAdd();
+		if(value16 == null){
+			for(int i = 1;i < specs1.size();i ++){
+				value16 = specs1.get(i).getOdAdd();
+				if(value16 != null){
+					if(appo_now == specs1.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value16 == null){
+				value16 = "";
+			}
+		}else{
+			if(appo_now == specs1.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
 		value17 = specs1.get(0).getOdPrism();
+		if(value17 == null){
+			for(int i = 1;i < specs1.size();i ++){
+				value17 = specs1.get(i).getOdPrism();
+				if(value17 != null){
+					if(appo_now == specs1.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value17 == null){
+				value17 = "";
+			}
+		}else{
+			if(appo_now == specs1.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
 		value18 = specs1.get(0).getOsSph();
+		if(value18 == null){
+			for(int i = 1;i < specs1.size();i ++){
+				value18 = specs1.get(i).getOsSph();
+				if(value18 != null){
+					if(appo_now == specs1.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value18 == null){
+				value18 = "";
+			}
+		}else{
+			if(appo_now == specs1.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
 		value19 = specs1.get(0).getOsCyl();
+		if(value19 == null){
+			for(int i = 1;i < specs1.size();i ++){
+				value19 = specs1.get(i).getOsCyl();
+				if(value19 != null){
+					if(appo_now == specs1.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value19 == null){
+				value19 = "";
+			}
+		}else{
+			if(appo_now == specs1.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
 		value20 = specs1.get(0).getOsAxis();
+		if(value20 == null){
+			for(int i = 1;i < specs1.size();i ++){
+				value20 = specs1.get(i).getOsAxis();
+				if(value20 != null){
+					if(appo_now == specs1.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value20 == null){
+				value20 = "";
+			}
+		}else{
+			if(appo_now == specs1.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
 		value21 = specs1.get(0).getOsAdd();
+		if(value21 == null){
+			for(int i = 1;i < specs1.size();i ++){
+				value21 = specs1.get(i).getOsAdd();
+				if(value21 != null){
+					if(appo_now == specs1.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value21 == null){
+				value21 = "";
+			}
+		}else{
+			if(appo_now == specs1.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
 		value22 = specs1.get(0).getOsPrism();
-		note2 = specs1.get(0).getNote();
-		specs_appno2 = specs1.get(0).getAppointmentNo();
+		if(value22 == null){
+			for(int i = 1;i < specs1.size();i ++){
+				value22 = specs1.get(i).getOsPrism();
+				if(value22 != null){
+					if(appo_now == specs1.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value22 == null){
+				value22 = "";
+			}
+		}else{
+			if(appo_now == specs1.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
+		
 		glass_show = "";
 		num ++;
 	}
 	if(specs2.size() > 0){
 		value23 = specs2.get(0).getDateStr();
+		if(value23 == null){
+			for(int i = 1;i < specs2.size();i ++){
+				value23 = specs2.get(i).getDateStr();
+				if(value23 != null){
+					if(appo_now == specs2.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value23 == null){
+				value23 = "";
+			}
+		}else{
+			if(appo_now == specs2.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
 		value24 = specs2.get(0).getOdSph();
+		if(value24 == null){
+			for(int i = 1;i < specs2.size();i ++){
+				value24 = specs2.get(i).getOdSph();
+				if(value24 != null){
+					if(appo_now == specs2.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value24 == null){
+				value24 = "";
+			}
+		}else{
+			if(appo_now == specs2.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
 		value25 = specs2.get(0).getOdCyl();
+		if(value25 == null){
+			for(int i = 1;i < specs2.size();i ++){
+				value25 = specs2.get(i).getOdCyl();
+				if(value25 != null){
+					if(appo_now == specs2.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value25 == null){
+				value25 = "";
+			}
+		}else{
+			if(appo_now == specs2.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
 		value26 = specs2.get(0).getOdAxis();
+		if(value26 == null){
+			for(int i = 1;i < specs2.size();i ++){
+				value26 = specs2.get(i).getOdAxis();
+				if(value26 != null){
+					if(appo_now == specs2.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value26 == null){
+				value26 = "";
+			}
+		}else{
+			if(appo_now == specs2.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
 		value27 = specs2.get(0).getOdAdd();
+		if(value27 == null){
+			for(int i = 1;i < specs2.size();i ++){
+				value27 = specs2.get(i).getOdAdd();
+				if(value27 != null){
+					if(appo_now == specs2.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value27 == null){
+				value27 = "";
+			}
+		}else{
+			if(appo_now == specs2.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
 		value28 = specs2.get(0).getOdPrism();
+		if(value28 == null){
+			for(int i = 1;i < specs2.size();i ++){
+				value28 = specs2.get(i).getOdPrism();
+				if(value28 != null){
+					if(appo_now == specs2.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value28 == null){
+				value28 = "";
+			}
+		}else{
+			if(appo_now == specs2.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
 		value29 = specs2.get(0).getOsSph();
+		if(value29 == null){
+			for(int i = 1;i < specs2.size();i ++){
+				value29 = specs2.get(i).getOsSph();
+				if(value29 != null){
+					if(appo_now == specs2.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value29 == null){
+				value29 = "";
+			}
+		}else{
+			if(appo_now == specs2.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
 		value30 = specs2.get(0).getOsCyl();
+		if(value30 == null){
+			for(int i = 1;i < specs2.size();i ++){
+				value30 = specs2.get(i).getOsCyl();
+				if(value30 != null){
+					if(appo_now == specs2.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value30 == null){
+				value30 = "";
+			}
+		}else{
+			if(appo_now == specs2.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
 		value31 = specs2.get(0).getOsAxis();
+		if(value31 == null){
+			for(int i = 1;i < specs2.size();i ++){
+				value31 = specs2.get(i).getOsAxis();
+				if(value31 != null){
+					if(appo_now == specs2.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value31 == null){
+				value31 = "";
+			}
+		}else{
+			if(appo_now == specs2.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
 		value32 = specs2.get(0).getOsAdd();
+		if(value32 == null){
+			for(int i = 1;i < specs2.size();i ++){
+				value32 = specs2.get(i).getOsAdd();
+				if(value32 != null){
+					if(appo_now == specs2.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value32 == null){
+				value32 = "";
+			}
+		}else{
+			if(appo_now == specs2.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
 		value33 = specs2.get(0).getOsPrism();
-		note3 = specs2.get(0).getNote();
-		specs_appno3 = specs2.get(0).getAppointmentNo();
+		if(value33 == null){
+			for(int i = 1;i < specs2.size();i ++){
+				value33 = specs2.get(i).getOsPrism();
+				if(value33 != null){
+					if(appo_now == specs2.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value33 == null){
+				value33 = "";
+			}
+		}else{
+			if(appo_now == specs2.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
+		
 		glass_show = "";
 		num ++;
 	}
 	if(specs3.size() > 0){
 		value34 = specs3.get(0).getDateStr();
+		if(value34 == null){
+			for(int i = 1;i < specs3.size();i ++){
+				value34 = specs3.get(i).getDateStr();
+				if(value34 != null){
+					if(appo_now == specs3.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value34 == null){
+				value34 = "";
+			}
+		}else{
+			if(appo_now == specs3.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
 		value35 = specs3.get(0).getOdSph();
+		if(value35 == null){
+			for(int i = 1;i < specs3.size();i ++){
+				value35 = specs3.get(i).getOdSph();
+				if(value35 != null){
+					if(appo_now == specs3.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value35 == null){
+				value35 = "";
+			}
+		}else{
+			if(appo_now == specs3.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
 		value36 = specs3.get(0).getOdCyl();
+		if(value36 == null){
+			for(int i = 1;i < specs3.size();i ++){
+				value36 = specs3.get(i).getOdCyl();
+				if(value36 != null){
+					if(appo_now == specs3.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value36 == null){
+				value36 = "";
+			}
+		}else{
+			if(appo_now == specs3.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
 		value37 = specs3.get(0).getOdAxis();
+		if(value37 == null){
+			for(int i = 1;i < specs3.size();i ++){
+				value37 = specs3.get(i).getOdAxis();
+				if(value37 != null){
+					if(appo_now == specs3.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value37 == null){
+				value37 = "";
+			}
+		}else{
+			if(appo_now == specs3.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
 		value38 = specs3.get(0).getOdAdd();
+		if(value38 == null){
+			for(int i = 1;i < specs3.size();i ++){
+				value38 = specs3.get(i).getOdAdd();
+				if(value38 != null){
+					if(appo_now == specs3.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value38 == null){
+				value38 = "";
+			}
+		}else{
+			if(appo_now == specs3.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
 		value39 = specs3.get(0).getOdPrism();
+		if(value39 == null){
+			for(int i = 1;i < specs3.size();i ++){
+				value39 = specs3.get(i).getOdPrism();
+				if(value39 != null){
+					if(appo_now == specs3.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value39 == null){
+				value39 = "";
+			}
+		}else{
+			if(appo_now == specs3.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
 		value40 = specs3.get(0).getOsSph();
+		if(value40 == null){
+			for(int i = 1;i < specs3.size();i ++){
+				value40 = specs3.get(i).getOsSph();
+				if(value40 != null){
+					if(appo_now == specs3.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value40 == null){
+				value40 = "";
+			}
+		}else{
+			if(appo_now == specs3.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
 		value41 = specs3.get(0).getOsCyl();
+		if(value41 == null){
+			for(int i = 1;i < specs3.size();i ++){
+				value41 = specs3.get(i).getOsCyl();
+				if(value41 != null){
+					if(appo_now == specs3.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value41 == null){
+				value41 = "";
+			}
+		}else{
+			if(appo_now == specs3.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
 		value42 = specs3.get(0).getOsAxis();
+		if(value42 == null){
+			for(int i = 1;i < specs3.size();i ++){
+				value42 = specs3.get(i).getOsAxis();
+				if(value42 != null){
+					if(appo_now == specs3.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value42 == null){
+				value42 = "";
+			}
+		}else{
+			if(appo_now == specs3.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
 		value43 = specs3.get(0).getOsAdd();
+		if(value43 == null){
+			for(int i = 1;i < specs3.size();i ++){
+				value43 = specs3.get(i).getOsAdd();
+				if(value43 != null){
+					if(appo_now == specs3.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value43 == null){
+				value43 = "";
+			}
+		}else{
+			if(appo_now == specs3.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
 		value44 = specs3.get(0).getOsPrism();
-		note4 = specs3.get(0).getNote();
-		specs_appno4 = specs3.get(0).getAppointmentNo();
+		if(value44 == null){
+			for(int i = 1;i < specs3.size();i ++){
+				value44 = specs3.get(i).getOsPrism();
+				if(value44 != null){
+					if(appo_now == specs3.get(i).getAppointmentNo()){
+						bg_status[count] = 1;
+					}else{
+						bg_status[count] = 0;
+					}
+					count ++;
+					break;
+				}
+			}
+			if(value44 == null){
+				value44 = "";
+			}
+		}else{
+			if(appo_now == specs3.get(0).getAppointmentNo()){
+				bg_status[count] = 1;
+			}else{
+				bg_status[count] = 0;
+			}
+			count ++;
+		}
+		
 		glass_show = "";
 		num ++;
 	}
@@ -260,63 +1308,83 @@
 //if have value under slidy block set the color to brown
 function changeclass(number){
 	var i = number;
-	if(document.getElementById("gl_date"+ i).value.length > 0){
-		document.getElementById("gl_date"+ i).className = "examfieldwhite" ;
-	}else{
+	var num = document.getElementById("type00" + i).options.selectedIndex;
+	if(num == 0){
+		count = 1;
+	}else if(num == 1){
+		count = 12;
+	}else if(num == 2){
+		count = 23;
+	}else if(num == 3){
+		count = 34;
+	}
+	if(Number(document.getElementById("bg_status" + count).value) == 0){
 		document.getElementById("gl_date"+ i).className = "examfieldgrey" ;
+	}else if(Number(document.getElementById("bg_status" + count).value) == 1){				
+		document.getElementById("gl_date"+ i).className = "examfieldwhite" ;
 	}
-	if(document.getElementById("odSph" + i).value.length > 0){
-		document.getElementById("odSph" + i).className = "examfieldwhite" ;
-	}else{
+	count ++;
+	if(Number(document.getElementById("bg_status" + count).value) == 0){
 		document.getElementById("odSph" + i).className = "examfieldgrey" ;
+	}else if(Number(document.getElementById("bg_status" + count).value) == 1){
+		document.getElementById("odSph" + i).className = "examfieldwhite" ;
 	}
-	if(document.getElementById("odCyl" + i).value.length > 0){
-		document.getElementById("odCyl" + i).className = "examfieldwhite" ;
-	}else{
+	count ++;
+	if(Number(document.getElementById("bg_status" + count).value) == 0){
 		document.getElementById("odCyl" + i).className = "examfieldgrey" ;
+	}else if(Number(document.getElementById("bg_status" + count).value) == 1){
+		document.getElementById("odCyl" + i).className = "examfieldwhite" ;
 	}
-	if(document.getElementById("odAxis" + i).value.length > 0){
-		document.getElementById("odAxis" + i).className = "examfieldwhite" ;
-	}else{
+	count ++;
+	if(Number(document.getElementById("bg_status" + count).value) == 0){
 		document.getElementById("odAxis" + i).className = "examfieldgrey" ;
+	}else if(Number(document.getElementById("bg_status" + count).value) == 1){
+		document.getElementById("odAxis" + i).className = "examfieldwhite" ;
 	}
-	if(document.getElementById("odAdd" + i).value.length > 0){
-		document.getElementById("odAdd" + i).className = "examfieldwhite" ;
-	}else{
+	count ++;
+	if(Number(document.getElementById("bg_status" + count).value) == 0){
 		document.getElementById("odAdd" + i).className = "examfieldgrey" ;
+	}else if(Number(document.getElementById("bg_status" + count).value) == 1){
+		document.getElementById("odAdd" + i).className = "examfieldwhite" ;
 	}
-	if(document.getElementById("odPrism" + i).value.length > 0){
-		document.getElementById("odPrism" + i).className = "examfieldwhite" ;
-	}else{
+	count ++;
+	if(Number(document.getElementById("bg_status" + count).value) == 0){
 		document.getElementById("odPrism" + i).className = "examfieldgrey" ;
+	}else if(Number(document.getElementById("bg_status" + count).value) == 1){
+		document.getElementById("odPrism" + i).className = "examfieldwhite" ;
 	}
-	if(document.getElementById("osSph" + i).value.length > 0){
-		document.getElementById("osSph" + i).className = "examfieldwhite" ;
-	}else{
+	count ++;
+	if(Number(document.getElementById("bg_status" + count).value) == 0){
 		document.getElementById("osSph" + i).className = "examfieldgrey" ;
+	}else if(Number(document.getElementById("bg_status" + count).value) == 1){
+		document.getElementById("osSph" + i).className = "examfieldwhite" ;
 	}
-	if(document.getElementById("osCyl" + i).value.length > 0){
-		document.getElementById("osCyl" + i).className = "examfieldwhite" ;
-	}else{
+	count ++;
+	if(Number(document.getElementById("bg_status" + count).value) == 0){
 		document.getElementById("osCyl" + i).className = "examfieldgrey" ;
+	}else if(Number(document.getElementById("bg_status" + count).value) == 1){
+		document.getElementById("osCyl" + i).className = "examfieldwhite" ;
 	}
-	if(document.getElementById("osAxis"+ i).value.length > 0){
-		document.getElementById("osAxis"+ i).className = "examfieldwhite" ;
-	}else{
+	count ++;
+	if(Number(document.getElementById("bg_status" + count).value) == 0){
 		document.getElementById("osAxis"+ i).className = "examfieldgrey" ;
+	}else if(Number(document.getElementById("bg_status" + count).value) == 1){
+		document.getElementById("osAxis"+ i).className = "examfieldwhite" ;
 	}
-	if(document.getElementById("osAdd"+ i).value.length > 0){
-		document.getElementById("osAdd"+ i).className = "examfieldwhite" ;
-	}else{
+	count ++;
+	if(Number(document.getElementById("bg_status" + count).value) == 0){
 		document.getElementById("osAdd"+ i).className = "examfieldgrey" ;
+	}else if(Number(document.getElementById("bg_status" + count).value) == 1){
+		document.getElementById("osAdd"+ i).className = "examfieldwhite" ;
 	}
-	if(document.getElementById("osPrism"+ i).value.length > 0){
-		document.getElementById("osPrism"+ i).className = "examfieldwhite" ;
-	}else{
+	count ++;
+	if(Number(document.getElementById("bg_status" + count).value) == 0){
 		document.getElementById("osPrism"+ i).className = "examfieldgrey" ;
+	}else if(Number(document.getElementById("bg_status" + count).value) == 1){
+		document.getElementById("osPrism"+ i).className = "examfieldwhite" ;
 	}
 }
-var note_str = document.getElementById("note1").value;
+
 function demo1() {
 	var type001=document.getElementById("type001").value;
 	
@@ -369,9 +1437,7 @@ function demo1() {
 	var osPrism8=document.getElementById("osPrism8").value;
 
 	if(type001=="distance"){
-
 		document.getElementById("gl_date1").value=gl_date8;
-
 		document.getElementById("odSph1").value=odSph8;
 		document.getElementById("odCyl1").value=odCyl8;
 		document.getElementById("odAxis1").value=odAxis8;
@@ -382,10 +1448,7 @@ function demo1() {
 		document.getElementById("osAxis1").value=osAxis8;
 		document.getElementById("osAdd1").value=osAdd8;
 		document.getElementById("osPrism1").value=osPrism8;
-
-		note_str = document.getElementById("note1").value;
 	}else if(type001=="bifocal"){
-
 		document.getElementById("gl_date1").value=gl_date5;
 		document.getElementById("odSph1").value=odSph5;
 		document.getElementById("odCyl1").value=odCyl5;
@@ -397,10 +1460,7 @@ function demo1() {
 		document.getElementById("osAxis1").value=osAxis5;
 		document.getElementById("osAdd1").value=osAdd5;
 		document.getElementById("osPrism1").value=osPrism5;
-
-		note_str = document.getElementById("note2").value;
 	}else if(type001=="invis bfocal"){
-
 		document.getElementById("gl_date1").value=gl_date6;
 		document.getElementById("odSph1").value=odSph6;
 		document.getElementById("odCyl1").value=odCyl6;
@@ -412,11 +1472,8 @@ function demo1() {
 		document.getElementById("osAxis1").value=osAxis6;
 		document.getElementById("osAdd1").value=osAdd6;
 		document.getElementById("osPrism1").value=osPrism6;
-
-		note_str = document.getElementById("note3").value;
 	}
 	else if(type001=="reading"){
-
 		document.getElementById("gl_date1").value=gl_date7;
 		document.getElementById("odSph1").value=odSph7;
 		document.getElementById("odCyl1").value=odCyl7;
@@ -428,15 +1485,12 @@ function demo1() {
 		document.getElementById("osAxis1").value=osAxis7;
 		document.getElementById("osAdd1").value=osAdd7;
 		document.getElementById("osPrism1").value=osPrism7;
-
-		note_str = document.getElementById("note4").value;
 	}
 	changeclass(1);
 }
 
 function demo2() {
-	var type002=document.getElementById("type002").value;
-	
+	var type002=document.getElementById("type002").value;	
 	var gl_date5=document.getElementById("gl_date5").value;
 	var odSph5=document.getElementById("odSph5").value;
 	var odCyl5=document.getElementById("odCyl5").value;
@@ -448,7 +1502,7 @@ function demo2() {
 	var osAxis5=document.getElementById("osAxis5").value;
 	var osAdd5=document.getElementById("osAdd5").value;
 	var osPrism5=document.getElementById("osPrism5").value;
-
+	
 	var gl_date6=document.getElementById("gl_date6").value;
 	var odSph6=document.getElementById("odSph6").value;
 	var odCyl6=document.getElementById("odCyl6").value;
@@ -487,7 +1541,6 @@ function demo2() {
 	
 	if(type002=="distance"){
 		document.getElementById("gl_date2").value=gl_date8;
-
 		document.getElementById("odSph2").value=odSph8;
 		document.getElementById("odCyl2").value=odCyl8;
 		document.getElementById("odAxis2").value=odAxis8;
@@ -498,8 +1551,6 @@ function demo2() {
 		document.getElementById("osAxis2").value=osAxis8;
 		document.getElementById("osAdd2").value=osAdd8;
 		document.getElementById("osPrism2").value=osPrism8;
-
-		note_str = document.getElementById("note2").value;
 	}else if(type002=="bifocal"){
 		document.getElementById("gl_date2").value=gl_date5;
 		document.getElementById("odSph2").value=odSph5;
@@ -512,10 +1563,7 @@ function demo2() {
 		document.getElementById("osAxis2").value=osAxis5;
 		document.getElementById("osAdd2").value=osAdd5;
 		document.getElementById("osPrism2").value=osPrism5;
-
-		note_str = document.getElementById("note2").value;
 	}else if(type002=="invis bfocal"){
-
 		document.getElementById("gl_date2").value=gl_date6;
 		document.getElementById("odSph2").value=odSph6;
 		document.getElementById("odCyl2").value=odCyl6;
@@ -527,11 +1575,8 @@ function demo2() {
 		document.getElementById("osAxis2").value=osAxis6;
 		document.getElementById("osAdd2").value=osAdd6;
 		document.getElementById("osPrism2").value=osPrism6;
-
-		note_str = document.getElementById("note3").value;
 	}
 	else if(type002=="reading"){
-
 		document.getElementById("gl_date2").value=gl_date7;
 		document.getElementById("odSph2").value=odSph7;
 		document.getElementById("odCyl2").value=odCyl7;
@@ -543,8 +1588,6 @@ function demo2() {
 		document.getElementById("osAxis2").value=osAxis7;
 		document.getElementById("osAdd2").value=osAdd7;
 		document.getElementById("osPrism2").value=osPrism7;
-
-		note_str = document.getElementById("note4").value;
 	}
 	changeclass(2);
 }
@@ -601,7 +1644,6 @@ function demo3() {
 	
 	if(type003=="distance"){
 		document.getElementById("gl_date3").value=gl_date8;
-
 		document.getElementById("odSph3").value=odSph8;
 		document.getElementById("odCyl3").value=odCyl8;
 		document.getElementById("odAxis3").value=odAxis8;
@@ -612,8 +1654,6 @@ function demo3() {
 		document.getElementById("osAxis3").value=osAxis8;
 		document.getElementById("osAdd3").value=osAdd8;
 		document.getElementById("osPrism3").value=osPrism8;
-
-		note_str = document.getElementById("note3").value;
 	}else if(type003=="bifocal"){
 		document.getElementById("gl_date3").value=gl_date5;
 		document.getElementById("odSph3").value=odSph5;
@@ -626,10 +1666,7 @@ function demo3() {
 		document.getElementById("osAxis3").value=osAxis5;
 		document.getElementById("osAdd3").value=osAdd5;
 		document.getElementById("osPrism3").value=osPrism5;
-
-		note_str = document.getElementById("note3").value;
 	}else if(type003=="invis bfocal"){
-
 		document.getElementById("gl_date3").value=gl_date6;
 		document.getElementById("odSph3").value=odSph6;
 		document.getElementById("odCyl3").value=odCyl6;
@@ -641,11 +1678,8 @@ function demo3() {
 		document.getElementById("osAxis3").value=osAxis6;
 		document.getElementById("osAdd3").value=osAdd6;
 		document.getElementById("osPrism3").value=osPrism6;
-
-		note_str = document.getElementById("note3").value;
 	}
 	else if(type003=="reading"){
-
 		document.getElementById("gl_date3").value=gl_date7;
 		document.getElementById("odSph3").value=odSph7;
 		document.getElementById("odCyl3").value=odCyl7;
@@ -657,8 +1691,6 @@ function demo3() {
 		document.getElementById("osAxis3").value=osAxis7;
 		document.getElementById("osAdd3").value=osAdd7;
 		document.getElementById("osPrism3").value=osPrism7;
-
-		note_str = document.getElementById("note3").value;
 	}
 	changeclass(3);
 }
@@ -714,7 +1746,6 @@ function demo4() {
 	
 	if(type004=="distance"){
 		document.getElementById("gl_date4").value=gl_date8;
-
 		document.getElementById("odSph4").value=odSph8;
 		document.getElementById("odCyl4").value=odCyl8;
 		document.getElementById("odAxis4").value=odAxis8;
@@ -725,8 +1756,6 @@ function demo4() {
 		document.getElementById("osAxis4").value=osAxis8;
 		document.getElementById("osAdd4").value=osAdd8;
 		document.getElementById("osPrism4").value=osPrism8;
-
-		note_str = document.getElementById("note4").value;
 	}else if(type004=="bifocal"){
 		document.getElementById("gl_date4").value=gl_date5;
 		document.getElementById("odSph4").value=odSph5;
@@ -739,10 +1768,7 @@ function demo4() {
 		document.getElementById("osAxis4").value=osAxis5;
 		document.getElementById("osAdd4").value=osAdd5;
 		document.getElementById("osPrism4").value=osPrism5;
-
-		note_str = document.getElementById("note4").value;
 	}else if(type004=="invis bfocal"){
-
 		document.getElementById("gl_date4").value=gl_date6;
 		document.getElementById("odSph4").value=odSph6;
 		document.getElementById("odCyl4").value=odCyl6;
@@ -754,11 +1780,8 @@ function demo4() {
 		document.getElementById("osAxis4").value=osAxis6;
 		document.getElementById("osAdd4").value=osAdd6;
 		document.getElementById("osPrism4").value=osPrism6;
-
-		note_str = document.getElementById("note4").value;
 	}
 	else if(type004=="reading"){
-
 		document.getElementById("gl_date4").value=gl_date7;
 		document.getElementById("odSph4").value=odSph7;
 		document.getElementById("odCyl4").value=odCyl7;
@@ -770,8 +1793,6 @@ function demo4() {
 		document.getElementById("osAxis4").value=osAxis7;
 		document.getElementById("osAdd4").value=osAdd7;
 		document.getElementById("osPrism4").value=osPrism7;
-
-		note_str = document.getElementById("note4").value;
 	}
 	changeclass(4);
 }
@@ -793,66 +1814,83 @@ function touchColor() {
 }
 function setglasseshxclass(){
 	var num = Number(document.getElementById("shownum").value);
-	var num1 = Number(document.getElementById("appointment_no").value);
+	//var num1 = Number(document.getElementById("appointment_no").value);
+	var count = 1;
 	if(num > 0){
 		for(var i = 1;i <= num; i++){
-			var num2 = Number(document.getElementById("specs_appno" + i).value);
-			if(num1 == num2){
-				if(document.getElementById("gl_date"+ i).value.length > 0){
-					document.getElementById("gl_date"+ i).className = "examfieldwhite" ;
-				}else{
-					document.getElementById("gl_date"+ i).className = "examfieldgrey" ;
-				}
-				if(document.getElementById("odSph" + i).value.length > 0){
-					document.getElementById("odSph" + i).className = "examfieldwhite" ;
-				}else{
-					document.getElementById("odSph" + i).className = "examfieldgrey" ;
-				}
-				if(document.getElementById("odCyl" + i).value.length > 0){
-					document.getElementById("odCyl" + i).className = "examfieldwhite" ;
-				}else{
-					document.getElementById("odCyl" + i).className = "examfieldgrey" ;
-				}
-				if(document.getElementById("odAxis" + i).value.length > 0){
-					document.getElementById("odAxis" + i).className = "examfieldwhite" ;
-				}else{
-					document.getElementById("odAxis" + i).className = "examfieldgrey" ;
-				}
-				if(document.getElementById("odAdd" + i).value.length > 0){
-					document.getElementById("odAdd" + i).className = "examfieldwhite" ;
-				}else{
-					document.getElementById("odAdd" + i).className = "examfieldgrey" ;
-				}
-				if(document.getElementById("odPrism" + i).value.length > 0){
-					document.getElementById("odPrism" + i).className = "examfieldwhite" ;
-				}else{
-					document.getElementById("odPrism" + i).className = "examfieldgrey" ;
-				}
-				if(document.getElementById("osSph" + i).value.length > 0){
-					document.getElementById("osSph" + i).className = "examfieldwhite" ;
-				}else{
-					document.getElementById("osSph" + i).className = "examfieldgrey" ;
-				}
-				if(document.getElementById("osCyl" + i).value.length > 0){
-					document.getElementById("osCyl" + i).className = "examfieldwhite" ;
-				}else{
-					document.getElementById("osCyl" + i).className = "examfieldgrey" ;
-				}
-				if(document.getElementById("osAxis"+ i).value.length > 0){
-					document.getElementById("osAxis"+ i).className = "examfieldwhite" ;
-				}else{
-					document.getElementById("osAxis"+ i).className = "examfieldgrey" ;
-				}
-				if(document.getElementById("osAdd"+ i).value.length > 0){
-					document.getElementById("osAdd"+ i).className = "examfieldwhite" ;
-				}else{
-					document.getElementById("osAdd"+ i).className = "examfieldgrey" ;
-				}
-				if(document.getElementById("osPrism"+ i).value.length > 0){
-					document.getElementById("osPrism"+ i).className = "examfieldwhite" ;
-				}else{
-					document.getElementById("osPrism"+ i).className = "examfieldgrey" ;
-				}	
+			if(i == 1){
+				count = 1;
+			}else if(i == 2){
+				count = 12;
+			}else if(i == 3){
+				count = 23;
+			}else if(i == 4){
+				count = 34;
+			}
+			if(Number(document.getElementById("bg_status" + count).value) == 0){
+				document.getElementById("gl_date"+ i).className = "examfieldgrey" ;
+			}else if(Number(document.getElementById("bg_status" + count).value) == 1){				
+				document.getElementById("gl_date"+ i).className = "examfieldwhite" ;
+			}
+			count ++;
+			if(Number(document.getElementById("bg_status" + count).value) == 0){
+				document.getElementById("odSph" + i).className = "examfieldgrey" ;
+			}else if(Number(document.getElementById("bg_status" + count).value) == 1){
+				document.getElementById("odSph" + i).className = "examfieldwhite" ;
+			}
+			count ++;
+			if(Number(document.getElementById("bg_status" + count).value) == 0){
+				document.getElementById("odCyl" + i).className = "examfieldgrey" ;
+			}else if(Number(document.getElementById("bg_status" + count).value) == 1){
+				document.getElementById("odCyl" + i).className = "examfieldwhite" ;
+			}
+			count ++;
+			if(Number(document.getElementById("bg_status" + count).value) == 0){
+				document.getElementById("odAxis" + i).className = "examfieldgrey" ;
+			}else if(Number(document.getElementById("bg_status" + count).value) == 1){
+				document.getElementById("odAxis" + i).className = "examfieldwhite" ;
+			}
+			count ++;
+			if(Number(document.getElementById("bg_status" + count).value) == 0){
+				document.getElementById("odAdd" + i).className = "examfieldgrey" ;
+			}else if(Number(document.getElementById("bg_status" + count).value) == 1){
+				document.getElementById("odAdd" + i).className = "examfieldwhite" ;
+			}
+			count ++;
+			if(Number(document.getElementById("bg_status" + count).value) == 0){
+				document.getElementById("odPrism" + i).className = "examfieldgrey" ;
+			}else if(Number(document.getElementById("bg_status" + count).value) == 1){
+				document.getElementById("odPrism" + i).className = "examfieldwhite" ;
+			}
+			count ++;
+			if(Number(document.getElementById("bg_status" + count).value) == 0){
+				document.getElementById("osSph" + i).className = "examfieldgrey" ;
+			}else if(Number(document.getElementById("bg_status" + count).value) == 1){
+				document.getElementById("osSph" + i).className = "examfieldwhite" ;
+			}
+			count ++;
+			if(Number(document.getElementById("bg_status" + count).value) == 0){
+				document.getElementById("osCyl" + i).className = "examfieldgrey" ;
+			}else if(Number(document.getElementById("bg_status" + count).value) == 1){
+				document.getElementById("osCyl" + i).className = "examfieldwhite" ;
+			}
+			count ++;
+			if(Number(document.getElementById("bg_status" + count).value) == 0){
+				document.getElementById("osAxis"+ i).className = "examfieldgrey" ;
+			}else if(Number(document.getElementById("bg_status" + count).value) == 1){
+				document.getElementById("osAxis"+ i).className = "examfieldwhite" ;
+			}
+			count ++;
+			if(Number(document.getElementById("bg_status" + count).value) == 0){
+				document.getElementById("osAdd"+ i).className = "examfieldgrey" ;
+			}else if(Number(document.getElementById("bg_status" + count).value) == 1){
+				document.getElementById("osAdd"+ i).className = "examfieldwhite" ;
+			}
+			count ++;
+			if(Number(document.getElementById("bg_status" + count).value) == 0){
+				document.getElementById("osPrism"+ i).className = "examfieldgrey" ;
+			}else if(Number(document.getElementById("bg_status" + count).value) == 1){
+				document.getElementById("osPrism"+ i).className = "examfieldwhite" ;
 			}
 		}
 	}
@@ -1984,20 +3022,56 @@ span.ge{
 	 <input type="hidden" name="specs.osAxis8"id="osAxis8"  value="<%=value9%>"/>
 	 <input type="hidden" name="specs.osAdd8" id="osAdd8"  value="<%=value10%>"/>
 	 <input type="hidden" name="specs.osPrism8" id="osPrism8"  value="<%=value11%>"/>
-	 
-	 <input type="hidden" id="note1" value="<%=note1%>" />
-	 <input type="hidden" id="note2" value="<%=note2%>" />
-	 <input type="hidden" id="note3" value="<%=note3%>" />
-	 <input type="hidden" id="note4" value="<%=note4%>" />
 	 <input type="hidden" id="shownum" value="<%=num%>" />
 	 
 	 <input type="hidden" value="save" name="method">
 	 <input type="hidden" value="<%=request.getParameter("demographic_no")%>" name="specs.demographicNo" id="demographic_no">
      <input type="hidden" value="<%= request.getParameter("appointment_no")%>" name="specs.appointmentNo" id="appointment_no">
-	 <input type="hidden" value="<%=specs_appno1%>" name="specs_appno1" id="specs_appno1">
-	 <input type="hidden" value="<%=specs_appno2%>" name="specs_appno2" id="specs_appno2">
-	 <input type="hidden" value="<%=specs_appno3%>" name="specs_appno3" id="specs_appno3">
-	 <input type="hidden" value="<%=specs_appno4%>" name="specs_appno4" id="specs_appno4">
+	 
+	 <input type="hidden" value="<%=bg_status[0]%>" name="bg_status1" id="bg_status1">
+	 <input type="hidden" value="<%=bg_status[1]%>" name="bg_status2" id="bg_status2">
+	 <input type="hidden" value="<%=bg_status[2]%>" name="bg_status3" id="bg_status3">
+	 <input type="hidden" value="<%=bg_status[3]%>" name="bg_status4" id="bg_status4">
+	 <input type="hidden" value="<%=bg_status[4]%>" name="bg_status5" id="bg_status5">
+	 <input type="hidden" value="<%=bg_status[5]%>" name="bg_status6" id="bg_status6">
+	 <input type="hidden" value="<%=bg_status[6]%>" name="bg_status7" id="bg_status7">
+	 <input type="hidden" value="<%=bg_status[7]%>" name="bg_status8" id="bg_status8">
+	 <input type="hidden" value="<%=bg_status[8]%>" name="bg_status9" id="bg_status9">
+	 <input type="hidden" value="<%=bg_status[9]%>" name="bg_status10" id="bg_status10">
+	 <input type="hidden" value="<%=bg_status[10]%>" name="bg_status11" id="bg_status11">
+	 <input type="hidden" value="<%=bg_status[11]%>" name="bg_status12" id="bg_status12">
+	 <input type="hidden" value="<%=bg_status[12]%>" name="bg_status13" id="bg_status13">
+	 <input type="hidden" value="<%=bg_status[13]%>" name="bg_status14" id="bg_status14">
+	 <input type="hidden" value="<%=bg_status[14]%>" name="bg_status15" id="bg_status15">
+	 <input type="hidden" value="<%=bg_status[15]%>" name="bg_status16" id="bg_status16">
+	 <input type="hidden" value="<%=bg_status[16]%>" name="bg_status17" id="bg_status17">
+	 <input type="hidden" value="<%=bg_status[17]%>" name="bg_status18" id="bg_status18">
+	 <input type="hidden" value="<%=bg_status[18]%>" name="bg_status19" id="bg_status19">
+	 <input type="hidden" value="<%=bg_status[19]%>" name="bg_status20" id="bg_status20">
+	 <input type="hidden" value="<%=bg_status[20]%>" name="bg_status21" id="bg_status21">
+	 <input type="hidden" value="<%=bg_status[21]%>" name="bg_status22" id="bg_status22">
+	 <input type="hidden" value="<%=bg_status[22]%>" name="bg_status23" id="bg_status23">
+	 <input type="hidden" value="<%=bg_status[23]%>" name="bg_status24" id="bg_status24">
+	 <input type="hidden" value="<%=bg_status[24]%>" name="bg_status25" id="bg_status25">
+	 <input type="hidden" value="<%=bg_status[25]%>" name="bg_status26" id="bg_status26">
+	 <input type="hidden" value="<%=bg_status[26]%>" name="bg_status27" id="bg_status27">
+	 <input type="hidden" value="<%=bg_status[27]%>" name="bg_status28" id="bg_status28">
+	 <input type="hidden" value="<%=bg_status[28]%>" name="bg_status29" id="bg_status29">
+	 <input type="hidden" value="<%=bg_status[29]%>" name="bg_status30" id="bg_status30">
+	 <input type="hidden" value="<%=bg_status[30]%>" name="bg_status31" id="bg_status31">
+	 <input type="hidden" value="<%=bg_status[31]%>" name="bg_status32" id="bg_status32">
+	 <input type="hidden" value="<%=bg_status[32]%>" name="bg_status33" id="bg_status33">
+	 <input type="hidden" value="<%=bg_status[33]%>" name="bg_status34" id="bg_status34">
+	 <input type="hidden" value="<%=bg_status[34]%>" name="bg_status35" id="bg_status35">
+	 <input type="hidden" value="<%=bg_status[35]%>" name="bg_status36" id="bg_status36">
+	 <input type="hidden" value="<%=bg_status[36]%>" name="bg_status37" id="bg_status37">
+	 <input type="hidden" value="<%=bg_status[37]%>" name="bg_status38" id="bg_status38">
+	 <input type="hidden" value="<%=bg_status[38]%>" name="bg_status39" id="bg_status39">
+	 <input type="hidden" value="<%=bg_status[39]%>" name="bg_status40" id="bg_status40">
+	 <input type="hidden" value="<%=bg_status[40]%>" name="bg_status41" id="bg_status41">
+	 <input type="hidden" value="<%=bg_status[41]%>" name="bg_status42" id="bg_status42">
+	 <input type="hidden" value="<%=bg_status[42]%>" name="bg_status43" id="bg_status43">
+	 <input type="hidden" value="<%=bg_status[43]%>" name="bg_status44" id="bg_status44">
 </div>	
 			
 	
