@@ -20,6 +20,7 @@
 <%@page import="org.oscarehr.util.SpringUtils"%>
 <%@page import="org.oscarehr.common.model.Demographic"%>
 <%@page import="org.oscarehr.common.dao.DemographicDao"%>
+<%@page import="oscar.OscarProperties" %>
 <%
 String invNo = request.getParameter("billingNo");
 Billing3rdPartPrep privateObj = new Billing3rdPartPrep();
@@ -31,6 +32,8 @@ Properties propGst = privateObj.getGst(invNo);
 //if ( propGst.getProperty("gst", "") != "0.00" && propGst.getProperty("gst", "") != null ){
 //    gstFlag = 1;
 //}
+
+OscarProperties oscarProp = OscarProperties.getInstance();
 
 BillingCorrectionPrep billObj = new BillingCorrectionPrep();
 List aL = billObj.getBillingRecordObj(invNo);
@@ -57,20 +60,25 @@ String percent = gstProp.getProperty("gstPercent", "");
 </head>
 <body>
 
-<table width="100%" border="0">
-	<tr>
-		<td><b><%=propClinic.getProperty("clinic_name", "") %></b><br />
-		<%=propClinic.getProperty("clinic_address", "") %><br />
-		<%=propClinic.getProperty("clinic_city", "") %>, <%=propClinic.getProperty("clinic_province", "") %><br />
-		<%=propClinic.getProperty("clinic_postal", "") %><br />
-		Tel.: <%=propClinic.getProperty("clinic_phone", "") %><br />
 
-		</td>
-		<td align="right" valign="top"><font size="+2"><b>Invoice
-		- <%=invNo %></b></font><br />
-		Date:<%=DateUtils.sumDate("yyyy-MM-dd HH:mm","0") %></td>
-	</tr>
-</table>
+	<table width="100%" border="0">
+		<tr>
+			<td>
+			<%if (oscarProp.getBooleanProperty("invoice_head_logo_enable", "true")) {%>
+				<image src="<%=request.getContextPath() %>/billing/ca/on/DisplayInvoiceLogo.do" />
+			<%} else { %>	
+				<b><%=propClinic.getProperty("clinic_name", "") %></b><br />
+				<%=propClinic.getProperty("clinic_address", "") %><br />
+				<%=propClinic.getProperty("clinic_city", "") %>, <%=propClinic.getProperty("clinic_province", "") %><br />
+				<%=propClinic.getProperty("clinic_postal", "") %><br />
+				Tel.: <%=propClinic.getProperty("clinic_phone", "") %><br />
+			<%} %>
+			</td>
+			<td align="right" valign="top"><font size="+2"><b>Invoice
+			- <%=invNo %></b></font><br />
+			Date:<%=DateUtils.sumDate("yyyy-MM-dd HH:mm","0") %></td>
+		</tr>
+	</table>
 
 <hr>
 <table width="100%" border="0">
