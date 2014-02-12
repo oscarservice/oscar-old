@@ -122,6 +122,7 @@
 	int count = 0;
 	int count1 = 0;
 	int appo_now = Integer.parseInt(appo);
+	
 	if(specs.size() > 0){
 		value1 = specs.get(0).getDateStr();
 		if(value1 == null){
@@ -139,6 +140,7 @@
 			}
 			if(value1 == null){
 				value1 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs.get(0).getAppointmentNo()){
@@ -164,6 +166,7 @@
 			}
 			if(value2 == null){
 				value2 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs.get(0).getAppointmentNo()){
@@ -189,6 +192,7 @@
 			}
 			if(value3 == null){
 				value3 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs.get(0).getAppointmentNo()){
@@ -214,6 +218,7 @@
 			}
 			if(value4 == null){
 				value4 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs.get(0).getAppointmentNo()){
@@ -239,6 +244,7 @@
 			}
 			if(value5 == null){
 				value5 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs.get(0).getAppointmentNo()){
@@ -264,6 +270,7 @@
 			}
 			if(value6 == null){
 				value6 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs.get(0).getAppointmentNo()){
@@ -289,6 +296,7 @@
 			}
 			if(value7 == null){
 				value7 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs.get(0).getAppointmentNo()){
@@ -314,6 +322,7 @@
 			}
 			if(value8 == null){
 				value8 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs.get(0).getAppointmentNo()){
@@ -339,6 +348,7 @@
 			}
 			if(value9 == null){
 				value9 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs.get(0).getAppointmentNo()){
@@ -364,6 +374,7 @@
 			}
 			if(value10 == null){
 				value10 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs.get(0).getAppointmentNo()){
@@ -389,6 +400,7 @@
 			}
 			if(value11 == null){
 				value11 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs.get(0).getAppointmentNo()){
@@ -419,6 +431,7 @@
 			}
 			if(value12 == null){
 				value12 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs1.get(0).getAppointmentNo()){
@@ -444,6 +457,7 @@
 			}
 			if(value13 == null){
 				value13 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs1.get(0).getAppointmentNo()){
@@ -469,6 +483,7 @@
 			}
 			if(value14 == null){
 				value14 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs1.get(0).getAppointmentNo()){
@@ -494,6 +509,7 @@
 			}
 			if(value15 == null){
 				value15 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs1.get(0).getAppointmentNo()){
@@ -519,6 +535,7 @@
 			}
 			if(value16 == null){
 				value16 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs1.get(0).getAppointmentNo()){
@@ -544,6 +561,7 @@
 			}
 			if(value17 == null){
 				value17 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs1.get(0).getAppointmentNo()){
@@ -569,6 +587,7 @@
 			}
 			if(value18 == null){
 				value18 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs1.get(0).getAppointmentNo()){
@@ -594,6 +613,7 @@
 			}
 			if(value19 == null){
 				value19 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs1.get(0).getAppointmentNo()){
@@ -619,6 +639,7 @@
 			}
 			if(value20 == null){
 				value20 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs1.get(0).getAppointmentNo()){
@@ -644,6 +665,7 @@
 			}
 			if(value21 == null){
 				value21 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs1.get(0).getAppointmentNo()){
@@ -669,6 +691,7 @@
 			}
 			if(value22 == null){
 				value22 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs1.get(0).getAppointmentNo()){
@@ -699,6 +722,7 @@
 			}
 			if(value23 == null){
 				value23 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs2.get(0).getAppointmentNo()){
@@ -724,6 +748,7 @@
 			}
 			if(value24 == null){
 				value24 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs2.get(0).getAppointmentNo()){
@@ -749,6 +774,7 @@
 			}
 			if(value25 == null){
 				value25 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs2.get(0).getAppointmentNo()){
@@ -774,6 +800,7 @@
 			}
 			if(value26 == null){
 				value26 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs2.get(0).getAppointmentNo()){
@@ -799,6 +826,7 @@
 			}
 			if(value27 == null){
 				value27 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs2.get(0).getAppointmentNo()){
@@ -824,6 +852,7 @@
 			}
 			if(value28 == null){
 				value28 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs2.get(0).getAppointmentNo()){
@@ -849,6 +878,7 @@
 			}
 			if(value29 == null){
 				value29 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs2.get(0).getAppointmentNo()){
@@ -874,6 +904,7 @@
 			}
 			if(value30 == null){
 				value30 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs2.get(0).getAppointmentNo()){
@@ -899,6 +930,7 @@
 			}
 			if(value31 == null){
 				value31 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs2.get(0).getAppointmentNo()){
@@ -924,6 +956,7 @@
 			}
 			if(value32 == null){
 				value32 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs2.get(0).getAppointmentNo()){
@@ -949,6 +982,7 @@
 			}
 			if(value33 == null){
 				value33 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs2.get(0).getAppointmentNo()){
@@ -979,6 +1013,7 @@
 			}
 			if(value34 == null){
 				value34 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs3.get(0).getAppointmentNo()){
@@ -1004,6 +1039,7 @@
 			}
 			if(value35 == null){
 				value35 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs3.get(0).getAppointmentNo()){
@@ -1029,6 +1065,7 @@
 			}
 			if(value36 == null){
 				value36 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs3.get(0).getAppointmentNo()){
@@ -1054,6 +1091,7 @@
 			}
 			if(value37 == null){
 				value37 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs3.get(0).getAppointmentNo()){
@@ -1079,6 +1117,7 @@
 			}
 			if(value38 == null){
 				value38 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs3.get(0).getAppointmentNo()){
@@ -1104,6 +1143,7 @@
 			}
 			if(value39 == null){
 				value39 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs3.get(0).getAppointmentNo()){
@@ -1129,6 +1169,7 @@
 			}
 			if(value40 == null){
 				value40 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs3.get(0).getAppointmentNo()){
@@ -1154,6 +1195,7 @@
 			}
 			if(value41 == null){
 				value41 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs3.get(0).getAppointmentNo()){
@@ -1179,6 +1221,7 @@
 			}
 			if(value42 == null){
 				value42 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs3.get(0).getAppointmentNo()){
@@ -1204,6 +1247,7 @@
 			}
 			if(value43 == null){
 				value43 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs3.get(0).getAppointmentNo()){
@@ -1229,6 +1273,7 @@
 			}
 			if(value44 == null){
 				value44 = "";
+				count ++;
 			}
 		}else{
 			if(appo_now == specs3.get(0).getAppointmentNo()){

@@ -38,6 +38,8 @@ import javax.persistence.TemporalType;
 import org.oscarehr.common.model.AbstractModel;
 import org.oscarehr.util.MiscUtils;
 
+import oscar.OscarProperties;
+
 @Entity
 public class EyeformSpecsHistory extends AbstractModel<Integer>{
 
@@ -196,7 +198,14 @@ public class EyeformSpecsHistory extends AbstractModel<Integer>{
 	}
 
 	public String getDateStr() {
-		if(getDate()==null) return "";
+		String whichEyeForm = OscarProperties.getInstance().getProperty("cme_js","");
+		if(getDate()==null) {
+			if(("eyeform3".equals(whichEyeForm)) || ("eyeform3.1".equals(whichEyeForm)) || ("eyeform3.2".equals(whichEyeForm))){
+				return null;
+			}else{
+				return "";
+			}
+		}
 		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
 		return sdf.format(getDate());
 	}
