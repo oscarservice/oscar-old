@@ -843,7 +843,9 @@ if (bMultisites) { %>
 		<th><font color="red">Amount</font></th>
 		<th><font color="red">Balance</font></th>
 		</tr>
-		<%for(int i=0;i<cheader1s.size();i++) {
+		<%
+		java.text.SimpleDateFormat fm = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		for(int i=0;i<cheader1s.size();i++) {
 			if(cheader1s.get(i).getPayProgram().matches(BillingDataHlp.BILLINGMATCHSTRING_3RDPARTY)){ 
 				BigDecimal payment = billingOnExtDao.getAccountVal(cheader1s.get(i).getId(), billingOnExtDao.KEY_PAYMENT);
 				BigDecimal discount = billingOnExtDao.getAccountVal(cheader1s.get(i).getId(), billingOnExtDao.KEY_DISCOUNT);
@@ -853,7 +855,7 @@ if (bMultisites) { %>
             	if(balance.compareTo(BigDecimal.ZERO) != 0) { %>
 					<tr>
 						<td align="center"><a href="#" onclick="popupPage(600,800, '<%=request.getContextPath() %>/billing/CA/ON/billingONCorrection.jsp?billing_no=<%=cheader1s.get(i).getId()%>')"><font color="red">Inv #<%=cheader1s.get(i).getId() %></font></a></td>
-						<td align="center"><font color="red"><%=cheader1s.get(i).getTimestamp().toString().substring(0, 19) %></font></td>
+						<td align="center"><font color="red"><%=fm.format(cheader1s.get(i).getTimestamp()) %></font></td>
 						<td align="center"><font color="red">$<%=cheader1s.get(i).getTotal() %></font></td>
 						<td align="center"><font color="red">$<%=balance %></font></td>
 					</tr>
