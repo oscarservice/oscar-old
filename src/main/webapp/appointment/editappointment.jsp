@@ -853,7 +853,7 @@ if (bMultisites) { %>
             	if(balance.compareTo(BigDecimal.ZERO) != 0) { %>
 					<tr>
 						<td align="center"><a href="#" onclick="popupPage(600,800, '<%=request.getContextPath() %>/billing/CA/ON/billingONCorrection.jsp?billing_no=<%=cheader1s.get(i).getId()%>')"><font color="red">Inv #<%=cheader1s.get(i).getId() %></font></a></td>
-						<td align="center"><font color="red"><%=cheader1s.get(i).getTimestamp() %></font></td>
+						<td align="center"><font color="red"><%=cheader1s.get(i).getTimestamp().toString().substring(0, 19) %></font></td>
 						<td align="center"><font color="red">$<%=cheader1s.get(i).getTotal() %></font></td>
 						<td align="center"><font color="red">$<%=balance %></font></td>
 					</tr>
