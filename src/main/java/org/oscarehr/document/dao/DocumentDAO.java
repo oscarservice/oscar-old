@@ -32,6 +32,8 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Query;
+
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -132,5 +134,23 @@ public class DocumentDAO extends HibernateDaoSupport {
     	doc.setNumberOfPages(doc.getNumberOfPages()-i);
     	save(doc);
     }
-
+    
+    public int getMaxDocNoByDocType(String docType) {
+    	 String sql="select d.document_no from ctl_document d where d.doctype=? order by d.document_no desc";
+    	 int ret = 0;
+ 		Connection c = null;
+ 		try {
+ 			c = DbConnectionFilter.getThreadLocalDbConnection();
+ 			PreparedStatement ps = c.prepareStatement(sql);
+ 			ps.setString(1, docType);
+ 			
+ 			ResultSet rs = ps.executeQuery();
+ 			if(rs.next()){
+ 			   ret=rs.getInt(1);
+ 			}
+ 		}catch(Exception e){
+ 			log.error("Error  getMaxDocNoByDocType for doctype :"+docType);
+ 		}
+ 		return ret;
+    }
 }

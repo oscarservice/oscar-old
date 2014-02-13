@@ -9,7 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DownloadAction;
+import org.oscarehr.document.dao.DocumentDAO;
+import org.oscarehr.document.model.Document;
 import org.oscarehr.util.MiscUtils;
+import org.oscarehr.util.SpringUtils;
 
 import oscar.OscarProperties;
 
@@ -23,7 +26,23 @@ public class DisplayInvoiceLogo extends DownloadAction{
 		if (!oscarProp.getBooleanProperty("invoice_head_logo_enable", "true")) {
 			throw new Exception("invoice_head_logo_enable switch is not opened!!");
 		}
-		String fileName = oscarProp.getProperty("invoice_head_logo_image");
+		String fileName = "";
+		String logoDocType = oscarProp.getProperty("invoice_head_logo_doctype");
+		if (logoDocType == null || logoDocType.isEmpty()) {
+			logoDocType = "invoice letter head";
+		}
+		DocumentDAO docDao = (DocumentDAO)SpringUtils.getBean("documentDAO");
+		if (docDao == null) {
+			throw new Exception("Can't get DocumentDAO bean");
+		}
+		int docNo = docDao.getMaxDocNoByDocType(logoDocType);
+		if (docNo == 0) {
+			throw new Exception("Can't get MaxDocNoByDocType");			
+		}
+		Document doc = docDao.getDocument(Integer.toString(docNo));
+		fileName = doc.getDocfilename();
+		
+		
         String document_dir = OscarProperties.getInstance().getProperty("DOCUMENT_DIR");
 
         response.setHeader("Content-disposition","inline; filename=" + fileName);
