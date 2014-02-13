@@ -244,9 +244,15 @@ public class BillingCorrectionPrep {
 		String serviceDate = request.getParameter("xml_appointment_date");
 
 		for (int i = 0; i < BillingDataHlp.FIELD_MAX_SERVICE_NUM; i++) {
-			vecName.add(request.getParameter("servicecode" + i));
-			vecUnit.add(request.getParameter("billingunit" + i));
-			vecFee.add(request.getParameter("billingamount" + i));
+			String code = request.getParameter("servicecode" + i);
+			vecName.add(code);
+			if (code == null || code.isEmpty()) {
+				vecUnit.add(null);
+				vecFee.add(null);
+			} else {
+				vecUnit.add(request.getParameter("billingunit" + i));
+				vecFee.add(request.getParameter("billingamount" + i));
+			}
 			String billStatus = request.getParameter("itemStatus" + i);
 			if (billStatus != null) {
 				vecStatus.add("S");
