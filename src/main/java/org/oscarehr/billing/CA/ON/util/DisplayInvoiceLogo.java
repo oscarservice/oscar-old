@@ -1,6 +1,7 @@
 package org.oscarehr.billing.CA.ON.util;
 
 import java.io.File;
+import java.util.List;
 
 import javax.activation.MimetypesFileTypeMap;
 import javax.servlet.http.HttpServletRequest;
@@ -9,8 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DownloadAction;
-import org.oscarehr.document.dao.DocumentDAO;
-import org.oscarehr.document.model.Document;
+import org.oscarehr.common.dao.DocumentDao;
 import org.oscarehr.util.MiscUtils;
 import org.oscarehr.util.SpringUtils;
 
@@ -31,22 +31,23 @@ public class DisplayInvoiceLogo extends DownloadAction{
 		if (logoDocType == null || logoDocType.isEmpty()) {
 			logoDocType = "invoice letter head";
 		}
-		DocumentDAO docDao = (DocumentDAO)SpringUtils.getBean("documentDAO");
+		DocumentDao docDao = (DocumentDao)SpringUtils.getBean("documentDao");
 		if (docDao == null) {
 			throw new Exception("Can't get DocumentDAO bean");
 		}
-		int docNo = docDao.getMaxDocNoByDocType(logoDocType);
-		if (docNo == 0) {
-			throw new Exception("Can't get MaxDocNoByDocType");			
+		List<org.oscarehr.common.model.Document> docList = docDao.findByDoctype(logoDocType);
+		if (docList == null || docList.size() < 1) {
+			throw new Exception("Can't get document according to doctype: " + logoDocType);	
 		}
-		Document doc = docDao.getDocument(Integer.toString(docNo));
-		fileName = doc.getDocfilename();
 		
+		org.oscarehr.common.model.Document doc = docList.get(docList.size() - 1);
+		if (doc != null) {
+			fileName = doc.getDocfilename();
+		}
 		
         String document_dir = OscarProperties.getInstance().getProperty("DOCUMENT_DIR");
-
+        
         response.setHeader("Content-disposition","inline; filename=" + fileName);
-
         File file = null;
         try{
            File directory = new File(document_dir);

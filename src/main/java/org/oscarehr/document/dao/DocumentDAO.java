@@ -107,6 +107,9 @@ public class DocumentDAO extends HibernateDaoSupport {
     }
 
     public int getNumberOfDocumentsAttachedToAProviderDemographics(String providerNo,Date startDate,Date endDate){
+    	
+    	
+    	
        	String sql = "select count(*) from ctl_document c, demographic d,document doc where c.module_id = d.demographic_no and c.document_no = doc.document_no   and d.provider_no = ? and doc.observationdate >= ? and doc.observationdate <= ? ";
        	int ret = 0;
 		Connection c = null;
@@ -133,24 +136,5 @@ public class DocumentDAO extends HibernateDaoSupport {
     	Document doc = getDocument(documentNo);
     	doc.setNumberOfPages(doc.getNumberOfPages()-i);
     	save(doc);
-    }
-    
-    public int getMaxDocNoByDocType(String docType) {
-    	 String sql="select d.document_no from ctl_document d where d.doctype=? order by d.document_no desc";
-    	 int ret = 0;
- 		Connection c = null;
- 		try {
- 			c = DbConnectionFilter.getThreadLocalDbConnection();
- 			PreparedStatement ps = c.prepareStatement(sql);
- 			ps.setString(1, docType);
- 			
- 			ResultSet rs = ps.executeQuery();
- 			if(rs.next()){
- 			   ret=rs.getInt(1);
- 			}
- 		}catch(Exception e){
- 			log.error("Error  getMaxDocNoByDocType for doctype :"+docType);
- 		}
- 		return ret;
-    }
+    }    
 }

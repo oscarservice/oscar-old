@@ -25,6 +25,10 @@
 
 package org.oscarehr.common.dao;
 
+import java.util.List;
+
+import javax.persistence.Query;
+
 import org.oscarehr.common.model.Document;
 import org.springframework.stereotype.Repository;
 
@@ -34,5 +38,21 @@ public class DocumentDao extends AbstractDao<Document> {
 
 	public DocumentDao() {
 		super(Document.class);
+	}
+	
+	public Document findByDocumentNo(int docNo) {
+		Query query = entityManager.createNamedQuery("Document.findByDocumentNo");
+		query.setParameter("documentNo", docNo);
+		try {
+			return (Document) query.getSingleResult();
+		} catch (Exception e) {}
+		return null;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Document> findByDoctype(String docType) {
+		Query query = entityManager.createNamedQuery("Document.findByDoctype");
+		query.setParameter("doctype", docType);
+		return (List<Document>)query.getResultList();
 	}
 }
