@@ -134,11 +134,16 @@ public class DisplayInvoiceLogo extends DownloadAction{
               MiscUtils.getLogger().info("Directory:  " + document_dir+ " does not exist");
               return fileName;
            }
-           fileName = directory + fileName;
+           if (document_dir.lastIndexOf(File.separator) != (document_dir.length() - 1)) {
+        	   fileName = document_dir + File.separator + fileName;
+           } else {
+        	   fileName = document_dir + fileName;
+           }
+           
            file = new File(fileName);
            if (!file.exists()) {
         	   MiscUtils.getLogger().info("File: " + fileName);
-        	   return fileName;
+        	   return "";
            }
         }catch(Exception e){
             MiscUtils.getLogger().error("Error", e);

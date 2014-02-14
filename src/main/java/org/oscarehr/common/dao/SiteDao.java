@@ -258,4 +258,12 @@ public class SiteDao extends AbstractDao<Site> {
 		return groupList;
 	}
 	
+	public Site findByName(String name) {
+		Query query = entityManager.createQuery("select site from Site site where site.name = ?1");
+		query.setParameter(1, name);
+		try {
+			return (Site) query.getSingleResult();
+		} catch (Exception e) {}
+		return null;
+	}
 }

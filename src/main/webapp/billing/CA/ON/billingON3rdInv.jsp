@@ -22,6 +22,8 @@
 <%@page import="org.oscarehr.common.dao.DemographicDao"%>
 <%@page import="oscar.OscarProperties" %>
 <%@page import="org.oscarehr.billing.CA.ON.util.DisplayInvoiceLogo" %>
+<%@page import="org.oscarehr.common.dao.SiteDao" %>
+<%@page import="org.oscarehr.common.model.Site" %>
 <%
 String invNo = request.getParameter("billingNo");
 Billing3rdPartPrep privateObj = new Billing3rdPartPrep();
@@ -81,13 +83,21 @@ if (filePath.isEmpty()) {
 				<%=propClinic.getProperty("clinic_city", "") %>, <%=propClinic.getProperty("clinic_province", "") %><br />
 				<%=propClinic.getProperty("clinic_postal", "") %><br />
 				Tel.: <%=propClinic.getProperty("clinic_phone", "") %><br />
-			<%} else { 
-			// get site info by site_no
-			// 1. site_no
-			// 2. get site object
-			// 3. show the info
+			<%} else {
+				// get site info by siteName
+				SiteDao siteDao = (SiteDao)SpringUtils.getBean(SiteDao.class);
+				Site site = siteDao.findByName(ch1Obj.getClinic());
+				if (site != null) {
 			%>
-			<%} %>
+					<b><%=site.getName() %></b><br />
+					<%=site.getAddress() %><br />
+					<%=site.getCity() %>, <%=site.getProvince() %><br />
+					<%=site.getPostal() %><br />
+					Tel.: <%site.getPhone() %><br />
+			<%	} else { %> 
+				<image src="<%=request.getContextPath() %>/billing/ca/on/DisplayInvoiceLogo.do" />
+			<%	} 
+			} %>
 			</td>
 			<td align="right" valign="top"><font size="+2"><b>Invoice
 			- <%=invNo %></b></font><br />
