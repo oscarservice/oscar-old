@@ -58,6 +58,9 @@
 		<script type="text/javascript" src="<%=request.getContextPath()%>/share/calendar/lang/<bean:message key="global.javascript.calendar"/>"></script>
 		<script type="text/javascript" src="<%=request.getContextPath()%>/share/calendar/calendar-setup.js"></script>
     	<link rel="stylesheet" href="<%=request.getContextPath()%>/eyeform/display2.css" type="text/css">
+		
+		<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.js"></script>
+		
     	<style type="text/css">
 			* { font-family: Trebuchet MS, Lucida Sans Unicode, Arial, Helvetica, sans-serif; color: #000; margin: 0px; padding: 0px; }
 			body { padding: 10px; }
@@ -97,9 +100,28 @@
 				inputForm.submit();
 			}
 		</script>
+		<script>
+			function insettitle(){
+				var visionElm = $("h5").filter(function(){
+				if (this.innerHTML.indexOf("VISION ASSESSMENT") != -1) {
+					return true;
+				}
+				return false;
+				});
+
+				if (visionElm != null && visionElm.length > 0) {
+					visionElm = visionElm[0];
+					var targetTbl = $(visionElm).parent().children("table");
+					if (targetTbl != null) {
+						var title = "<tr><th class=\"centered\"></th><th colspan=\"3\" style=\"text-align:center\">Distance SC</th><th colspan=\"3\" style=\"text-align:center\">Distance CC</th><th colspan=\"2\" style=\"text-align:center\">Pin Hole</th><th colspan=\"3\" style=\"text-align:center\">Intermediate SC</th><th colspan=\"3\" style=\"text-align:center\">Intermediate CC</th><th colspan=\"3\" style=\"text-align:center\">Near SC</th><th colspan=\"3\" style=\"text-align:center\">Near CC</th></tr>";
+						$($(targetTbl).find("thead")).prepend(title);
+					}
+				}
+			}
+		</script>
 	</head>
 
-	<body>
+	<body onload="insettitle();">
 		<form action="<%=request.getContextPath()%>/eyeform/ExaminationHistory.do" method="POST" id="inputForm" name="inputForm">
 		<input type="hidden" name="method" value="query"/>
 		<input type="hidden" name="demographicNo" value="<c:out value="${demographic.demographicNo}"/>"/>
@@ -2785,8 +2807,8 @@ if(fieldList.contains("Fly test")){
 %>
 <tr>
 <td><h5>STEREO VISION</h5>
-	<display:table name="fly_test" requestURI="/eyeform/ExaminationHistory.do" class="display" style="width:100%" id="map" pagesize="5">
-		<display:column title="Date" style="width:60px;white-space: nowrap;text-align:center" headerClass="centered">
+	<display:table name="fly_test" requestURI="/eyeform/ExaminationHistory.do" class="display" style="width:50%" id="map" pagesize="5">
+		<display:column title="Date" style="width:30px;white-space: nowrap;text-align:center" headerClass="centered">
 			<c:out value="${map.date}"/>
 		</display:column>
 		<display:column title="Fly test" style="width:30px;white-space: nowrap;">
@@ -2938,7 +2960,7 @@ if(fieldList.contains("NCT")){
 %>
 <tr>
 <td><h5>INTRAOCULAR PRESSURE</h5>
-	<display:table name="nct" requestURI="/eyeform/ExaminationHistory.do" class="display" style="width:100%" id="map" pagesize="5">
+	<display:table name="nct" requestURI="/eyeform/ExaminationHistory.do" class="display" style="width:50%" id="map" pagesize="5">
 		<display:column title="Date" style="width:60px;white-space: nowrap;text-align:center" headerClass="centered">
 			<c:out value="${map.date}"/>
 		</display:column>
@@ -3061,7 +3083,7 @@ if(fieldList.contains("DUCTION/DIPLOPIA TESTING")){
 %>
 <tr>
 <td><h5>DUCTION/DIPLOPIA TESTING</h5>
-	<display:table name="ductlion" requestURI="/eyeform/ExaminationHistory.do" class="display" style="width:100%" id="map" pagesize="5">
+	<display:table name="ductlion" requestURI="/eyeform/ExaminationHistory.do" class="display" style="width:50%" id="map" pagesize="5">
 		<display:column title="Date" style="width:60px;white-space: nowrap;text-align:center" headerClass="centered">
 			<c:out value="${map.date}"/>
 		</display:column>
@@ -3122,31 +3144,30 @@ if(fieldList.contains("Primary gaze")){
 %>
 <tr>
 <td><h5>DEVIATION MEASUREMENT</h5>
-	<display:table name="primary" requestURI="/eyeform/ExaminationHistory.do" class="display" style="width:100%" id="map" pagesize="5">
+	<display:table name="primary" requestURI="/eyeform/ExaminationHistory.do" class="display" style="width:50%" id="map" pagesize="5">
 		<display:column title="Date" style="width:60px;white-space: nowrap;text-align:center" headerClass="centered">
 			<c:out value="${map.date}"/>
 		</display:column>
-		<display:column title="Primary gaze" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.dev_p}"/>
+		<display:column style="width:60px;">
+			<table style="border:0px">
+			<tr>
+			<td class="inner"></td>
+			<td class="inner"><c:out value="${map.dev_u}"/></td>
+			<td class="inner"></td>
+			</tr>
+			<tr>
+			<td class="inner"><c:out value="${map.dev_r}"/></td>
+			<td class="inner"><c:out value="${map.dev_p}"/></td>
+			<td class="inner"><c:out value="${map.dev_l}"/></td>
+			</tr>
+			<tr>
+			<td class="inner"><c:out value="${map.dev_rt}"/></td>
+			<td class="inner"><c:out value="${map.dev_d}"/></td>
+			<td class="inner"><c:out value="${map.dev_lt}"/></td>
+			</tr>
+			</table>
 		</display:column>
-		<display:column title="Up gaze" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.dev_u}"/>
-		</display:column>
-		<display:column title="Down gaze" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.dev_d}"/>
-		</display:column>
-		<display:column title="Right gaze" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.dev_r}"/>
-		</display:column>
-		<display:column title="Left gaze" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.dev_l}"/>
-		</display:column>
-		<display:column title="Right head tilt" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.dev_rt}"/>
-		</display:column>
-		<display:column title="Left head tilt" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.dev_lt}"/>
-		</display:column>
+
 		<display:column title="Near" style="width:30px;white-space: nowrap;">
 			<c:out value="${map.dev_near}"/>
 		</display:column>
