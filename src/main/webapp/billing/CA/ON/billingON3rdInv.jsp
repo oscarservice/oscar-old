@@ -21,6 +21,7 @@
 <%@page import="org.oscarehr.common.model.Demographic"%>
 <%@page import="org.oscarehr.common.dao.DemographicDao"%>
 <%@page import="oscar.OscarProperties" %>
+<%@page import="org.oscarehr.billing.CA.ON.util.DisplayInvoiceLogo" %>
 <%
 String invNo = request.getParameter("billingNo");
 Billing3rdPartPrep privateObj = new Billing3rdPartPrep();
@@ -34,6 +35,7 @@ Properties propGst = privateObj.getGst(invNo);
 //}
 
 OscarProperties oscarProp = OscarProperties.getInstance();
+boolean isMulitSites = oscarProp.getBooleanProperty("multisites", "on");
 
 BillingCorrectionPrep billObj = new BillingCorrectionPrep();
 List aL = billObj.getBillingRecordObj(invNo);
@@ -46,6 +48,13 @@ GstControlAction db = new GstControlAction();
 gstProp = db.readDatabase();
 
 String percent = gstProp.getProperty("gstPercent", "");
+
+String filePath = DisplayInvoiceLogo.getLogoImgAbsPath();
+boolean isLogoImgExisted = true;
+if (filePath.isEmpty()) {
+	isLogoImgExisted = false;
+}
+
 
 %>
 
@@ -64,14 +73,20 @@ String percent = gstProp.getProperty("gstPercent", "");
 	<table width="100%" border="0">
 		<tr>
 			<td>
-			<%if (oscarProp.getBooleanProperty("invoice_head_logo_enable", "true")) {%>
+			<%if (isLogoImgExisted) {%>
 				<image src="<%=request.getContextPath() %>/billing/ca/on/DisplayInvoiceLogo.do" />
-			<%} else { %>	
+			<%} else if (!isMulitSites){ %>	
 				<b><%=propClinic.getProperty("clinic_name", "") %></b><br />
 				<%=propClinic.getProperty("clinic_address", "") %><br />
 				<%=propClinic.getProperty("clinic_city", "") %>, <%=propClinic.getProperty("clinic_province", "") %><br />
 				<%=propClinic.getProperty("clinic_postal", "") %><br />
 				Tel.: <%=propClinic.getProperty("clinic_phone", "") %><br />
+			<%} else { 
+			// get site info by site_no
+			// 1. site_no
+			// 2. get site object
+			// 3. show the info
+			%>
 			<%} %>
 			</td>
 			<td align="right" valign="top"><font size="+2"><b>Invoice
@@ -92,7 +107,7 @@ String percent = gstProp.getProperty("gstPercent", "");
 	</tr>
 </table>
 
-<table width="100%" border="0">
+<table width="100%" border="0" style="display:none">
 	<tr>
 		<td>Patient: <%=ch1Obj.getDemographic_name() %> (<%=ch1Obj.getDemographic_no() %>)
 		<%=ch1Obj.getSex().equals("1")? "Male":"Female" %> DOB: <%=ch1Obj.getDob() %><br>

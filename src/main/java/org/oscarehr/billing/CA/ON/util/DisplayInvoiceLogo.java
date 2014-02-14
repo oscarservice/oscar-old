@@ -22,48 +22,13 @@ public class DisplayInvoiceLogo extends DownloadAction{
 	protected StreamInfo getStreamInfo(ActionMapping arg0, ActionForm arg1,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub
-		OscarProperties oscarProp = OscarProperties.getInstance();
-		if (!oscarProp.getBooleanProperty("invoice_head_logo_enable", "true")) {
-			throw new Exception("invoice_head_logo_enable switch is not opened!!");
+		String fileName = getLogoImgAbsPath();
+		if (fileName.isEmpty()) {
+			throw new Exception("Can't open the file: " + fileName);
 		}
-		String fileName = "";
-		String logoDocType = oscarProp.getProperty("invoice_head_logo_doctype");
-		if (logoDocType == null || logoDocType.isEmpty()) {
-			logoDocType = "invoice letter head";
-		}
-		DocumentDao docDao = (DocumentDao)SpringUtils.getBean("documentDao");
-		if (docDao == null) {
-			throw new Exception("Can't get DocumentDAO bean");
-		}
-		List<org.oscarehr.common.model.Document> docList = docDao.findByDoctype(logoDocType);
-		if (docList == null || docList.size() < 1) {
-			throw new Exception("Can't get document according to doctype: " + logoDocType);	
-		}
-		
-		org.oscarehr.common.model.Document doc = docList.get(docList.size() - 1);
-		if (doc != null) {
-			fileName = doc.getDocfilename();
-		}
-		
-        String document_dir = OscarProperties.getInstance().getProperty("DOCUMENT_DIR");
         
         response.setHeader("Content-disposition","inline; filename=" + fileName);
-        File file = null;
-        try{
-           File directory = new File(document_dir);
-           if(!directory.exists()){
-              throw new Exception("Directory:  " + document_dir+ " does not exist");
-           }
-           file = new File(directory, fileName);
-
-           if (!directory.equals(file.getParentFile())) {
-               MiscUtils.getLogger().debug("SECURITY WARNING: Illegal file path detected, client attempted to navigate away from the file directory");
-               throw new Exception("Could not open file " + fileName + ".  Check the file path");
-           }
-        }catch(Exception e){
-            MiscUtils.getLogger().error("Error", e);
-            throw new Exception("Could not open file "+document_dir+fileName +" does "+document_dir+ " exist ?",e);
-        }
+        File file = new File(fileName);
         //gets content type from image extension
         String contentType = new MimetypesFileTypeMap().getContentType(file);
         /**
@@ -135,5 +100,50 @@ public class DisplayInvoiceLogo extends DownloadAction{
 	public String extension(String f) {
 		int dot = f.lastIndexOf(".");
 		return f.substring(dot + 1);
+	}
+	
+	public static String getLogoImgAbsPath() {
+		String fileName = "";
+		String logoDocType = OscarProperties.getInstance().getProperty("invoice_head_logo_doctype");
+		if (logoDocType == null || logoDocType.trim().isEmpty()) {
+			logoDocType = "invoice letter head";
+		}
+		logoDocType = logoDocType.trim();
+		DocumentDao docDao = (DocumentDao)SpringUtils.getBean("documentDao");
+		if (docDao == null) {
+			MiscUtils.getLogger().info("Can't get DocumentDAO bean");
+			return fileName;
+		}
+		List<org.oscarehr.common.model.Document> docList = docDao.findByDoctype(logoDocType);
+		if (docList == null || docList.size() < 1) {
+			MiscUtils.getLogger().info("Can't get document according to doctype: " + logoDocType);
+			return fileName;
+		}
+		
+		org.oscarehr.common.model.Document doc = docList.get(docList.size() - 1);
+		if (doc != null) {
+			fileName = doc.getDocfilename();
+		}
+		
+        String document_dir = OscarProperties.getInstance().getProperty("DOCUMENT_DIR");
+        
+        File file = null;
+        try{
+           File directory = new File(document_dir);
+           if(!directory.exists()){
+              MiscUtils.getLogger().info("Directory:  " + document_dir+ " does not exist");
+              return fileName;
+           }
+           fileName = directory + fileName;
+           file = new File(fileName);
+           if (!file.exists()) {
+        	   MiscUtils.getLogger().info("File: " + fileName);
+        	   return fileName;
+           }
+        }catch(Exception e){
+            MiscUtils.getLogger().error("Error", e);
+        }
+        
+        return fileName;
 	}
 }
