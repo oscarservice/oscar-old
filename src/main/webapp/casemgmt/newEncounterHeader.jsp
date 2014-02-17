@@ -32,6 +32,9 @@
  <%@ page import="org.oscarehr.util.MiscUtils"%>
  <%@ page import="java.net.URLEncoder"%>
  <%@ page import="org.oscarehr.PMmodule.caisi_integrator.CaisiIntegratorManager, org.oscarehr.util.LoggedInInfo, org.oscarehr.common.model.Facility" %>
+ <%@page import="org.oscarehr.common.dao.DemographicDao"%>
+<%@page import="org.oscarehr.common.model.Demographic"%>
+<%@page import="org.oscarehr.util.SpringUtils" %>
 <%@ taglib uri="/WEB-INF/security.tld" prefix="security" %>
 <%
     oscar.oscarEncounter.pageUtil.EctSessionBean bean = null;
@@ -78,7 +81,11 @@
     String patientSex = pd.getSex();
     String pAge = Integer.toString(UtilDateUtilities.calcAge(bean.yearOfBirth,bean.monthOfBirth,bean.dateOfBirth));
 
-    java.util.Locale vLocale =(java.util.Locale)session.getAttribute(org.apache.struts.Globals.LOCALE_KEY);
+    java.util.Locale vLocale =(java.util.Locale)session.getAttribute(org.apache.struts.Globals.LOCALE_KEY);    
+
+    DemographicDao demographicDao = (DemographicDao)SpringUtils.getBean("demographicDao");
+    Demographic demographic = (Demographic)demographicDao.getDemographic(demoNo);
+    String chartNo = demographic!=null?demographic.getChartNo():null;
     %>
 
     <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
@@ -108,6 +115,7 @@
         <% if(oscar.OscarProperties.getInstance().hasProperty("ONTARIO_MD_INCOMINGREQUESTOR")){%>
            <a href="javascript:void(0)" onClick="popupPage(600,175,'Calculators','<c:out value="${ctx}"/>/common/omdDiseaseList.jsp?sex=<%=bean.patientSex%>&age=<%=pAge%>'); return false;" ><bean:message key="oscarEncounter.Header.OntMD"/></a>
         <%}%>
+        <% if(chartNo!=null) {%> Chart# <%=chartNo%> <%}%>
         <%=getEChartLinks() %>
         &nbsp;&nbsp;
         

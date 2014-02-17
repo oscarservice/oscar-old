@@ -1511,12 +1511,14 @@ function updateDocument(eleId){//save doc info
 		if(json!=null ){
 			patientId=json.patientId;
 
+			afterUpdateDocument(patientId);
+			
 			var ar=eleId.split("_");
 			var num=ar[1];
 			num=num.replace(/\s/g,'');
 			$("saveSucessMsg_"+num).show();
 			$('saved'+num).value='true';
-			$("msgBtn_"+num).onclick = function() { popup(700,960,'/oscar/oscarMessenger/SendDemoMessage.do?demographic_no='+patientId,'msg'); };
+			//$("msgBtn_"+num).onclick = function() { popup(700,960,'/oscar/oscarMessenger/SendDemoMessage.do?demographic_no='+patientId,'msg'); };
 			var success= updateGlobalDataAndSideNav(num,patientId);
 			if(success){
 				success=updatePatientDocLabNav(num,patientId);

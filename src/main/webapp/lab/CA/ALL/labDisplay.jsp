@@ -135,6 +135,9 @@ if (remoteFacilityIdString==null) // local lab
 	multiLabId = Hl7textResultsData.getMatchingLabs(segmentID);
 	handler = Factory.getHandler(segmentID);
 	hl7 = Factory.getHL7Body(segmentID);
+	if(hl7!=null && hl7.contains("Epsilon Systems")) {
+		hl7=hl7.replace("|P||", "|P|2.3|");  //If there is no version code in MHL lab hl7 file, add default 2.3 here. Otherwise it will fail on parsing.
+	}	
 	if (handler instanceof OLISHL7Handler) {
 		%>
 		<jsp:forward page="labDisplayOLIS.jsp" />
@@ -1085,7 +1088,7 @@ div.Title4   { font-weight: 600; font-size: 8pt; color: white; font-family:
                                  } catch (Exception e){
                                    	//logger.info("ERROR :"+e);
                                    }
-
+									
                                    if (handler.getMsgType().equals("EPSILON")) {
                                    	b2=true;
                                    	b3=true; //Because Observation header can never be the same as the header. Observation header = OBX-4.2 and header= OBX-4.1

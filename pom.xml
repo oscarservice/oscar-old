@@ -133,6 +133,11 @@
 			<version>2.1.0.RELEASE</version>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework.integration</groupId>
+			<artifactId>spring-integration-sftp</artifactId>
+			<version>2.2.5.RELEASE</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aspects</artifactId>
 			<version>2.5.5</version>
@@ -524,6 +529,20 @@
 			<version>0.12-DRAFT</version>
 		</dependency>
 
+		<!-- FOR BORN
+WBV Project - Rourke, NDDS, 18M Summary in XML format -->
+		<dependency>
+			<groupId>ca.bornontario</groupId>
+			<artifactId>x18MEWBV</artifactId>
+			<version>1.6.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.oscarehr.ckd</groupId>
+			<artifactId>ckd</artifactId>
+			<version>1.0</version>
+		</dependency>
+
 		 <dependency>
                         <groupId>jspellchecker</groupId>
                         <artifactId>jazzy-core</artifactId>
@@ -679,9 +698,22 @@
 		<dependency>
 			<groupId>com.jcraft</groupId>
 			<artifactId>jsch</artifactId>
-			<version>0.1.29</version>
+			<version>0.1.49</version>
 		</dependency>
-
+		
+		<!-- PACS IMAGE STUDY -->
+		<dependency>
+			<groupId>com.pacs.service</groupId>
+			<artifactId>oscar-image-study</artifactId>
+			<version>1.0</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.pacs.service</groupId>
+			<artifactId>pacs-service</artifactId>
+			<version>1.0</version>
+		</dependency>
+		
 		<!-- OLIS -->
 		<dependency>
 			<groupId>ca.ssha.www</groupId>
@@ -1084,6 +1116,7 @@
 		        <artifactId>maven-surefire-plugin</artifactId>
 		        <configuration>
 		          <skipTests>false</skipTests>
+			  <argLine>-Xms512m -Xmx512m -Xss256k -XX:MaxNewSize=64m -XX:MaxPermSize=192m</argLine>
 			  <excludes>
 		            <exclude>**/AR2005*.java</exclude>
 		            <exclude>**/OntarioMDSpec4DataTest.java</exclude>
@@ -1096,6 +1129,7 @@
 					</property>
 				</systemProperties>
 		        </configuration>
+        		<version>2.10</version>
 		      </plugin>
 
 	  <plugin>

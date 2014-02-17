@@ -647,18 +647,18 @@ import cdsDt.PersonNameStandard.OtherNames;
             demographic.setHin(hin);
             demographic.setVer(versionCode);
             demographic.setRosterStatus(rosterStatus);
-            demographic.setRosterDate(formatter.parse(rosterDate));
-            demographic.setRosterTerminationDate(formatter.parse(termDate));
+            demographic.setRosterDate(StringUtils.isNullOrEmpty(rosterDate)?null:formatter.parse(rosterDate));
+            demographic.setRosterTerminationDate(StringUtils.isNullOrEmpty(termDate)?null:formatter.parse(termDate));
             demographic.setRosterTerminationReason(termReason);
             demographic.setPatientStatus(patient_status);
-            demographic.setPatientStatusDate(formatter.parse(psDate));
+            demographic.setPatientStatusDate(StringUtils.isNullOrEmpty(psDate)?null:formatter.parse(psDate));
             demographic.setChartNo(chart_no);
             demographic.setOfficialLanguage(official_lang);
             demographic.setSpokenLanguage(spoken_lang);
             demographic.setFamilyDoctor(primaryPhysician);
             demographic.setSex(sex);
             demographic.setHcType(hc_type);
-            demographic.setHcRenewDate(formatter.parse(hc_renew_date));
+            demographic.setHcRenewDate(StringUtils.isNullOrEmpty(hc_renew_date)?null:formatter.parse(hc_renew_date));
             demographic.setSin(sin);
             dd.setDemographic(demographic);
             err_note.add("Replaced Contact-only patient "+patientName+" (Demo no="+demographicNo+")");
@@ -1049,7 +1049,10 @@ import cdsDt.PersonNameStandard.OtherNames;
                         	err_note.add("Problem List diagnosis procedure code could not be retrieved. The code description is:"+probList[i].getDiagnosisCode().getStandardCodeDescription());
                         }
                     }
-
+                    
+                    if(cmNote.getIssues().isEmpty())
+                    	cmNote.setIssues(scmi);
+                    
                     //main field
                     String ongConcerns = probList[i].getProblemDiagnosisDescription();
                     if (StringUtils.empty(ongConcerns)) {
@@ -1791,12 +1794,35 @@ import cdsDt.PersonNameStandard.OtherNames;
                 String[] _req_date  = new String[labResultArr.length];
 
                 // Save to labPatientPhysicianInfo, labTestResults, patientLabRouting
+                String accessionString = "Temp";
+                int accNum = 0;
+                String tempCollectionDate = "";
                 for (int i=0; i<labResultArr.length; i++) {
                     _location[i] = StringUtils.noNull(labResultArr[i].getLaboratoryName());
-                    _accession[i] = StringUtils.noNull(labResultArr[i].getAccessionNumber()); 
-                    _coll_date[i] = dateFPtoString(labResultArr[i].getCollectionDateTime(), timeShiftInDays);
+                    _accession[i] = StringUtils.noNull(labResultArr[i].getAccessionNumber());                     
+                    _coll_date[i] = dateFPtoString(labResultArr[i].getCollectionDateTime(), timeShiftInDays);   
                     //labResultArr[i].getCollectionDateTime() return : <cdsd:DateTime xmlns:cdsd="cds_dt" xmlns="cds" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">2007-07-24T00:00:00-05:00</cdsd:DateTime>
-                    //labResultArr[i].getLabRequisitionDateTime().getFullDate() or any other mothods always return NULL.                    
+                    //labResultArr[i].getLabRequisitionDateTime().getFullDate() or any other mothods always return NULL.    
+                    String collectionDateTimeXmlText = "";
+                    String dateText = "";
+                    Calendar c = labResultArr[i].getCollectionDateTime().getFullDateTime(); //get null
+                	if(c==null) {
+                		collectionDateTimeXmlText = labResultArr[i].getCollectionDateTime().toString(); 
+                		if(collectionDateTimeXmlText!=null) {
+                			dateText = collectionDateTimeXmlText.substring(collectionDateTimeXmlText.indexOf(">")+1, collectionDateTimeXmlText.indexOf("</"));                			
+                		}
+                	}
+                    
+                    if(_coll_date[i]==null || _coll_date[i].equals("")) { 
+                    	if( !StringUtils.isNullOrEmpty(dateText) && dateText.length()>10) {
+                    		_coll_date[i] = dateText.substring(0,10); 
+                    	}
+                    }
+                    
+                    if(StringUtils.isNullOrEmpty(_accession[i])) { //the lab accession number from another EMR could be null, which does not mean all labs without accession number should belong to one accession.
+                    	_accession[i] = dateText; //use collection date as accession number if the lab has no accesssion number.                    	
+                    }   
+                    
                     _req_date[i] = dateFPtoString(labResultArr[i].getLabRequisitionDateTime(), timeShiftInDays);
                     if (StringUtils.empty(_req_date[i])) _req_date[i] = _coll_date[i];
 

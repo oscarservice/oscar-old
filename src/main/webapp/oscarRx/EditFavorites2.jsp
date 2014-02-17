@@ -112,6 +112,7 @@ int i, j;
             alert('Please enter a favorite name.');
             err = true;
         }
+        favoriteName = escape(favoriteName);
         if(takeMin.length < 1 || isNaN(takeMin)) {
             alert('Incorrect entry in field Take Min.');
             err = true;

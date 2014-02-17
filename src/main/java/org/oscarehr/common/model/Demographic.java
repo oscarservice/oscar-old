@@ -730,6 +730,8 @@ public class Demographic implements Serializable {
 	}
 
 	public void setFormattedRenewDate(String formattedDate) {
+		if(StringUtils.isBlank(formattedDate))
+			return;
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			Date d = sdf.parse(formattedDate);
@@ -1067,4 +1069,33 @@ public class Demographic implements Serializable {
     }
 
 
+	
+	public String getStandardIdentificationHTML() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("<b>" + getLastName().toUpperCase() + "</b>");
+		sb.append(",");
+		sb.append(getFirstName());
+		if(getTitle() != null && getTitle().length()>0) {
+			sb.append("(" + getTitle() + ")");
+		}
+		sb.append("<br/>");
+		sb.append("Born ");
+		sb.append("<b>" + getFormattedDob() + "</b>");
+		if(getHin() != null && getHin().length()>0) {
+			sb.append("<br/>");
+			sb.append("HC ");
+			sb.append("<b>");
+			sb.append(getHin() + " " + getVer());
+			sb.append("(" + getHcType() + ")");
+			sb.append("</b>");
+		}
+		if(getChartNo() != null && getChartNo().length()>0) {
+			sb.append("<br/>");
+			sb.append("Chart No ");
+			sb.append("<b>");
+			sb.append(getChartNo());
+			sb.append("</b>");
+		}
+		return sb.toString();
+	}
 }

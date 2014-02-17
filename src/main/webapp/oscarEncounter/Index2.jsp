@@ -198,11 +198,7 @@ if (request.getParameter("casetoEncounter")==null)
   boolean sChart = true;
   if (splitChart == null || splitChart.size() == 0){
      sChart = false;
-  }
-
-
-
-
+  }  
 %>
 
 
@@ -1203,8 +1199,7 @@ function grabEnterGetTemplate(event){
 					style="font-size: 11px; text-decoration: none;"
 					title="Click to see appointment history"><span
 					style="margin-left: 20px;">Next Appt: <oscar:nextAppt
-					demographicNo="<%=bean.demographicNo%>" /></span></a>
-
+					demographicNo="<%=bean.demographicNo%>" /></span></a>				
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 				<form style="display: inline;" name="ksearch"><select

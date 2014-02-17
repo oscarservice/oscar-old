@@ -64,7 +64,7 @@ public class EctDisplayMiddlewareAction extends EctDisplayAction {
 					+ bean.demographicNo
 					+ "','"
 					+ new SimpleDateFormat("yyyy-MM-dd").format(zeissOruBeans
-							.getStudy_date()) + "')";
+							.getStudy_date()) + "'); return false;";
 
 			item.setURL(url);
 			Dao.addItem(item);

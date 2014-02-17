@@ -77,6 +77,7 @@
             String url2 = cp+"/dms/ManageDocument.do?method=display&doc_no=" + docId;
 
 %>
+
 <% if (request.getParameter("inWindow") != null && request.getParameter("inWindow").equalsIgnoreCase("true")) {  %>
 <script type="text/javascript" src="<%= request.getContextPath() %>/share/calendar/calendar.js"></script>
 <!-- language for the calendar -->
@@ -142,7 +143,46 @@
 
 <% } %>
 
-
+<script>
+	var afterSaveDemoId = null;
+	
+	<% if (demographicID != null && !demographicID.equals("") && !demographicID.equals("-1") && !demographicID.equalsIgnoreCase("null")) {%>
+		afterSaveDemoId = '<%=demographicID%>';
+	<%}%>
+	
+	function afterUpdateDocument(demographicId)
+	{
+		afterSaveDemoId = demographicId;
+		
+		jQuery(".after_demo_save").show();
+	}
+	
+	function popup_(height, width, url, windowName)
+	{
+		if(afterSaveDemoId==null || afterSaveDemoId=="")
+		{
+			alert("Demographic is not assigned yet.");
+			return;
+		}
+		
+		if(url!=null && url.indexOf("demographic_no")<0)
+			url = url + "&demographic_no="+afterSaveDemoId;
+		popup(height, width, url, windowName);
+	}
+	
+	function popupStart_(height, width, url, windowName)
+	{
+		if(afterSaveDemoId==null || afterSaveDemoId=="")
+		{
+			alert("Demographic is not assigned yet.");
+			return;
+		}
+		if(url!=null && url.indexOf("demographicNo")<0)
+			url = url + "&demographicNo="+afterSaveDemoId;
+		popupStart(height, width, url, windowName);
+	}
+</script>
+		
 
          <script type="text/javascript">
        renderCalendar=function(id,inputFieldId){
@@ -476,13 +516,15 @@
                                                         <input type="button" id="fileBtn_<%=docId%>"  value="<bean:message key="oscarMDS.index.btnFile"/>" onclick="fileDoc('<%=docId%>');">
                                                         <input type="button" id="closeBtn_<%=docId%>" value=" <bean:message key="global.btnClose"/> " onClick="window.close()">
                                                         <input type="button" id="printBtn_<%=docId%>" value=" <bean:message key="global.btnPrint"/> " onClick="popup(700,960,'<%=url2%>','file download')">
-                                                        <% if (demographicID != null && !demographicID.equals("") && !demographicID.equalsIgnoreCase("null")) {%>
-                                                        <input type="button" id="msgBtn_<%=docId%>" value="Msg" onclick="popup(700,960,'<%= request.getContextPath() %>/oscarMessenger/SendDemoMessage.do?demographic_no=<%=demographicID%>','msg')"/>
-                                                        <input type="button" id="ticklerBtn_<%=docId%>" value="Tickler" onclick="popup(450,600,'<%= request.getContextPath() %>/tickler/ForwardDemographicTickler.do?docType=DOC&docId=<%=docId%>&demographic_no=<%=demographicID%>','tickler')"/>
-							<input type="button" value=" <bean:message key="oscarMDS.segmentDisplay.btnEChart"/> " onClick="popupStart(360, 680, '<%= request.getContextPath() %>/oscarMDS/SearchPatient.do?labType=DOC&segmentID=<%= docId %>&name=<%=java.net.URLEncoder.encode(demoName)%>', 'searchPatientWindow')">
-                                                        <% }
-
-                                                        %>
+                                                        <%
+                                                        String style = "";
+                                                        if (demographicID == null || demographicID.equals("-1") || demographicID.equals("") || demographicID.equalsIgnoreCase("null")) {
+                                                        	style = "display:none;";
+                                                        }%>
+                                                        <input class="after_demo_save" style="<%=style %>" type="button" id="msgBtn_<%=docId%>" value="Msg" onclick="popup_(700,960,'<%= request.getContextPath() %>/oscarMessenger/SendDemoMessage.do?t=1','msg')"/>
+                                                        <input class="after_demo_save" style="<%=style %>" type="button" id="ticklerBtn_<%=docId%>" value="Tickler" onclick="popup_(450,600,'<%= request.getContextPath() %>/tickler/ForwardDemographicTickler.do?docType=DOC&docId=<%=docId%>','tickler')"/>
+														<input class="after_demo_save" style="<%=style %>" type="button" value=" <bean:message key="oscarMDS.segmentDisplay.btnEChart"/> " onClick="popupStart_(710, 1024, '<%= request.getContextPath() %>/oscarEncounter/IncomingEncounter.do?providerNo=<%=providerNo %>', 'e-chart')">
+                                                        
                                                     </td>
                                                 </tr>
                                             </table>

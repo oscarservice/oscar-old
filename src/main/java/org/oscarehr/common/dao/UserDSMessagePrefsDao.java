@@ -34,6 +34,7 @@ import org.oscarehr.common.model.UserDSMessagePrefs;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@SuppressWarnings("unchecked")
 public class UserDSMessagePrefsDao extends AbstractDao<UserDSMessagePrefs>{
 
 	public UserDSMessagePrefsDao() {
@@ -82,6 +83,15 @@ public class UserDSMessagePrefsDao extends AbstractDao<UserDSMessagePrefs>{
         return retHash;
     }
 
+	public List<UserDSMessagePrefs> findMessages(String providerNo, String resourceType, String resourceId, boolean archived) {
+		Query query = entityManager.createQuery("FROM UserDSMessagePrefs p WHERE p.providerNo = :providerNo AND p.resourceType = :resourceType and p.resourceId = :resourceId and p.archived = :archived");
+		query.setParameter("providerNo", providerNo);
+		query.setParameter("resourceType", resourceType);
+		query.setParameter("resourceId", resourceId);
+		query.setParameter("archived", new Boolean(archived));
+		return query.getResultList();
+	}
+	
     public UserDSMessagePrefs getDsMessage(String providerNo,String resourceType,String resourceId, boolean archived){
     	Query query = entityManager.createQuery("SELECT p FROM UserDSMessagePrefs p WHERE p.providerNo=? and p.resourceType=? and p.resourceId=? and p.archived = ? order by p.id DESC");
     	query.setParameter(1, providerNo);
@@ -98,4 +108,10 @@ public class UserDSMessagePrefsDao extends AbstractDao<UserDSMessagePrefs>{
         }
         return pref;
     }
+
+	public List<UserDSMessagePrefs> findAllByResourceId(String resourceId) {
+		Query query = entityManager.createQuery("FROM UserDSMessagePrefs p WHERE p.resourceId = :resourceId");
+		query.setParameter("resourceId", resourceId);
+		return query.getResultList();
+	}
 }

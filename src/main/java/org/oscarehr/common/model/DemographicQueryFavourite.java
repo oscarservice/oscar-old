@@ -38,27 +38,28 @@ import javax.persistence.Table;
 @Entity
 @Table(name="demographicQueryFavourites")
 public class DemographicQueryFavourite extends AbstractModel<Integer> implements Serializable {
-	/*
-	mysql> desc demographicQueryFavourites;
-	+---------------+--------------+------+-----+---------+----------------+
-	| Field         | Type         | Null | Key | Default | Extra          |
-	+---------------+--------------+------+-----+---------+----------------+
-	| favId         | int(9)       | NO   | PRI | NULL    | auto_increment | 
-	| selects       | text         | YES  |     | NULL    |                | 
-	| age           | varchar(255) | YES  |     | NULL    |                | 
-	| startYear     | varchar(8)   | YES  |     | NULL    |                | 
-	| endYear       | varchar(8)   | YES  |     | NULL    |                | 
-	| firstName     | varchar(255) | YES  |     | NULL    |                | 
-	| lastName      | varchar(255) | YES  |     | NULL    |                | 
-	| rosterStatus  | text         | YES  |     | NULL    |                | 
-	| sex           | varchar(10)  | YES  |     | NULL    |                | 
-	| providerNo    | text         | YES  |     | NULL    |                | 
-	| patientStatus | text         | YES  |     | NULL    |                | 
-	| queryName     | varchar(255) | YES  |     | NULL    |                | 
-	| archived      | char(1)      | YES  |     | NULL    |                | 
-	+---------------+--------------+------+-----+---------+----------------+
-*/
-	
+
+    private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "favId")
+	private Integer id;
+
+	private String selects;
+	private String age;
+	private String startYear;
+	private String endYear;
+	private String firstName;
+	private String lastName;
+	private String rosterStatus;
+	private String sex;
+	private String providerNo;
+	private String patientStatus;
+	private String queryName;
+	private String archived;
+	private String demoIds;
+
 	public String getSelects() {
     	return selects;
     }
@@ -155,29 +156,17 @@ public class DemographicQueryFavourite extends AbstractModel<Integer> implements
     	this.archived = archived;
     }
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="favId")
-	private Integer id;
-	
-	
-	private String selects;
-	private String age;           
-	private String startYear;     
-	private String endYear;      
-	private String firstName;   
-	private String lastName;     
-	private String rosterStatus;  
-	private String sex;          
-	private String providerNo;    
-	private String patientStatus;
-	private String queryName;      
-	private String archived;    
-
 	@Override
     public Integer getId() {
 		return id;
 	}
-	
+
+	public String getDemoIds() {
+		return demoIds;
+	}
+
+	public void setDemoIds(String demoIds) {
+		this.demoIds = demoIds;
+	}
 
 }

@@ -56,8 +56,8 @@
 	String forumUser = null;
 	String forumPwd = null;
 	if (zeissEnable) {
-		forumUser = OscarProperties.getInstance().getProperty("forum_user");
-		forumPwd = OscarProperties.getInstance().getProperty("forum_password");
+		forumUser = OscarProperties.getInstance().getProperty("forumviewer_username");
+		forumPwd = OscarProperties.getInstance().getProperty("forumviewer_password");
 	}
 
 %>
@@ -71,8 +71,11 @@
     <link rel="stylesheet" href="<c:out value="${ctx}"/>/oscarEncounter/encounterStyles.css" type="text/css">
     <link rel="stylesheet" type="text/css" href="<c:out value="${ctx}"/>/css/print.css" media="print">
 
+<!-- 
    <script src="<c:out value="${ctx}/js/jquery.js"/>"></script>
-   <script>
+ -->
+ <script src="<c:out value="${ctx}/js/jquery-1.7.1.min.js"/>"></script>
+<script language="javascript">
      jQuery.noConflict();
    </script>
 
@@ -80,6 +83,13 @@
     <script src="<c:out value="${ctx}"/>/share/javascript/prototype.js" type="text/javascript"></script>
     <script src="<c:out value="${ctx}"/>/share/javascript/scriptaculous.js" type="text/javascript"></script>
 
+<script type="text/javascript" src="<c:out value="${ctx}"/>/js/messenger/messenger.js"> </script>
+<script type="text/javascript" src="<c:out value="${ctx}"/>/js/messenger/messenger-theme-future.js"> </script>
+<link rel="stylesheet" type="text/css" href="<c:out value="${ctx}"/>/js/messenger/messenger.css"> </link>
+<link rel="stylesheet" type="text/css" href="<c:out value="${ctx}"/>/js/messenger/messenger-theme-future.css"> </link>
+
+<script type="text/javascript" src="newEncounterLayout.js.jsp"> </script>
+	
     <%-- for popup menu of forms --%>
     <script src="<c:out value="${ctx}"/>/share/javascript/popupmenu.js" type="text/javascript"></script>
     <script src="<c:out value="${ctx}"/>/share/javascript/menutility.js" type="text/javascript"></script>
@@ -139,6 +149,8 @@ var Colour = {
 
   <!--js code for newCaseManagementView.jsp -->
   <script type="text/javascript" src="<c:out value="${ctx}/js/newCaseManagementView.js.jsp"/>"></script>
+<script type="text/javascript" src="<c:out value="${ctx}/js/ZeroClipboard.js"/>"></script>
+<script type="text/javascript" src="<c:out value="${ctx}/js/imaging_study.js"/>"></script>
 
 <% if (OscarProperties.getInstance().getBooleanProperty("note_program_ui_enabled", "true")) { %>
 	<link rel="stylesheet" href="<c:out value="${ctx}/casemgmt/noteProgram.css" />" />
@@ -344,6 +356,8 @@ var Colour = {
         li.cpp {
             color: #000000;
             font-family:arial,sans-serif;
+	    text-overflow: ellipsis;
+	    overflow: hidden;
         }
 
         /*Note format */
@@ -624,7 +638,7 @@ var Colour = {
         printDateMsg = "<bean:message key="oscarEncounter.printDate.msg"/>";
         printDateOrderMsg = "<bean:message key="oscarEncounter.printDateOrder.msg"/>";
         nothing2PrintMsg = "<bean:message key="oscarEncounter.nothingToPrint.msg"/>";
-        editUnsignedMsg = "<bean:message key="oscarEncounter.printDateOrder.msg"/>";
+        editUnsignedMsg = "<bean:message key="oscarEncounter.editUnsignedNote.msg"/>";
         msgDraftSaved = "<bean:message key="oscarEncounter.draftSaved.msg"/>";
         msgPasswd = "<bean:message key="Logon.passWord"/>";
         btnMsgUnlock = "<bean:message key="oscarEncounter.Index.btnUnLock"/>";
@@ -683,23 +697,40 @@ function doscroll(){
 	window.scrollTo(0,x);
 	}
 
-function displayForumview(){
-	      <% if(zeissEnable){ %>
-	          middleware.style.display='block';
-	      <% } else { %>
-	      	middleware.style.display='none';
-	      <%}%>
-	    }
+window.onbeforeunload = onClosing;
+function displayForumview() {
+	if (middleware) {
+		<% if(zeissEnable){ %>
+		middleware.style.display='block';
+		<% } else { %>
+		middleware.style.display='none';
+		<%}%>
+	}
+}
 
 function openzeisswin(demoId, studyDate){
-	var url = "bbfexe:// -username <%=forumUser%> -password <%=forumPwd%> -patientId " + demoId;
-	url += " -examDate " + studyDate + " hh";
-    window.open(url); 
-   }
+	var params = "-username <%=forumUser%> -password <%=forumPwd%> -patientId " + demoId +  " -examDate " + studyDate + " hh";
+	var npXLPlugin = navigator.mimeTypes["application/oscar-forumViewer-plugin"];
+	if (npXLPlugin) {
+		var xlPlugin = document.getElementById("forumViewerPlugin");
+		if (!xlPlugin) {
+			xlPlugin = document.createElement("embed");
+			xlPlugin.style.visibility = "hidden";
+			xlPlugin.type = "application/oscar-forumViewer-plugin";
+			xlPlugin.width = 0;
+			xlPlugin.height = 0;
+			xlPlugin.id = "forumViewerPlugin";
+			document.body.appendChild(xlPlugin);
+		}
+		xlPlugin.foo(params);
+	} else {
+		alert("There's no plugin for mime-type: application/oscar-forumViewer-plugin");
+	}
+}
 
 </script>
   </head>
-  <body id="body" style="margin:0px;" onunload="onClosing()" onload="displayForumview()">
+  <body id="body" style="margin:0px;" onunload="onClosing();displayForumview();">
 
           <div id="header">
               <tiles:insert attribute="header" />

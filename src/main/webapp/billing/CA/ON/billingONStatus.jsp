@@ -18,7 +18,7 @@
 
 --%>
 <%! boolean bMultisites = org.oscarehr.common.IsPropertiesOn.isMultisitesEnable(); %>
-<%@ page import="java.math.*,java.util.*, java.sql.*, oscar.*, java.net.*,oscar.util.*,oscar.oscarBilling.ca.on.pageUtil.*,oscar.oscarBilling.ca.on.data.*,org.apache.struts.util.LabelValueBean" %>
+<%@ page import="java.math.*,java.util.*, java.sql.*, org.oscarehr.PMmodule.dao.ProviderDao,oscar.*, java.net.*,oscar.util.*,oscar.oscarBilling.ca.on.pageUtil.*,oscar.oscarBilling.ca.on.data.*,org.apache.struts.util.LabelValueBean" %>
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
@@ -643,6 +643,47 @@ if(statusType.equals("_")) { %>
        <% //
        String invoiceNo = ""; 
        boolean nC = false;
+       
+       //Get all billing group no. , provider no  for invoice report.
+       //(Why not OHIP no.? Because one doctor could have different provider no. working for different clinic. This doctor paid by commission so he needs to know how much payment from each clinic.)
+	   List<String> groups = new ArrayList<String>();
+       List<String> providerNos = new ArrayList<String>();
+	   groups.add("");
+	   providerNos.add("");
+	   String group_existing = "";
+	   ProviderDao providerDao = (ProviderDao)WebApplicationContextUtils.getWebApplicationContext(application).getBean("providerDao");
+	   for (int i = 0 ; i < bList.size(); i++) { 
+		   BillingClaimHeader1Data ch1Obj = (BillingClaimHeader1Data) bList.get(i);		 
+		   
+		   String provider_no = ch1Obj.getProviderNo();	
+		   if(!provider_no.equals("") && !providerNos.contains(provider_no))
+			   providerNos.add(provider_no);
+			   
+		   Provider provider = providerDao.getProvider(provider_no);
+		   //<xml_p_specialty_code>60</xml_p_specialty_code><xml_p_billinggroup_no>6339</xml_p_billinggroup_no>
+		   String comments = provider.getComments()==null?"":provider.getComments();
+		   if(comments.indexOf("<xml_p_billinggroup_no>") > 0) {
+			   String group_new = comments.length()>23?comments.substring(comments.indexOf("<xml_p_billinggroup_no>")+23, comments.indexOf("</xml_p_billinggroup_no>")):"";
+			   if(group_new.equals("") || groups.contains(group_new)) 
+			   	   continue;
+			   groups.add(group_new);	
+		   }
+	   }	   
+	   
+	   java.util.Collections.sort(groups);
+	   java.util.Collections.sort(providerNos);
+	   
+//Generate invoice report in different billing group
+for(int ii=0; ii<groups.size(); ii++) {
+	String group_display = groups.get(ii);   
+	
+	for(int jj=0; jj<providerNos.size(); jj++) {
+		int patientCountForOneProvider = 0;
+		String provider_no_display = providerNos.get(jj);
+		BigDecimal totalPerProvider = new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_UP); 
+		BigDecimal paidTotalPerProvider = new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_UP);
+		BigDecimal adjTotalPerProvider = new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_UP);
+      	
 
        for (int i = 0 ; i < bList.size(); i++) { 
     	   BillingClaimHeader1Data ch1Obj = (BillingClaimHeader1Data) bList.get(i);
@@ -653,9 +694,24 @@ if(statusType.equals("_")) { %>
     		   
 	       if (bMultisites && selectedSite != null && (!selectedSite.equals(ch1Obj.getClinic())))
 	    	   continue;
-	       
+    	   
+    	   //Filter by group no.
+    	   String provider_no = ch1Obj.getProviderNo();
+		   Provider provider = providerDao.getProvider(provider_no);
+		   String comments = provider.getComments()==null?"":provider.getComments();
+		   if(comments.indexOf("<xml_p_billinggroup_no>") > 0) {		   
+		   		String groupNo = comments.length()>23?comments.substring(comments.lastIndexOf("<xml_p_billinggroup_no>")+23, comments.indexOf("</xml_p_billinggroup_no>")):"";
+		   		if(!groupNo.equals(group_display))
+	    	   		continue;
+		   }
+		   
+		   //Filter by provider no.		   
+		   if(!provider_no.equalsIgnoreCase(provider_no_display))
+			   continue;
+		   
 	       patientCount ++;
-			       
+	       patientCountForOneProvider ++;
+	       
     	   // ra code
     	   if(raCode.trim().length() == 2) {
     		   if(!raData.isErrorCode(ch1Obj.getId(), raCode)) {
@@ -674,6 +730,7 @@ if(statusType.equals("_")) { %>
 	          incorrectVal = true;
 	       }
 	       total = total.add(valueToAdd);
+	       totalPerProvider = totalPerProvider.add(valueToAdd);
 	       String amountPaid = "0.00";
 	       String errorCode = "";
 	       if(serviceCode.equals("-") && raList.size() > 0){
@@ -690,9 +747,11 @@ if(statusType.equals("_")) { %>
 	       }
 	       BigDecimal bTemp = (new BigDecimal(amountPaid.trim())).setScale(2,BigDecimal.ROUND_HALF_UP);
 	       paidTotal = paidTotal.add(bTemp);
+	       paidTotalPerProvider = paidTotalPerProvider.add(bTemp);
 	       BigDecimal adj = (new BigDecimal(ch1Obj.getTotal())).setScale(2,BigDecimal.ROUND_HALF_UP);               
                adj = adj.subtract(bTemp);
                adjTotal = adjTotal.add(adj);
+               adjTotalPerProvider = adjTotalPerProvider.add(adj);
 	       String color = "";
 	       if(!invoiceNo.equals(ch1Obj.getId())) {
 	    	   invoiceNo = ch1Obj.getId(); 
@@ -739,10 +798,37 @@ if(statusType.equals("_")) { %>
 				 </td>     <!--SITE-->          
         	<% }%>     
           </tr>
-       <% } %>  
+       <% }
+          if(patientCountForOneProvider>0) {
+        	  Provider provider = providerDao.getProvider(provider_no_display);
+        	  String providerName= provider.getFormattedName();
+        %>  
        
           <tr class="myYellow"> 
              <td>Count:</td>  
+             <td align="center"><%=patientCountForOneProvider%></td> 
+             <td align="center"><%=patientCountForOneProvider%></td> 
+             <td>&nbsp;</td> <!--STAT-->
+             <td>&nbsp;</td>
+             <td>Total:</td><!--CODE-->
+             <td align="right"><%=totalPerProvider.toString()%></td><!--BILLED-->
+             <td align="right"><%=paidTotalPerProvider.toString()%></td><!--PAID-->
+             <td align="right"><%=adjTotalPerProvider.toString()%></td><!--ADJUSTMENTS-->
+             <td>&nbsp;</td><!--DX1-->
+             <td>&nbsp;</td><!--DX2-->
+             <td align="center">Group#: <%=group_display %></td><!--DX3-->
+             <td align="center">Provider: <%=providerName %></td><!--ACCOUNT-->
+             <td>&nbsp;</td><!--MESSAGES-->
+             <% if (bMultisites) {%>
+				 <td>&nbsp;</td><!--SITE-->          
+        	<% }%>    
+          </tr>
+        <%}
+	   }
+	}%>
+	<tr><td colspan="14">&nbsp;</td></tr>
+	<tr class="myYellow"> 
+             <td>Total Count:</td>  
              <td align="center"><%=patientCount%></td> 
              <td align="center"><%=patientCount%></td> 
              <td>&nbsp;</td> <!--STAT-->
@@ -754,7 +840,7 @@ if(statusType.equals("_")) { %>
              <td>&nbsp;</td><!--DX1-->
              <td>&nbsp;</td><!--DX2-->
              <td>&nbsp;</td><!--DX3-->
-             <td>&nbsp;</td><!--ACCOUNT-->
+             <td align="center">All Providers</td><!--ACCOUNT-->
              <td>&nbsp;</td><!--MESSAGES-->
              <% if (bMultisites) {%>
 				 <td>&nbsp;</td><!--SITE-->          

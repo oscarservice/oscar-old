@@ -38,6 +38,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.List;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -65,8 +66,11 @@ public final class Factory {
 			Hl7TextMessageDao hl7TextMessageDao = (Hl7TextMessageDao) SpringUtils.getBean("hl7TextMessageDao");
 			Hl7TextMessage hl7TextMessage = hl7TextMessageDao.find(Integer.parseInt(segmentID));
 
-			String type = hl7TextMessage.getType();
-			String hl7Body = MiscUtils.decodeBase64StoString(hl7TextMessage.getBase64EncodedeMessage());
+			String type = hl7TextMessage.getType();			
+			String hl7Body = new String(Base64.decodeBase64(hl7TextMessage.getBase64EncodedeMessage()), MiscUtils.ENCODING);
+			if(type!=null && "EPSILON".equalsIgnoreCase(type)) {
+				hl7Body=hl7Body.replace("|P||", "|P|2.3|");  //If there is no version code in MHL lab hl7 file, add default 2.3 here. Otherwise it will fail on parsing.
+			}	
 			return getHandler(type, hl7Body);
 		} catch (Exception e) {
 			logger.error("Could not retrieve lab for segmentID(" + segmentID + ")", e);
@@ -81,7 +85,7 @@ public final class Factory {
 			Hl7TextMessageDao hl7TextMessageDao = (Hl7TextMessageDao) SpringUtils.getBean("hl7TextMessageDao");
 			Hl7TextMessage hl7TextMessage = hl7TextMessageDao.find(Integer.parseInt(segmentID));
 
-			ret = MiscUtils.decodeBase64StoString(hl7TextMessage.getBase64EncodedeMessage());
+			ret = new String(Base64.decodeBase64(hl7TextMessage.getBase64EncodedeMessage()), MiscUtils.ENCODING);
 		} catch (Exception e) {
 			logger.error("Could not retrieve lab for segmentID(" + segmentID + ")", e);
 		}
@@ -119,7 +123,17 @@ public final class Factory {
 			for (int i = 0; i < items.size(); i++) {
 				Element e = (Element) items.get(i);
 				msgType = e.getAttributeValue("name");
-				if (msgType.equals(type)) msgHandler = "oscar.oscarLab.ca.all.parsers." + e.getAttributeValue("className");
+				if (msgType.equals(type)) {
+					String className = e.getAttributeValue("className");
+					
+					// in case we have dots in the handler class name (i.e. package 
+					// is specified), don't assume default package
+					if (className.indexOf("\\.") != -1) {
+						msgHandler = className;
+					} else {
+						msgHandler = "oscar.oscarLab.ca.all.parsers." + className;
+					}
+				}
 			}
 
 			// create and return the message handler

@@ -100,8 +100,12 @@ public class WKHtmlToPdfUtils {
 	 */
 	private static void runtimeExec(ArrayList<String> command, String outputFilename) throws IOException {
 		File f = new File(outputFilename);
-		Process process = Runtime.getRuntime().exec(command.toArray(new String[0]));
-
+		Process process = null;
+		try {
+			process = Runtime.getRuntime().exec(command.toArray(new String[0]));
+		} catch (Exception e) {
+			logger.error("PDF conversion exception: ", e);
+		}
 		long previousFileSize = 0;
 		int noFileSizeChangeCounter = 0;
 

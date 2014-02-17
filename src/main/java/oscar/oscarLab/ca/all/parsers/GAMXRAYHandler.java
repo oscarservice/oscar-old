@@ -54,10 +54,10 @@ public class GAMXRAYHandler
   implements MessageHandler
 {
   Logger logger = Logger.getLogger(GAMXRAYHandler.class);
-  private ArrayList<String> headers = new ArrayList();
+  private ArrayList<String> headers = new ArrayList<String>();
   private Document doc = null;
   private NodeList nodelist;
-  private HashMap<String, String> docMap = new HashMap();
+  private HashMap<String, String> docMap = new HashMap<String, String>();
   private String reportBody = null;
   private String pdfName = null;
   private int pdfPageCount = 0;
@@ -517,7 +517,7 @@ public class GAMXRAYHandler
 
   public ArrayList<String> getDocNums()
   {
-    ArrayList nums = new ArrayList();
+    ArrayList nums = new ArrayList<String>();
     nums.add(getString(this.repDoc_provid));
     nums.add(getString(this.refDoc_provid));
     return nums;

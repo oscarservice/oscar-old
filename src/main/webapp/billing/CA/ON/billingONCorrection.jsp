@@ -642,7 +642,7 @@ if(bFlag) {
                         <option value="NT" <%=HCTYPE.equals("NT")?" selected":""%>>NT-Northwest Territory</option>
                         <option value="NS" <%=HCTYPE.equals("NS")?" selected":""%>>NS-Nova Scotia</option>
                         <option value="NU" <%=HCTYPE.equals("NU")?" selected":""%>>NU-Nunavut</option>
-                        <option value="ON" <%=HCTYPE.equals("ON")?" selected":""%>>ON-Ontario</option>
+                        <option selected="selected" value="ON" <%=HCTYPE.equals("ON")?" selected":""%>>ON-Ontario</option>
                         <option value="PE" <%=HCTYPE.equals("PE")?" selected":""%>>PE-Prince Edward Island</option>
                         <option value="QC" <%=HCTYPE.equals("QC")?" selected":""%>>QC-Quebec</option>
                         <option value="SK" <%=HCTYPE.equals("SK")?" selected":""%>>SK-Saskatchewan</option>
@@ -737,7 +737,7 @@ if(bFlag) {
 				key="billing.billingCorrection.formSelectBillType" /></option>
 			<option value="H" <%=BillType.equals("H")?"selected":""%>><bean:message
 				key="billing.billingCorrection.formBillTypeH" /></option>
-			<option value="O" <%=BillType.equals("O")?"selected":""%>><bean:message
+			<option selected="selected" value="O" <%=BillType.equals("O")?"selected":""%>><bean:message
 				key="billing.billingCorrection.formBillTypeO" /></option>
 			<option value="P" <%=BillType.equals("P")?"selected":""%>><bean:message
 				key="billing.billingCorrection.formBillTypeP" /></option>
@@ -928,6 +928,9 @@ function changeSite(sel) {
 				<option value="IHF " <%=sliCode.startsWith("IHF")?"selected":""%>><bean:message key="oscar.billing.CA.ON.billingON.OB.SLIcode.IHF" /></option>
 				<option value="OFF " <%=sliCode.startsWith("OFF")?"selected":""%>><bean:message key="oscar.billing.CA.ON.billingON.OB.SLIcode.OFF" /></option>
 				<option value="OTN " <%=sliCode.startsWith("OTN")?"selected":""%>><bean:message key="oscar.billing.CA.ON.billingON.OB.SLIcode.OTN" /></option>
+				<option value="PDF " <%=sliCode.startsWith("PDF")?"selected":""%>><bean:message key="oscar.billing.CA.ON.billingON.OB.SLIcode.PDF" /></option>
+				<option value="RTF " <%=sliCode.startsWith("RTF")?"selected":""%>><bean:message key="oscar.billing.CA.ON.billingON.OB.SLIcode.RTF" /></option>
+			
 			</select>
 	   </td>
 </table>

@@ -73,6 +73,21 @@ a			{font-family: sans-serif; font-size: 12px; font-weight: normal; color: blue;
 </style>
 
 <script type="text/javascript">
+
+function getSignatureIndex(type, inputName) {
+	var index = 0;
+	for (var j = 0; j < DrawData.length; j++) {
+		var RedrawParameter = DrawData[j].split("|");
+		if (RedrawParameter[0] == type) {
+			index++;
+			if (inputName == RedrawParameter[5]) {
+				break;
+			}
+		}
+	}
+	return index;
+}
+
 function getCheckedValue(radioObj) {
 	if(!radioObj)
 		return "";
@@ -136,8 +151,8 @@ function show(x){
 	if (x == 'all'){
 		show('Section1');show('Section2');show('Section3');show('Section4');show('Section5');show('Section6');show('Section7');show('Section8');
 	}else{
-	//expands section
-	document.getElementById(x).style.display = 'block';
+		//expands section
+		document.getElementById(x).style.display = 'block';
 	}
 }
 function hide(x){
@@ -157,6 +172,9 @@ function toggleView(checked,x){
 		document.getElementById(x).style.display = 'none';
 	}
 }
+
+var scriptelSigBox = "ScriptelSignatureBox";
+var freehandSigBox = "FreehandSignatureBox";
 
 function loadInputList(){
 	//load checklist of all eform input fields
@@ -179,6 +197,8 @@ function loadInputList(){
 			InputName= new String(RedrawParameter[5]);
 		}else if (InputType == 'Checkbox'){
 			InputName = new String(RedrawParameter[3]);
+		} else if (InputType == scriptelSigBox || InputType == freehandSigBox) {
+			InputName = new String(RedrawParameter[5]);
 		}
 		//adds InputName as list item in InputList
 		var ListItem = document.createElement("li");
@@ -196,9 +216,13 @@ function loadInputList(){
 		InputList.appendChild(ListItem);
 	}
 	if (document.getElementById('AddSignature').checked){
-		ListItem = document.createElement("li");
-		ListItem.innerHTML = "<input name='InputChecklist' type='checkbox' id='SignatureBox' value ='SignatureBox'>SignatureBox";
-		InputList.appendChild(ListItem);
+		var div4c = document.getElementById('Section4c');
+		var div4b = document.getElementById('Section4b');
+		if (!document.getElementById("ScriptelSign").checked && !document.getElementById("FreehandSign").checked) {
+			ListItem = document.createElement("li");
+			ListItem.innerHTML = "<input name='InputChecklist' type='checkbox' id='SignatureBox' value ='SignatureBox'>SignatureBox";
+			InputList.appendChild(ListItem);
+		}
 	}
 }
 
@@ -221,8 +245,6 @@ function emptyUserSignaturelist(){
 		UserSignatureList.removeChild(UserSignatureList.lastChild);
 	}
 }
-
-
 
 function uncheckList(x){
 	var List = document.getElementsByName(x);
@@ -271,6 +293,9 @@ function TransformInput(n, d, p){
 		}else if (InputType == 'Checkbox'){
 			InputName = new String(RedrawParameter[3]);
 			DataNumber = j;
+		} else if (InputType == scriptelSigBox || InputType == freehandSigBox) {
+			InputName = new String(RedrawParameter[5]);
+			DataNumber = j;
 		}
 		if (InputName == n){		//if InputName matches n
 			var TargetParameter = TempData[DataNumber].split("|");
@@ -297,7 +322,7 @@ function TransformInput(n, d, p){
 				H = H + p;
 				TargetParameter[4] = H;
 			}
-		DrawData[j] = TargetParameter.join("|");
+			DrawData[j] = TargetParameter.join("|");
 		}
 	}
 	//shift gender boxes
@@ -379,6 +404,9 @@ function alignInput(edge){
 					DataNumber = j;
 				}else if (InputType == 'Checkbox'){
 					InputName = new String(RedrawParameter[3]);
+					DataNumber = j;
+				} else if (InputType == scriptelSigBox || InputType == freehandSigBox) {
+					InputName = new String(RedrawParameter[5]);
 					DataNumber = j;
 				}
 				if (InputName == n){
@@ -485,6 +513,9 @@ function alignInput(edge){
 				}else if (InputType == 'Checkbox'){
 					InputName = new String(RedrawParameter[3]);
 					DataNumber = j;
+				} else if (InputType == scriptelSigBox || InputType == freehandSigBox) {
+					InputName = new String(RedrawParameter[5]);
+					DataNumber = j;
 				}
 				if (InputName == n){		//if InputName matches n
 					var TargetParameter = TempData[DataNumber].split("|");
@@ -573,6 +604,9 @@ function deleteInput(){
 				}else if (InputType == 'Checkbox'){
 					InputName = new String(RedrawParameter[3]);
 					DataNumber = j;
+				} else if (InputType == scriptelSigBox || InputType == freehandSigBox) {
+					InputName = new String(RedrawParameter[5]);
+					DataNumber = j;
 				}
 				if (InputName == n){
 					TempData.splice(j,1);
@@ -636,24 +670,30 @@ function resetAll(){
 }
 
 function GetTextTop(){
-	textTop = "&lt;html&gt;\n&lt;head&gt;\n&lt;title&gt;"
+	textTop = "&lt;html&gt;\n&lt;head&gt;\n&lt;title&gt;";
 	textTop += document.getElementById('eFormName').value;
-	textTop += "&lt;/title&gt;\n&lt;style type=&quot;text/css&quot; media=&quot;print&quot;&gt;\n .DoNotPrint {\n\t display: none;\n }\n .noborder {\n\t border : 0px;\n\t background: transparent;\n\t scrollbar-3dlight-color: transparent;\n\t scrollbar-3dlight-color: transparent;\n\t scrollbar-arrow-color: transparent;\n\t scrollbar-base-color: transparent;\n\t scrollbar-darkshadow-color: transparent;\n\t scrollbar-face-color: transparent;\n\t scrollbar-highlight-color: transparent;\n\t scrollbar-shadow-color: transparent;\n\t scrollbar-track-color: transparent;\n\t background: transparent;\n\t overflow: hidden;\n }\n &lt;/style&gt;\n\n"
+	textTop += "&lt;/title&gt;\n&lt;style type=&quot;text/css&quot; media=&quot;print&quot;&gt;\n .DoNotPrint {\n\t display: none;\n }\n .noborder {\n\t border : 0px;\n\t background: transparent;\n\t scrollbar-3dlight-color: transparent;\n\t scrollbar-3dlight-color: transparent;\n\t scrollbar-arrow-color: transparent;\n\t scrollbar-base-color: transparent;\n\t scrollbar-darkshadow-color: transparent;\n\t scrollbar-face-color: transparent;\n\t scrollbar-highlight-color: transparent;\n\t scrollbar-shadow-color: transparent;\n\t scrollbar-track-color: transparent;\n\t background: transparent;\n\t overflow: hidden;\n }\n &lt;/style&gt;\n\n";
 	//auto ticking gender boxes
 	if (document.getElementById('preCheckGender').checked){
-		textTop += "&lt;script type=&quot;text/javascript&quot; language=&quot;javascript&quot;&gt;\n"
-		textTop += "function checkGender(){\n"
-		textTop += "\t if (document.getElementById('PatientGender').value == 'M'){\n"
-		textTop += "\t document.getElementById('Male').checked = true;\n"
-		textTop += "\t }else if (document.getElementById('PatientGender').value == 'F'){\n"
-		textTop += "\t document.getElementById('Female').checked = true;\n"
-		textTop += "\t}\n }\n"
-		textTop += "&lt;/script&gt;\n\n"
+		textTop += "&lt;script type=&quot;text/javascript&quot; language=&quot;javascript&quot;&gt;\n";
+		textTop += "function checkGender(){\n";
+		textTop += "\t if (document.getElementById(&quot;PatientGender&quot;).value == &quot;M&quot;){\n";
+		textTop += "\t document.getElementById(&quot;Male&quot;).checked = true;\n";
+		textTop += "\t }else if (document.getElementById(&quot;PatientGender&quot;).value == &quot;F&quot;){\n";
+		textTop += "\t document.getElementById(&quot;Female&quot;).checked = true;\n";
+		textTop += "\t}\n }\n";
+		textTop += "&lt;/script&gt;\n\n";
 	}
 	//load jsgraphic scripts for drawing in checkbox or freehand signatures
-	if(document.getElementById('DefaultCheckmark').checked <% if (!OscarProperties.getInstance().isPropertyActive("eform_generator_indivica_signature_enabled")) { %>|| document.getElementById('DrawSign').checked|| document.getElementById('DrawSign1').checked<%}%>){
-		textTop += "&lt;!-- js graphics scripts --&gt;\n"
-		textTop += "&lt;script type=&quot;text/javascript&quot; src=&quot;$%7Boscar_image_path%7Djsgraphics.js&quot;&gt;&lt;/script&gt;\n"
+	<% if (!OscarProperties.getInstance().isPropertyActive("eform_generator_indivica_signature_enabled")) { %>
+		if(document.getElementById('DefaultCheckmark').checked 
+				|| document.getElementById('FreehandSign').checked
+				|| document.getElementById('ScriptelSign').checked){
+	<%} else {%>
+	if(document.getElementById('DefaultCheckmark').checked){
+	<%}%>
+		textTop += "&lt;!-- js graphics scripts --&gt;\n";
+		textTop += "&lt;script type=&quot;text/javascript&quot; src=&quot;$%7Boscar_javascript_path%7Deforms/jsgraphics.js&quot;&gt;&lt;/script&gt;\n";
 	}
 	<% if (OscarProperties.getInstance().isPropertyActive("eform_generator_indivica_print_enabled") || OscarProperties.getInstance().isPropertyActive("eform_generator_indivica_fax_enabled") || OscarProperties.getInstance().isPropertyActive("eform_generator_indivica_signature_enabled")) { %>
 	textTop += "&lt;script type=&quot;text/javascript&quot; src=&quot;$%7Boscar_javascript_path%7Djquery/jquery-1.4.2.js&quot;&gt;&lt;/script&gt;\n";
@@ -668,14 +708,15 @@ function GetTextTop(){
 		textTop += "&lt;script type=&quot;text/javascript&quot; src=&quot;$%7Boscar_javascript_path%7Deforms/faxControl.js&quot;&gt;&lt;/script&gt;\n";
 	}
 	<% } %>	
-		
-	<% if (!OscarProperties.getInstance().isPropertyActive("eform_generator_indivica_signature_enabled")) { %>
+	
 	//load mouse function scripts for freehand signatures
-	if(document.getElementById('DrawSign').checked|| document.getElementById('DrawSign1').checked){
-		textTop += "&lt;!-- mousefunction scripts --&gt;\n"
-		textTop += "&lt;script type=&quot;text/javascript&quot; src=&quot;$%7Boscar_image_path%7Dmouse.js&quot;&gt;&lt;/script&gt;\n\n"
+	<% if (!OscarProperties.getInstance().isPropertyActive("eform_generator_indivica_signature_enabled")) { %>
+	if(document.getElementById('FreehandSign').checked) {
+		textTop += "&lt;!-- mousefunction scripts --&gt;\n";
+		textTop += "&lt;script type=&quot;text/javascript&quot; src=&quot;$%7Boscar_image_path%7Dmouse.js&quot;&gt;&lt;/script&gt;\n\n";
 	}
-	<%} %>
+	<%}%>
+	
 	if (document.getElementById('AddSignature').checked){
 	<% if (OscarProperties.getInstance().isPropertyActive("eform_generator_indivica_signature_enabled")) { %>		
 		textTop += "&lt;script type=&quot;text/javascript&quot; src=&quot;$%7Boscar_javascript_path%7Deforms/signatureControl.jsp&quot;&gt;&lt;/script&gt;\n";
@@ -686,131 +727,131 @@ function GetTextTop(){
 		textTop += "});}";
 		textTop +="&lt;/script&gt;\n";
 		<% } else { %> //
-		textTop += "&lt;script language=&quot;javascript&quot;&gt;\n"
-		textTop += "function show(x){\n"
-		textTop += "\tdocument.getElementById(x).style.display = 'block';\n"
-		textTop += "}\n"
-		textTop += "function hide(x){\n"
-		textTop += "\tdocument.getElementById(x).style.display = 'none';\n"
-		textTop += "}\n"
-		textTop += "&lt;/script&gt;\n\n"
+		textTop += "&lt;script language=&quot;javascript&quot;&gt;\n";
+		textTop += "function show(x){\n";
+		textTop += "\tdocument.getElementById(x).style.display = &quot;block&quot;;\n";
+		textTop += "}\n";
+		textTop += "function hide(x){\n";
+		textTop += "\tdocument.getElementById(x).style.display = &quot;none&quot;;\n";
+		textTop += "}\n";
+		textTop += "&lt;/script&gt;\n\n";
 		<% } %>
 	}
 	//printing script
-	textTop += "&lt;script language=&quot;javascript&quot;&gt;\n"
-	textTop += "function formPrint(){\n"
+	textTop += "&lt;script language=&quot;javascript&quot;&gt;\n";
+	textTop += "function formPrint(){\n";
 	//when printing checkmarks, need to move checkmark canvas to the front.
 	//After printing, need to move canvas to the back, so that you can interact with form inputs again
 	if(document.getElementById('DefaultCheckmark').checked){
-		textTop += "\t if (document.getElementById('DrawCheckmark').checked){ \n"
-		textTop += "\t\t	printCheckboxes();\n"
-		textTop += "\t }else{\n"
+		textTop += "\t if (document.getElementById(&quot;DrawCheckmark&quot;).checked){ \n";
+		textTop += "\t\t	printCheckboxes();\n";
+		textTop += "\t }else{\n";
 	}
-	textTop += "\t\t	window.print();\n"
+	textTop += "\t\t	window.print();\n";
 	if(document.getElementById('DefaultCheckmark').checked){
-		textTop += "\t } \n"
+		textTop += "\t } \n";
 	}
-	textTop += "} \n"
-	textTop += "&lt;/script&gt;\n\n"
+	textTop += "} \n";
+	textTop += "&lt;/script&gt;\n\n";
 
 	//Peter Hutten-Czapski's script to confirm closing of window if eform changed
-	textTop += "&lt;!-- scripts to confirm closing of window if it hadn't been saved yet --&gt;\n"
-	textTop += "&lt;script language=&quot;javascript&quot;&gt;\n"
-	textTop += "//keypress events trigger dirty flag\n"
-	textTop += "var needToConfirm = false;\n"
-	textTop += "document.onkeyup=setDirtyFlag;\n"
-	textTop += "function setDirtyFlag(){\n"
-	textTop += "\t	needToConfirm = true;\n"
-	textTop += "}\n"
-	textTop += "function releaseDirtyFlag(){\n"
-	textTop += "\t	needToConfirm = false; //Call this function if doesn't requires an alert.\n"
-	textTop += "//this could be called when save button is clicked\n"
-	textTop += "}\n"
-	textTop += "window.onbeforeunload = confirmExit;\n"
-	textTop += "function confirmExit(){\n"
-	textTop += "\t if (needToConfirm){\n"
-	textTop += "\t\t return &quot;You have attempted to leave this page. If you have made any changes to the fields without clicking the Save button, your changes will be lost. Are you sure you want to exit this page?&quot;;\n"
-	textTop += "\t }\n"
-	textTop += "}\n"
-	textTop += "&lt;/script&gt;\n\n"
+	textTop += "&lt;!-- scripts to confirm closing of window if it hadn't been saved yet --&gt;\n";
+	textTop += "&lt;script language=&quot;javascript&quot;&gt;\n";
+	textTop += "//keypress events trigger dirty flag\n";
+	textTop += "var needToConfirm = false;\n";
+	textTop += "document.onkeyup=setDirtyFlag;\n";
+	textTop += "function setDirtyFlag(){\n";
+	textTop += "\t	needToConfirm = true;\n";
+	textTop += "}\n";
+	textTop += "function releaseDirtyFlag(){\n";
+	textTop += "\t	needToConfirm = false; //Call this function if doesn't requires an alert.\n";
+	textTop += "//this could be called when save button is clicked\n";
+	textTop += "}\n";
+	textTop += "window.onbeforeunload = confirmExit;\n";
+	textTop += "function confirmExit(){\n";
+	textTop += "\t if (needToConfirm){\n";
+	textTop += "\t\t return &quot;You have attempted to leave this page. If you have made any changes to the fields without clicking the Save button, your changes will be lost. Are you sure you want to exit this page?&quot;;\n";
+	textTop += "\t }\n";
+	textTop += "}\n";
+	textTop += "&lt;/script&gt;\n\n";
 
 	//maximize window script
 	if (document.getElementById('maximizeWindow').checked){
-		textTop += "&lt;script language=&quot;JavaScript&quot;&gt;\n"
-		textTop += "\t top.window.moveTo(0,0);\n"
-		textTop += "\t if (document.all) {\n"
-		textTop += "\t top.window.resizeTo(screen.availWidth,screen.availHeight);\n"
-		textTop += "\t }\n"
-		textTop += "\t else if (document.layers||document.getElementById) {\n"
-		textTop += "\t if (top.window.outerHeight&lt;screen.availHeight||top.window.outerWidth&lt;screen.availWidth){\n"
-		textTop += "\t\t top.window.outerHeight = screen.availHeight;\n"
-		textTop += "\t\t top.window.outerWidth = screen.availWidth;\n"
-		textTop += "\t}\n}\n &lt;/script&gt;\n\n"
+		textTop += "&lt;script language=&quot;JavaScript&quot;&gt;\n";
+		textTop += "\t top.window.moveTo(0,0);\n";
+		textTop += "\t if (document.all) {\n";
+		textTop += "\t top.window.resizeTo(screen.availWidth,screen.availHeight);\n";
+		textTop += "\t }\n";
+		textTop += "\t else if (document.layers||document.getElementById) {\n";
+		textTop += "\t if (top.window.outerHeight&lt;screen.availHeight||top.window.outerWidth&lt;screen.availWidth){\n";
+		textTop += "\t\t top.window.outerHeight = screen.availHeight;\n";
+		textTop += "\t\t top.window.outerWidth = screen.availWidth;\n";
+		textTop += "\t}\n}\n &lt;/script&gt;\n\n";
 	}
 	// David Daley and Peter Hutten-Czapski's scripts for scaling up checkboxes
 	if (document.getElementById('ScaleCheckmark').checked){
-		textTop += "&lt;style type=&quot;Text/css&quot;&gt;\n"
-		textTop += "input.largerCheckbox {\n"
-		textTop += "\t-moz-transform:scale(1.3);         /*scale up image 1.3x - Firefox specific */ \n"
-		textTop += "\t-webkit-transform:scale(1.3);      /*Webkit based browser eg Chrome, Safari */ \n"
-		textTop += "\t-o-transform:scale(1.3);           /*Opera browser */ \n"
-		textTop += "}\n"
-		textTop += "&lt;/style&gt;\n"
-		textTop += "&lt;style type=&quot;text/css&quot; media=&quot;print&quot;&gt;\n"
-		textTop += "input.largerCheckbox { \n"
-		textTop += "\t-moz-transform:scale(1.8);         /*scale up image 1.8x - Firefox specific */ \n"
-		textTop += "\t-webkit-transform:scale(1.3);      /*Webkit based browser eg Chrome, Safari */ \n"
-		textTop += "\t-o-transform:scale(1.3);           /*Opera browser */ \n"
-		textTop += "} \n"
-		textTop += "&lt;/style&gt;\n"
-		textTop += "&lt;!--[if IE]&gt;\n"
-		textTop += "&lt;style type=&quot;text/css&quot;&gt;\n"
-		textTop += "input.largerCheckbox { \n"
-		textTop += "\theight: 30px;                     /*30px checkboxes for IE 5 to IE 7 */ \n"
-		textTop += "\twidth: 30px; \n"
-		textTop += "} \n"
-		textTop += "&lt;/style&gt; \n"
-		textTop += "&lt;![endif]--&gt; \n\n"
+		textTop += "&lt;style type=&quot;Text/css&quot;&gt;\n";
+		textTop += "input.largerCheckbox {\n";
+		textTop += "\t-moz-transform:scale(1.3);         /*scale up image 1.3x - Firefox specific */ \n";
+		textTop += "\t-webkit-transform:scale(1.3);      /*Webkit based browser eg Chrome, Safari */ \n";
+		textTop += "\t-o-transform:scale(1.3);           /*Opera browser */ \n";
+		textTop += "}\n";
+		textTop += "&lt;/style&gt;\n";
+		textTop += "&lt;style type=&quot;text/css&quot; media=&quot;print&quot;&gt;\n";
+		textTop += "input.largerCheckbox { \n";
+		textTop += "\t-moz-transform:scale(1.8);         /*scale up image 1.8x - Firefox specific */ \n";
+		textTop += "\t-webkit-transform:scale(1.3);      /*Webkit based browser eg Chrome, Safari */ \n";
+		textTop += "\t-o-transform:scale(1.3);           /*Opera browser */ \n";
+		textTop += "} \n";
+		textTop += "&lt;/style&gt;\n";
+		textTop += "&lt;!--[if IE]&gt;\n";
+		textTop += "&lt;style type=&quot;text/css&quot;&gt;\n";
+		textTop += "input.largerCheckbox { \n";
+		textTop += "\theight: 30px;                     /*30px checkboxes for IE 5 to IE 7 */ \n";
+		textTop += "\twidth: 30px; \n";
+		textTop += "} \n";
+		textTop += "&lt;/style&gt; \n";
+		textTop += "&lt;![endif]--&gt; \n\n";
 	}
 	<% if (!OscarProperties.getInstance().isPropertyActive("eform_generator_indivica_signature_enabled")) { %>
 	//autoloading signature images
 	var List = document.getElementsByName('UserSignatureListItem');
 	if (document.getElementById('AutoSign').checked){
-		textTop += "&lt;script type=&quot;text/javascript&quot;&gt;\n"
-		textTop += "function preloadImg(){\n"
-		textTop += "\t// create object\n"
-		textTop += "\timageObj = new Image();\n"
-		textTop += "\t// set image list\n"
-		textTop += "\timages = new Array();\n"
+		textTop += "&lt;script type=&quot;text/javascript&quot;&gt;\n";
+		textTop += "function preloadImg(){\n";
+		textTop += "\t// create object\n";
+		textTop += "\timageObj = new Image();\n";
+		textTop += "\t// set image list\n";
+		textTop += "\timages = new Array();\n";
 		for (i=0; i<List.length;i++){
-			var ListItem = List[i].innerHTML
-			var ListItemArr =  ListItem.split('|')
+			var ListItem = List[i].innerHTML;
+			var ListItemArr =  ListItem.split('|');
 			var UserName = ListItemArr[0];
 			var FileName = ListItemArr[1];
-			textTop +="\timages[" + i + "]='$%7Boscar_image_path%7D" + FileName + "'\n"
+			textTop +="\timages[" + i + "]=&quot;$%7Boscar_image_path%7D" + FileName + "&quot;\n";
 		}
-		textTop += "\t// start preloading\n"
-		textTop += "\tfor(i=0; i&lt;=images.length; i++){\n"
-		textTop += "\t\timageObj.src=images[i];\n"
-		textTop += "\t}\n"
-		textTop += "}\n\n"
-		textTop += "function reloadSignature(){\n"
-		textTop += "\tpreloadImg();\n"
-		textTop += "\tvar SubmittedBy = document.getElementById('SubmittedBy').value;\n"
-		textTop += "\tif (!SubmittedBy){\n"
-		textTop += "\t\tSignForm('current_user');\n"
-		textTop += "\t} else {\n"
-		textTop += "\t\tSignForm(SubmittedBy);\n"
-		textTop += "\t}\n"
-		textTop += "\tresizeSignature();\n"
-		textTop += "}\n\n"
+		textTop += "\t// start preloading\n";
+		textTop += "\tfor(i=0; i&lt;=images.length; i++){\n";
+		textTop += "\t\timageObj.src=images[i];\n";
+		textTop += "\t}\n";
+		textTop += "}\n\n";
+		textTop += "function reloadSignature(){\n";
+		textTop += "\tpreloadImg();\n";
+		textTop += "\tvar SubmittedBy = document.getElementById(&quot;SubmittedBy&quot;).value;\n";
+		textTop += "\tif (!SubmittedBy){\n";
+		textTop += "\t\tSignForm(&quot;current_user&quot;);\n";
+		textTop += "\t} else {\n";
+		textTop += "\t\tSignForm(SubmittedBy);\n";
+		textTop += "\t}\n";
+		textTop += "\tresizeSignature();\n";
+		textTop += "}\n\n";
 
-		textTop += "function SignForm(SignBy){\n"
-		textTop += "\tvar SignatureHolder = document.getElementById('SignatureHolder');\n"
-		textTop += "\tvar DoctorName = document.getElementById('DoctorName').value;\n"
-		textTop += "\tvar CurrentUserName = document.getElementById('CurrentUserName').value;\n"
+		textTop += "function SignForm(SignBy){\n";
+		textTop += "\tvar SignatureHolder = document.getElementById(&quot;SignatureHolder&quot;);\n";
+		textTop += "\tvar DoctorName = document.getElementById(&quot;DoctorName&quot;).value;\n";
+		textTop += "\tvar CurrentUserName = document.getElementById(&quot;CurrentUserName&quot;).value;\n";
 
-		textTop += "\t\tif(SignBy == 'doctor'){\n"
+		textTop += "\t\tif(SignBy == &quot;doctor&quot;){\n";
 		var List = document.getElementsByName('UserSignatureListItem');
 		for (i=0; i<List.length;i++){
 			var ListItem = List[i].innerHTML;
@@ -818,133 +859,144 @@ function GetTextTop(){
 			var UserName = ListItemArr[0];
 			var FileName = ListItemArr[1];
 			if (i <1){
-				textTop += "\t\t\tif (DoctorName.indexOf('" + UserName + "') &gt;= 0){\n"
-				textTop += "\t\t\t\tSignatureHolder.innerHTML = &quot;&lt;img id='SignatureImage' src='$%7Boscar_image_path%7D" + FileName + "'&gt;&quot;;\n"
+				textTop += "\t\t\tif (DoctorName.indexOf(&quot;" + UserName + "&quot;) &gt;= 0){\n";
+				textTop += "\t\t\t\tSignatureHolder.innerHTML = &quot;&lt;img id=\\&quot;SignatureImage\\&quot; src=\\&quot;$%7Boscar_image_path%7D" + FileName + "\\&quot;&gt;&quot;;\n";
 			} else if (i>=1){
-				textTop += "\t\t\t}else if(DoctorName.indexOf('" + UserName + "') &gt;= 0){\n"
-				textTop += "\t\t\t\tSignatureHolder.innerHTML = &quot;&lt;img id='SignatureImage' src='$%7Boscar_image_path%7D" + FileName + "'&gt;&quot;;\n"
+				textTop += "\t\t\t}else if(DoctorName.indexOf(&quot;" + UserName + "&quot;) &gt;= 0){\n";
+				textTop += "\t\t\t\tSignatureHolder.innerHTML = &quot;&lt;img id=\\&quot;SignatureImage\\&quot; src=\\&quot;$%7Boscar_image_path%7D" + FileName + "\\&quot;&gt;&quot;;\n";
 			}
 		}
-		textTop += "\t\t\t} else {\n"
-		textTop += "\t\t\t\tSignatureHolder.innerHTML = &quot;&lt;div id='SignatureImage'&gt;&lt;/div&gt;&quot;;\n"
-		textTop += "\t\t\t}\n"
-		textTop += "\t\t\tdocument.getElementById('SubmittedBy').value = SignBy;\n"
-		textTop += "\t\t}else if (SignBy == 'current_user'){\n"
+		textTop += "\t\t\t} else {\n";
+		textTop += "\t\t\t\tSignatureHolder.innerHTML = &quot;&lt;div id=\\&quot;SignatureImage\\&quot;&gt;&lt;/div&gt;&quot;;\n";
+		textTop += "\t\t\t}\n";
+		textTop += "\t\t\tdocument.getElementById(&quot;SubmittedBy&quot;).value = SignBy;\n";
+		textTop += "\t\t}else if (SignBy == &quot;current_user&quot;){\n";
 		for (i=0; i<List.length;i++){
-			var ListItem = List[i].innerHTML
-			var ListItemArr =  ListItem.split('|')
+			var ListItem = List[i].innerHTML;
+			var ListItemArr =  ListItem.split('|');
 			var UserName = ListItemArr[0];
 			var FileName = ListItemArr[1];
 			if (i<1){
-				textTop += "\t\t\tif (CurrentUserName.indexOf('" + UserName + "') &gt;= 0){\n"
-				textTop += "\t\t\t\tSignatureHolder.innerHTML = &quot;&lt;img id='SignatureImage' src='$%7Boscar_image_path%7D" + FileName + "'&gt;&quot;;\n"
+				textTop += "\t\t\tif (CurrentUserName.indexOf(&quot;" + UserName + "&quot;) &gt;= 0){\n";
+				textTop += "\t\t\t\tSignatureHolder.innerHTML = &quot;&lt;img id=\\&quot;SignatureImage\\&quot; src=\\&quot;$%7Boscar_image_path%7D" + FileName + "\\&quot;&gt;&quot;;\n";
 			} else if (i>=1){
-				textTop += "\t\t\t}else if(CurrentUserName.indexOf('" + UserName + "') &gt;= 0){\n"
-				textTop += "\t\t\t\tSignatureHolder.innerHTML = &quot;&lt;img id='SignatureImage' src='$%7Boscar_image_path%7D" + FileName + "'&gt;&quot;;\n"
+				textTop += "\t\t\t}else if(CurrentUserName.indexOf(&quot;" + UserName + "&quot;) &gt;= 0){\n";
+				textTop += "\t\t\t\tSignatureHolder.innerHTML = &quot;&lt;img id=\\&quot;SignatureImage\\&quot; src=\\&quot;$%7Boscar_image_path%7D" + FileName + "\\&quot;&gt;&quot;;\n";
 			}
 		}
-		textTop += "\t\t\t} else {\n"
-		textTop += "\t\t\t\tSignatureHolder.innerHTML = &quot;&lt;div id='SignatureImage'&gt;&lt;/div&gt;&quot;;\n"
-		textTop += "\t\t\t}\n"
-		textTop += "\t\t\tdocument.getElementById('SubmittedBy').value = SignBy;\n"
-		textTop += "\t\t}else if (SignBy == 'none'){\n"
-		textTop += "\t\t\tSignatureHolder.innerHTML = &quot;&lt;div id='SignatureImage'&gt;&lt;/div&gt;&quot;;\n"
-		textTop += "\t\t}\n"
-		textTop += "\t\tresizeSignature();\n"
+		textTop += "\t\t\t} else {\n";
+		textTop += "\t\t\t\tSignatureHolder.innerHTML = &quot;&lt;div id=\\&quot;SignatureImage\\&quot;&gt;&lt;/div&gt;&quot;;\n";
+		textTop += "\t\t\t}\n";
+		textTop += "\t\t\tdocument.getElementById(&quot;SubmittedBy&quot;).value = SignBy;\n";
+		textTop += "\t\t}else if (SignBy == &quot;none&quot;){\n";
+		textTop += "\t\t\tSignatureHolder.innerHTML = &quot;&lt;div id=\\&quot;SignatureImage\\&quot;&gt;&lt;/div&gt;&quot;;\n";
+		textTop += "\t\t}\n";
+		textTop += "\t\tresizeSignature();\n";
 
-		textTop += "}\n"
+		textTop += "}\n";
 
-		textTop += "function resizeSignature(){\n"
-		textTop += "\t//resize signature image to fit inside SignatureHolder\n"
-		textTop += "\tif (document.getElementById('SignatureImage')){\n"
+		textTop += "function resizeSignature(){\n";
+		textTop += "\t//resize signature image to fit inside SignatureHolder\n";
+		textTop += "\tif (document.getElementById(&quot;SignatureImage&quot;)){\n";
 
-		textTop += "\t\tvar Holder = document.getElementById('SignatureHolder')\n"
-		textTop += "\t\tvar Image = document.getElementById('SignatureImage')\n"
-		textTop += "\t\tvar HolderW = parseInt(document.getElementById('SignatureHolder').style.width);\n"
-		textTop += "\t\tvar HolderH = parseInt(document.getElementById('SignatureHolder').style.height);\n"
-		textTop += "\t\tvar ImageW = document.getElementById('SignatureImage').width;\n"
-		textTop += "\t\tvar ImageH = document.getElementById('SignatureImage').height;\n"
-		textTop += "\t\tif (ImageW &gt; HolderW){\n"
-		textTop += "\t\t\tImage.style.width = HolderW;\n"
-		textTop += "\t\t\tvar NewH = (HolderW * (ImageH/ImageW));\n"
-		textTop += "\t\t\tImage.style.height = parseInt(NewH);\n"
-		textTop += "\t\t\tif (NewH &gt; HolderH){\n"
-		textTop += "\t\t\t\tImage.style.height = HolderH;\n"
-		textTop += "\t\t\t\tvar NewW = (HolderH * (ImageW/ImageH));\n"
-		textTop += "\t\t\t\tImage.style.width = parseInt(NewW);\n"
-		textTop += "\t\t\t}\n"
-		textTop += "\t\t}else if (ImageW &lt; HolderW){\n"
-		textTop += "\t\t\tif (ImageH &gt; HolderH){\n"
-		textTop += "\t\t\t\tImage.style.height = HolderH;\n"
-		textTop += "\t\t\t\tvar NewW = (HolderH * (ImageW/ImageH));\n"
-		textTop += "\t\t\t\tImage.style.width = parseInt(NewW);\n"
-		textTop += "\t\t\t}\n"
-		textTop += "\t\t}\n"
-		textTop += "\t\treorderSignature();\n"
-		textTop += "\t}\n"
-		textTop += "}\n"
-		textTop += "&lt;/script&gt;\n\n"
+		textTop += "\t\tvar Holder = document.getElementById(&quot;SignatureHolder&quot;)\n";
+		textTop += "\t\tvar Image = document.getElementById(&quot;SignatureImage&quot;)\n";
+		textTop += "\t\tvar HolderW = parseInt(document.getElementById(&quot;SignatureHolder&quot;).style.width);\n";
+		textTop += "\t\tvar HolderH = parseInt(document.getElementById(&quot;SignatureHolder&quot;).style.height);\n";
+		textTop += "\t\tvar ImageW = document.getElementById(&quot;SignatureImage&quot;).width;\n";
+		textTop += "\t\tvar ImageH = document.getElementById(&quot;SignatureImage&quot;).height;\n";
+		textTop += "\t\tif (ImageW &gt; HolderW){\n";
+		textTop += "\t\t\tImage.style.width = HolderW;\n";
+		textTop += "\t\t\tvar NewH = (HolderW * (ImageH/ImageW));\n";
+		textTop += "\t\t\tImage.style.height = parseInt(NewH);\n";
+		textTop += "\t\t\tif (NewH &gt; HolderH){\n";
+		textTop += "\t\t\t\tImage.style.height = HolderH;\n";
+		textTop += "\t\t\t\tvar NewW = (HolderH * (ImageW/ImageH));\n";
+		textTop += "\t\t\t\tImage.style.width = parseInt(NewW);\n";
+		textTop += "\t\t\t}\n";
+		textTop += "\t\t}else if (ImageW &lt; HolderW){\n";
+		textTop += "\t\t\tif (ImageH &gt; HolderH){\n";
+		textTop += "\t\t\t\tImage.style.height = HolderH;\n";
+		textTop += "\t\t\t\tvar NewW = (HolderH * (ImageW/ImageH));\n";
+		textTop += "\t\t\t\tImage.style.width = parseInt(NewW);\n";
+		textTop += "\t\t\t}\n";
+		textTop += "\t\t}\n";
+		textTop += "\t\treorderSignature();\n";
+		textTop += "\t}\n";
+		textTop += "}\n";
+		textTop += "&lt;/script&gt;\n\n";
 	}
+	
 	//relayer background images and signatures to bottom	
 	if (document.getElementById('AddSignature').checked){
-		textTop += "&lt;script type=&quot;text/javascript&quot;&gt;\n"
-		textTop += "function reorderSignature(){\n"
-		textTop += "\tdocument.getElementById('BGImage').style.zIndex = '-10';\n"
+		textTop += "&lt;script type=&quot;text/javascript&quot;&gt;\n";
+		textTop += "function reorderSignature(){\n";
+		textTop += "\tdocument.getElementById(&quot;BGImage&quot;).style.zIndex = &quot;-10&quot;;\n";
 	}
 		
 	if (document.getElementById('AutoSign').checked){
-		textTop += "\tdocument.getElementById('SignatureHolder').style.zIndex = '-9';\n"
-		textTop += "\tdocument.getElementById('SignatureImage').style.zIndex = '-8';\n"
+		textTop += "\tdocument.getElementById(&quot;SignatureHolder&quot;).style.zIndex = &quot;-9&quot;;\n";
+		textTop += "\tdocument.getElementById(&quot;SignatureImage&quot;).style.zIndex = &quot;-8&quot;;\n";
 	}
-	if (document.getElementById('DrawSign').checked|| document.getElementById('DrawSign1').checked){
-		textTop += "\tdocument.getElementById('preview').style.zIndex = '-7';\n"
-		textTop += "\tdocument.getElementById('SignCanvas').style.zIndex = '-6';\n\n"
+	
+	if (document.getElementById('ScriptelSign').checked || document.getElementById('FreehandSign').checked){
+		for (j=0; (j < DrawData.length); j++){
+			var RedrawParameter = DrawData[j].split("|");
+			if (RedrawParameter[0] == scriptelSigBox || RedrawParameter[0] == freehandSigBox) {
+				var divId = RedrawParameter[5];
+				if (RedrawParameter[0] == freehandSigBox) {
+					textTop +=  "\tdocument.getElementById(&quot;" + divId + "-preview&quot;).style.zIndex = &quot;-7&quot;;\n";
+				}
+				textTop += "\tdocument.getElementById(&quot;" + divId + "&quot;).style.zIndex = &quot;-6&quot;;\n";
+			}
+		}
 	}
+	
 	if (document.getElementById('AddSignature').checked){
-		textTop += "}\n"
-		textTop += "&lt;/script&gt;\n\n"
+		textTop += "}\n";
+		textTop += "&lt;/script&gt;\n\n";
 	}
 	<% } %>
 	//</head>
-	textTop += "&lt;/head&gt;\n\n"
+	textTop += "&lt;/head&gt;\n\n";
 	//<body>
-	textTop += "&lt;body"
-	textTop += " onload=&quot;"
+	textTop += "&lt;body";
+	textTop += " onload=&quot;";
 	//auto check gender boxes
 	if (document.getElementById('preCheckGender').checked){
-		textTop += "checkGender();"
+		textTop += "checkGender();";
 	}
 	<% if (!OscarProperties.getInstance().isPropertyActive("eform_generator_indivica_signature_enabled")) { %>
 	//auto load signature image, default to 'current_user'
 	if (document.getElementById('AutoSign').checked){
-		textTop += "reloadSignature();"
+		textTop += "reloadSignature();";
 	}
 	//if freehand signature, initialize mouse scripts and reload previous freehand signature
-	if (document.getElementById('DrawSign').checked|| document.getElementById('DrawSign1').checked){
-		textTop += "init();ReloadImage();"
+	if (document.getElementById('FreehandSign').checked ){
+		textTop += "init();ReloadImage();";
 	}
 	<% } %>
-	textTop += "&quot;&gt;\n"
+	textTop += "&quot;&gt;\n";
 	//<img> background image
-	textTop += "&lt;img id='BGImage' src=&quot;$%7Boscar_image_path%7D";
+	textTop += "&lt;img id=&quot;BGImage&quot; src=&quot;$%7Boscar_image_path%7D";
 	textTop += document.getElementById('imageName').value;
-	textTop += "&quot; style=&quot;position: absolute; left: 0px; top: 0px; width:"
+	textTop += "&quot; style=&quot;position: absolute; left: 0px; top: 0px; width:";
 	textTop += BGWidth;
-	textTop += "px&quot;&gt;\n"
+	textTop += "px&quot;&gt;\n";
 	//overlay canvas the size of background iamge for drawing in checkmarks
 	if(document.getElementById('DefaultCheckmark').checked){
-		textTop += "&lt;div id=&quot;chkCanvas&quot; style=&quot;position:absolute; left:0px; top:0px; width:"
-		textTop += BGWidth
-		textTop += "; height:"
-		textTop += BGHeight
-		textTop += ";&quot; onmouseover=&quot;putInBack();&quot;&gt;&lt;/div&gt;\n\n"
+		textTop += "&lt;div id=&quot;chkCanvas&quot; style=&quot;position:absolute; left:0px; top:0px; width:";
+		textTop += BGWidth;
+		textTop += "; height:";
+		textTop += BGHeight;
+		textTop += ";&quot; onmouseover=&quot;putInBack();&quot;&gt;&lt;/div&gt;\n\n";
 	}
 	//<form>
 	textTop +="&lt;form method=&quot;post&quot; action=&quot;&quot; name=&quot;FormName&quot; id=&quot;FormName&quot; &gt;\n\n";
 }
 
 function GetTextMiddle(P){
-var InputType = P[0];
+	var InputType = P[0];
 	if (InputType == "Text"){
 		var x0 = parseInt(P[1]);
 		var y0 = parseInt(P[2]);
@@ -959,40 +1011,40 @@ var InputType = P[0];
 		var bgColor = P[11];
 		var oscarDB = P[12];
 		var inputValue = P[13];
-		m = "&lt;input name=&quot;"
-		m += inputName
-		m += "&quot; id=&quot;"
-		m += inputName
-		m += "&quot; type=&quot;text&quot; class=&quot;noborder&quot; style=&quot;position:absolute; left:"
-		m += x0
-		m += "px; top:"
-		m += y0
-		m += "px; width:"
-		m += width
-		m += "px; height:"
-		m += height
-		m += "px; font-family:"
-		m += fontFamily
-		m += "; font-style:"
-		m += fontStyle
-		m += "; font-weight:"
-		m += fontWeight
-		m += "; font-size:"
-		m += fontSize
-		m += "px; text-align:"
-		m += textAlign
-		m += "; background-color:"
-		m += bgColor
-		m += ";&quot; "
+		m = "&lt;input name=&quot;";
+		m += inputName;
+		m += "&quot; id=&quot;";
+		m += inputName;
+		m += "&quot; type=&quot;text&quot; class=&quot;noborder&quot; style=&quot;position:absolute; left:";
+		m += x0;
+		m += "px; top:";
+		m += y0;
+		m += "px; width:";
+		m += width;
+		m += "px; height:";
+		m += height;
+		m += "px; font-family:";
+		m += fontFamily;
+		m += "; font-style:";
+		m += fontStyle;
+		m += "; font-weight:";
+		m += fontWeight;
+		m += "; font-size:";
+		m += fontSize;
+		m += "px; text-align:";
+		m += textAlign;
+		m += "; background-color:";
+		m += bgColor;
+		m += ";&quot; ";
 		if (oscarDB){
-			m += " oscarDB="
-			m += oscarDB
+			m += " oscarDB=";
+			m += oscarDB;
 		}else if (!oscarDB){
-			m += "value=&quot;"
-			m += inputValue
-			m += "&quot;"
+			m += "value=&quot;";
+			m += inputValue;
+			m += "&quot;";
 		}
-		m += "&gt;\n"
+		m += "&gt;\n";
 
 	} else if (InputType == "Textbox"){
 		var x0 = parseInt(P[1]);
@@ -1008,380 +1060,922 @@ var InputType = P[0];
 		var bgColor = P[11];
 		var oscarDB = P[12];
 		var inputValue = P[13];
-		m = "&lt;textarea name=&quot;"
-		m += inputName
-		m += "&quot; id=&quot;"
-		m += inputName
-		m += "&quot; class=&quot;noborder&quot; style=&quot;position:absolute; left:"
-		m += x0
-		m += "px; top:"
-		m += y0
-		m += "px; width:"
-		m += width
-		m += "px; height:"
-		m += height
-		m += "px; font-family:"
-		m += fontFamily
-		m += "; font-style:"
-		m += fontStyle
-		m += "; font-weight:"
-		m += fontWeight
-		m += "; font-size:"
-		m += fontSize
-		m += "px; text-align:"
-		m += textAlign
-		m += "; background-color:"
-		m += bgColor
-		m += ";&quot; "
+		m = "&lt;textarea name=&quot;";
+		m += inputName;
+		m += "&quot; id=&quot;";
+		m += inputName;
+		m += "&quot; class=&quot;noborder&quot; style=&quot;position:absolute; left:";
+		m += x0;
+		m += "px; top:";
+		m += y0;
+		m += "px; width:";
+		m += width;
+		m += "px; height:";
+		m += height;
+		m += "px; font-family:";
+		m += fontFamily;
+		m += "; font-style:";
+		m += fontStyle;
+		m += "; font-weight:";
+		m += fontWeight;
+		m += "; font-size:";
+		m += fontSize;
+		m += "px; text-align:";
+		m += textAlign;
+		m += "; background-color:";
+		m += bgColor;
+		m += ";&quot; ";
 		if (oscarDB){
-			m += " oscarDB="
-			m += oscarDB
+			m += " oscarDB=";
+			m += oscarDB;
 		}
-		m += "&gt;"
+		m += "&gt;";
 		if (!oscarDB) {
-			m += inputValue
+			m += inputValue;
 		}
-		m += "&lt;/textarea&gt;\n"
+		m += "&lt;/textarea&gt;\n";
 
 	} else if (InputType == "Checkbox"){
 		var x = parseInt(P[1]);
 		var y = parseInt(P[2]);
 		var inputName = P[3];
 		var preCheck = P[4];
-		m = "&lt;input name=&quot;"
-		m += inputName
-		m += "&quot; id=&quot;"
-		m += inputName
-		m += "&quot; type=&quot;checkbox&quot;"
+		m = "&lt;input name=&quot;";
+		m += inputName;
+		m += "&quot; id=&quot;";
+		m += inputName;
+		m += "&quot; type=&quot;checkbox&quot;";
 		if (document.getElementById('ScaleCheckmark').checked){
-			m += " class=&quot;largerCheckbox&quot;"
+			m += " class=&quot;largerCheckbox&quot;";
 		}
-		m += " style=&quot;position:absolute; left:"
+		m += " style=&quot;position:absolute; left:";
 		var a = parseInt(x - CheckboxOffset);
-		m += a
-		m += "px; top:"
+		m += a;
+		m += "px; top:";
 		var b = parseInt(y - CheckboxOffset);
-		m += b
-		m += "px; &quot;"
+		m += b;
+		m += "px; &quot;";
 		if (preCheck == 'true'){
-			m += " checked"
+			m += " checked";
 		}
-		m += "&gt;\n"
+		m += "&gt;\n";
+	} else if (InputType == scriptelSigBox) {
+		// organize the scripts for scriptel signature
+		var x0 = parseInt(P[1]);
+		var y0 = parseInt(P[2]);
+		var width = parseInt(P[3]);
+		var height = parseInt(P[4]);
+		var inputName = P[5];
+		
+		//<input type="hidden" name="SignCanvas-TempData" id="SignCanvas-TempData">
+		/*
+		m = "&lt;input type=&quot;hidden&quot; name=&quot;";
+		m += inputName + "-TempData&quot; id=&quot;" + inputName + "-TempData&quot; ";
+		m += "/&gt;\n";
+		*/
+		
+		//<input type="hidden" name="SignCanvas-DrawData" id="SignCanvas-DrawData">
+		/*
+		m += "&lt;input type=&quot;hidden&quot; name=&quot;";
+		m += inputName + "-DrawData&quot; id=&quot;" + inputName + "-DrawData&quot; ";
+		m += "/&gt;\n";
+		*/
+		
+		//<input type="hidden" name="SignCanvas-SubmitData" id="SignCanvas-SubmitData">
+		/*
+		m += "&lt;input type=&quot;hidden&quot; name=&quot;";
+		m += inputName + "-SubmitData&quot; id=&quot;" + inputName + "-SubmitData&quot; ";
+		m += "/&gt;\n";
+		*/
+		
+		//<img id="SignCanvas-img" name="SignCanvas-img" src="" style="position:absolute; display:none; lefx:141px; top:277px; width:100px; height:20px;" onclick=""/>
+		m = "&lt;img id=&quot;" + inputName + "-img&quot; ";
+		m += "name=&quot;" + inputName + "-img&quot; ";
+		m += "src=&quot;&quot; ";
+		m += "style=&quot;position:absolute; display:none; left:" + x0 + "px; top:" + y0 + "px; width:" + width + "px; height:" + height + "px;&quot; ";
+		m += "onclick=&quot;showScriptelInputBox(this);&quot;"
+		m += "/&gt;\n";
+		
+		// <input type="hidden" name="SignCanvas-imgSavedId" id="SignCanvas-imgSavedId" value="0" />
+		m += "&lt;input type=&quot;hidden&quot; name=&quot;" + inputName + "-imgSavedId&quot; ";
+		m += "id=&quot;" + inputName + "-imgSavedId&quot; ";
+		m += "value=&quot;0&quot;"
+		m += "/&gt;\n";
+		
+		//<input type="text" name="SignCanvas-signature" id="SignCanvas-signature" style="position:absolute; display:inline; top:277px; left:141px;
+	//	 height:20px" onkeyup="onkeyuphdlr(this);">
+		m += "&lt;input type=&quot;text&quot; name=&quot;" + inputName + "-signature&quot; ";
+		m += "id=&quot;" + inputName + "-signature&quot; ";
+		m += "style=&quot;position:absolute; display:inline; left:" + x0 + "px; top:" + (y0 + height - 20) + "px; width:" + width + "px; height:20px; &quot; ";
+		m += "onkeyup=&quot;onkeyuphdlr(this);&quot; ";
+		m += "/&gt;\n";
+	
+	//	 <input type="button" name="SignCanvas-ClearSignature" id="SignCanvas-ClearSignature" style="position:absolute; display:inline; top:277px; left:241px; height:20px" value="Clear" onclick="Clear(this);">
+		m += "&lt;input type=&quot;button&quot; ";
+		m += "name=&quot;" + inputName + "-ClearSignature&quot; ";
+		m += "id=&quot;" + inputName + "-ClearSignature&quot; ";
+		m += "style=&quot;position:absolute; display:inline; left:" + (x0 + width + 2) + "px; top:" + (y0 + height - 20) + "px; height:20px; &quot; ";
+		m += "value=&quot;Clear&quot; ";
+		m += "onclick=&quot;clearScriptelSignature(this);&quot; ";
+		m += "/&gt;\n";
+		
+		//<input type="button" name="ScriptelSignatureBox2-showSig" id="ScriptelSignatureBox2-showSig" style="position:absolute; display:none; left:471px; top:701px; height:20px; " value="Show Signauture" onclick="showScriptelSignature(this);" />
+		m += "&lt;input type=&quot;button&quot; ";
+		m += "name=&quot;" + inputName + "-showSig&quot; ";
+		m += "id=&quot;" + inputName + "-showSig&quot; ";
+		m += "style=&quot;position:absolute; display:none; left:" + (x0 + width + 62) + "px; top:" + (y0 + height - 20) + "px; height:20px; &quot; ";
+		m += "value=&quot;Show Signature&quot; ";
+		m += "onclick=&quot;showScriptelSignature(this);&quot; ";
+		m += "/&gt;\n";
+		
+	//	 <div type="ScriptelSignatureBox" id="SignCanvas" class="sig" index="1" style="position:absolute; left:71px; top:177px; width:500px; height:100px"
+	//	 onmouseover="SetDrawOn(this); "
+	//	 onmouseout="SetDrawOff(this); "
+	//	 onmousedown="SetMouseDown(this);SetStart(this);"
+	//	 onmouseup="SetMouseUp(this); DrawMarker(this);"
+	//	 onmousemove="DrawPreview(this);"> 
+	// <canvas hidden="" width="500" height="100" 
+	// id="ScriptelSignatureBox2-canvas" cursor="pointer" 
+	// style="position:absolute;top:0;left:0;"></canvas>
+	//	</div>
+		var index = getSignatureIndex(InputType, inputName);
+		m += "&lt;div type=&quot;" + scriptelSigBox + "&quot; id=&quot;" + inputName + "&quot; ";
+		m += "class=&quot;sig&quot; ";
+		m += "index=&quot;" + index + "&quot; ";
+		m += "style=&quot;position:absolute; width:0px; height:0px; &quot;\n";
+		m += "&gt;\n";
+		//m += "&lt;canvas id=&quot;" + inputName + "-canvas&quot; ";
+		//m += "hidden=&quot;true&quot; ";
+		//m += "style=&quot;position:absolute; top:0px; left:0px; width:500px; height:100px;&quot; ";
+		//m += "cursor=&quot;pointer&quot; &gt;\n";
+		//m += "&lt/canvas&gt;\n"
+		m += "&lt;/div&gt;\n"
+	} else if (InputType == freehandSigBox) {
+		var x0 = parseInt(P[1]);
+		var y0 = parseInt(P[2]);
+		var width = parseInt(P[3]);
+		var height = parseInt(P[4]);
+		var inputName = P[5];
+		
+		//<input type="hidden" name="SignCanvas-TempData" id="SignCanvas-TempData">
+		m = "&lt;input type=&quot;hidden&quot; name=&quot;";
+		m += inputName + "-TempData&quot; id=&quot;" + inputName + "-TempData&quot; ";
+		m += "/&gt;\n";
+		
+		//<input type="hidden" name="SignCanvas-DrawData" id="SignCanvas-DrawData">
+		m += "&lt;input type=&quot;hidden&quot; name=&quot;";
+		m += inputName + "-DrawData&quot; id=&quot;" + inputName + "-DrawData&quot; ";
+		m += "/&gt;\n";
+		
+		//<input type="hidden" name="SignCanvas-SubmitData" id="SignCanvas-SubmitData">
+		m += "&lt;input type=&quot;hidden&quot; name=&quot;";
+		m += inputName + "-SubmitData&quot; id=&quot;" + inputName + "-SubmitData&quot; ";
+		m += "/&gt;\n";
+		
+		// <input type="button" name="SignCanvas-ClearSignature" id="SignCanvas-ClearSignature" 
+		// style="position:absolute; display:inline; top:277px; left:241px; height:20px" value="Clear" 
+		// onclick="Clear(this);" onmouseover="show(this.id);" onmouseout="hide(this.id);" />
+		m += "&lt;input type=&quot;button&quot; ";
+		m += "name=&quot;" + inputName + "-ClearSignature&quot; ";
+		m += "id=&quot;" + inputName + "-ClearSignature&quot; ";
+		m += "style=&quot;position:absolute; display:none; left:" + (x0 + width) + "px; top:" + y0 + "px; height:" + height + "px; &quot; ";
+		m += "value=&quot;Clear&quot; ";
+		m += "onclick=&quot;Clear(this);&quot; ";
+		m += "onmouseover=&quot;show(this.id);&quot; ";
+		m += "onmouseout=&quot;hide(this.id);&quot; ";
+		m += "/&gt;\n";
+		
+		// <div id="preview" class="DoNotPrint" style="position:absolute; left:78px; top:129px; width:151px; height:87px; background-color:grey;opacity:0.5;filter:alpha(opacity=50);"></div>
+		
+		m += "&lt;div id=&quot;" + inputName + "-preview&quot; ";
+		m += "class=&quot;DoNotPrint&quot; ";
+		m += "style=&quot;position:absolute; left:" + x0 + "px; top:" + y0 + "px; width:" + width + "px; height:" + height + "px; "; 
+		m += "background-color:grey;opacity:0.5;filter:alpha(opacity=50);&quot; class=&quot;DoNotPrint&quot;&gt;\n"; 
+		m += "&lt;/div&gt;\n";
+		
+		// <div type="FreehandSignatureBox" index="1" id="SignCanvas" onmousemove="DrawPreview();" onmouseup="SetMouseUp(); DrawMarker();" 
+		// onmousedown="SetMouseDown();SetStart();" 
+		// onmouseout="SetDrawOff(); hide('ClearSignature');" 
+		// onmouseover="SetDrawOn(); show('ClearSignature');" 
+		// style="position:absolute; left:78px; top:129px; width:151px; height:87px"> </div>
+		var index = getSignatureIndex(InputType, inputName);
+		m += "&lt;div type=&quot;" + freehandSigBox + "&quot; ";
+		m += "index=&quot;" + index + "&quot; ";
+		m += "id=&quot;" + inputName + "&quot; ";
+		m += "onmousemove=&quot;DrawPreview(this);&quot; ";
+		m += "onmouseup=&quot;SetMouseUp(this);DrawMarker(this);&quot; ";
+		m += "onmousedown=&quot;SetMouseDown(this);SetStart(this);&quot; ";
+		m += "onmouseout=&quot;SetDrawOff(this); hide(&apos;" + inputName + "-ClearSignature&apos;);&quot; ";
+		m += "onmouseover=&quot;SetDrawOn(this); show(&apos;" + inputName + "-ClearSignature&apos;);&quot; ";
+		m += "style=&quot;position:absolute; left:" + x0 + "px; top:" + y0 + "px; width:" + width + "px; height:" + height + "px;&quot;&gt;\n";
+		m += "&lt;/div&gt;\n";
 	}
 
 	textMiddle += m;
-	textMiddle += "\n\n"
+	textMiddle += "\n\n";
 }
 
 function GetTextBottom(){
 	//gender checkboxes
 	if (document.getElementById('preCheckGender').checked){
-		textBottom += "&lt;input name=&quot;PatientGender&quot; id=&quot;PatientGender&quot; type=&quot;hidden&quot; oscarDB=sex&gt;\n"
-		textBottom += "&lt;input name=&quot;Male&quot; id=&quot;Male&quot; type=&quot;checkbox&quot; class=&quot;noborder&quot; style=&quot;position:absolute; left: "
+		textBottom += "&lt;input name=&quot;PatientGender&quot; id=&quot;PatientGender&quot; type=&quot;hidden&quot; oscarDB=sex&gt;\n";
+		textBottom += "&lt;input name=&quot;Male&quot; id=&quot;Male&quot; type=&quot;checkbox&quot; class=&quot;noborder&quot; style=&quot;position:absolute; left: ";
 		textBottom += parseInt(MTopLeftX - CheckboxOffset);
-		textBottom += "px; top: "
+		textBottom += "px; top: ";
 		textBottom += parseInt(MTopLeftY - CheckboxOffset);
-		textBottom += "px&quot;&gt;\n"
-		textBottom += "&lt;input name=&quot;Female&quot; id=&quot;Female&quot; type=&quot;checkbox&quot; class=&quot;noborder&quot; style=&quot;position:absolute; left: "
+		textBottom += "px&quot;&gt;\n";
+		textBottom += "&lt;input name=&quot;Female&quot; id=&quot;Female&quot; type=&quot;checkbox&quot; class=&quot;noborder&quot; style=&quot;position:absolute; left: ";
 		textBottom += parseInt(FTopLeftX - CheckboxOffset);
-		textBottom += "px; top: "
+		textBottom += "px; top: ";
 		textBottom += parseInt(FTopLeftY - CheckboxOffset);
-		textBottom += "px&quot;&gt;\n\n"
+		textBottom += "px&quot;&gt;\n\n";
 	}
 	<% if (!OscarProperties.getInstance().isPropertyActive("eform_generator_indivica_signature_enabled")) { %>
 	//auto load signature images
 	if (document.getElementById('AutoSign').checked){
-		textBottom +="&lt;input type=&quot;hidden&quot; name=&quot;DoctorName&quot; id=&quot;DoctorName&quot; oscarDB=doctor&gt;\n"
-		textBottom +="&lt;input type=&quot;hidden&quot; name=&quot;CurrentUserName&quot; id=&quot;CurrentUserName&quot; oscarDB=current_user&gt;\n"
-		textBottom +="&lt;input type=&quot;hidden&quot; name=&quot;SubmittedBy&quot; id=&quot;SubmittedBy&quot;&gt;\n"
-		textBottom +="&lt;div name=&quot;SignatureHolder&quot; id=&quot;SignatureHolder&quot; style=&quot;position:absolute; left:"
+		textBottom +="&lt;input type=&quot;hidden&quot; name=&quot;DoctorName&quot; id=&quot;DoctorName&quot; oscarDB=doctor&gt;\n";
+		textBottom +="&lt;input type=&quot;hidden&quot; name=&quot;CurrentUserName&quot; id=&quot;CurrentUserName&quot; oscarDB=current_user&gt;\n";
+		textBottom +="&lt;input type=&quot;hidden&quot; name=&quot;SubmittedBy&quot; id=&quot;SubmittedBy&quot;&gt;\n";
+		textBottom +="&lt;div name=&quot;SignatureHolder&quot; id=&quot;SignatureHolder&quot; style=&quot;position:absolute; left:";
 		textBottom += SignatureHolderX;
-		textBottom += "px; top:"
+		textBottom += "px; top:";
 		textBottom += SignatureHolderY;
-		textBottom += "px; width:"
+		textBottom += "px; width:";
 		textBottom += SignatureHolderW;
-		textBottom += "px; height:"
+		textBottom += "px; height:";
 		textBottom += SignatureHolderH;
-		textBottom += "&quot; onmouseover=&quot;show('SignaturePicker');&quot; onmouseout=&quot;hide('SignaturePicker');&quot;&gt;\n"
-		textBottom += "&lt;/div&gt;\n"
-		textBottom += "&lt;div class=&quot;DoNotPrint&quot; name=&quot;SignaturePicker&quot; id=&quot;SignaturePicker&quot; style=&quot;position:absolute; background-color:#dddddd; left:"
+		textBottom += "&quot; onmouseover=&quot;show(&apos;SignaturePicker&apos;);&quot; onmouseout=&quot;hide(&apos;SignaturePicker&apos;);&quot;&gt;\n";
+		textBottom += "&lt;/div&gt;\n";
+		textBottom += "&lt;div class=&quot;DoNotPrint&quot; name=&quot;SignaturePicker&quot; id=&quot;SignaturePicker&quot; style=&quot;position:absolute; background-color:#dddddd; left:";
 		textBottom += SignatureHolderX;
-		textBottom += "px; top:"
+		textBottom += "px; top:";
 		textBottom += SignatureHolderY;
-		textBottom += "px; height:"
+		textBottom += "px; height:";
 		textBottom += SignatureHolderH;
-		textBottom += "; display:none;&quot; onmouseover=&quot;show(this.id)&quot; onmouseout=&quot;hide(this.id)&quot;&gt;\n"
-		textBottom += "	&lt;span style=&quot;font-family:sans-serif; font-size:12px; font-weight:bold&quot;&gt;\n"
-		textBottom += "		Signature:&lt;br&gt;\n"
-		textBottom += "		&lt;input type=&quot;radio&quot; name=&quot;SignBy&quot; id=&quot;SignDoctor&quot; value=&quot;doctor&quot; onclick=&quot;SignForm(this.value);&quot; onmouseout=&quot;resizeSignature();&quot;&gt;Patient's Doctor\n"
-		textBottom += "		&lt;input type=&quot;radio&quot; name=&quot;SignBy&quot; id=&quot;SignCurrentUser&quot; value=&quot;current_user&quot; onclick=&quot;SignForm(this.value);&quot; onmouseout=&quot;resizeSignature();&quot;&gt;Current User\n"
-		textBottom += "		&lt;input type=&quot;radio&quot; name=&quot;SignBy&quot; id=&quot;SignNone&quot; value=&quot;none&quot; onclick=&quot;SignForm(this.value);&quot;&gt;None\n"
-		textBottom += "	&lt;/span&gt;\n"
-		textBottom += "&lt;/div&gt;\n\n"
+		textBottom += "; display:none;&quot; onmouseover=&quot;show(this.id)&quot; onmouseout=&quot;hide(this.id)&quot;&gt;\n";
+		textBottom += "	&lt;span style=&quot;font-family:sans-serif; font-size:12px; font-weight:bold&quot;&gt;\n";
+		textBottom += "		Signature:&lt;br&gt;\n";
+		textBottom += "		&lt;input type=&quot;radio&quot; name=&quot;SignBy&quot; id=&quot;SignDoctor&quot; value=&quot;doctor&quot; onclick=&quot;SignForm(this.value);&quot; onmouseout=&quot;resizeSignature();&quot;&gt;Patient's Doctor\n";
+		textBottom += "		&lt;input type=&quot;radio&quot; name=&quot;SignBy&quot; id=&quot;SignCurrentUser&quot; value=&quot;current_user&quot; onclick=&quot;SignForm(this.value);&quot; onmouseout=&quot;resizeSignature();&quot;&gt;Current User\n";
+		textBottom += "		&lt;input type=&quot;radio&quot; name=&quot;SignBy&quot; id=&quot;SignNone&quot; value=&quot;none&quot; onclick=&quot;SignForm(this.value);&quot;&gt;None\n";
+		textBottom += "	&lt;/span&gt;\n";
+		textBottom += "&lt;/div&gt;\n\n";
 	}
 
 	//Freehand Signature
-	if (document.getElementById('DrawSign3').checked){
-		textBottom += "&lt;input type=&quot;hidden&quot; name=&quot;SignCanvas-TempData&quot; id=&quot;SignCanvas-TempData&quot;&gt;\n"
-		textBottom += "&lt;input type=&quot;hidden&quot; name=&quot;SignCanvas-DrawData&quot; id=&quot;SignCanvas-DrawData&quot;&gt;\n"
-		textBottom += "&lt;input type=&quot;hidden&quot; name=&quot;SignCanvas-SubmitData&quot; id=&quot;SignCanvas-SubmitData&quot;&gt;\n"
-		textBottom += "&lt;input type=&quot;button&quot; class=&quot;sig&quot; name=&quot;SignCanvas-ClearSignature&quot; id=&quot;SignCanvas-ClearSignature&quot; style=&quot;position:absolute; display:inline; top:"
-		textBottom += SignatureHolderY+ 100
-		textBottom += "px; left:"
-		textBottom += SignatureHolderX
-		textBottom += "px; height:"
-		textBottom += 20
-		textBottom += "px&quot; value='Clear';\n"
-		textBottom += "onclick=&quot;Clear(this);&quot;&gt;\n"
-		textBottom += "&lt;input type=&quot;text&quot; name=&quot;SignCanvas-signature&quot; id=&quot;SignCanvas-signature&quot; style=&quot;position:absolute; display:inline; top:"
-		textBottom += SignatureHolderY+ 100
-		textBottom += "px; left:"
-		textBottom += SignatureHolderX + 70
-		textBottom += "px; height:"
-		textBottom += 20
-		textBottom += "px&quot; onkeyup=&quot;onkeyuphdlr(this);&quot;&gt;\n"
+	//if (document.getElementById('FreehandSign').checked){
+		/*
+		textBottom += "&lt;input type=&quot;hidden&quot; name=&quot;SignCanvas-TempData&quot; id=&quot;SignCanvas-TempData&quot;&gt;\n";
+		textBottom += "&lt;input type=&quot;hidden&quot; name=&quot;SignCanvas-DrawData&quot; id=&quot;SignCanvas-DrawData&quot;&gt;\n";
+		textBottom += "&lt;input type=&quot;hidden&quot; name=&quot;SignCanvas-SubmitData&quot; id=&quot;SignCanvas-SubmitData&quot;&gt;\n";
+		textBottom += "&lt;input type=&quot;button&quot; class=&quot;sig&quot; name=&quot;SignCanvas-ClearSignature&quot; id=&quot;SignCanvas-ClearSignature&quot; style=&quot;position:absolute; display:inline; top:";
+		textBottom += SignatureHolderY+ 100;
+		textBottom += "px; left:";
+		textBottom += SignatureHolderX;
+		textBottom += "px; height:";
+		textBottom += 20;
+		textBottom += "px&quot; value=&quot;Clear&quot; ";
+		textBottom += "onclick=&quot;Clear(this);&quot;&gt;\n";
+		textBottom += "&lt;input type=&quot;text&quot; name=&quot;SignCanvas-signature&quot; id=&quot;SignCanvas-signature&quot; style=&quot;position:absolute; display:inline; top:";
+		textBottom += SignatureHolderY+ 100;
+		textBottom += "px; left:";
+		textBottom += SignatureHolderX + 70;
+		textBottom += "px; height:";
+		textBottom += 20;
+		textBottom += "px&quot; onkeyup=&quot;onkeyuphdlr(this);&quot;&gt;\n";
 		
-		textBottom += "&lt;div id=&quot;SignCanvas&quot; class=&quot;sig&quot; style=&quot;position:absolute; left:"
-		textBottom += SignatureHolderX
-		textBottom += "px; top:"
-		textBottom += SignatureHolderY
-		textBottom += "px; width:"
-		textBottom += SignatureHolderW
-		textBottom += "px; height:"
-		textBottom += SignatureHolderH
-		textBottom += "px&quot;\n"
-		textBottom += " onmouseover=&quot;SetDrawOn(this); &quot;\n"
-		textBottom += " onmouseout=&quot;SetDrawOff(this); &quot;\n"
-		textBottom += " onmousedown=&quot;SetMouseDown(this);SetStart(this);&quot;\n"
-		textBottom += " onmouseup=&quot;SetMouseUp(this); DrawMarker(this);&quot;\n"
-		textBottom += " onmousemove=&quot;DrawPreview(this);&quot;&gt; \n"
-		textBottom += "&lt;/div&gt;\n"
-	} 
-	if (document.getElementById('DrawSign1').checked){
-		textBottom += "&lt;input type=&quot;hidden&quot; name=&quot;TempData&quot; id=&quot;TempData&quot;&gt;\n"
-		textBottom += "&lt;input type=&quot;hidden&quot; name=&quot;DrawData&quot; id=&quot;DrawData&quot;&gt;\n"
-		textBottom += "&lt;input type=&quot;hidden&quot; name=&quot;SubmitData&quot; id=&quot;SubmitData&quot;&gt;\n"
-
-		textBottom += "&lt;input type=&quot;button&quot; name=&quot;ClearSignature&quot; id=&quot;ClearSignature&quot; style=&quot;position:absolute; display:none; top:"
-		textBottom += SignatureHolderY
-		textBottom += "px; left:"
-		textBottom += SignatureHolderX + SignatureHolderW
-		textBottom += "px; height:"
-		textBottom += SignatureHolderH
-		textBottom += "px&quot; value='Clear Signature';\n"
-		textBottom += "\tonmouseover=&quot;show(this.id);&quot; onmouseout=&quot;hide(this.id);&quot; onclick=&quot;Clear();&quot;&gt;\n"
-
-		textBottom += "&lt;div id=&quot;preview&quot; style=&quot;position:absolute; left:"
-		textBottom += SignatureHolderX
-		textBottom += "px; top:"
-		textBottom += SignatureHolderY
-		textBottom += "px; width:"
-		textBottom += SignatureHolderW
-		textBottom += "px; height:"
-		textBottom += SignatureHolderH
-		textBottom += "px; background-color:grey;opacity:0.5;filter:alpha(opacity=50);&quot; class=&quot;DoNotPrint&quot;&gt;&lt;/div&gt;\n"
-		textBottom += "&lt;div id=&quot;SignCanvas&quot; style=&quot;position:absolute; left:"
-		textBottom += SignatureHolderX
-		textBottom += "px; top:"
-		textBottom += SignatureHolderY
-		textBottom += "px; width:"
-		textBottom += SignatureHolderW
-		textBottom += "px; height:"
-		textBottom += SignatureHolderH
-		textBottom += "px&quot;\n"
-		textBottom += "		onmouseover=&quot;SetDrawOn(); show('ClearSignature');&quot;\n"
-		textBottom += "		onmouseout=&quot;SetDrawOff(); hide('ClearSignature');&quot;\n"
-		textBottom += "		onmousedown=&quot;SetMouseDown();SetStart();&quot;\n"
-		textBottom += "		onmouseup=&quot;SetMouseUp();  DrawMarker();&quot;\n"
-		textBottom += "		onmousemove=&quot;DrawPreview();&quot;&gt; \n"
-		textBottom += "&lt;/div&gt;\n"
-	}
+		textBottom += "&lt;div id=&quot;SignCanvas&quot; class=&quot;sig&quot; style=&quot;position:absolute; left:";
+		textBottom += SignatureHolderX;
+		textBottom += "px; top:";
+		textBottom += SignatureHolderY;
+		textBottom += "px; width:";
+		textBottom += SignatureHolderW;
+		textBottom += "px; height:";
+		textBottom += SignatureHolderH;
+		textBottom += "px&quot;\n";
+		textBottom += " onmouseover=&quot;SetDrawOn(this); &quot;\n";
+		textBottom += " onmouseout=&quot;SetDrawOff(this); &quot;\n";
+		textBottom += " onmousedown=&quot;SetMouseDown(this);SetStart(this);&quot;\n";
+		textBottom += " onmouseup=&quot;SetMouseUp(this); DrawMarker(this);&quot;\n";
+		textBottom += " onmousemove=&quot;DrawPreview(this);&quot;&gt; \n";
+		textBottom += "&lt;/div&gt;\n";
+		*/
 	
-	if (document.getElementById('DrawSign2').checked){
-		textBottom += "&lt;input type=&quot;hidden&quot; name=&quot;SignCanvas1-TempData&quot; id=&quot;SignCanvas1-TempData&quot;&gt;\n"
-		textBottom += "&lt;input type=&quot;hidden&quot; name=&quot;SignCanvas1-DrawData&quot; id=&quot;SignCanvas1-DrawData&quot;&gt;\n"
-		textBottom += "&lt;input type=&quot;hidden&quot; name=&quot;SignCanvas1-SubmitData&quot; id=&quot;SignCanvas1-SubmitData&quot;&gt;\n"
-		textBottom += "&lt;input type=&quot;button&quot; class=&quot;sig&quot; name=&quot;SignCanvas1-ClearSignature&quot; id=&quot;SignCanvas1-ClearSignature&quot; style=&quot;position:absolute; display:inline; top:"
-		textBottom += SignatureHolderY1+ 100
-		textBottom += "px; left:"
-		textBottom += SignatureHolderX1
-		textBottom += "px; height:"
-		textBottom += 20
-		textBottom += "px&quot; value='Clear';\n"
-		textBottom += "onclick=&quot;Clear(this);&quot;&gt;\n"
-		textBottom += "&lt;input type=&quot;text&quot; name=&quot;SignCanvas1-signature&quot; id=&quot;SignCanvas1-signature&quot; style=&quot;position:absolute; display:inline; top:"
-		textBottom += SignatureHolderY1+ 100
-		textBottom += "px; left:"
-		textBottom += SignatureHolderX1 + 70
-		textBottom += "px; height:"
-		textBottom += 20
-		textBottom += "px&quot; onkeyup=&quot;onkeyuphdlr(this);&quot;&gt;\n"
-		textBottom += "&lt;div id=&quot;SignCanvas1&quot; class=&quot;sig&quot; style=&quot;position:absolute; left:"
-		textBottom += SignatureHolderX1
-		textBottom += "px; top:"
-		textBottom += SignatureHolderY1 
-		textBottom += "px; width:"
-		textBottom += SignatureHolderW1
-		textBottom += "px; height:"
-		textBottom += SignatureHolderH1
-		textBottom += "px&quot;\n"
-		textBottom += " onmouseover=&quot;SetDrawOn(this); &quot;\n"
-		textBottom += " onmouseout=&quot;SetDrawOff(this); &quot;\n"
-		textBottom += " onmousedown=&quot;SetMouseDown(this);SetStart(this);&quot;\n"
-		textBottom += " onmouseup=&quot;SetMouseUp(this); DrawMarker(this);&quot;\n"
-		textBottom += " onmousemove=&quot;DrawPreview(this);&quot;&gt; \n"
-		textBottom += "&lt;/div&gt;\n"
-		} 
+		/*textBottom += "&lt;input type=&quot;hidden&quot; name=&quot;TempData&quot; id=&quot;TempData&quot;&gt;\n";
+		textBottom += "&lt;input type=&quot;hidden&quot; name=&quot;DrawData&quot; id=&quot;DrawData&quot;&gt;\n";
+		textBottom += "&lt;input type=&quot;hidden&quot; name=&quot;SubmitData&quot; id=&quot;SubmitData&quot;&gt;\n";
+
+		textBottom += "&lt;input type=&quot;button&quot; name=&quot;ClearSignature&quot; id=&quot;ClearSignature&quot; style=&quot;position:absolute; display:none; top:";
+		textBottom += SignatureHolderY;
+		textBottom += "px; left:";
+		textBottom += SignatureHolderX + SignatureHolderW;
+		textBottom += "px; height:";
+		textBottom += SignatureHolderH;
+		textBottom += "px&quot; value=&quot;Clear Signature&quot; ";
+		textBottom += "\tonmouseover=&quot;show(this.id);&quot; onmouseout=&quot;hide(this.id);&quot; onclick=&quot;Clear();&quot;&gt;\n";
+
+		textBottom += "&lt;div id=&quot;preview&quot; style=&quot;position:absolute; left:";
+		textBottom += SignatureHolderX;
+		textBottom += "px; top:";
+		textBottom += SignatureHolderY;
+		textBottom += "px; width:";
+		textBottom += SignatureHolderW;
+		textBottom += "px; height:";
+		textBottom += SignatureHolderH;
+		textBottom += "px; background-color:grey;opacity:0.5;filter:alpha(opacity=50);&quot; class=&quot;DoNotPrint&quot;&gt;&lt;/div&gt;\n";
+		textBottom += "&lt;div id=&quot;SignCanvas&quot; style=&quot;position:absolute; left:";
+		textBottom += SignatureHolderX;
+		textBottom += "px; top:";
+		textBottom += SignatureHolderY;
+		textBottom += "px; width:";
+		textBottom += SignatureHolderW;
+		textBottom += "px; height:";
+		textBottom += SignatureHolderH;
+		textBottom += "px&quot;\n";
+		textBottom += "		onmouseover=&quot;SetDrawOn(); show(&apos;ClearSignature&apos;);&quot;\n";
+		textBottom += "		onmouseout=&quot;SetDrawOff(); hide(&apos;ClearSignature&apos;);&quot;\n";
+		textBottom += "		onmousedown=&quot;SetMouseDown();SetStart();&quot;\n";
+		textBottom += "		onmouseup=&quot;SetMouseUp();  DrawMarker();&quot;\n";
+		textBottom += "		onmousemove=&quot;DrawPreview();&quot;&gt; \n";
+		textBottom += "&lt;/div&gt;\n";
+		*/
+	//}	
 	<% } %>
 
 	//bottom submit boxes
-	textBottom += "\n\n &lt;div class=&quot;DoNotPrint&quot; style=&quot;position: absolute; top:"
+	textBottom += "\n\n &lt;div class=&quot;DoNotPrint&quot; style=&quot;position: absolute; top:";
 	textBottom += BGHeight;
-	textBottom += "px; left:0px;&quot; id=&quot;BottomButtons&quot; &gt;\n"
-	textBottom += "\t &lt;table&gt;&lt;tr&gt;&lt;td&gt;\n"
-	textBottom += "\t\t Subject: &lt;input name=&quot;subject&quot; size=&quot;40&quot; type=&quot;text&quot;&gt; \n"
-	textBottom += "\t\t	&lt;input value=&quot;Submit&quot; name=&quot;SubmitButton&quot; id=&quot;SubmitButton&quot; type=&quot;submit&quot; onclick=&quot;"
+	textBottom += "px; left:0px;&quot; id=&quot;BottomButtons&quot; &gt;\n";
+	textBottom += "\t &lt;table&gt;&lt;tr&gt;&lt;td&gt;\n";
+	textBottom += "\t\t Subject: &lt;input name=&quot;subject&quot; size=&quot;40&quot; type=&quot;text&quot;&gt; \n";
+	textBottom += "\t\t	&lt;input value=&quot;Submit&quot; name=&quot;SubmitButton&quot; id=&quot;SubmitButton&quot; type=&quot;submit&quot; onclick=&quot;";
 	<% if (!OscarProperties.getInstance().isPropertyActive("eform_generator_indivica_signature_enabled")) { %>
-	if (document.getElementById('DrawSign').checked|| document.getElementById('DrawSign1').checked){
-		textBottom += " SubmitImage();"
+	if (document.getElementById('FreehandSign').checked || document.getElementById('ScriptelSign').checked){
+		textBottom += "SubmitImage();";
 	}
 	<% } %>
-	textBottom += " releaseDirtyFlag();&quot;&gt; \n"
-	textBottom += "\t\t\t&lt;input value=&quot;Reset&quot; name=&quot;ResetButton&quot; id=&quot;ResetButton&quot; type=&quot;reset&quot;&gt; \n"
-	textBottom += "\t\t	&lt;input value=&quot;Print&quot; name=&quot;PrintButton&quot; id=&quot;PrintButton&quot; type=&quot;button&quot; onclick=&quot;formPrint();&quot;&gt; \n"
-	textBottom += "\t\t	&lt;input value=&quot;Print &amp; Submit&quot; name=&quot;PrintSubmitButton&quot; id=&quot;PrintSubmitButton&quot; type=&quot;button&quot; onclick=&quot;formPrint();releaseDirtyFlag();setTimeout('SubmitButton.click()',1000);&quot;&gt; \n"
+	textBottom += " releaseDirtyFlag();&quot;&gt; \n";
+	textBottom += "\t\t\t&lt;input value=&quot;Reset&quot; name=&quot;ResetButton&quot; id=&quot;ResetButton&quot; type=&quot;reset&quot;&gt; \n";
+	textBottom += "\t\t	&lt;input value=&quot;Print&quot; name=&quot;PrintButton&quot; id=&quot;PrintButton&quot; type=&quot;button&quot; onclick=&quot;formPrint();&quot;&gt; \n";
+	textBottom += "\t\t	&lt;input value=&quot;Print &amp; Submit&quot; name=&quot;PrintSubmitButton&quot; id=&quot;PrintSubmitButton&quot; type=&quot;button&quot; onclick=&quot;formPrint();releaseDirtyFlag();setTimeout(&apos;SubmitButton.click()&apos;,1000);&quot;&gt; \n";
 	if(document.getElementById('DefaultCheckmark').checked){
-		textBottom += "\t\t	&lt;input name=&quot;DrawCheckmark&quot; id=&quot;DrawCheckmark&quot; type=&quot;checkbox&quot; checked&gt;"
-		textBottom += "&lt;span style=&quot;font-family:sans-serif; font-size:12px;&quot;&gt;Draw Checkmarks&lt;/span&gt; \n"
+		textBottom += "\t\t	&lt;input name=&quot;DrawCheckmark&quot; id=&quot;DrawCheckmark&quot; type=&quot;checkbox&quot; checked&gt;";
+		textBottom += "&lt;span style=&quot;font-family:sans-serif; font-size:12px;&quot;&gt;Draw Checkmarks&lt;/span&gt; \n";
 	}
-	textBottom += "\t &lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;\n"
-	textBottom += " &lt;/div&gt;\n &lt;/form&gt;\n\n"
+	textBottom += "\t &lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;\n";
+	textBottom += " &lt;/div&gt;\n &lt;/form&gt;\n\n";
 
 	//Bottom Graphic Scripts for drawing in checkmarks
 	if (document.getElementById('DefaultCheckmark').checked){
-		textBottom += "&lt;script type=&quot;text/javascript&quot;&gt;\n"
-		textBottom += "&lt;!-- Drawing in checkmarks --&gt;\n"
-		textBottom += "var chkcnv = document.getElementById('chkCanvas');\n"
-		textBottom += "var chkjg = new jsGraphics(chkcnv);\n"
-		textBottom += "var chkcnvLeft = parseInt(chkcnv.style.left);\n"
-		textBottom += "var chkcnvTop = parseInt(chkcnv.style.top);\n"
-		textBottom += "chkjg.setPrintable(true);\n"
+		textBottom += "&lt;script type=&quot;text/javascript&quot;&gt;\n";
+		textBottom += "&lt;!-- Drawing in checkmarks --&gt;\n";
+		textBottom += "var chkcnv = document.getElementById(&quot;chkCanvas&quot;);\n";
+		textBottom += "var chkjg = new jsGraphics(chkcnv);\n";
+		textBottom += "var chkcnvLeft = parseInt(chkcnv.style.left);\n";
+		textBottom += "var chkcnvTop = parseInt(chkcnv.style.top);\n";
+		textBottom += "chkjg.setPrintable(true);\n";
 
-		textBottom += "function drawCheckmark(x,y){\n"
-		textBottom += "var offset = 6;\n"
-		textBottom += "var x = parseInt(x) + offset;\n"
-		textBottom += "var y = parseInt(y) + offset;\n"
-		textBottom += "chkjg.setColor('black');\n"
-		textBottom += "chkjg.setStroke(3);\n"
-		textBottom += "\t	// draws checkmark\n"
-		textBottom += "\t	var x1 = x;\n"
-		textBottom += "\t	var y1 = y+4;\n"
-		textBottom += "\t	var x2 = x1 + 3;\n"
-		textBottom += "\t	var y2 = y1 + 4;\n"
-		textBottom += "\t	var x3 = x2 + 4;\n"
-		textBottom += "\t	var y3 = y2 - 12;\n"
-		textBottom += "\t	chkjg.drawLine(x1,y1,x2,y2);\n"
-		textBottom += "\t	chkjg.drawLine(x2,y2,x3,y3);\n"
-		textBottom += "\t	chkjg.paint();\n"
-		textBottom += "}\n"
-		textBottom += "function replaceCheckmarks(){\n"
-		textBottom += "var f = document.getElementById(&quot;FormName&quot;);\n"
-		textBottom += "	\t for (var i=0;i&lt;f.length;i++){\n"
-		textBottom += "	\t\t	if ((f.elements[i].type == 'checkbox') &amp;&amp; (f.elements[i].checked)){\n"
-		textBottom += "	\t\t		var a = f.elements[i].style.left;\n"
-		textBottom += "	\t\t		var b = f.elements[i].style.top;\n"
-		textBottom += "	\t\t		drawCheckmark(a,b);\n"
-		textBottom += "	\t\t	}\n"
-		textBottom += "	\t }\n"
-		textBottom += "}\n"
-		textBottom += "function printCheckboxes(){\n"
-		textBottom += "\t	putInFront();\n"
-		textBottom += "\t	replaceCheckmarks();\n"
-		textBottom += "\t	window.print();\n"
-		textBottom += "}\n"
-		textBottom += "function putInFront(){\n"
-		textBottom += "\t	chkcnv.style.zIndex = &quot;999999&quot;;	\n"
-		textBottom += "}\n"
-		textBottom += "function putInBack(){\n"
-		textBottom += "\t	chkcnv.style.zIndex = &quot;-999999&quot;;	\n"
-		textBottom += "}\n"
-		textBottom += "&lt;/script&gt;\n"
+		textBottom += "function drawCheckmark(x,y){\n";
+		textBottom += "var offset = 6;\n";
+		textBottom += "var x = parseInt(x) + offset;\n";
+		textBottom += "var y = parseInt(y) + offset;\n";
+		textBottom += "chkjg.setColor(&quot;black&quot;);\n";
+		textBottom += "chkjg.setStroke(3);\n";
+		textBottom += "\t	// draws checkmark\n";
+		textBottom += "\t	var x1 = x;\n";
+		textBottom += "\t	var y1 = y+4;\n";
+		textBottom += "\t	var x2 = x1 + 3;\n";
+		textBottom += "\t	var y2 = y1 + 4;\n";
+		textBottom += "\t	var x3 = x2 + 4;\n";
+		textBottom += "\t	var y3 = y2 - 12;\n";
+		textBottom += "\t	chkjg.drawLine(x1,y1,x2,y2);\n";
+		textBottom += "\t	chkjg.drawLine(x2,y2,x3,y3);\n";
+		textBottom += "\t	chkjg.paint();\n";
+		textBottom += "}\n";
+		textBottom += "function replaceCheckmarks(){\n";
+		textBottom += "var f = document.getElementById(&quot;FormName&quot;);\n";
+		textBottom += "	\t for (var i=0;i&lt;f.length;i++){\n";
+		textBottom += "	\t\t	if ((f.elements[i].type == &quot;checkbox&quot;) &amp;&amp; (f.elements[i].checked)){\n";
+		textBottom += "	\t\t		var a = f.elements[i].style.left;\n";
+		textBottom += "	\t\t		var b = f.elements[i].style.top;\n";
+		textBottom += "	\t\t		drawCheckmark(a,b);\n";
+		textBottom += "	\t\t	}\n";
+		textBottom += "	\t }\n";
+		textBottom += "}\n";
+		textBottom += "function printCheckboxes(){\n";
+		textBottom += "\t	putInFront();\n";
+		textBottom += "\t	replaceCheckmarks();\n";
+		textBottom += "\t	window.print();\n";
+		textBottom += "}\n";
+		textBottom += "function putInFront(){\n";
+		textBottom += "\t	chkcnv.style.zIndex = &quot;999999&quot;;	\n";
+		textBottom += "}\n";
+		textBottom += "function putInBack(){\n";
+		textBottom += "\t	chkcnv.style.zIndex = &quot;-999999&quot;;	\n";
+		textBottom += "}\n";
+		textBottom += "&lt;/script&gt;\n";
 	}
 
 	<% if (!OscarProperties.getInstance().isPropertyActive("eform_generator_indivica_signature_enabled")) { %>
-	//script for drawing signatures
-	if (document.getElementById('DrawSign').checked){
-		textBottom += "&lt;!-- scriptel signature scripts --&gt;\n"
-		textBottom += "&lt;script type=&quot;text/javascript&quot; src=&quot;$%7Boscar_javascript_path%7DSignatureScripts.js&quot;&gt;&lt;/script&gt;\n"
-		
-	    textBottom += "&lt;script type=&quot;text/javascript&quot; src=&quot;$%7Boscar_javascript_path%7Djquery/jquery-1.4.2.js&quot;&gt;&lt;/script&gt;\n"
-	    textBottom += "&lt;script type=&quot;text/javascript&quot; src=&quot;$%7Boscar_javascript_path%7Dsignature.js&quot;&gt;&lt;/script&gt;\n"
-		textBottom += "&lt;script type=&quot;text/javascript&quot;&gt;\n"
-		textBottom += "var cnv = null;\n"
-		textBottom += "var jg = null;\n"
-		textBottom += "var cnvLeft = 0;\n"
-		textBottom += "var cnvTop = 0;\n"
-		textBottom += "var cnv1 = null;\n"
-		textBottom += "var jg1 = null;\n"
-		textBottom += "var cnvLeft1 = 0;\n"
-		textBottom += "var cnvTop1 = 0;\n"
-		textBottom += "$(function() {\n"
-		textBottom += "\t$(&quot;div.sig&quot;).scriptelSigCap();\n"
-		textBottom += "\t$(&quot;input.sig&quot;).click(function() {\n"
-		textBottom += "\t window.console.log(this.id)\n"
-		textBottom += "\t var divId = getElementIdPrefix(this);\n"
-		textBottom += "\t$(&quot;#&quot;+ divId).scriptelSigCap(&quot;clear&quot;);\n"
-		textBottom += "\t$(&quot;#&quot;+ divId).val(&quot;&quot;);\n"
-		textBottom += "\treturn false;\n"
-		textBottom += "\t });\n"
-		textBottom += "cnv = document.getElementById(&quot;SignCanvas&quot;);\n"
-		textBottom += "if (cnv != null) {\n";
-		textBottom += "\tjg = new jsGraphics(cnv);\n"
-		textBottom += "\tcnvLeft = parseInt(cnv.style.left);\n"
-		textBottom += "\tcnvTop = parseInt(cnv.style.top);\n"
-		textBottom += "\tjg.setPrintable(true);\n"
-		textBottom += "}\n";
-		textBottom += "cnv1 = document.getElementById(&quot;SignCanvas1&quot;);\n"
-		textBottom += "if (cnv1 != null){";
-		textBottom += "\tjg1 = new jsGraphics(cnv1);\n"
-		textBottom += "\tcnvLeft1 = parseInt(cnv1.style.left);\n"
-		textBottom += "\tcnvTop1 = parseInt(cnv1.style.top);\n"
-		textBottom += "\tjg1.setPrintable(true);\n"
-		textBottom += "}\n";
-		textBottom += "\t });\n"
-		textBottom += "function showSignature(which){\n"
 	
-		textBottom += "var divId = getElementIdPrefix(which);\n"
-		textBottom += "\t$(&quot;#&quot;+divId).scriptelSigCap(&quot;showScriptel&quot;, $(&quot;#&quot;+divId+&quot;-signature&quot;).val());\n"
-		textBottom += "\treturn false;\n"
-		textBottom += "}\n"
-		textBottom += "\t var timerRefreshCanvas = null;\n"
-		textBottom += "\t var timerDetectInputStop = null;\n"
-		textBottom += "function stopInput(which){\n"
-		textBottom += "\t if (null != timerDetectInputStop) {\n"
-		textBottom += "\t clearTimeout(timerDetectInputStop);\n"
-		textBottom += "\t timerDetectInputStop = null;\n"
-		textBottom += "}\n"
-		textBottom += "\t if (null != timerRefreshCanvas) {\n"
-		textBottom += "\t clearInterval(timerRefreshCanvas);\n"
-		textBottom += "\t timerRefreshCanvas = null;\n"
-		textBottom += "}\n"
-		textBottom += "}\n"
-		textBottom += "function onkeyuphdlr(which){\n"
-		textBottom += "\t if (null == timerRefreshCanvas) {\n"
-		textBottom += "\t timerRefreshCanvas = setInterval(function(){showSignature(which);}, 50);\n"
-		textBottom += "}\n"
-		textBottom += "\t if (null != timerDetectInputStop) {\n"
-		textBottom += "\t clearTimeout(timerDetectInputStop);\n"
-		textBottom += "}\n"
-		textBottom += "\t timerDetectInputStop = setTimeout(function(){stopInput(which);}, 100);\n"
-		textBottom += "}\n"
-		textBottom += "&lt;/script&gt;\n\n"
-	} 
-	if (document.getElementById('DrawSign1').checked){
-		textBottom += "&lt;!-- freehand signature scripts --&gt;\n"
-		textBottom += "&lt;script type=&quot;text/javascript&quot; src=&quot;$%7Boscar_javascript_path%7DSignatureScripts.js&quot;&gt;&lt;/script&gt;\n"
+	if (document.getElementById('ScriptelSign').checked || document.getElementById('FreehandSign').checked) {
+		textBottom += "&lt;script type=&quot;text/javascript&quot; src=&quot;$%7Boscar_javascript_path%7Djquery/jquery-1.4.2.js&quot;&gt;&lt;/script&gt;\n";
+		
+		textBottom += "&lt;script type=&quot;text/javascript&quot;&gt;\n";
+		
+		/*
+		function getSignatureCount(type) {
+			return jQuery("div[type='" + type + "']").length;
+		}
+		*/
+		textBottom += "\tfunction getSignatureCount(type) {\n";
+		textBottom += "\t\treturn jQuery(&quot;div[type=\\&quot;&quot; + type + &quot;\\&quot;]&quot;).length;\n";
+		textBottom += "\t}\n\n";
+		
+		textBottom += "&lt;/script&gt;\n\n";
 	}
+	
+	if (document.getElementById('ScriptelSign').checked){
+		
+		// add a div node to store the iframe page used to save signature picture
+		textBottom += "&lt;div id=&quot;signatureInput&quot;&gt; &lt;/div&gt;\n";
+		
+		textBottom += "&lt;!-- scriptel signature scripts --&gt;\n";
+	    textBottom += "&lt;script type=&quot;text/javascript&quot; src=&quot;$%7Boscar_javascript_path%7Deforms/signatureControl.jsp&quot;&gt;&lt;/script&gt;\n";
+	    textBottom += "&lt;script type=&quot;text/javascript&quot; src=&quot;$%7Boscar_javascript_path%7Dsignature.js&quot;&gt;&lt;/script&gt;\n";
+		textBottom += "&lt;script type=&quot;text/javascript&quot;&gt;\n";
+		
+		textBottom += "\tvar size = getSignatureCount(&quot;" + scriptelSigBox + "&quot;);\n";
+		textBottom += "\tvar cnv = new Array(size);\n";
+		textBottom += "\tvar jg = new Array(size);\n";
+		textBottom += "\tvar cnvLeft = new Array(size);\n";
+		textBottom += "\tvar cnvTop = new Array(size);\n";
+		textBottom += "\tvar contextPath = &quot;&quot;;\n";
+		
+		/*
+		function gup(name, url) {
+			if (url == null) {
+				url = window.location.href;
+			}
+			name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+			var regexS = "[\\?&]"+name+"=([^&#]*)";
+			var regex = new RegExp(regexS);
+			var results = regex.exec(url);
+			if (results == null) {
+				return "";
+			} else {
+				return results[1];
+			}
+		}
+		*/
+		textBottom += "\tfunction gup(name, url) %7B\n";
+		textBottom += "\t\tif (url == null) %7B\n";
+		textBottom += "\t\t\turl = window.location.href;\n";
+		textBottom += "\t\t}\n";
+		textBottom += "\t\tname = name.replace(/[\\[]/,&quot;\\\\\\[&quot;).replace(/[\\]]/,&quot;\\\\\\]&quot;);\n";
+		textBottom += "\t\tvar regexS = &quot;[\\\\\?&]&quot;+name+&quot;=([^&#]*)&quot;;\n";
+		textBottom += "\t\tvar regex = new RegExp(regexS);\n";
+		textBottom += "\t\tvar results = regex.exec(url);\n";
+		textBottom += "\t\tif (results == null) %7B\n";
+		textBottom += "\t\t\treturn &quot;&quot;;\n";
+		textBottom += "\t\t} else {\n";
+		textBottom += "\t\t\treturn results[1];\n";
+		textBottom += "\t\t\}\n";
+		textBottom += "\t}\n";
+		
+		/*
+		$(function() {
+			$("div.sig").scriptelSigCap();
+			//$("input.sig").click(function() {
+			//	window.console.log(this.id)
+			//	var divId = getElementIdPrefix(this);
+			//	$("#"+ divId).scriptelSigCap("clear");
+			//	$("#"+ divId).val("");
+			//	return false;
+			//});
+			
+			jQuery("div[type='ScriptelSignatureBox']").each(function(){
+				var index = this.getAttribute("index");
+				if (index != undefined && index != null) {
+					cnv[index - 1] = this;
+					if (this != null) {
+						jg[index - 1] = new jsGraphics(this);
+						cnvLeft[index - 1] = parseInt(cnv[index - 1].style.left);
+						cnvTop[index - 1] = parseInt(cnv[index - 1].style.top);
+						jg[index - 1].setPrintable(true);
+					}
+				}
+			});
+
+			var demographicNo = gup("demographic_no");
+			if (demographicNo == "") {
+				demographicNo = gup("efmdemographic_no", jQuery("form").attr("action"));
+			}
+			if (typeof signatureControl != "undefined") {
+				signatureControl.initialize({
+					sigHTML:"../signature_pad/tabletSignature.jsp?inWindow=true&saveToDB=true&demographicNo=",
+					demographicNo:demographicNo,
+					refreshImage: function (e) {
+						var html = "<img src=&apos;"+e.storedImageUrl+"&r="+ Math.floor(Math.random()*1001) +"&apos;></img>";
+						doHtml(html);
+					},
+					signatureInput: "#signatureInput"
+				});
+			}
+	
+			jQuery("#signatureInput").attr("hidden", "true");
+			jQuery("canvas").attr("hidden", "true");
+		});
+		*/
+		textBottom += "\t$(function() {\n";
+		textBottom += "\t\t$(&quot;div.sig&quot;).scriptelSigCap();\n";
+		//textBottom += "\t\t$(&quot;input.sig&quot;).click(function() {\n";
+		//textBottom += "\t\t\twindow.console.log(this.id)\n";
+		//textBottom += "\t\t\tvar divId = getElementIdPrefix(this);\n";
+		//textBottom += "\t\t\t$(&quot;#&quot;+ divId).scriptelSigCap(&quot;clear&quot;);\n";
+		//textBottom += "\t\t\t$(&quot;#&quot;+ divId).val(&quot;&quot;);\n";
+		//textBottom += "\t\t\treturn false;\n";
+		//textBottom += "\t\t});\n\n";
+		
+		textBottom += "\t\tjQuery(&quot;div[type=\\&quot;" + scriptelSigBox + "\\&quot;]&quot;).each(function(){\n";
+		textBottom += "\t\t\tvar index = this.getAttribute(&quot;index&quot;);\n";
+		textBottom += "\t\t\tif (index != undefined && index != null) {\n";
+		textBottom += "\t\t\t\tcnv[index - 1] = this;\n";
+		textBottom += "\t\t\t\tif (cnv[index - 1] != null) {\n";
+		textBottom += "\t\t\t\t\tjg[index - 1] = new jsGraphics(cnv[index - 1]);\n";
+		textBottom += "\t\t\t\t\tcnvLeft[index - 1] = parseInt(cnv[index - 1].style.left);\n";
+		textBottom += "\t\t\t\t\tcnvTop[index - 1] = parseInt(cnv[index - 1].style.top);\n";
+		textBottom += "\t\t\t\t\tjg[index - 1].setPrintable(true);\n";
+		textBottom += "\t\t\t\t}\n";
+		textBottom += "\t\t\t}\n";
+		textBottom += "\t\t});\n";
+		
+		textBottom += "\t\tvar demographicNo = gup(&quot;demographic_no&quot;);\n";
+		textBottom += "\t\tif (demographicNo == &quot;&quot;) %7B\n";
+		textBottom += "\t\t\tdemographicNo = gup(&quot;efmdemographic_no&quot;, jQuery(&quot;form&quot;).attr(&quot;action&quot;));\n";
+		textBottom += "\t\t}\n";
+		textBottom += "\t\tif (typeof signatureControl != &quot;undefined&quot;) %7B\n";
+		textBottom += "\t\t\tsignatureControl.initialize({\n";
+		textBottom += "\t\t\t\tsigHTML:&quot;../signature_pad/tabletSignature.jsp?inWindow=true&saveToDB=true&demographicNo=&quot;,\n";
+		textBottom += "\t\t\t\tdemographicNo:demographicNo,\n";
+		textBottom += "\t\t\t\trefreshImage: function (e) {\n";
+		//textBottom += "\t\t\t\t\tvar html = &quot;&lt;img src=&apos;&quot;+e.storedImageUrl+&quot;&r=&quot;+ Math.floor(Math.random()*1001) +&quot;&apos;&gt;&lt;/img&gt;&quot;;\n";
+		//textBottom += "\t\t\t\t\tdoHtml(html);\n";
+		textBottom += "\t\t\t\t},\n";
+		textBottom += "\t\t\t\tsignatureInput: &quot;#signatureInput&quot;\n";
+		textBottom += "\t\t\t});\n";
+		textBottom += "\t\t}\n\n";
+		textBottom += "\t\tjQuery(&quot;#signatureInput&quot;).attr(&quot;hidden&quot;, &quot;true&quot;);\n";
+		textBottom += "\t\tjQuery(&quot;canvas&quot;).attr(&quot;hidden&quot;, &quot;true&quot;);\n\n";
+		textBottom += "\t\tloadSignaturePics();\n";
+		textBottom += "\t});\n\n";
+		
+		textBottom += "\tfunction showSignature(which){\n";
+		textBottom += "\t\tvar divId = getElementIdPrefix(which);\n";
+		textBottom += "\t\t$(&quot;#&quot;+divId).scriptelSigCap(&quot;showScriptel&quot;, $(&quot;#&quot;+divId+&quot;-signature&quot;).val());\n";
+		textBottom += "\t\treturn false;\n";
+		textBottom += "\t}\n\n";
+		
+		//textBottom += "\tvar timerRefreshCanvas = null;\n";
+		textBottom += "\tvar timerDetectInputStop = null;\n\n";
+		
+		/*function saveCanvas() {
+			var divId = getElementIdPrefix(which);
+			var canvas = document.getElementById(divId + "-canvas");
+			var strDataURI = canvas.toDataURL("image/png");
+			var subDoc = document.getElementById("signatureFrame").contentWindow.document;
+			subDoc.getElementById("signatureImage").value = strDataURI;
+	
+			// Used to submit the form using Ajax.
+			jQuery.ajax({
+				type: "POST",
+				url: contextPath + "/signature_pad/uploadSignature.jsp",
+				data: jQuery("#signatureForm", subDoc).serialize(),
+				success: function(data) {
+					var savedId = jQuery(jQuery(data.trim())[0]).val();
+					var img = document.getElementById(divId + "-img");
+					if (img != null) {
+						img.setAttribute("src", contextPath + "/imageRenderingServlet?source=signature_stored&digitalSignatureId=" + savedId + "&r=107");
+						showScriptelSignature(which);
+					}
+				}
+			});
+			return false;
+		} */
+		textBottom += "\tfunction saveCanvas(which) {\n";
+		textBottom += "\t\tvar divId = getElementIdPrefix(which);\n";
+		textBottom += "\t\tvar canvas = document.getElementById(divId + &quot;-canvas&quot;);\n";
+		textBottom += "\t\tvar strDataURI = canvas.toDataURL(&quot;image/png&quot;);\n";
+		textBottom += "\t\tvar subDoc = document.getElementById(&quot;signatureFrame&quot;).contentWindow.document;\n";
+		textBottom += "\t\tsubDoc.getElementById(&quot;signatureImage&quot;).value = strDataURI;\n\n";
+		textBottom += "\t\t// Used to submit the form using Ajax.\n";
+		textBottom += "\t\tjQuery.ajax({\n";
+		textBottom += "\t\t\ttype: &quot;POST&quot;,\n";
+		textBottom += "\t\t\turl: contextPath + &quot;/signature_pad/uploadSignature.jsp&quot;,\n";
+		textBottom += "\t\t\tdata: jQuery(&quot;#signatureForm&quot;, subDoc).serialize(),\n";
+		textBottom += "\t\t\tsuccess: function(data) {\n";
+		textBottom += "\t\t\t\tvar savedId = jQuery(jQuery(data.trim())[0]).val();\n";
+		textBottom += "\t\t\t\tvar img = document.getElementById(divId + &quot;-img&quot;);\n";
+		textBottom += "\t\t\t\tif (img != null) {\n";
+		textBottom += "\t\t\t\t\timg.setAttribute(&quot;src&quot;, contextPath + &quot;/imageRenderingServlet?source=signature_stored&digitalSignatureId=&quot; + savedId + &quot;&r=107&quot;);\n";
+		textBottom += "\t\t\t\t\tdocument.getElementById(divId + &quot;-imgSavedId&quot;).value=savedId;\n";
+		textBottom += "\t\t\t\t\tshowScriptelSignature(which);\n";
+		textBottom += "\t\t\t\t}\n";
+		textBottom += "\t\t\t}\n";
+		textBottom += "\t\t});\n";
+		textBottom += "\t\treturn false;\n";
+		textBottom += "\t}\n\n";
+		
+		textBottom += "\tfunction stopInput(which){\n";
+		textBottom += "\t\tif (null != timerDetectInputStop) {\n";
+		textBottom += "\t\t\tclearTimeout(timerDetectInputStop);\n";
+		textBottom += "\t\t\ttimerDetectInputStop = null;\n";
+		textBottom += "\t\t}\n";
+		//textBottom += "\t\tif (null != timerRefreshCanvas) {\n";
+		//textBottom += "\t\t\tclearInterval(timerRefreshCanvas);\n";
+		//textBottom += "\t\t\ttimerRefreshCanvas = null;\n";
+		//textBottom += "\t\t}\n"
+		textBottom += "\t\tshowSignature(which);\n";
+		textBottom += "\t\tsaveCanvas(which);\n";
+		textBottom += "\t}\n\n"
+		
+		textBottom += "\tfunction onkeyuphdlr(which){\n";
+		//textBottom += "\t\tif (null == timerRefreshCanvas) {\n";
+		//textBottom += "\t\t\ttimerRefreshCanvas = setInterval(function(){showSignature(which);}, 50);\n";
+		//textBottom += "\t\t}\n"
+		textBottom += "\t\tif (null != timerDetectInputStop) {\n";
+		textBottom += "\t\t\tclearTimeout(timerDetectInputStop);\n";
+		textBottom += "\t\t}\n";
+		textBottom += "\t\ttimerDetectInputStop = setTimeout(function(){stopInput(which);}, 100);\n";
+		textBottom += "\t}\n\n";
+		
+		/*
+		function showScriptelSignature(which) {
+			var divId = getElementIdPrefix(which);
+			document.getElementById(divId + "-img").style.display = "inline";
+			document.getElementById(divId + "-showSig").style.display = "none";
+			document.getElementById(divId + "-signature").style.display = "none";
+			document.getElementById(divId + "-ClearSignature").style.display = "none";
+		}
+		*/
+		textBottom += "\tfunction showScriptelSignature(which) {\n";
+		textBottom += "\t\tvar divId = getElementIdPrefix(which);\n";
+		textBottom += "\t\tdocument.getElementById(divId + &quot;-img&quot;).style.display = &quot;inline&quot;;\n";
+		textBottom += "\t\tdocument.getElementById(divId + &quot;-showSig&quot;).style.display = &quot;none&quot;;\n";
+		textBottom += "\t\tdocument.getElementById(divId + &quot;-signature&quot;).style.display = &quot;none&quot;;\n";
+		textBottom += "\t\tdocument.getElementById(divId + &quot;-ClearSignature&quot;).style.display = &quot;none&quot;;\n";
+		textBottom += "\t}\n\n";
+		
+		/*
+		function showScriptelInputBox(which) {
+			var divId = getElementIdPrefix(which);
+			document.getElementById(divId + "-img").style.display = "none";
+			document.getElementById(divId + "-showSig").style.display = "inline";
+			document.getElementById(divId + "-signature").style.display = "inline";
+			document.getElementById(divId + "-ClearSignature").style.display = "inline";
+		}
+		*/
+		textBottom += "\tfunction showScriptelInputBox(which) {\n";
+		textBottom += "\t\tvar divId = getElementIdPrefix(which);\n";
+		textBottom += "\t\tdocument.getElementById(divId + &quot;-img&quot;).style.display = &quot;none&quot;;\n";
+		textBottom += "\t\tdocument.getElementById(divId + &quot;-showSig&quot;).style.display = &quot;inline&quot;;\n";
+		textBottom += "\t\tdocument.getElementById(divId + &quot;-signature&quot;).style.display = &quot;inline&quot;;\n";
+		textBottom += "\t\tdocument.getElementById(divId + &quot;-ClearSignature&quot;).style.display = &quot;inline&quot;;\n";
+		textBottom += "\t}\n\n";
+		
+		/*
+		function clearScriptelSignature(which) {
+			var divId = getElementIdPrefix(which);
+			var index = getSignatureIndex(which);
+			document.getElementById(divId + "-img").src = "";
+			document.getElementById(divId + "-img").setAttribute("savedId", "0");
+			document.getElementById(divId + "-showSig").style.display = "none";
+			jg[index - 1].clear();
+		    //document.getElementById(divId + "-TempData").value = "";
+		    //document.getElementById(divId + "-DrawData").value = "";
+			document.getElementById(divId + "-signature").value = "";
+		}
+		*/
+		textBottom += "\tfunction clearScriptelSignature(which) {\n";
+		textBottom += "\t\tvar divId = getElementIdPrefix(which);\n";
+		textBottom += "\t\tvar index = getSignatureIndex(which);\n";
+		textBottom += "\t\tdocument.getElementById(divId + &quot;-img&quot;).src = &quot;&quot;;\n";
+		textBottom += "\t\tdocument.getElementById(divId + &quot;-imgSavedId&quot;).value = &quot;0&quot;;\n";
+		textBottom += "\t\tdocument.getElementById(divId + &quot;-showSig&quot;).style.display = &quot;none&quot;;\n";
+		textBottom += "\t\tjg[index - 1].clear();\n";
+		//textBottom += "\t\tdocument.getElementById(divId + &quot;-TempData&quot;).value = &quot;&quot;;\n";
+		//textBottom += "\t\tdocument.getElementById(divId + &quot;-DrawData&quot;).value = &quot;&quot;;\n";
+		textBottom += "\t\tdocument.getElementById(divId + &quot;-signature&quot;).value = &quot;&quot;;\n";
+		textBottom += "\t}\n\n";
+		
+		/*
+		function loadSignaturePics() {
+			var jsPath = "${oscar_javascript_path}";
+			var reg = /\/(\S+)?\/share\/javascript/;
+			var result = reg.exec(jsPath);
+			if (result.length == 2) {
+				contextPath=result[1];
+				var imgPath = "/" + result[1] + "/imageRenderingServlet?source=signature_stored&r=107&digitalSignatureId=";
+				jQuery("div[type='ScriptelSignatureBox']").each(function(){
+					var savedId = document.getElementById(this.id + "-imgSavedId").value;
+					if (savedId != 0 && savedId != "0") {
+						document.getElementById(this.id + "-img").src = imgPath + savedId;
+						showScriptelSignature(this);
+					}
+				});
+			} else {
+				alert("Error: Can't get context path!!");
+			}
+		}
+		*/
+		textBottom += "\tfunction loadSignaturePics() {\n";
+		textBottom += "\t\tvar jsPath = &quot;$%7Boscar_javascript_path%7D&quot;;\n";
+		textBottom += "\t\tvar reg = /\\/(\\S+)?\\/share\\/javascript/;\n";
+		textBottom += "\t\tvar result = reg.exec(jsPath);\n";
+		textBottom += "\t\tif (result.length == 2) {\n";
+		textBottom += "\t\t\tcontextPath = &quot;/&quot; + result[1];\n";
+		textBottom += "\t\t\tvar imgPath = &quot;/&quot; + result[1] + &quot;/imageRenderingServlet?source=signature_stored&r=107&digitalSignatureId=&quot;;\n";
+		textBottom += "\t\t\tjQuery(&quot;div[type=\\&quot;" + scriptelSigBox + "\\&quot;]&quot;).each(function(){\n";
+		textBottom += "\t\t\t\tvar savedId = document.getElementById(this.id + &quot;-imgSavedId&quot;).value;\n";
+		textBottom += "\t\t\t\tif (savedId != 0 && savedId != &quot;0&quot;) {\n";
+		textBottom += "\t\t\t\t\tdocument.getElementById(this.id + &quot;-img&quot;).src = imgPath + savedId;\n";
+		textBottom += "\t\t\t\t\tshowScriptelSignature(this);\n";
+		textBottom += "\t\t\t\t}\n";
+		textBottom += "\t\t\t});\n";
+		textBottom += "\t\t} else {\n";
+		textBottom += "\t\t\talert(&quot;Error: Can't get context path!!&quot;);\n";
+		textBottom += "\t\t}\n";
+		textBottom += "\t}\n\n";
+		
+		/*
+		function SubmitImage() {
+			jQuery("div[type='ScriptelSignatureBox']").each(function(){
+				document.getElementById(this.id + "-showSig").value = "";
+			}
+		}
+		*/
+		textBottom += "\tfunction SubmitImage() {\n";
+		textBottom += "\t\tjQuery(&quot;div[type=\\&quot;" + scriptelSigBox + "\\&quot;]&quot;).each(function(){\n";
+		textBottom += "\t\t\tdocument.getElementById(this.id + &quot;-signature&quot;).value = &quot;&quot;;\n";
+		textBottom += "\t\t});\n";
+		textBottom += "\t}\n\n";
+		
+		textBottom += "&lt;/script&gt;\n\n";
+	}
+
+	//script for Freehand drawing
+	if (document.getElementById('FreehandSign').checked){
+		textBottom += "&lt;!-- freehand signature scripts --&gt;\n";
+		//textBottom += "&lt;script type=&quot;text/javascript&quot; src=&quot;$%7Boscar_javascript_path%7Dsignature.js&quot;&gt;&lt;/script&gt;\n";
+		textBottom += "&lt;script type=&quot;text/javascript&quot; src=&quot;$%7Boscar_javascript_path%7DSignatureScripts_multiple.js&quot;&gt;&lt;/script&gt;\n";
+		textBottom += "&lt;script type=&quot;text/javascript&quot;&gt;\n";
+		/*
+		var pvcnv = document.getElementById("preview");
+		var pv = new jsGraphics(pvcnv);
+		var cnv = document.getElementById("SignCanvas");
+		var jg = new jsGraphics(cnv);
+		var cnvLeft = parseInt(cnv.style.left);
+		var cnvTop = parseInt(cnv.style.top);
+		var StrokeColor = "black";
+		var StrokeThickness = 2;
+		var x0 = 0;
+		var y0 = 0;
+		jg.setPrintable(true);
+		var SubmitData = new Array();
+		var DrawData  = new Array();
+		var TempData = new Array();
+		var MouseDown = false;
+		var Xposition = new Array();
+		var Yposition = new Array();
+		var DrawSwitch = new Array();
+		*/
+		textBottom += "\tvar size = getSignatureCount(&quot;" + freehandSigBox + "&quot;);\n";
+		textBottom += "\tvar pvcnv = new Array(size);\n";
+		textBottom += "\tvar pv = new Array(size);\n";
+		textBottom += "\tvar cnv = new Array(size);\n";
+		textBottom += "\tvar jg = new Array(size);\n";
+		textBottom += "\tvar cnvLeft = new Array(size);\n";
+		textBottom += "\tvar cnvTop = new Array(size);\n";
+		textBottom += "\tvar x0 = new Array(size);\n";
+		textBottom += "\tvar y0 = new Array(size);\n";
+		textBottom += "\tvar SubmitData = new Array();\n";
+		textBottom += "\tvar DrawData  = new Array();\n";
+		textBottom += "\tvar TempData = new Array();\n";
+		textBottom += "\tvar MouseDown = new Array();\n";
+		textBottom += "\tvar Xposition = new Array();\n";
+		textBottom += "\tvar Yposition = new Array();\n";
+		textBottom += "\tvar DrawSwitch = new Array();\n";
+		//textBottom += "\tvar contextPath = &quot;&quot;;\n";
+		
+		textBottom += "\t$(function() {\n";
+		
+		//textBottom += "\t\tjQuery(&quot;div[type=\\&quot;" + freehandSigBox + "\\&quot;]&quot;).scriptelSigCap();\n";
+		//textBottom += "\t\tjQuery(&quot;div[type=\\&quot;" + freehandSigBox + "\\&quot;]&quot;).each(function() {\n";
+		//textBottom += "\t\t\tjQuery(this).click(function(){\n";
+		//textBottom += "\t\t\t\twindow.console.log(this.id)\n";
+		//textBottom += "\t\t\t\tvar divId = getElementIdPrefix(this);\n";
+		//textBottom += "\t\t\t\t$(&quot;#&quot;+ divId).scriptelSigCap(&quot;clear&quot;);\n";
+		//textBottom += "\t\t\t\t$(&quot;#&quot;+ divId).val(&quot;&quot;);\n";
+		//textBottom += "\t\t\t\treturn false;\n";
+		//textBottom += "\t\t\t});\n";
+		//textBottom += "\t\t});\n";
+		
+		/*
+		jQuery("div[type='FreehandSignaturebox']").each(function(){
+			var index = this.getAttribute("index");
+			if (index != undefined && index != null) {
+				if (this != null) {
+					cnv[index - 1] = this;
+					jg[index - 1] = new jsGraphics(cnv[index - 1]);
+					cnvLeft[index - 1] = parseInt(cnv[index - 1].style.left);
+					cnvTop[index - 1] = parseInt(cnv[index - 1].style.top);
+					jg[index - 1].setPrintable(true);
+					
+					pvcnv[index - 1] = document.getElementById(this.id + "-preview");
+					pv[index - 1] = new jsGraphics(pvcnv[index - 1]);
+					x0[index - 1] = 0;
+					y0[index - 1] = 0;
+					SubmitData[index - 1] = new Array();
+					DrawData[index - 1] = new Array();
+					TempData[index - 1] = new Array();
+					MouseDown[index - 1] = false;
+					Xposition[index - 1] = new Array();
+					Yposition[index - 1] = new Array();
+					DrawSwitch[index - 1] = false;
+				}
+			}
+		});		
+		*/
+		textBottom += "\t\tjQuery(&quot;div[type=\\&quot;" + freehandSigBox + "\\&quot;]&quot;).each(function(){\n";
+		textBottom += "\t\t\tvar index = this.getAttribute(&quot;index&quot;);\n";
+		textBottom += "\t\t\tif (index != undefined && index != null) {\n";
+		textBottom += "\t\t\t\tcnv[index - 1] = this;\n";
+		textBottom += "\t\t\t\tif (this != null) {\n";
+		textBottom += "\t\t\t\t\tjg[index - 1] = new jsGraphics(cnv[index - 1]);\n";
+		textBottom += "\t\t\t\t\tcnvLeft[index - 1] = parseInt(cnv[index - 1].style.left);\n";
+		textBottom += "\t\t\t\t\tcnvTop[index - 1] = parseInt(cnv[index - 1].style.top);\n";
+		textBottom += "\t\t\t\t\tjg[index - 1].setPrintable(true);\n";
+		textBottom += "\t\t\t\t\tpvcnv[index - 1] = document.getElementById(this.id + &quot;-preview&quot;);\n";
+		textBottom += "\t\t\t\t\tpv[index - 1] = new jsGraphics(pvcnv[index - 1]);\n";
+		textBottom += "\t\t\t\t\tx0[index - 1] = 0;\n";
+		textBottom += "\t\t\t\t\ty0[index - 1] = 0;\n";
+		textBottom += "\t\t\t\t\tSubmitData[index - 1] = new Array();\n";
+		textBottom += "\t\t\t\t\tDrawData[index - 1] = new Array();\n";
+		textBottom += "\t\t\t\t\tTempData[index - 1] = new Array();\n";
+		textBottom += "\t\t\t\t\tMouseDown[index - 1] = false;\n";
+		textBottom += "\t\t\t\t\tXposition[index - 1] = new Array();\n";
+		textBottom += "\t\t\t\t\tYposition[index - 1] = new Array();\n";
+		textBottom += "\t\t\t\t\tDrawSwitch[index - 1] = false;\n";
+		textBottom += "\t\t\t\t}\n";
+		textBottom += "\t\t\t}\n";
+		textBottom += "\t\t});\n";
+		
+		textBottom += "\t});\n\n";
+		
+		textBottom += "&lt;/script&gt;\n\n";
+	}
+	
+	if (document.getElementById('ScriptelSign').checked || document.getElementById('FreehandSign').checked) {
+		
+		textBottom += "&lt;script type=&quot;text/javascript&quot;&gt;\n";
+		
+		/*
+		function getElementIdPrefix(which) {
+			if (undefined == which || null == which) {
+				return "";
+			}
+			var prefixId = which.id.substr(0, which.id.indexOf("-"));
+			if (0 == prefixId.length) {
+				prefixId = which.id;
+			}
+			return prefixId;
+		}
+		*/
+		textBottom += "\tfunction getElementIdPrefix(which) {\n";
+		textBottom += "\t\tif (undefined == which || null == which) {\n";
+		textBottom += "\t\t\treturn &quot;&quot;;\n";
+		textBottom += "\t\t}\n";
+		textBottom += "\t\tvar prefixId = which.id.substr(0, which.id.indexOf(&quot;-&quot;));\n";
+		textBottom += "\t\tif (0 == prefixId.length) {\n";
+		textBottom += "\t\t\tprefixId = which.id;\n";
+		textBottom += "\t\t}\n";
+		textBottom += "\t\treturn prefixId;\n";
+		textBottom += "\t}\n\n";
+	
+		/*
+		function getSignatureIndex(which) {
+			var divId = getElementIdPrefix(which);
+			return document.getElementById(divId).getAttribute("index");
+		}
+		*/
+		textBottom += "\tfunction getSignatureIndex(which) {\n";
+		textBottom += "\t\tvar divId = getElementIdPrefix(which);\n";
+		textBottom += "\t\treturn document.getElementById(divId).getAttribute(&quot;index&quot;);\n";
+		textBottom += "\t}\n\n";
+		
+		textBottom += "&lt;/script&gt;\n\n";
+	}
+	
 	<% } %> 
 	//</body></html>
 	textBottom += "&lt;/body&gt;\n&lt;/html&gt;\n";
@@ -2749,49 +3343,50 @@ function _CompInt(x, y)
 <span class='h2'>4. <bean:message key="eFormGenerator.signature"/></span><a onclick="show('Section4');"><bean:message key="eFormGenerator.expand"/></a>/<a onclick="hide('Section4');"><bean:message key="eFormGenerator.collapse"/></a>
 <div id="Section4">
 	<p>
+		<% if(OscarProperties.getInstance().getBooleanProperty("eform_signature_scriptel_enabled","true")){ %>
 		<input type="checkbox" name="AddSignature" id="AddSignature"
-			onclick="	toggleView(this.checked,'Section4a');<% if(OscarProperties.getInstance().getBooleanProperty("eform_signature_scriptel_enabled","true")){ %>toggleView(this.checked,'Section4b')<%}%>;toggleView(this.checked,'Section4c');"><bean:message key="eFormGenerator.signatureCheckbox"/><br>
-				
+			onclick="toggleView(this.checked,'Section4a');toggleView(this.checked,'Section4b');toggleView(this.checked,'Section4c');"><bean:message key="eFormGenerator.signatureCheckbox"/>
+		<%} else {%>
+		<input type="checkbox" name="AddSignature" id="AddSignature"
+			onclick="toggleView(this.checked,'Section4a');toggleView(this.checked,'Section4b');"><bean:message key="eFormGenerator.signatureCheckbox"/>
+		<%} %>
+		<br>		
 		<div id="Section4a" style="display:none">
-			<input type="radio" name="SignatureType" id="AutoSign" value="AutoSign" onclick="show('Section4aa'); show('Section4ab'); hide('Section4ba');hide('Section4ca');hide('Section4baa');"><span><bean:message key="eFormGenerator.signatureLoad"/></span><br>
+			<input type="radio" name="SignatureType" id="AutoSign" value="AutoSign" onclick="show('Section4aa'); show('Section4ab'); hide('Section4ba');hide('Section4ca');"><span><bean:message key="eFormGenerator.signatureLoad"/></span><br>
 		</div>
-			<div id="Section4aa" style="display:none">
-				<ul>
-					<li><bean:message key="eFormGenerator.signatureFragment"/>
-						<input type="text" name="UserList" id="UserList" style="width:200px;"></li>
-					<li><bean:message key="eFormGenerator.signatureImage"/>
-						<input type="text" name="SignatureList" id="SignatureList" style="width:200px;"></li>
-					<input type="button" name="AddToUserSignatureList" id="AddToUserSignatureList" value="<bean:message key="eFormGenerator.signatureAddButton"/>" onclick="addToUserSignatureList();">
-					<input type="button" name="EmptyUserSignatureList" id="EmptyUserSignatureList" value="<bean:message key="eFormGenerator.signatureEmptyButton"/>" onclick="emptyUserSignaturelist()"><br>
-					<ul name="UserSignatureList" id="UserSignatureList" style="list-style-type:none; list-style: none; margin-left: 0; padding-left: 1em; text-indent: -1em"></ul>
-				</ul>
-			</div>
-			<div id="Section4ab" style="display:none">
-				<input type="button" name="AddSignatureBox1" id="AddSignatureBox1" style="width:400px" value="<bean:message key="eFormGenerator.signatureLocationButton"/>" onclick="SetSwitchOn('SignatureBox');">
-			</div>
+		<div id="Section4aa" style="display:none">
+			<ul>
+				<li><bean:message key="eFormGenerator.signatureFragment"/>
+					<input type="text" name="UserList" id="UserList" style="width:200px;"></li>
+				<li><bean:message key="eFormGenerator.signatureImage"/>
+					<input type="text" name="SignatureList" id="SignatureList" style="width:200px;"></li>
+				<input type="button" name="AddToUserSignatureList" id="AddToUserSignatureList" value="<bean:message key="eFormGenerator.signatureAddButton"/>" onclick="addToUserSignatureList();">
+				<input type="button" name="EmptyUserSignatureList" id="EmptyUserSignatureList" value="<bean:message key="eFormGenerator.signatureEmptyButton"/>" onclick="emptyUserSignaturelist()"><br>
+				<ul name="UserSignatureList" id="UserSignatureList" style="list-style-type:none; list-style: none; margin-left: 0; padding-left: 1em; text-indent: -1em"></ul>
+			</ul>
+		</div>
+		<div id="Section4ab" style="display:none">
+			<input type="button" name="AddScriptelSignature" id="AddScriptelSignature" style="width:400px" value="<bean:message key="eFormGenerator.signatureLocationButton"/>" onclick="SetSwitchOn('SignatureBox');">
+		</div>
 		
+		<!-- freehand signature -->
 		<div id="Section4b"  style="display:none">
-			<input type="radio" name="SignatureType" id="DrawSign" value="DrawSign" onclick="show('Section4ba'); show('Section4baa');hide('Section4aa'); hide('Section4ab');hide('Section4ca');"><span>Add a drawing area to "sign" a signature on the scriptel<span>
+			<input type="radio" name="SignatureType" id="FreehandSign" value="FreehandSign" onclick="show('Section4ba'); hide('Section4aa'); hide('Section4ab');hide('Section4ca');"><span><bean:message key="eFormGenerator.signatureFreehand"/><span>
+		</div>
+		<div id="Section4ba" style="display:none">
+			<input type="button" name="AddSignatureBox2" id="AddSignatureBox2" style="width:400px" value="Click here, then drag a box around the signature area" onclick="SetSwitchOn('FreehandSignature');">
 		</div>
 		
+		<% if(OscarProperties.getInstance().getBooleanProperty("eform_signature_scriptel_enabled","true")){ %>
+		<!-- signature using scriptel pad -->
 		<div id="Section4c"  style="display:none">
-			<input type="radio" name="SignatureType" id="DrawSign1" value="DrawSign1" onclick="show('Section4ca'); hide('Section4aa'); hide('Section4ab');hide('Section4ba');hide('Section4baa');"><span><bean:message key="eFormGenerator.signatureFreehand"/><span>
+			<input type="radio" name="SignatureType" id="ScriptelSign" value="ScriptelSign" onclick="show('Section4ca'); hide('Section4aa'); hide('Section4ab'); hide('Section4ba');"><span><bean:message key="eFormGenerator.signautreScriptelPad" /><span>
 		</div>
-		
-		
-			<div id="Section4ba" style="display:none">
-				<input type="button" name="AddSignatureBox2" id="AddSignatureBox2" style="width:400px" value="Click here, then drag a box to signature with scriptel-1" onclick="SetSwitchOn('SignatureBox');document.getElementById('DrawSign3').checked=true;">
-			    <input id="DrawSign3" type="radio" style="display:none">
-			</div>
-			
-			<div id="Section4baa" style="display: none;">
-            <input id="AddSignatureBox4" name="AddSignatureBox4" type="button" onclick="SetSwitchOn('SignatureBox1');document.getElementById('DrawSign2').checked=true;" value="Click here, then drag a box to signature with scriptel-2" style="width:400px" >
-            <input id="DrawSign2" type="radio" style="display:none">
-             </div>
-			
-			<div id="Section4ca" style="display:none">
-				<input type="button" name="AddSignatureBox3" id="AddSignatureBox3" style="width:400px" value="Click here, then drag a box around the signature area" onclick="SetSwitchOn('SignatureBox');">
-			</div>
+		<div id="Section4ca" style="display:none">
+			<input type="button" name="AddSignatureBox3" id="AddSignatureBox3" style="width:420px" value="Click here, then drag a box to signature with scriptel pad" onclick="SetSwitchOn('ScriptelSignature');">
+			<!-- <input type="radio" id="DrawScriptelSign" style="display:none"> -->
+		</div>
+		<%} %>
 	</p>
 </div>
 <% } %>
@@ -2813,7 +3408,7 @@ function _CompInt(x, y)
 			<li id='SectionDatabase' style="display:block">
 				<input type="radio" name="AutoPopType" id="AutoPopDatabase" value="database"><bean:message key="eFormGenerator.inputTypeData"/>
 			 <select name="oscarDB" id="oscarDB">
-                                 <option value=""          ><bean:message key="eFormGenerator.inputTypeDataButton"/></option>
+                                 <option value=""><bean:message key="eFormGenerator.inputTypeDataButton"/></option>
                                 <%
                                   EFormLoader names = EFormLoader.getInstance();
                                   //return the array with a list of names from database
@@ -2914,7 +3509,7 @@ function _CompInt(x, y)
 	<span class='h3'><bean:message key="eFormGenerator.inputName"/></span>
 		<p><input type="radio" name="InputNameType" id="InputNameAuto" value="Auto" checked><bean:message key="eFormGenerator.inputNameSeq"/><br>
 				- <bean:message key="eFormGenerator.inputNameSeqPrefix"/><input type="text" name="AutoNamePrefix" id="AutoNamePrefix" style="width:100px" value="AutoName"><br>
-			<input type="radio" name="InputNameCustom" id="InputNameCustom" value="Custom"><bean:message key="eFormGenerator.inputNameSeqCustom"/>
+			<input type="radio" name="InputNameType" id="InputNameCustom" value="Custom"><bean:message key="eFormGenerator.inputNameSeqCustom"/>
 				<input type="text" name="inputName" id="inputName">
 				<br>
 				- <bean:message key="eFormGenerator.inputNameSeqCustomhint1"/><br>
@@ -3126,7 +3721,8 @@ var CheckboxSwitch = false;
 var MaleSwitch = false;
 var FemaleSwitch = false;
 var SignatureBoxSwitch = false;
-var SignatureBoxSwitch1 = false;
+var ScriptelSignature = false;
+var FreehandSignature = false;
 var IndivicaSignatureSwitch = false;
 function SetSwitchesOff(){
 	TextSwitch = false;
@@ -3136,7 +3732,8 @@ function SetSwitchesOff(){
 	FemaleSwitch = false;
 	SignatureBoxSwitch = false;
 	IndivicaSignatureSwitch = false;
-	SignatureBoxSwitch1 = false;
+	ScriptelSignature = false;
+	ScriptelSignature = false;
 }
 
 var DrawTool = "Text";
@@ -3145,7 +3742,7 @@ function SetSwitchOn(n){
 	SetSwitchesOff();
 	DrawTool = n;
 
-	if	(n=="Text"){
+	if (n=="Text"){
 		TextSwitch = true;
 	}else if (n=="Textbox"){
 		TextboxSwitch = true;
@@ -3157,12 +3754,13 @@ function SetSwitchOn(n){
 		FemaleSwitch = true;
 	}else if (n=="SignatureBox"){
 		SignatureBoxSwitch = true;
-	}else if (n=="SignatureBox1"){
-		SignatureBoxSwitch1 = true;
+	}else if (n=="ScriptelSignature"){
+		ScriptelSignature = true;
 	}else if (n=="IndivicaSignature") {
 		IndivicaSignatureSwitch = true;
+	} else if (n == "FreehandSignature") {
+		FreehandSignature = true;
 	}
-	
 }
 
 
@@ -3304,13 +3902,9 @@ function DrawFemale(canvas,x0,y0){
 
 }
 
-function DrawSignatureBox(canvas,x0,y0, width, height){
+function DrawSignatureBox(canvas, x0, y0, width, height){
 	//draws box
 	var div4ba = document.getElementById("Section4ba");
-	if (div4ba != null && document.getElementById("DrawSign3").checked) {
-		width = 500;
-		height = 100;
-	}
 	canvas.setColor(StrokeColor);
 	canvas.setStroke(StrokeThickness);
 	canvas.drawRect(x0,y0,width,height);
@@ -3334,39 +3928,86 @@ function DrawSignatureBox(canvas,x0,y0, width, height){
 	//reset to default input of text input
 	SetSwitchOn('Text');
 	document.getElementById('Text').checked = true;
-
 }
 
-function DrawSignatureBox1(canvas,x0,y0, width, height){
+function DrawScriptelInputBox(canvas, x0, y0, width, height, inputName){
 	//draws box
-	var div4baa = document.getElementById("Section4baa");
-	if (div4baa != null && document.getElementById("DrawSign2").checked) {
-		width = 500;
-		height = 100;
+	var div4ca = document.getElementById("Section4ca");
+	if (div4ca != null) {
+		// in order to do mapping size for scriptel drawing picture
+		if (width > 500 && height > 100) {
+			width = 500;
+			height = 100;
+		} else if (width > 500) {
+			width = height * 5;
+		} else if (height > 100) {
+			height = width / 5;
+		} else {
+			if (width * 100000 / height > 5 * 100000) { // more widder
+				width = height * 5;
+			} else {
+				height = Math.round(width / 5);
+			}
+		}
 	}
-	if (document.getElementById("DrawSign2"))
+	
 	canvas.setColor(StrokeColor);
 	canvas.setStroke(StrokeThickness);
 	canvas.drawRect(x0,y0,width,height);
 	canvas.paint();
-	if(ShowInputName){
+	
+	if (ShowInputName){
 		canvas.setColor('blue');
 		canvas.setFont("sans-serif","10px",Font.BOLD);
 		var xt = x0 + StrokeThickness
 		var yt = y0 + StrokeThickness
-		canvas.drawString("SignatureBox",xt,y0);
+		canvas.drawString(inputName,xt,y0);
 		canvas.paint();
 		canvas.setColor(StrokeColor);
 	}
 	//assigns coordinates of top left corner of box
-	SignatureHolderX1 = x0;
-	SignatureHolderY1 = y0;
-	SignatureHolderW1 = width;
-	SignatureHolderH1 = height;
+	//SignatureHolderX1 = x0;
+	//SignatureHolderY1 = y0;
+	//SignatureHolderW1 = width;
+	//SignatureHolderH1 = height;
+	
 	//reset to default input of text input
 	SetSwitchOn('Text');
 	document.getElementById('Text').checked = true;
+	
+	if (canvas == jg){
+		var Parameter = scriptelSigBox + "|" + x0 + "|" + y0 + "|" + width + "|" + height + "|" + inputName;
+		DrawData.push(Parameter);
+	}
 }
+
+function DrawFreehandInputBox(canvas, x0, y0, width, height, inputName){
+
+	canvas.setColor(StrokeColor);
+	canvas.setStroke(StrokeThickness);
+	canvas.drawRect(x0,y0,width,height);
+	canvas.paint();
+	
+	if (ShowInputName){
+		canvas.setColor('blue');
+		canvas.setFont("sans-serif","10px",Font.BOLD);
+		var xt = x0 + StrokeThickness
+		var yt = y0 + StrokeThickness
+		canvas.drawString(inputName,xt,y0);
+		canvas.paint();
+		canvas.setColor(StrokeColor);
+	}
+	
+	//reset to default input of text input
+	SetSwitchOn('Text');
+	document.getElementById('Text').checked = true;
+	
+	if (canvas == jg){
+		var Parameter = freehandSigBox + "|" + x0 + "|" + y0 + "|" + width + "|" + height + "|" + inputName;
+		DrawData.push(Parameter);
+	}
+}
+
 
 var inputName="";
 var inputCounter = 1;
@@ -3458,8 +4099,10 @@ function DrawMarker(){
 			DrawMale(jg,x0,y0);
 		}else if(FemaleSwitch){
 			DrawFemale(jg,x0,y0);
-		}else if(SignatureBoxSwitch1){
-			DrawSignatureBox1(jg,x0,y0,width,height);
+		}else if(ScriptelSignature){
+			DrawScriptelInputBox(jg,x0,y0,width,height,scriptelSigBox + inputCounter);
+		}else if(FreehandSignature) {
+			DrawFreehandInputBox(jg,x0,y0,width,height,freehandSigBox + inputCounter);
 		}else if (SignatureBoxSwitch || IndivicaSignatureSwitch ){
 			DrawSignatureBox(jg,x0,y0,width,height);
 		}
@@ -3496,7 +4139,7 @@ function ToggleInputName(){
 		DrawMale(jg,MTopLeftX,MTopLeftY);
 		DrawFemale(jg,FTopLeftX,FTopLeftY);
 	}
-	if (document.getElementById('AddSignature').checked){
+	if (document.getElementById('AddSignature').checked) {
 		DrawSignatureBox(jg,SignatureHolderX,SignatureHolderY,SignatureHolderW,SignatureHolderH);
 	}
 }
@@ -3574,6 +4217,17 @@ function RedrawImage(RedrawParameter){
 		var inputName = RedrawParameter[3];
 		var preCheck = RedrawParameter[4];
 		DrawCheckbox(jg,x0,y0,inputName,preCheck);
+	} else if (InputType == scriptelSigBox || InputType == freehandSigBox) {
+		var x0 = parseInt(RedrawParameter[1]);
+		var y0 = parseInt(RedrawParameter[2]);
+		var width = parseInt(RedrawParameter[3]);
+		var height = parseInt(RedrawParameter[4]);
+		var inputName = RedrawParameter[5];
+		if (InputType == scriptelSigBox) {
+			DrawScriptelInputBox(jg, x0, y0, width, height, inputName);
+		} else {
+			DrawFreehandInputBox(jg, x0, y0, width, height, inputName);
+		}
 	}
 }
 

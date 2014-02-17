@@ -759,6 +759,21 @@ div.sites td{
 			</tr>
 			<tr valign="top">
 				<td align="right"><b><bean:message
+					key="demographic.demographiceditdemographic.aboriginal" />: </b></td>
+				<td align="left">
+				
+				<select name="aboriginal">
+					<option value="">Unknown</option>
+					<option value="No">No</option>
+					<option value="Yes" >Yes</option>
+		
+				</select>
+				
+				<td align="right"><b>&nbsp;</b></td>
+				<td align="left">&nbsp;</td>
+			</tr>			
+			<tr valign="top">
+				<td align="right"><b><bean:message
 					key="demographic.demographicaddrecordhtm.formEMail" />: </b></td>
 				<td align="left"><input type="text" name="email" value="">
 				</td>
@@ -994,7 +1009,7 @@ div.sites td{
   ResultSet rsdemo = addDemoBean.queryResults("search_provider");
   while (rsdemo.next()) {
 %>
-					<option value="<%=rsdemo.getString("provider_no")%>"><%=Misc.getShortStr( (rsdemo.getString("last_name")+","+rsdemo.getString("first_name")),"",12)%></option>
+					<option value="<%=rsdemo.getString("provider_no")%>"><%=Misc.getShortStr( (rsdemo.getString("last_name")+","+rsdemo.getString("first_name")),"",20)%></option>
 					<%
   }
   rsdemo.close();

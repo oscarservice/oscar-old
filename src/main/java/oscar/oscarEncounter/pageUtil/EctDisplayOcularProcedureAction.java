@@ -102,7 +102,7 @@ public class EctDisplayOcularProcedureAction extends EctDisplayAction {
 
     	//String title = provider.getTeam() + " " + op.getEye() + " " + op.getProcedureName();
     	String title = op.getEye() + " " + op.getProcedureName();
-    	if(provider.getTeam() != null && provider.getTeam().length()>0) {
+    	if(provider!=null && provider.getTeam() != null && provider.getTeam().length()>0) {
     		title = title + "|" + provider.getTeam();
     	}
     	String itemHeader = StringUtils.maxLenString(title, MAX_LEN_TITLE, CROP_LEN_TITLE, ELLIPSES);

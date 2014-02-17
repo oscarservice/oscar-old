@@ -116,6 +116,7 @@ import oscar.eform.EFormUtil;
 import oscar.oscarEncounter.data.EctFormData;
 import oscar.oscarEncounter.data.EctFormData.PatientForm;
 import oscar.oscarRx.pageUtil.RxSessionBean;
+import oscar.util.ConversionUtils;
 import oscar.util.OscarRoleObjectPrivilege;
 import org.oscarehr.PMmodule.dao.ProgramDao;
 import org.oscarehr.PMmodule.model.Program;
@@ -526,14 +527,14 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
 					LoggedInInfo.loggedInInfo.get().currentFacility
 							.isIntegratorEnabled());
 			prescriptions = caseManagementMgr.getPrescriptions(
-					Integer.parseInt(demographicId), viewAll);
+					ConversionUtils.fromIntString(demographicId), viewAll);
 
 			request.setAttribute("Prescriptions", prescriptions);
 
 			// Setup RX bean start
 			RxSessionBean bean = new RxSessionBean();
 			bean.setProviderNo(loggedInInfo.loggedInProvider.getProviderNo());
-			bean.setDemographicNo(Integer.parseInt(demoNo));
+			bean.setDemographicNo(ConversionUtils.fromIntString(demoNo));
 			request.getSession().setAttribute("RxSessionBean", bean);
 			// set up RX end
 
@@ -733,7 +734,7 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
 
 		LoggedInInfo loggedInInfo = LoggedInInfo.loggedInInfo.get();
 		String providerNo = loggedInInfo.loggedInProvider.getProviderNo();
-		int demographicNo = Integer.parseInt(demoNo);
+		int demographicNo = ConversionUtils.fromIntString(demoNo);
 		boolean hideInactiveIssues = Boolean.parseBoolean(caseForm
 				.getHideActiveIssue());
 
@@ -802,7 +803,7 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
 		startTime = System.currentTimeMillis();
 		addRemoteNotes(notesToDisplay, demographicNo, checkedCodeList,
 				programId);
-		addGroupNotes(notesToDisplay, Integer.parseInt(demoNo), null);
+		addGroupNotes(notesToDisplay, ConversionUtils.fromIntString(demoNo), null);
 		logger.debug("Get remote notes. time="
 				+ (System.currentTimeMillis() - startTime));
 
@@ -905,7 +906,7 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
 			throws Exception {
 		LoggedInInfo loggedInInfo = LoggedInInfo.loggedInInfo.get();
 		String providerNo = loggedInInfo.loggedInProvider.getProviderNo();
-		int demographicId = Integer.parseInt(demoNo);
+		int demographicId = ConversionUtils.fromIntString(demoNo);
 
 		long startTime;
 		startTime = System.currentTimeMillis();
@@ -918,8 +919,8 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
 
 		if (request.getParameter("offset") != null
 				&& request.getParameter("numToReturn") != null) {
-			Integer offset = Integer.parseInt(request.getParameter("offset"));
-			Integer numToReturn = Integer.parseInt(request
+			Integer offset = ConversionUtils.fromIntString(request.getParameter("offset"));
+			Integer numToReturn = ConversionUtils.fromIntString(request
 					.getParameter("numToReturn"));
 			if (offset > 0)
 				request.setAttribute("moreNotes", true);
@@ -1038,7 +1039,7 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
 			throws Exception {
 		LoggedInInfo loggedInInfo = LoggedInInfo.loggedInInfo.get();
 		String providerNo = loggedInInfo.loggedInProvider.getProviderNo();
-		int demographicId = Integer.parseInt(demoNo);
+		int demographicId = ConversionUtils.fromIntString(demoNo);
 
 		long startTime;
 		startTime = System.currentTimeMillis();
@@ -1812,7 +1813,7 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
 			throws Exception {
 		CaseManagementViewFormBean caseForm = (CaseManagementViewFormBean) form;
 		String noteId = request.getParameter("noteId");
-		caseForm.setNoteId(Integer.parseInt(noteId));
+		caseForm.setNoteId(ConversionUtils.fromIntString(noteId));
 		return mapping.findForward("unlockForm");
 	}
 
@@ -1820,7 +1821,7 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		String password = request.getParameter("password");
-		int noteId = Integer.parseInt(request.getParameter("noteId"));
+		int noteId = ConversionUtils.fromIntString(request.getParameter("noteId"));
 
 		CaseManagementNote note = this.caseManagementMgr.getNote(request
 				.getParameter("noteId"));
@@ -1869,7 +1870,7 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
 			HttpServletResponse response) throws Exception {
 		MacroDao macroDao = (MacroDao) SpringUtils.getBean("MacroDAO");
 		Macro macro = macroDao
-				.find(Integer.parseInt(request.getParameter("id")));
+				.find(ConversionUtils.fromIntString(request.getParameter("id")));
 		logger.info("loaded macro " + macro.getLabel());
 		StringBuilder sb = new StringBuilder();
 
@@ -1910,7 +1911,7 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
 			throws Exception {
 		MacroDao macroDao = (MacroDao) SpringUtils.getBean("MacroDAO");
 		Macro macro = macroDao
-				.find(Integer.parseInt(request.getParameter("id")));
+				.find(ConversionUtils.fromIntString(request.getParameter("id")));
 		logger.info("loaded macro " + macro.getLabel());
 
 		StringBuilder sb = new StringBuilder();
@@ -1921,10 +1922,10 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
 		String followUpDr = macro.getFollowupDoctorId();
 		if (followUpDr.length() > 0) {
 			EyeformFollowUp f = new EyeformFollowUp();
-			f.setAppointmentNo(Integer.parseInt(request
+			f.setAppointmentNo(ConversionUtils.fromIntString(request
 					.getParameter("appointmentNo")));
 			f.setDate(new Date());
-			f.setDemographicNo(Integer.parseInt(request
+			f.setDemographicNo(ConversionUtils.fromIntString(request
 					.getParameter("demographicNo")));
 			f.setProvider(LoggedInInfo.loggedInInfo.get().loggedInProvider);
 			f.setTimeframe(followUpUnit);
@@ -1944,11 +1945,11 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
 			String[] parts = test.trim().split("\\|");
 			if (parts.length == 4) {
 				EyeformTestBook rec = new EyeformTestBook();
-				rec.setAppointmentNo(Integer.parseInt(request
+				rec.setAppointmentNo(ConversionUtils.fromIntString(request
 						.getParameter("appointmentNo")));
 				rec.setComment(parts[3]);
 				rec.setDate(new Date());
-				rec.setDemographicNo(Integer.parseInt(request
+				rec.setDemographicNo(ConversionUtils.fromIntString(request
 						.getParameter("demographicNo")));
 				rec.setEye(parts[1]);
 				rec.setProvider(LoggedInInfo.loggedInInfo.get().loggedInProvider
@@ -2318,7 +2319,7 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
 			String demoNo, String programId) throws Exception {
 		List<EChartNoteEntry> entries = new ArrayList<EChartNoteEntry>();
 
-		int demographicId = Integer.parseInt(demoNo);
+		int demographicId = ConversionUtils.fromIntString(demoNo);
 		long startTime = System.currentTimeMillis();
 		long intTime = System.currentTimeMillis();
 
@@ -2338,7 +2339,7 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
 			e.setId(note.get("id"));
 			e.setDate((Date) note.get("observation_date"));
 			e.setProviderNo((String) note.get("providerNo"));
-			e.setProgramId(Integer.parseInt((String) note.get("program_no")));
+			e.setProgramId(ConversionUtils.fromIntString((String) note.get("program_no")));
 			e.setRole((String) note.get("reporter_caisi_role"));
 			e.setType("local_note");
 			entries.add(e);
@@ -2419,8 +2420,8 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
 				SimpleDateFormat sdf = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
 				e.setDate(sdf.parse(patientForm.getEdited()));
 				// e.setProviderNo(patientForm.get);
-				// e.setProgramId(Integer.parseInt((String)note[3]));
-				// e.setRoleId(Integer.parseInt((String)note[4]));
+				// e.setProgramId(ConversionUtils.fromIntString((String)note[3]));
+				// e.setRoleId(ConversionUtils.fromIntString((String)note[4]));
 				e.setType("encounter_form");
 				entries.add(e);
 			}
@@ -2442,8 +2443,8 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
 					e.setDate(sdf.parse(h1.get("billing_date") + " "
 							+ h1.get("billing_time")));
 					e.setProviderNo((String) h1.get("provider_no"));
-					// e.setProgramId(Integer.parseInt((String)note[3]));
-					// e.setRoleId(Integer.parseInt((String)note[4]));
+					// e.setProgramId(ConversionUtils.fromIntString((String)note[3]));
+					// e.setRoleId(ConversionUtils.fromIntString((String)note[4]));
 					e.setType("invoice");
 					entries.add(e);
 				}
@@ -2505,7 +2506,7 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
 			for (String cmnIssueId : checkedIssues) {
 				if (cmnIssueId.length() > 0) {
 					Issue issue = this.caseManagementMgr
-							.getIssueIByCmnIssueId(Integer.parseInt(cmnIssueId));
+							.getIssueIByCmnIssueId(ConversionUtils.fromIntString(cmnIssueId));
 					if (issue != null) {
 						issue.getCode();
 						issue.getType();
@@ -2519,7 +2520,7 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
 		int numToReturn = 20;
 		if (request.getParameter("numToReturn") != null
 				&& request.getParameter("numToReturn").length() > 0) {
-			numToReturn = Integer.parseInt(request.getParameter("numToReturn"));
+			numToReturn = ConversionUtils.fromIntString(request.getParameter("numToReturn"));
 		}
 
 		//dont create slice.. load all notes
@@ -2554,7 +2555,7 @@ public class CaseManagementViewAction extends BaseCaseManagementViewAction {
 			}
 			else
 			{
-				int offset = Integer.parseInt(request.getParameter("offset"));
+				int offset = ConversionUtils.fromIntString(request.getParameter("offset"));
 				if (entries.size() >= offset)
 				{
 					int endingPoint = entries.size() - offset;

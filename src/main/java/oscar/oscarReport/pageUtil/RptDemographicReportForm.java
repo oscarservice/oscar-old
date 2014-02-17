@@ -38,6 +38,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.oscarehr.util.MiscUtils;
 
+import oscar.util.ConversionUtils;
 public final class RptDemographicReportForm extends ActionForm {
         public String[] select         = null;
         public String age              = null;
@@ -57,6 +58,8 @@ public final class RptDemographicReportForm extends ActionForm {
         public String ageStyle         = null;
         public String asofDate         = null;
         
+	public String studyId;
+	public String demoIds;
 
         ////////////////////////////////////////////////////////////////////////
         public void copyConstructor(RptDemographicReportForm drf){
@@ -71,6 +74,8 @@ public final class RptDemographicReportForm extends ActionForm {
             this.providerNo     = drf.providerNo;
             this.patientStatus  = drf.patientStatus;
             this.asofDate       = drf.asofDate;
+	    this.studyId = drf.studyId;
+	    this.demoIds = drf.demoIds;
 
 ///            this.queryName      = ;
 //            this.savedQuery     = ;
@@ -324,6 +329,28 @@ public final class RptDemographicReportForm extends ActionForm {
     return retval;
   }
   
+	public String getDemoIds() {
+		return demoIds;
+	}
+
+	public void setDemoIds(String demoIds) {
+		this.demoIds = demoIds;
+	}
+
+	public List<Integer> getDemographicIds() {
+		List<Integer> result = new ArrayList<Integer>();
+		if (getDemoIds() == null || getDemoIds().isEmpty()) {
+			return result;
+		}
+		for (String s : getDemoIds().split("\\s|\\.|\\,|;")) {
+			Integer i = ConversionUtils.fromIntString(s);
+			if (i != null) {
+				result.add(i);
+			}
+		}
+		return result;
+	}
+	
   /**
    * Getter for property asofDate.
    * @return Value of property asofDate.
@@ -340,4 +367,12 @@ public final class RptDemographicReportForm extends ActionForm {
      this.asofDate = asofDate;
   }
   
+	public String getStudyId() {
+		return studyId;
+	}
+
+	public void setStudyId(String studyId) {
+		this.studyId = studyId;
+	}
+
 }

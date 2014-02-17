@@ -17,6 +17,7 @@
     <handler name="PFHT"	className="PFHTHandler"/>
     <handler name="Spire"	className="SpireHandler"/>
     <handler name="AlphaHL7" className="AlphaHL7Handler"/>
+    <handler name="eaaps" className="org.oscarehr.research.eaaps.EaapsHandler"/>
     <handler name="KMH" className="KMHHandler"/>
     <handler name="HRSRH"       className="HRSRHHandler"/>
     <handler name="TRUENORTH"   className="TRUENORTHHandler"/>

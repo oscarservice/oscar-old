@@ -107,6 +107,11 @@ if (isEformPortalEnable) {
       document.getElementById("importHeading").className = activeStyle;
       document.getElementById("importDiv").style.display = 'block';
   }
+
+
+  function openCreate(obj) {
+      window.location='efmformmanageredit.jsp'
+  }
 	
   function openPortal(obj){
 	  				   
@@ -167,8 +172,15 @@ if (isEformPortalEnable) {
                                         <tr><td><input type="text" name="formName" size="30"></td><td><input type="text" name="formSubject" size="30"></td></tr>
                                         <tr><td colspan="2" style="text-align: left;"><input type="file" name="formHtml" size="50"></td></tr>
                                         
-                                        <tr><td align='left'>eForm role type :</td>
-                                        <td align='right'> <select name="roleType">
+                                        <tr>
+	                                        <td style="text-align: left">
+	                                        	<input type="checkbox" name="showLatestFormOnly" value="true"/><bean:message key="eform.uploadhtml.showLatestFormOnly"/>
+	                                        	<br>
+	                                        	<input type="checkbox" name="patientIndependent" value="true"/><bean:message key="eform.uploadhtml.patientIndependent"/>
+	                                       	</td>
+	                                       	<td style="text-algin: right">
+	                                       		eForm role type :
+	                                       		<select name="roleType">
                                         <option value="" >- select one -</option>
                                        <%  ArrayList roleList = EFormUtil.listSecRole();
   											for (int i=0; i<roleList.size(); i++) {    
@@ -179,8 +191,7 @@ if (isEformPortalEnable) {
                                         <%} %></select>
                                         </td></tr>
                                         <tr>
-                                            <td style="text-align: left; font-size: 12px"><input type="checkbox" name="patientIndependent" value="true"/><bean:message key="eform.uploadhtml.patientIndependent"/></td>
-                                            <td style="text-align: right;"><input type="submit" name="subm" value="<bean:message key="eform.uploadhtml.btnUpload"/>"></td>
+                                            <td colspan="2" style="text-align: right;"><input type="submit" name="subm" value="<bean:message key="eform.uploadhtml.btnUpload"/>"></td>
                                         </tr>
                                 </html:form>
                         </table>

@@ -29,8 +29,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
-import java.util.Vector;
-
 import javax.persistence.Query;
 
 import org.apache.commons.lang.StringUtils;
@@ -73,50 +71,22 @@ public class BillingONCHeader1Dao extends AbstractDao<BillingONCHeader1>{
     }
     
     public List<BillingONCHeader1> getBillCheader1ByDemographicNo(int demographic_no){
-    	Query query = entityManager.createQuery("select ch from BillingONCHeader1 ch where ch.demographicNo=?");
-    	query.setParameter(1, demographic_no);
-    	return query.getResultList();
-    }
-    
-    public List<BillingONCHeader1> getBillCheader1ByDemographicNoNew(int demographic_no){
     	Query query = entityManager.createQuery("select ch from BillingONCHeader1 ch where ch.demographicNo=? AND ch.status!='D'");
     	query.setParameter(1, demographic_no);
     	return query.getResultList();
     }
-    
-    @SuppressWarnings("rawtypes")
-	public List<BillingHistoryDate> getHistoryByDemographicNo(int demographic_no){
-    	List obj = new Vector();
-    	String sql ="SELECT * FROM billing_on_cheader1 ch LEFT JOIN billing_on_payment bp ON ch.id=bp.ch1_id  where ch.demographicNo=" + demographic_no + " AND ch.status!='D'";
-    	//query.setParameter(1, demographic_no);
-    	BillingHistoryDate historyObj = null;
-		ResultSet rs = dbObj.searchDBRecord(sql);
-		try {
-			while (rs.next()) {
-				historyObj = new BillingHistoryDate();
-				
-				historyObj.setId("" + rs.getInt("id"));
-				historyObj.setPay_program(rs.getString("pay_program"));
-				historyObj.setTotal_discount(rs.getString("total_discount"));
-				historyObj.setTotal_payment(rs.getString("total_payment"));
-				historyObj.setTotal_refund(rs.getString("total_refund"));		
-				historyObj.setTotal(rs.getString("total"));				
-				historyObj.setTimestamp1(rs.getString("timestamp1"));		
-								
-				obj.add(historyObj);
-			}
-		} catch (SQLException e) {
-			_logger.error("getBillingRecordObj(sql = " + sql + ")");
-			obj = null;
-		}
-    	return obj;
+
+    public List<BillingONCHeader1> getBillingItemByDxCode(Integer demographicNo, String dxCode) {
+        String queryStr = "select h FROM BillingOnItem b, BillingONCHeader1 h WHERE h.id = b.ch1_id and h.demographicNo=? and (b.dx =? or b.dx1 = ? or b.dx2=?)";
+        Query query = entityManager.createQuery(queryStr);
+        query.setParameter(1, demographicNo);
+        query.setParameter(2, dxCode);
+        query.setParameter(3, dxCode);
+        query.setParameter(4, dxCode);
+        
+        @SuppressWarnings("unchecked")
+        List<BillingONCHeader1> rs = query.getResultList();
+
+        return rs;
     }
-
-	public void updatePaid(int billNo, BigDecimal sumPaid) {
-		Query query = entityManager.createQuery("update BillingONCHeader1 ch set ch.paid=? where ch.id=?");
-		query.setParameter(1, sumPaid);
-		query.setParameter(2, billNo);
-		query.executeUpdate();
-	}
-
 }

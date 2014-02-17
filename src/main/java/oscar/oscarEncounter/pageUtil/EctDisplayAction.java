@@ -26,7 +26,7 @@
 package oscar.oscarEncounter.pageUtil;
 
 import java.io.IOException;
-import java.util.Hashtable;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -36,6 +36,7 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.processors.JsDateJsonBeanProcessor;
 
+import org.apache.log4j.Logger;
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -49,7 +50,10 @@ import oscar.util.UtilDateUtilities;
  * @author rjonasz
  */
 public class EctDisplayAction extends Action {
-    private static Hashtable Actions = null;
+
+	private static Logger logger = Logger.getLogger(EctDisplayAction.class);
+	
+	private static HashMap<String, String> Actions = null;
     protected static final String ELLIPSES = "...";
     protected static final int MAX_LEN_TITLE = 48;
     protected static final int CROP_LEN_TITLE = 45;
@@ -59,7 +63,7 @@ public class EctDisplayAction extends Action {
     public EctDisplayAction() {
         super();
         if( Actions == null ) {
-            Actions = new Hashtable();
+			Actions = new HashMap<String, String>();
             Actions.put("labs", "/oscarEncounter/displayLabs.do");
             Actions.put("forms", "/oscarEncounter/displayForms.do");
             Actions.put("msgs", "/oscarEncounter/displayMessages.do");
@@ -79,8 +83,12 @@ public class EctDisplayAction extends Action {
             Actions.put("HRM","/oscarEncounter/displayHRM.do");
             Actions.put("myoscar","/oscarEncounter/displayMyOscar.do");
             Actions.put("middleware","/oscarEncounter/displayMiddleware.do");
-        }
-    }
+	    Actions.put("eaaps", "/eaaps/displayEctEaaps.do");
+			if (logger.isInfoEnabled()) {
+				logger.info("Instantiated encounter display actions: " + Actions);
+			}
+		}
+	}
 
     public ActionForward execute(ActionMapping mapping,
 				 ActionForm form,
@@ -212,11 +220,30 @@ public class EctDisplayAction extends Action {
     }
 
     //must be implemented by subclasses to populate dao object
+	 /* Must be implemented by subclasses to populate DAO object
+	 * 
+	 * @param bean
+	 * 		Current session information
+	 * @param request
+	 * 		Current request
+	 * @param Dao
+	 * 		View DAO responsible for rendering encounter
+	 * @param messages
+	 * 		i18n message bundle
+	 * @return
+	 * 		Returns true if the content was loaded successfully and false otherwise. Please note that returning false will case
+	 * 	an error message rendered for this action.
+	 */
     public boolean getInfo(EctSessionBean bean, HttpServletRequest request, NavBarDisplayDAO Dao, MessageResources messages) {
         return true;
     }
 
     //must be implemented by subclasses to retrieve module name
+	 /* Must be implemented by subclasses to retrieve module name
+	 * 
+	 * @return
+	 * 		Returns name of the module corresponding to the mapping in the {@link #Actions} 
+	 */
     public String getCmd() {
         return new String("");
     }

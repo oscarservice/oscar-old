@@ -286,4 +286,8 @@
 
 	<bean name="/providersListAjax" class="org.oscarehr.provider.web.ProviderListAjaxAction" singleton="false" autowire="byName"/>
 
+	<bean name="/oscarEncounter/displayImaginStudies" class="oscar.oscarEncounter.pageUtil.EctDisplayImagingStudiesAction" singleton="false">
+		<property name="caseManagementManager" ref="caseManagementManager" />
+	</bean>
+	
 </beans>

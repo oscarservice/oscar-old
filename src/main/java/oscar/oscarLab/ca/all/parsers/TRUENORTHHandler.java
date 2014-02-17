@@ -72,7 +72,7 @@ public void init(String hl7Body)
     p.setValidationContext(new NoValidation());
 	ArrayList labs = getMatchingHL7Labs(hl7Body);
 
-    this.headers = new ArrayList();
+    this.headers = new ArrayList<String>();
 
     for (int i = 0; i < labs.size(); i++)
     {
@@ -92,7 +92,7 @@ public void init(String hl7Body)
 private ArrayList<String> getMatchingHL7Labs(String hl7Body)
   {
     Base64 base64 = new Base64();
-    ArrayList ret = new ArrayList();
+    ArrayList ret = new ArrayList<String>();
     int monthsBetween = 0;
     Hl7TextInfoDao hl7TextInfoDao = (Hl7TextInfoDao)SpringUtils.getBean("hl7TextInfoDao");
     try
@@ -438,7 +438,7 @@ private ArrayList<String> getMatchingHL7Labs(String hl7Body)
   @SuppressWarnings("rawtypes")
 public ArrayList getDocNums()
   {
-    ArrayList nums = new ArrayList();
+    ArrayList nums = new ArrayList<String>();
 
     return nums;
   }

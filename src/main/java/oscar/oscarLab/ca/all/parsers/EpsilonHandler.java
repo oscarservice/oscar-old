@@ -67,6 +67,7 @@ public class EpsilonHandler extends CMLHandler {
 //		}
 		Parser p = new PipeParser();
 		p.setValidationContext(new NoValidation());
+		hl7Body=hl7Body.replace("|P||", "|P|2.3|");  //If there is no version code in MHL lab hl7 file, add default 2.3 here. Otherwise it will fail on parsing.
 		msg = (ORU_R01) p.parse(hl7Body.replaceAll("\n", "\r\n"));
 	}
 
@@ -360,7 +361,16 @@ public class EpsilonHandler extends CMLHandler {
 		int[] s = getCorrectObxFlag(i, j);
 		try {
 //			return (getString(msg.getRESPONSE().getORDER_OBSERVATION(s[0]).getOBSERVATION(s[1]).getOBX().getObservationIdentifier().getText().getValue()));
-			return (getString(Terser.get(msg.getRESPONSE().getORDER_OBSERVATION(s[0]).getOBSERVATION(s[1]).getOBX(), 3, 0, 3, 1)));
+			
+			//return (getString(Terser.get(msg.getRESPONSE().getORDER_OBSERVATION(s[0]).getOBSERVATION(s[1]).getOBX(), 3, 0, 3, 1)));
+			
+			//eg. OBX|15|FT|HEMATOLOGY^MORPH^MORPHOLOGY|1|RBC: Microcytosis hypochromia.||||||F||||||
+			String obxName = getString(Terser.get(msg.getRESPONSE().getORDER_OBSERVATION(s[0]).getOBSERVATION(s[1]).getOBX(), 3, 0, 3, 1));  //get "MORPHOLOGY"
+			if(obxName==null || obxName.equals("")) {
+				//e.g. OBX|1|NM|BSF^Glucose Fasting|1|3.9|mmol/L|3.6-5.8|||||||||||
+				obxName = getString(Terser.get(msg.getRESPONSE().getORDER_OBSERVATION(s[0]).getOBSERVATION(s[1]).getOBX(), 3, 0, 2, 1));  //e.g. get "Glucose Fasting"
+			}
+			return obxName;
 		} catch (Exception e) {
 			return ("");
 		}

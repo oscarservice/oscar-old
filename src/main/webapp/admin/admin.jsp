@@ -635,6 +635,16 @@ div.logoutBox {
                         <li><a href="#"
                                onclick="popupPage(600,900,&quot;<html:rewrite page="/report/DxresearchReport.do"/>&quot;)"><bean:message key="admin.admin.diseaseRegister"/></a></li>
 
+			<li><a href="#"
+				onclick='popupPage(550,810,&quot;<html:rewrite page="/admin/demographicstudy.jsp"/>&quot;);return false;'><bean:message
+				key="admin.admin.btnStudy" /></a></li>
+			<caisi:isModuleLoad moduleName="eaaps.enabled">
+	                                <li><a href="#"
+	                                        onclick='popupPage(550,810,&quot;<html:rewrite page="/eaaps/index.jsp"/>&quot;);return false;'>
+						<bean:message key="admin.admin.btnEaaps" /></a>
+					</li>
+                        </caisi:isModuleLoad>
+
 		</ul>
 		</div>
 	</security:oscarSec>
@@ -868,6 +878,33 @@ div.logoutBox {
 </oscar:oscarPropertiesCheck>
 
 </caisi:isModuleLoad>
+
+
+
+		<div class="adminBox">
+		<h3>&nbsp; CKD</h3>
+		<ul>	
+			<li>
+				<a href="#" onclick='popupPage(550,800,&quot;<html:rewrite page="/renal/ckd_screening_report.jsp"/>&quot;);return false;'>
+					CKD Screening Report
+				</a>
+			</li>	
+			<li>
+				<a href="#" onclick='popupPage(550,800,&quot;<html:rewrite page="/renal/preImplementationSubmit.jsp"/>&quot;);return false;'>
+					Pre-Implementation Report
+				</a>
+			</li>
+			<li>
+				<a href="#" onclick='popupPage(550,800,&quot;<html:rewrite page="/renal/patientLetterManager.jsp"/>&quot;);return false;'>
+					Manage Patient Letter
+				</a>
+			</li>					
+		</ul>
+		</div>
+
+
+
+
 <hr style="color: black;" />
 <div class="logoutBox">
 <%

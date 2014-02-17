@@ -120,7 +120,7 @@ public class Utilities {
 	public static ArrayList<String> separateMessages(String fileName, String labType)
     throws Exception
   {
-    ArrayList messages = new ArrayList();
+    ArrayList messages = new ArrayList<String>();
     if (labType.equals("TDIS")) {
       try {
         InputStream is = new FileInputStream(fileName);

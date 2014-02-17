@@ -106,8 +106,8 @@ public class ConsultationsExportUtil
 					}
 
 					String outputPDFFileName = demographicNo + "_" + demographic.getFirstName() + "_" + demographic.getLastName() + "_consultationExport_" + reqId;
-					File outputPdf = new File(dirPath, outputPDFFileName + ".pdf");
-
+					File outputPdf = new File(dirPath, outputPDFFileName + ".pdf");	
+				
 					// generate pdf for each consultation
 					WKHtmlToPdfUtils.convertToPdf(tmpHtml.getAbsolutePath(), outputPdf);
 
@@ -123,7 +123,7 @@ public class ConsultationsExportUtil
 			try
 			{
 				if(tmpHtml!=null && tmpHtml.exists())
-					tmpHtml.delete();
+					tmpHtml.delete();				
 			}
 			catch (Exception e)
 			{
