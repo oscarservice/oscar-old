@@ -144,14 +144,40 @@ function onViewPayment(id) {
 	popupPage(500,500, "<%=request.getContextPath()%>/billing/CA/ON/billingON3rdPayments.do?method=viewPayment_ext&billPaymentId=" + id);
 }
 
-function clickEditBtn() {
-	jQuery("#editBtn").css("display", "none");
-	jQuery("select option[value='payment']").attr("selected", "selected");
-	jQuery("tr[id^='itemPayment'] input[id^='payment']").val("0.00");
-	jQuery("tr[id^='itemPayment'] input[id^='discount']").val("0.00");
-	jQuery("input[name='paymentType']")[0].checked=true;
-	jQuery("#paymentDate").val("");
-	jQuery("#saveBtn").css("display", "inline");
+function clickSaveAndSettle() {
+	var validInput = true;
+	
+	elem = document.getElementById('paymentDate');
+	if(elem.value == null || elem.value == '') {
+	    alert('Payment Date is required');
+	    validInput = false;
+	}
+	
+	if (validInput) {
+		jQuery.ajax({
+			url: "<%=request.getContextPath()%>/billing/CA/ON/billingON3rdPayments.do?status=S",
+			type: "GET",
+			async: "fasle",
+			timeout: 30000,
+			data: jQuery("#editPayment").serialize(),
+			dataType: "json",
+			success: function(data) {
+				if (data == null) {
+					alert("Error happened after getting response!");
+					return;
+				}
+				if (data.ret == 0) {
+					alert("Save payments successfully!");
+				} else {
+					alert(data.reason);
+				}
+				location.reload(true);
+			},
+			error: function() {
+				alert("Error happened while saving payments!");
+			}
+		});
+	}
 }
 
 function checkInput() {
@@ -321,7 +347,7 @@ function validateDiscountNumberic(idx) {
       	      		 <input type="text" name="paymentDate" id="paymentDate" onDblClick="calToday(this)" size="10" value="<%=datetime%>">
 					<a id="btn_date"><img title="Calendar" src="../../../images/cal.gif" alt="Calendar" border="0" /></a>
       	      		<input type="button" id="saveBtn" name="submitBtn" value="    Save  " onClick="checkInput(); return false;" />
-      	      		<input type="button" id="editBtn" style="display:none" value="    Edit  " onClick="clickEditBtn(); return true;" />
+      	      		<input type="button" id="saveAndSettleBtn"  value="Save & settle" onClick="clickSaveAndSettle(); return false;" />
       	    	</td> 
     	  	</tr>
     	</table>

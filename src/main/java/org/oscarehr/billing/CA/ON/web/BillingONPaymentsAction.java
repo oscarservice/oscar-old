@@ -226,16 +226,25 @@ public class BillingONPaymentsAction extends DispatchAction {
 		String demographicNo = cheader1.getDemographic_no().toString();
 	
 		// 1.update billing_on_cheader1 and billing_on_ext table: payment
+		boolean toUpdateChl = false;
+		String status = request.getParameter("status");
+		if (status != null && !status.equals(cheader1.getStatus())) {
+			cheader1.setStatus(status);
+			toUpdateChl = true;
+		}
 		JdbcBilling3rdPartImpl tExtObj = new JdbcBilling3rdPartImpl();
 		if (sumPaid.compareTo(BigDecimal.ZERO) == 1) {
+			toUpdateChl = true;
 			BigDecimal sumPaidTmp = sumPaid.add(new BigDecimal(cheader1.getPaid()));
 			cheader1.setPaid(sumPaidTmp.toString());
-			billingClaimDAO.merge(cheader1);
 			if (tExtObj.keyExists(Integer.toString(billNo), BillingONExtDao.KEY_PAYMENT)) {
 				tExtObj.updateKeyValue(Integer.toString(billNo), BillingONExtDao.KEY_PAYMENT, sumPaidTmp.toString());
 			} else {
 				tExtObj.add3rdBillExt(Integer.toString(billNo), demographicNo, BillingONExtDao.KEY_PAYMENT, sumPaidTmp.toString());
 			}
+		}
+		if (toUpdateChl) {
+			billingClaimDAO.merge(cheader1);
 		}
 		
 		// 2.update billing_on_ext table: discount
