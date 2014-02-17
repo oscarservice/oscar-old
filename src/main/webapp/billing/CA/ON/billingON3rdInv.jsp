@@ -93,7 +93,7 @@ if (filePath.isEmpty()) {
 					<%=site.getAddress() %><br />
 					<%=site.getCity() %>, <%=site.getProvince() %><br />
 					<%=site.getPostal() %><br />
-					Tel.: <%site.getPhone() %><br />
+					Tel.: <%=site.getPhone() %><br />
 			<%	} else { %> 
 				<image src="<%=request.getContextPath() %>/billing/ca/on/DisplayInvoiceLogo.do" />
 			<%	} 
