@@ -103,11 +103,11 @@
 		<script>
 			function insettitle(){
 				var visionElm = $("h5").filter(function(){
-				if (this.innerHTML.indexOf("VISION ASSESSMENT") != -1) {
-					return true;
-				}
-				return false;
-				});
+					if (this.innerHTML.indexOf("VISION ASSESSMENT") != -1) {
+						return true;
+					}
+					return false;
+					});
 
 				if (visionElm != null && visionElm.length > 0) {
 					visionElm = visionElm[0];
@@ -118,10 +118,27 @@
 					}
 				}
 			}
+			function insettitle1(){
+				var visionElm = $("h5").filter(function(){
+					if (this.innerHTML.indexOf("VISION MEASUREMENT") != -1) {
+						return true;
+					}
+					return false;
+					});
+
+				if (visionElm != null && visionElm.length > 0) {
+					visionElm = visionElm[0];
+					var targetTbl = $(visionElm).parent().children("table");
+					if (targetTbl != null) {
+						var title = "<tr><th class=\"centered\"></th><th colspan=\"6\" style=\"text-align:center\">Keratometry</th><th colspan=\"8\" style=\"text-align:center\">Autorefraction</th><th colspan=\"9\" style=\"text-align:center\">Manifest Distance</th><th colspan=\"9\" style=\"text-align:center\">Manifest Near</th><th colspan=\"8\" style=\"text-align:center\">Cycloplegic</th></tr>";
+						$($(targetTbl).find("thead")).prepend(title);
+					}
+				}
+			}
 		</script>
 	</head>
 
-	<body onload="insettitle();">
+	<body onload="insettitle();insettitle1();">
 		<form action="<%=request.getContextPath()%>/eyeform/ExaminationHistory.do" method="POST" id="inputForm" name="inputForm">
 		<input type="hidden" name="method" value="query"/>
 		<input type="hidden" name="demographicNo" value="<c:out value="${demographic.demographicNo}"/>"/>
@@ -169,7 +186,7 @@
 				</table>
 			</tr>
 	 	</table>
-<% if(!"eyeform3.1".equals(eyeform)){%>
+<% if((!"eyeform3.1".equals(eyeform)) && (!"eyeform3.2".equals(eyeform)) && (!"eyeform3".equals(eyeform))){%>
 		<h5>Simple field history:</h5>
 		<table class="display" style="width:20%">
 		<tr style="background-color: rgb(204, 204, 255);">
@@ -2909,7 +2926,7 @@ if(fieldList.contains("Keratometry")){
 		<display:column title="OD nx" style="width:30px;white-space: nowrap;">
 			<c:out value="${map.v_rnx}"/>
 		</display:column>
-		<display:column title="OD" style="width:30px;white-space: nowrap;">
+		<display:column title="OD nv" style="width:30px;white-space: nowrap;">
 			<c:out value="${map.v_rnv}"/>
 		</display:column>
 		<display:column title="OS ns" style="width:30px;white-space: nowrap;">
