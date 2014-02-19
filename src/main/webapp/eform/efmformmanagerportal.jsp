@@ -16,10 +16,10 @@
 %>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>eFormPortal
+<title>eFormPortal</title>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/share/css/OscarStandardLayout.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/share/css/eformStyle.css">
-</title>
+
 
   <style type="text/css">
 	  tr.odd
@@ -159,7 +159,13 @@ $(function() {
 	</thead>
 	<tbody>
     <%
-		for(int i=0;i<infos.size();i++){
+    	oscar.OscarProperties props1 = oscar.OscarProperties.getInstance();
+    	String whichgroup = props1.getProperty("EFORMS_GROUP");
+    	if((whichgroup != null) && (whichgroup.length() >0)){
+    		String[] group = whichgroup.trim().split(",");	
+			for(int i=0;i<infos.size();i++){
+				for(int j=0;j<group.length;j++){
+					if(infos.get(i).getGroup().equals(group[j])){
 	%>
 
     <tr>
@@ -171,7 +177,24 @@ $(function() {
         <td nowrap align='center' width="10%"><a href="../eform/importPortal.do?fid=<%=infos.get(i).getFid() %>&name=<%=infos.get(i).getName() %>" >Import</a></td>
     </tr>
 	
-    <% } %>
+    <%				}
+				} 			
+    		}
+    	}else{
+    		for(int i=0;i<infos.size();i++){
+    %>
+    <tr>
+        <td width="25%" style="padding-left: 4px;"><a href="#" onclick="newWindow('efmformportalpreview.jsp?fid=<%=infos.get(i).getFid()%>', '<%="Form"+i%>'); return false;"><%=infos.get(i).getName()%></a></td>
+        <td width="15%" style="padding-left: 4px"><%=infos.get(i).getVersion()%> </td>
+        <td width="15%" style="padding-left: 4px"><%=infos.get(i).getCreator()%></td>
+        <td nowrap align='center' width="10%"><%=infos.get(i).getLocation()%></td>
+        <td align="center" width="30%" style="padding-left: 4px"><%=df.format(infos.get(i).getApprovetime()) %></td>
+        <td nowrap align='center' width="10%"><a href="../eform/importPortal.do?fid=<%=infos.get(i).getFid() %>&name=<%=infos.get(i).getName() %>" >Import</a></td>
+    </tr>
+    <%
+    		}
+    	}
+    %>
 	</tbody>
 </table>
 <%}else{ %>
