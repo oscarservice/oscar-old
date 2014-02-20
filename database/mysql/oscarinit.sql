@@ -9043,7 +9043,8 @@ CREATE TABLE `RemoteIntegratedDataCopy` (
 CREATE TABLE billing_payment_type (
   id int(11) NOT NULL auto_increment,
   payment_type varchar(25) NOT NULL default '',
-  PRIMARY KEY  (id)
+  PRIMARY KEY  (id),
+  UNIQUE KEY payment_type(payment_type)
 );
 
 CREATE TABLE `billing_on_3rdPartyAddress` (
