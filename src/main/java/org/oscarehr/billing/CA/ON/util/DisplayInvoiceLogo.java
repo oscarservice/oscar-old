@@ -106,7 +106,7 @@ public class DisplayInvoiceLogo extends DownloadAction{
 		String fileName = "";
 		String logoDocType = OscarProperties.getInstance().getProperty("invoice_head_logo_doctype");
 		if (logoDocType == null || logoDocType.trim().isEmpty()) {
-			logoDocType = "invoice letter head";
+			logoDocType = "invoice letterhead";
 		}
 		logoDocType = logoDocType.trim();
 		DocumentDao docDao = (DocumentDao)SpringUtils.getBean("documentDao");
