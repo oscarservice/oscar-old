@@ -65,4 +65,4 @@ alter table billing_on_payment change payment total_payment decimal(10,2) not nu
 alter table billing_on_payment add column total_discount decimal(10,2) not null;
 alter table billing_on_payment add column total_refund decimal(10,2) not null;
 
-INSERT INTO `ctl_doctype` (`module`, `doctype`, `status`, `id`) VALUES('provider','invoice letter head','A','');
+INSERT INTO `ctl_doctype` (`module`, `doctype`, `status`, `id`) VALUES('provider','invoice letterhead','A','');
