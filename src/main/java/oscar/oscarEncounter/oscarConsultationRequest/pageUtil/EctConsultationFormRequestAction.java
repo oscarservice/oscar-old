@@ -205,6 +205,12 @@ public class EctConsultationFormRequestAction extends Action {
 	                                		if(!request.getParameter(name).isEmpty()){
 	                                			HttpSession session = request.getSession();
 	                                			String value = (String)session.getAttribute("examination");
+	                                			value = value.replaceAll("<table>", "");
+	                                			value = value.replaceAll("</table>", "");
+	                                			value = value.replaceAll("<tr>", "");
+	                                			value = value.replaceAll("</tr>", "");
+	                                			value = value.replaceAll("<td>", " ");
+	                                			value = value.replaceAll("</td>", "");
 	                                			consultationRequestExtDao.persist(createExtEntry(requestId,"specialProblem",value));
 	                                		}
 	                                	}

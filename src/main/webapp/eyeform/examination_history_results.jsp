@@ -101,24 +101,38 @@
 			}
 		</script>
 		<script>
-			function insettitle(){
-				var visionElm = $("h5").filter(function(){
+			function insert_title(){			
+				var glasshxElm = $("h5").filter(function(){
+					if(this.innerHTML.indexOf("Glasses History") != -1){
+						return true;
+					}
+					return false;
+				});
+				if(glasshxElm != null && glasshxElm.length > 0){
+					glasshxElm = glasshxElm[0];
+					var targetTbl = $(glasshxElm).parent().children("table");
+					if(targetTbl != null){
+						var title = "<tr><th class=\"centered\"></th><th colspan=\"5\" style=\"text-align:center\">OD</th><th colspan=\"5\" style=\"text-align:center\">OS</th><th></th><th></th></tr>"
+						$($(targetTbl).find("thead")).prepend(title);
+					}
+				}
+				
+				var assessmentElm = $("h5").filter(function(){
 					if (this.innerHTML.indexOf("VISION ASSESSMENT") != -1) {
 						return true;
 					}
 					return false;
 					});
 
-				if (visionElm != null && visionElm.length > 0) {
-					visionElm = visionElm[0];
-					var targetTbl = $(visionElm).parent().children("table");
+				if (assessmentElm != null && assessmentElm.length > 0) {
+					assessmentElm = assessmentElm[0];
+					var targetTbl = $(assessmentElm).parent().children("table");
 					if (targetTbl != null) {
 						var title = "<tr><th class=\"centered\"></th><th colspan=\"3\" style=\"text-align:center\">Distance SC</th><th colspan=\"3\" style=\"text-align:center\">Distance CC</th><th colspan=\"2\" style=\"text-align:center\">Pin Hole</th><th colspan=\"3\" style=\"text-align:center\">Intermediate SC</th><th colspan=\"3\" style=\"text-align:center\">Intermediate CC</th><th colspan=\"3\" style=\"text-align:center\">Near SC</th><th colspan=\"3\" style=\"text-align:center\">Near CC</th></tr>";
 						$($(targetTbl).find("thead")).prepend(title);
 					}
 				}
-			}
-			function insettitle1(){
+				
 				var visionElm = $("h5").filter(function(){
 					if (this.innerHTML.indexOf("VISION MEASUREMENT") != -1) {
 						return true;
@@ -134,11 +148,175 @@
 						$($(targetTbl).find("thead")).prepend(title);
 					}
 				}
+				
+				var intraocularElm = $("h5").filter(function(){
+					if(this.innerHTML.indexOf("INTRAOCULAR PRESSURE") != -1){
+						return true;
+					}
+					return false;
+				});
+				if(intraocularElm != null && intraocularElm.length > 0){
+					intraocularElm = intraocularElm[0];
+					var targetTbl = $(intraocularElm).parent().children("table");
+					if(targetTbl != null){
+						var title = "<tr><th class=\"centered\"></th><th colspan=\"3\" style=\"text-align:center\">Non-contact</th><th colspan=\"3\" style=\"text-align:center\">Applanation</th><th colspan=\"2\" style=\"text-align:center\">Pachymetry</th></tr>"
+						$($(targetTbl).find("thead")).prepend(title);
+					}
+				}
+				
+				var refractiveElm = $("h5").filter(function(){
+					if(this.innerHTML.indexOf("REFRACTIVE") != -1){
+						return true;
+					}
+					return false;
+				});
+				if(refractiveElm != null && refractiveElm.length > 0){
+					refractiveElm = refractiveElm[0];
+					var targetTbl = $(refractiveElm).parent().children("table");
+					if(targetTbl != null){
+						var title = "<tr><th class=\"centered\"></th><th colspan=\"2\" style=\"text-align:center\">Dominance</th><th colspan=\"2\" style=\"text-align:center\">Scotopic Pupil</th><th colspan=\"2\" style=\"text-align:center\">Kappa</th></tr>"
+						$($(targetTbl).find("thead")).prepend(title);
+					}
+				}
+				
+				var otherElm = $("h5").filter(function(){
+					if(this.innerHTML.indexOf("OTHER EXAM") != -1){
+						return true;
+					}
+					return false;
+				});
+				if(otherElm != null && otherElm.length > 0){
+					otherElm = otherElm[0];
+					var targetTbl = $(otherElm).parent().children("table");
+					if(targetTbl != null){
+						var title = "<tr><th class=\"centered\"></th><th colspan=\"2\" style=\"text-align:center\">Colour vision</th><th colspan=\"2\" style=\"text-align:center\">Pupils</th><th colspan=\"2\" style=\"text-align:center\">Amsler</th><th colspan=\"2\" style=\"text-align:center\">PAM</th><th colspan=\"2\" style=\"text-align:center\">Confrontation </th><th></th><th></th><th colspan=\"2\" style=\"text-align:center\">Worth 4 dot</th></tr>"
+						$($(targetTbl).find("thead")).prepend(title);
+					}
+				}
+				
+				var externalElm = $("h5").filter(function(){
+					if(this.innerHTML.indexOf("EXTERNAL/ORBIT") != -1){
+						return true;
+					}
+					return false;
+				});
+				if(externalElm != null && externalElm.length > 0){
+					externalElm = externalElm[0];
+					var targetTbl = $(externalElm).parent().children("table");
+					if(targetTbl != null){
+						var title = "<tr><th class=\"centered\"></th><th colspan=\"2\" style=\"text-align:center\">Face</th><th colspan=\"2\" style=\"text-align:center\">Retropulsion</th><th colspan=\"2\" style=\"text-align:center\">Hertel</th></tr>"
+						$($(targetTbl).find("thead")).prepend(title);
+					}
+				}
+				
+				var ductElm = $("h5").filter(function(){
+					if(this.innerHTML.indexOf("EYELID/NASOLACRIMAL DUCT") != -1){
+						return true;
+					}
+					return false;
+				});
+				if(ductElm != null && ductElm.length > 0){
+					ductElm = ductElm[0];
+					var targetTbl = $(ductElm).parent().children("table");
+					if(targetTbl != null){
+						var title = "<tr><th class=\"centered\"></th><th colspan=\"2\" style=\"text-align:center\">Upper Lid</th><th colspan=\"2\" style=\"text-align:center\">Lower Lid</th><th colspan=\"2\" style=\"text-align:center\">Lacrimal Lake</th><th colspan=\"2\" style=\"text-align:center\">Irrigation</th><th colspan=\"2\" style=\"text-align:center\">Punctum</th><th colspan=\"2\" style=\"text-align:center\">NLD</th><th colspan=\"2\" style=\"text-align:center\">Dye Disappearance</th></tr>"
+						$($(targetTbl).find("thead")).prepend(title);
+					}
+				}
+				
+				var eyelidElm = $("h5").filter(function(){
+					if(this.innerHTML.indexOf("EYELID MEASUREMENT") != -1){
+						return true;
+					}
+					return false;
+				});
+				if(eyelidElm != null && eyelidElm.length > 0){
+					eyelidElm = eyelidElm[0];
+					var targetTbl = $(eyelidElm).parent().children("table");
+					if(targetTbl != null){
+						var title = "<tr><th class=\"centered\"></th><th colspan=\"2\" style=\"text-align:center\">MRD</th><th colspan=\"2\" style=\"text-align:center\">ISS</th><th colspan=\"2\" style=\"text-align:center\">Levator Function</th><th colspan=\"2\" style=\"text-align:center\">Lag Ophthalmos</th><th colspan=\"2\" style=\"text-align:center\">Blink reflex</th><th colspan=\"2\" style=\"text-align:center\">CNVII</th><th colspan=\"2\" style=\"text-align:center\">Bell</th><th colspan=\"2\" style=\"text-align:center\">Schirmer</th></tr>"
+						$($(targetTbl).find("thead")).prepend(title);
+					}
+				}
+				
+				var eyelidElm = $("h5").filter(function(){
+					if(this.innerHTML.indexOf("ANTERIOR SEGMENT") != -1){
+						return true;
+					}
+					return false;
+				});
+				if(eyelidElm != null && eyelidElm.length > 0){
+					eyelidElm = eyelidElm[0];
+					var targetTbl = $(eyelidElm).parent().children("table");
+					if(targetTbl != null){
+						var title = "<tr><th class=\"centered\"></th><th colspan=\"2\" style=\"text-align:center\">Cornea</th><th colspan=\"2\" style=\"text-align:center\">Conj/Sclera</th><th colspan=\"2\" style=\"text-align:center\">Anterior Chamber</th><th colspan=\"2\" style=\"text-align:center\">Angle</th><th colspan=\"2\" style=\"text-align:center\">Iris</th><th colspan=\"2\" style=\"text-align:center\">Lens</th></tr>"
+						$($(targetTbl).find("thead")).prepend(title);
+					}
+				}
+				
+				var posteriorElm = $("h5").filter(function(){
+					if(this.innerHTML.indexOf("POSTERIOR SEGMENT") != -1){
+						return true;
+					}
+					return false;
+				});
+				if(posteriorElm != null && posteriorElm.length > 0){
+					posteriorElm = posteriorElm[0];
+					var targetTbl = $(posteriorElm).parent().children("table");
+					if(targetTbl != null){
+						var title = "<tr><th class=\"centered\"></th><th colspan=\"2\" style=\"text-align:center\">Disc</th></th><th colspan=\"2\" style=\"text-align:center\">C/D Ratio</th></th><th colspan=\"2\" style=\"text-align:center\">Macula</th></th><th colspan=\"2\" style=\"text-align:center\">Retina</th></th><th colspan=\"2\" style=\"text-align:center\">Vitreous</th></tr>"
+						$($(targetTbl).find("thead")).prepend(title);
+					}
+				}
+			}
+			
+			function adjust_title(){
+				var title = ["Glasses History","VISION ASSESSMENT","STEREO VISION","VISION MEASUREMENT","INTRAOCULAR PRESSURE","REFRACTIVE","OTHER EXAM","DUCTION/DIPLOPIA TESTING","DEVIATION MEASUREMENT","EXTERNAL/ORBIT","EYELID/NASOLACRIMAL DUCT","EYELID MEASUREMENT","ANTERIOR SEGMENT","POSTERIOR SEGMENT"];
+				var i = 0;
+				for(i = 0; i < title.length; i ++){
+					var Elm = $("h5").filter(function(){
+						if(this.innerHTML.indexOf(title[i]) != -1){
+							return true;
+						}
+						return false;
+					});
+					if(Elm != null && Elm.length > 0){
+						Elm = Elm[0];
+						Elm.innerHTML = title[i] + ":";
+						var targetSpan = $(Elm).parent().children("span");
+						if(targetSpan != null && targetSpan.length > 0){
+							if(targetSpan.length == 4){
+								var addspan = targetSpan[0];							
+								targetSpan[0].style.display = "none";
+								targetSpan[2].style.display = "none";
+								targetSpan[3].style.display = "none";
+								addspan.style.display = "inline";
+								$(Elm).append(addspan);
+								
+								var targetTbl = $(Elm).parent().children("table"); 
+								var tabWidth = $(targetTbl).innerWidth();
+								targetSpan[1].style.width = tabWidth;
+								Elm.style.width = tabWidth;
+							}
+							if(targetSpan.length == 2){
+								var addspan = targetSpan[0];							
+								targetSpan[0].style.display = "none";
+								targetSpan[1].style.display = "none";							
+								addspan.style.display = "inline";
+								$(Elm).append(addspan);
+								
+								var targetTbl = $(Elm).parent().children("table"); 
+								var tabWidth = $(targetTbl).innerWidth();
+								Elm.style.width = tabWidth;
+							}
+						}	
+					}
+				}
 			}
 		</script>
 	</head>
 
-	<body onload="insettitle();insettitle1();">
+	<body onload="insert_title();adjust_title();">
 		<form action="<%=request.getContextPath()%>/eyeform/ExaminationHistory.do" method="POST" id="inputForm" name="inputForm">
 		<input type="hidden" name="method" value="query"/>
 		<input type="hidden" name="demographicNo" value="<c:out value="${demographic.demographicNo}"/>"/>
@@ -2702,45 +2880,45 @@ if(fieldList.contains("Optic disc")){
 <%if(fieldList.contains("Glasses Rx")){%>
 <tr>
 <td><h5>Glasses History</h5>
-	<display:table name="glasses" requestURI="/eyeform/ExaminationHistory.do" class="display" style="width:100%" id="map" pagesize="5">
-		<display:column title="Date" style="width:60px;white-space: nowrap;text-align:center" headerClass="centered">
-			<c:out value="${map.date}"/>
+	<display:table name="glasses" requestURI="/eyeform/ExaminationHistory.do" class="display"  id="glassesMap" pagesize="5">
+		<display:column title="Date" style="width:30px;white-space: nowrap;text-align:center" headerClass="centered">
+			<c:out value="${glassesMap.date}"/>
 		</display:column>
 		<display:column title="OD s" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.gl_rs}"/>
+			<c:out value="${glassesMap.gl_rs}"/>
 		</display:column>
 		<display:column title="OD c" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.gl_rc}"/>
+			<c:out value="${glassesMap.gl_rc}"/>
 		</display:column>
 		<display:column title="OD x" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.gl_rx}"/>
+			<c:out value="${glassesMap.gl_rx}"/>
 		</display:column>
 		<display:column title="OD add" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.gl_ra}"/>
+			<c:out value="${glassesMap.gl_ra}"/>
 		</display:column>
 		<display:column title="OD prism" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.gl_rp}"/>
+			<c:out value="${glassesMap.gl_rp}"/>
 		</display:column>
 		<display:column title="Os s" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.gl_ls}"/>
+			<c:out value="${glassesMap.gl_ls}"/>
 		</display:column>
 		<display:column title="Os c" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.gl_lc}"/>
+			<c:out value="${glassesMap.gl_lc}"/>
 		</display:column>
 		<display:column title="Os x" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.gl_lx}"/>
+			<c:out value="${glassesMap.gl_lx}"/>
 		</display:column>
 		<display:column title="Os add" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.gl_la}"/>
+			<c:out value="${glassesMap.gl_la}"/>
 		</display:column>
 		<display:column title="Os prism" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.gl_lp}"/>
+			<c:out value="${glassesMap.gl_lp}"/>
 		</display:column>
 		<display:column title="date" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.gl_date}"/>
+			<c:out value="${glassesMap.gl_date}"/>
 		</display:column>
 		<display:column title="note" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.gl_note}"/>
+			<c:out value="${glassesMap.gl_note}"/>
 		</display:column>
 	</display:table>
 </td>
@@ -2751,69 +2929,69 @@ if(fieldList.contains("Distance vision (sc)")){
 %>
 <tr>
 <td><h5>VISION ASSESSMENT</h5>
-	<display:table name="distance_vision" requestURI="/eyeform/ExaminationHistory.do" class="display" style="width:100%" id="map" pagesize="5">
+	<display:table name="distance_vision" requestURI="/eyeform/ExaminationHistory.do" class="display"  id="distance_visionMap" pagesize="5">
 		<display:column title="Date" style="width:60px;white-space: nowrap;text-align:center" headerClass="centered">
-			<c:out value="${map.date}"/>
+			<c:out value="${distance_visionMap.date}"/>
 		</display:column>
 		<display:column title="OD dsc" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_rdsc}"/>
+			<c:out value="${distance_visionMap.v_rdsc}"/>
 		</display:column>
 		<display:column title="OS dsc" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_ldsc}"/>
+			<c:out value="${distance_visionMap.v_ldsc}"/>
 		</display:column>
 		<display:column title="OU dsc" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_dsc}"/>
+			<c:out value="${distance_visionMap.v_dsc}"/>
 		</display:column>
 		<display:column title="OD dcc" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_rdcc}"/>
+			<c:out value="${distance_visionMap.v_rdcc}"/>
 		</display:column>
 		<display:column title="OS dcc" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_ldcc}"/>
+			<c:out value="${distance_visionMap.v_ldcc}"/>
 		</display:column>
 		<display:column title="OU dcc" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_dcc}"/>
+			<c:out value="${distance_visionMap.v_dcc}"/>
 		</display:column>
 		<display:column title="OD ph" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_rph}"/>
+			<c:out value="${distance_visionMap.v_rph}"/>
 		</display:column>
 		<display:column title="OS ph" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_lph}"/>
+			<c:out value="${distance_visionMap.v_lph}"/>
 		</display:column>
 		<display:column title="OD isc" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_risc}"/>
+			<c:out value="${distance_visionMap.v_risc}"/>
 		</display:column>
 		<display:column title="OS isc" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_lisc}"/>
+			<c:out value="${distance_visionMap.v_lisc}"/>
 		</display:column>
 		<display:column title="OU isc" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_isc}"/>
+			<c:out value="${distance_visionMap.v_isc}"/>
 		</display:column>
 		<display:column title="OD icc" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_ricc}"/>
+			<c:out value="${distance_visionMap.v_ricc}"/>
 		</display:column>
 		<display:column title="OS icc" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_licc}"/>
+			<c:out value="${distance_visionMap.v_licc}"/>
 		</display:column>
 		<display:column title="OU icc" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_icc}"/>
+			<c:out value="${distance_visionMap.v_icc}"/>
 		</display:column>
 		<display:column title="OD nsc" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_rnsc}"/>
+			<c:out value="${distance_visionMap.v_rnsc}"/>
 		</display:column>
 		<display:column title="OS nsc" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_lnsc}"/>
+			<c:out value="${distance_visionMap.v_lnsc}"/>
 		</display:column>
 		<display:column title="OU nsc" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_nsc}"/>
+			<c:out value="${distance_visionMap.v_nsc}"/>
 		</display:column>
 		<display:column title="OD ncc" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_rncc}"/>
+			<c:out value="${distance_visionMap.v_rncc}"/>
 		</display:column>
 		<display:column title="OS ncc" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_lncc}"/>
+			<c:out value="${distance_visionMap.v_lncc}"/>
 		</display:column>
 		<display:column title="OU ncc" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_ncc}"/>
+			<c:out value="${distance_visionMap.v_ncc}"/>
 		</display:column>
 	</display:table>
 </td>
@@ -2824,15 +3002,15 @@ if(fieldList.contains("Fly test")){
 %>
 <tr>
 <td><h5>STEREO VISION</h5>
-	<display:table name="fly_test" requestURI="/eyeform/ExaminationHistory.do" class="display" style="width:50%" id="map" pagesize="5">
+	<display:table name="fly_test" requestURI="/eyeform/ExaminationHistory.do" class="display"  id="flyMap" pagesize="5">
 		<display:column title="Date" style="width:30px;white-space: nowrap;text-align:center" headerClass="centered">
-			<c:out value="${map.date}"/>
+			<c:out value="${flyMap.date}"/>
 		</display:column>
 		<display:column title="Fly test" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_fly}"/>
+			<c:out value="${flyMap.v_fly}"/>
 		</display:column>
 		<display:column title="Stereo-acuity" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_stereo}"/>
+			<c:out value="${flyMap.v_stereo}"/>
 		</display:column>
 	</display:table>
 </td>
@@ -2844,129 +3022,129 @@ if(fieldList.contains("Keratometry")){
 
 <tr>
 <td><h5>VISION MEASUREMENT</h5>
-	<display:table name="keratometry" requestURI="/eyeform/ExaminationHistory.do" class="display" style="width:100%" id="map" pagesize="5">
+	<display:table name="keratometry" requestURI="/eyeform/ExaminationHistory.do" class="display" id="measurementMap" pagesize="5">
 		<display:column title="Date" style="width:60px;white-space: nowrap;text-align:center" headerClass="centered">
-			<c:out value="${map.date}"/>
+			<c:out value="${measurementMap.date}"/>
 		</display:column>
 		<display:column title="OD k1" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_rk1}"/>
+			<c:out value="${measurementMap.v_rk1}"/>
 		</display:column>
 		<display:column title="OD k2" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_rk2}"/>
+			<c:out value="${measurementMap.v_rk2}"/>
 		</display:column>
 		<display:column title="OD kx" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_rkx}"/>
+			<c:out value="${measurementMap.v_rkx}"/>
 		</display:column>
 		<display:column title="OS k1" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_lk1}"/>
+			<c:out value="${measurementMap.v_lk1}"/>
 		</display:column>
 		<display:column title="OS k2" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_lk2}"/>
+			<c:out value="${measurementMap.v_lk2}"/>
 		</display:column>
 		<display:column title="OS kx" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_lkx}"/>
+			<c:out value="${measurementMap.v_lkx}"/>
 		</display:column>
 		<display:column title="OD as" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_rs}"/>
+			<c:out value="${measurementMap.v_rs}"/>
 		</display:column>
 		<display:column title="OD ac" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_rc}"/>
+			<c:out value="${measurementMap.v_rc}"/>
 		</display:column>
 		<display:column title="OD ax" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_rx}"/>
+			<c:out value="${measurementMap.v_rx}"/>
 		</display:column>
 		<display:column title="OD ar" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_rar}"/>
+			<c:out value="${measurementMap.v_rar}"/>
 		</display:column>
 		<display:column title="OS as" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_ls}"/>
+			<c:out value="${measurementMap.v_ls}"/>
 		</display:column>
 		<display:column title="OS ac" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_lc}"/>
+			<c:out value="${measurementMap.v_lc}"/>
 		</display:column>
 		<display:column title="OS ax" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_lx}"/>
+			<c:out value="${measurementMap.v_lx}"/>
 		</display:column>
 		<display:column title="OS ar" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_lar}"/>
+			<c:out value="${measurementMap.v_lar}"/>
 		</display:column>
 		<display:column title="OD ds" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_rds}"/>
+			<c:out value="${measurementMap.v_rds}"/>
 		</display:column>
 		<display:column title="OD dc" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_rdc}"/>
+			<c:out value="${measurementMap.v_rdc}"/>
 		</display:column>
 		<display:column title="OD dx" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_rdx}"/>
+			<c:out value="${measurementMap.v_rdx}"/>
 		</display:column>
 		<display:column title="OD dv" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_rdv}"/>
+			<c:out value="${measurementMap.v_rdv}"/>
 		</display:column>
 		<display:column title="OS ds" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_lds}"/>
+			<c:out value="${measurementMap.v_lds}"/>
 		</display:column>
 		<display:column title="OS dc" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_ldc}"/>
+			<c:out value="${measurementMap.v_ldc}"/>
 		</display:column>
 		<display:column title="OS dx" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_ldx}"/>
+			<c:out value="${measurementMap.v_ldx}"/>
 		</display:column>
 		<display:column title="OS dv" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_ldv}"/>
+			<c:out value="${measurementMap.v_ldv}"/>
 		</display:column>
 		<display:column title="OU dv" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_dv}"/>
+			<c:out value="${measurementMap.v_dv}"/>
 		</display:column>
 		<display:column title="OD ns" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_rns}"/>
+			<c:out value="${measurementMap.v_rns}"/>
 		</display:column>
 		<display:column title="OD nc" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_rnc}"/>
+			<c:out value="${measurementMap.v_rnc}"/>
 		</display:column>
 		<display:column title="OD nx" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_rnx}"/>
+			<c:out value="${measurementMap.v_rnx}"/>
 		</display:column>
 		<display:column title="OD nv" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_rnv}"/>
+			<c:out value="${measurementMap.v_rnv}"/>
 		</display:column>
 		<display:column title="OS ns" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_lns}"/>
+			<c:out value="${measurementMap.v_lns}"/>
 		</display:column>
 		<display:column title="OS nc" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_lnc}"/>
+			<c:out value="${measurementMap.v_lnc}"/>
 		</display:column>
 		<display:column title="OS nx" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_lnx}"/>
+			<c:out value="${measurementMap.v_lnx}"/>
 		</display:column>
 		<display:column title="OS nv" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_lnv}"/>
+			<c:out value="${measurementMap.v_lnv}"/>
 		</display:column>
 		<display:column title="OU nv" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_nv}"/>
+			<c:out value="${measurementMap.v_nv}"/>
 		</display:column>
 		<display:column title="OD cs" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_rcs}"/>
+			<c:out value="${measurementMap.v_rcs}"/>
 		</display:column>
 		<display:column title="OD cc" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_rcc}"/>
+			<c:out value="${measurementMap.v_rcc}"/>
 		</display:column>
 		<display:column title="OD cx" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_rcx}"/>
+			<c:out value="${measurementMap.v_rcx}"/>
 		</display:column>
 		<display:column title="OD cv" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_rcv}"/>
+			<c:out value="${measurementMap.v_rcv}"/>
 		</display:column>
 		<display:column title="OS cs" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_lcs}"/>
+			<c:out value="${measurementMap.v_lcs}"/>
 		</display:column>
 		<display:column title="OS cc" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_lcc}"/>
+			<c:out value="${measurementMap.v_lcc}"/>
 		</display:column>
 		<display:column title="OS cx" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_lcx}"/>
+			<c:out value="${measurementMap.v_lcx}"/>
 		</display:column>
 		<display:column title="OS cv" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.v_lcv}"/>
+			<c:out value="${measurementMap.v_lcv}"/>
 		</display:column>
 	</display:table>
 </td>
@@ -2977,33 +3155,33 @@ if(fieldList.contains("NCT")){
 %>
 <tr>
 <td><h5>INTRAOCULAR PRESSURE</h5>
-	<display:table name="nct" requestURI="/eyeform/ExaminationHistory.do" class="display" style="width:50%" id="map" pagesize="5">
+	<display:table name="nct" requestURI="/eyeform/ExaminationHistory.do" class="display" id="nctMap" pagesize="5">
 		<display:column title="Date" style="width:60px;white-space: nowrap;text-align:center" headerClass="centered">
-			<c:out value="${map.date}"/>
+			<c:out value="${nctMap.date}"/>
 		</display:column>
 		<display:column title="OD n" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.iop_rn}"/>
+			<c:out value="${nctMap.iop_rn}"/>
 		</display:column>
 		<display:column title="OS n" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.iop_ln}"/>
+			<c:out value="${nctMap.iop_ln}"/>
 		</display:column>
 		<display:column title="ntime" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.iop_ntime}"/>
+			<c:out value="${nctMap.iop_ntime}"/>
 		</display:column>
 		<display:column title="OD a" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.iop_ra}"/>
+			<c:out value="${nctMap.iop_ra}"/>
 		</display:column>
 		<display:column title="OS a" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.iop_la}"/>
+			<c:out value="${nctMap.iop_la}"/>
 		</display:column>
 		<display:column title="atime" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.iop_atime}"/>
+			<c:out value="${nctMap.iop_atime}"/>
 		</display:column>
 		<display:column title="OD cct" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.cct_r}"/>
+			<c:out value="${nctMap.cct_r}"/>
 		</display:column>
 		<display:column title="OS cct" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.cct_l}"/>
+			<c:out value="${nctMap.cct_l}"/>
 		</display:column>
 	</display:table>
 </td>
@@ -3014,27 +3192,27 @@ if(fieldList.contains("Dominance")){
 %>
 <tr>
 <td><h5>REFRACTIVE</h5>
-	<display:table name="dominance" requestURI="/eyeform/ExaminationHistory.do" class="display" style="width:100%" id="map" pagesize="5">
+	<display:table name="dominance" requestURI="/eyeform/ExaminationHistory.do" class="display" id="dominanceMap" pagesize="5">
 		<display:column title="Date" style="width:60px;white-space: nowrap;text-align:center" headerClass="centered">
-			<c:out value="${map.date}"/>
+			<c:out value="${dominanceMap.date}"/>
 		</display:column>
 		<display:column title="OD dom" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.ref_rdom}"/>
+			<c:out value="${dominanceMap.ref_rdom}"/>
 		</display:column>
 		<display:column title="OS dom" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.ref_ldom}"/>
+			<c:out value="${dominanceMap.ref_ldom}"/>
 		</display:column>
 		<display:column title="OD pdim" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.ref_rpdim}"/>
+			<c:out value="${dominanceMap.ref_rpdim}"/>
 		</display:column>
 		<display:column title="OS pdim" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.ref_lpdim}"/>
+			<c:out value="${dominanceMap.ref_lpdim}"/>
 		</display:column>
 		<display:column title="OD kappa" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.ref_rkappa}"/>
+			<c:out value="${dominanceMap.ref_rkappa}"/>
 		</display:column>
 		<display:column title="OS kappa" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.ref_lkappa}"/>
+			<c:out value="${dominanceMap.ref_lkappa}"/>
 		</display:column>
 	</display:table>
 </td>
@@ -3045,51 +3223,51 @@ if(fieldList.contains("Colour vision")){
 %>
 <tr>
 <td><h5>OTHER EXAM</h5>
-	<display:table name="colour_vision" requestURI="/eyeform/ExaminationHistory.do" class="display" style="width:100%" id="map" pagesize="5">
+	<display:table name="colour_vision" requestURI="/eyeform/ExaminationHistory.do" class="display" id="colour_visionMap" pagesize="5">
 		<display:column title="Date" style="width:60px;white-space: nowrap;text-align:center" headerClass="centered">
-			<c:out value="${map.date}"/>
+			<c:out value="${colour_visionMap.date}"/>
 		</display:column>
 		<display:column title="OD colour" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.o_rcolour}"/>
+			<c:out value="${colour_visionMap.o_rcolour}"/>
 		</display:column>
 		<display:column title="OS colour" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.o_lcolour}"/>
+			<c:out value="${colour_visionMap.o_lcolour}"/>
 		</display:column>
 		<display:column title="OD pupil" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.o_rpupil}"/>
+			<c:out value="${colour_visionMap.o_rpupil}"/>
 		</display:column>
 		<display:column title="OS pupil" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.o_lpupil}"/>
+			<c:out value="${colour_visionMap.o_lpupil}"/>
 		</display:column>
 		<display:column title="OD amsler" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.o_ramsler}"/>
+			<c:out value="${colour_visionMap.o_ramsler}"/>
 		</display:column>
 		<display:column title="OS amsler" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.o_lamsler}"/>
+			<c:out value="${colour_visionMap.o_lamsler}"/>
 		</display:column>
 		<display:column title="OD pam" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.o_rpam}"/>
+			<c:out value="${colour_visionMap.o_rpam}"/>
 		</display:column>
 		<display:column title="OS pam" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.o_lpam}"/>
+			<c:out value="${colour_visionMap.o_lpam}"/>
 		</display:column>
 		<display:column title="OD conf" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.o_rconf}"/>
+			<c:out value="${colour_visionMap.o_rconf}"/>
 		</display:column>
 		<display:column title="OS conf" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.o_lconf}"/>
+			<c:out value="${colour_visionMap.o_lconf}"/>
 		</display:column>
-		<display:column title="mad" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.o_mad}"/>
+		<display:column title="maddox" style="width:30px;white-space: nowrap;">
+			<c:out value="${colour_visionMap.o_mad}"/>
 		</display:column>
-		<display:column title="bag" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.o_bag}"/>
+		<display:column title="bagolini" style="width:30px;white-space: nowrap;">
+			<c:out value="${colour_visionMap.o_bag}"/>
 		</display:column>
-		<display:column title="w4dd" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.o_w4dd}"/>
+		<display:column title="distance" style="width:30px;white-space: nowrap;">
+			<c:out value="${colour_visionMap.o_w4dd}"/>
 		</display:column>
-		<display:column title="w4dn" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.o_w4dn}"/>
+		<display:column title="near" style="width:30px;white-space: nowrap;">
+			<c:out value="${colour_visionMap.o_w4dn}"/>
 		</display:column>
 	</display:table>
 </td>
@@ -3100,55 +3278,55 @@ if(fieldList.contains("DUCTION/DIPLOPIA TESTING")){
 %>
 <tr>
 <td><h5>DUCTION/DIPLOPIA TESTING</h5>
-	<display:table name="ductlion" requestURI="/eyeform/ExaminationHistory.do" class="display" style="width:50%" id="map" pagesize="5">
+	<display:table name="ductlion" requestURI="/eyeform/ExaminationHistory.do" class="display" id="ductlionMap" pagesize="5">
 		<display:column title="Date" style="width:60px;white-space: nowrap;text-align:center" headerClass="centered">
-			<c:out value="${map.date}"/>
+			<c:out value="${ductlionMap.date}"/>
 		</display:column>
-		<display:column title="OD" >
+		<display:column title="OD" headerClass="centered">
 			<table style="border:0px">
 			<tr>
-			<td class="inner"><c:out value="${map.duc_rur}"/></td>
-			<td class="inner"><c:out value="${map.duc_rul}"/></td>
+			<td class="inner"><c:out value="${ductlionMap.duc_rur}"/></td>
+			<td class="inner"><c:out value="${ductlionMap.duc_rul}"/></td>
 			</tr>
 			<tr>
-			<td class="inner"><c:out value="${map.duc_rr}"/></td>
-			<td class="inner"><c:out value="${map.duc_rl}"/></td>
+			<td class="inner"><c:out value="${ductlionMap.duc_rr}"/></td>
+			<td class="inner"><c:out value="${ductlionMap.duc_rl}"/></td>
 			</tr>
 			<tr>
-			<td class="inner"><c:out value="${map.duc_rdr}"/></td>
-			<td class="inner"><c:out value="${map.duc_rdl}"/></td>
+			<td class="inner"><c:out value="${ductlionMap.duc_rdr}"/></td>
+			<td class="inner"><c:out value="${ductlionMap.duc_rdl}"/></td>
 			</tr>
 			</table>
 		</display:column>
-		<display:column title="OS" >
+		<display:column title="OS" headerClass="centered">
 			<table style="border:0px">
 			<tr>
-			<td class="inner"><c:out value="${map.duc_lur}"/></td>
-			<td class="inner"><c:out value="${map.duc_lul}"/></td>
+			<td class="inner"><c:out value="${ductlionMap.duc_lur}"/></td>
+			<td class="inner"><c:out value="${ductlionMap.duc_lul}"/></td>
 			</tr>
 			<tr>
-			<td class="inner"><c:out value="${map.duc_lr}"/></td>
-			<td class="inner"><c:out value="${map.duc_ll}"/></td>
+			<td class="inner"><c:out value="${ductlionMap.duc_lr}"/></td>
+			<td class="inner"><c:out value="${ductlionMap.duc_ll}"/></td>
 			</tr>
 			<tr>
-			<td class="inner"><c:out value="${map.duc_ldr}"/></td>
-			<td class="inner"><c:out value="${map.duc_ldl}"/></td>
+			<td class="inner"><c:out value="${ductlionMap.duc_ldr}"/></td>
+			<td class="inner"><c:out value="${ductlionMap.duc_ldl}"/></td>
 			</tr>
 			</table>
 		</display:column>
-		<display:column title="OS" >
+		<display:column title="OU" headerClass="centered">
 			<table style="border:0px">
 			<tr>
-			<td class="inner"><c:out value="${map.dip_ur}"/></td>
-			<td class="inner"><c:out value="${map.dip_u}"/></td>
+			<td class="inner"><c:out value="${ductlionMap.dip_ur}"/></td>
+			<td class="inner"><c:out value="${ductlionMap.dip_u}"/></td>
 			</tr>
 			<tr>
-			<td class="inner"><c:out value="${map.dip_r}"/></td>
-			<td class="inner"><c:out value="${map.dip_p}"/></td>
+			<td class="inner"><c:out value="${ductlionMap.dip_r}"/></td>
+			<td class="inner"><c:out value="${ductlionMap.dip_p}"/></td>
 			</tr>
 			<tr>
-			<td class="inner"><c:out value="${map.dip_dr}"/></td>
-			<td class="inner"><c:out value="${map.dip_d}"/></td>
+			<td class="inner"><c:out value="${ductlionMap.dip_dr}"/></td>
+			<td class="inner"><c:out value="${ductlionMap.dip_d}"/></td>
 			</tr>
 			</table>
 		</display:column>
@@ -3161,38 +3339,38 @@ if(fieldList.contains("Primary gaze")){
 %>
 <tr>
 <td><h5>DEVIATION MEASUREMENT</h5>
-	<display:table name="primary" requestURI="/eyeform/ExaminationHistory.do" class="display" style="width:50%" id="map" pagesize="5">
+	<display:table name="primary" requestURI="/eyeform/ExaminationHistory.do" class="display" id="primaryMap" pagesize="5">
 		<display:column title="Date" style="width:60px;white-space: nowrap;text-align:center" headerClass="centered">
-			<c:out value="${map.date}"/>
+			<c:out value="${primaryMap.date}"/>
 		</display:column>
 		<display:column style="width:60px;">
 			<table style="border:0px">
 			<tr>
 			<td class="inner"></td>
-			<td class="inner"><c:out value="${map.dev_u}"/></td>
+			<td class="inner"><c:out value="${primaryMap.dev_u}"/></td>
 			<td class="inner"></td>
 			</tr>
 			<tr>
-			<td class="inner"><c:out value="${map.dev_r}"/></td>
-			<td class="inner"><c:out value="${map.dev_p}"/></td>
-			<td class="inner"><c:out value="${map.dev_l}"/></td>
+			<td class="inner"><c:out value="${primaryMap.dev_r}"/></td>
+			<td class="inner"><c:out value="${primaryMap.dev_p}"/></td>
+			<td class="inner"><c:out value="${primaryMap.dev_l}"/></td>
 			</tr>
 			<tr>
-			<td class="inner"><c:out value="${map.dev_rt}"/></td>
-			<td class="inner"><c:out value="${map.dev_d}"/></td>
-			<td class="inner"><c:out value="${map.dev_lt}"/></td>
+			<td class="inner"><c:out value="${primaryMap.dev_rt}"/></td>
+			<td class="inner"><c:out value="${primaryMap.dev_d}"/></td>
+			<td class="inner"><c:out value="${primaryMap.dev_lt}"/></td>
 			</tr>
 			</table>
 		</display:column>
 
 		<display:column title="Near" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.dev_near}"/>
+			<c:out value="${primaryMap.dev_near}"/>
 		</display:column>
 		<display:column title="Near with +3D add" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.dev_plus3}"/>
+			<c:out value="${primaryMap.dev_plus3}"/>
 		</display:column>
 		<display:column title="Far distance" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.dev_far}"/>
+			<c:out value="${primaryMap.dev_far}"/>
 		</display:column>
 	</display:table>
 </td>
@@ -3203,27 +3381,27 @@ if(fieldList.contains("Retropulsion")){
 %>
 <tr>
 <td><h5>EXTERNAL/ORBIT</h5>
-	<display:table name="retropulsion" requestURI="/eyeform/ExaminationHistory.do" class="display" style="width:100%" id="map" pagesize="5">
+	<display:table name="retropulsion" requestURI="/eyeform/ExaminationHistory.do" class="display" id="retropulsionMap" pagesize="5">
 		<display:column title="Date" style="width:60px;white-space: nowrap;text-align:center" headerClass="centered">
-			<c:out value="${map.date}"/>
+			<c:out value="${retropulsionMap.date}"/>
 		</display:column>
 		<display:column title="OD face" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.ext_rface}"/>
+			<c:out value="${retropulsionMap.ext_rface}"/>
 		</display:column>
 		<display:column title="OS face" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.ext_lface}"/>
+			<c:out value="${retropulsionMap.ext_lface}"/>
 		</display:column>
 		<display:column title="OD retro" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.ext_rretro}"/>
+			<c:out value="${retropulsionMap.ext_rretro}"/>
 		</display:column>
 		<display:column title="OS retro" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.ext_lretro}"/>
+			<c:out value="${retropulsionMap.ext_lretro}"/>
 		</display:column>
 		<display:column title="OD hertel" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.ext_rhertel}"/>
+			<c:out value="${retropulsionMap.ext_rhertel}"/>
 		</display:column>
 		<display:column title="OS hertel" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.ext_lhertel}"/>
+			<c:out value="${retropulsionMap.ext_lhertel}"/>
 		</display:column>
 	</display:table>
 </td>
@@ -3234,51 +3412,51 @@ if(fieldList.contains("Upper lid")){
 %>
 <tr>
 <td><h5>EYELID/NASOLACRIMAL DUCT</h5>
-	<display:table name="upper" requestURI="/eyeform/ExaminationHistory.do" class="display" style="width:100%" id="map" pagesize="5">
+	<display:table name="upper" requestURI="/eyeform/ExaminationHistory.do" class="display" id="upperMap" pagesize="5">
 		<display:column title="Date" style="width:60px;white-space: nowrap;text-align:center" headerClass="centered">
-			<c:out value="${map.date}"/>
+			<c:out value="${upperMap.date}"/>
 		</display:column>
 		<display:column title="OD ul" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.ext_rul}"/>
+			<c:out value="${upperMap.ext_rul}"/>
 		</display:column>
 		<display:column title="OS ul" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.ext_lul}"/>
+			<c:out value="${upperMap.ext_lul}"/>
 		</display:column>
 		<display:column title="OD ll" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.ext_rll}"/>
+			<c:out value="${upperMap.ext_rll}"/>
 		</display:column>
 		<display:column title="OS ll" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.ext_lll}"/>
+			<c:out value="${upperMap.ext_lll}"/>
 		</display:column>
 		<display:column title="OD lake" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.ext_rlake}"/>
+			<c:out value="${upperMap.ext_rlake}"/>
 		</display:column>
 		<display:column title="OS lake" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.ext_llake}"/>
+			<c:out value="${upperMap.ext_llake}"/>
 		</display:column>
 		<display:column title="OD irrig" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.ext_rirrig}"/>
+			<c:out value="${upperMap.ext_rirrig}"/>
 		</display:column>
 		<display:column title="OS irrig" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.ext_lirrig}"/>
+			<c:out value="${upperMap.ext_lirrig}"/>
 		</display:column>
 		<display:column title="OD punc" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.ext_rpunc}"/>
+			<c:out value="${upperMap.ext_rpunc}"/>
 		</display:column>
 		<display:column title="OS punc" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.ext_lpunc}"/>
+			<c:out value="${upperMap.ext_lpunc}"/>
 		</display:column>
 		<display:column title="OD nld" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.ext_rnld}"/>
+			<c:out value="${upperMap.ext_rnld}"/>
 		</display:column>
 		<display:column title="OS nld" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.ext_lnld}"/>
+			<c:out value="${upperMap.ext_lnld}"/>
 		</display:column>
 		<display:column title="OD dye" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.ext_rdye}"/>
+			<c:out value="${upperMap.ext_rdye}"/>
 		</display:column>
 		<display:column title="OS dye" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.ext_ldye}"/>
+			<c:out value="${upperMap.ext_ldye}"/>
 		</display:column>
 	</display:table>
 </td>
@@ -3289,57 +3467,57 @@ if(fieldList.contains("Margin reflex distance")){
 %>
 <tr>
 <td><h5>EYELID MEASUREMENT</h5>
-	<display:table name="margin" requestURI="/eyeform/ExaminationHistory.do" class="display" style="width:100%" id="map" pagesize="5">
+	<display:table name="margin" requestURI="/eyeform/ExaminationHistory.do" class="display" id="marginMap" pagesize="5">
 		<display:column title="Date" style="width:60px;white-space: nowrap;text-align:center" headerClass="centered">
-			<c:out value="${map.date}"/>
+			<c:out value="${marginMap.date}"/>
 		</display:column>
 		<display:column title="OD mrd" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.lid_rmrd}"/>
+			<c:out value="${marginMap.lid_rmrd}"/>
 		</display:column>
 		<display:column title="OS mrd" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.lid_lmrd}"/>
+			<c:out value="${marginMap.lid_lmrd}"/>
 		</display:column>
 		<display:column title="OD iss" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.lid_riss}"/>
+			<c:out value="${marginMap.lid_riss}"/>
 		</display:column>
 		<display:column title="OS iss" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.lid_liss}"/>
+			<c:out value="${marginMap.lid_liss}"/>
 		</display:column>
 		<display:column title="OD lev" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.lid_rlev}"/>
+			<c:out value="${marginMap.lid_rlev}"/>
 		</display:column>
 		<display:column title="OS lev" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.lid_llev}"/>
+			<c:out value="${marginMap.lid_llev}"/>
 		</display:column>
 		<display:column title="OD lag" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.lid_rlag}"/>
+			<c:out value="${marginMap.lid_rlag}"/>
 		</display:column>
 		<display:column title="OS lag" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.lid_llag}"/>
+			<c:out value="${marginMap.lid_llag}"/>
 		</display:column>
 		<display:column title="OD blink" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.lid_rblink}"/>
+			<c:out value="${marginMap.lid_rblink}"/>
 		</display:column>
 		<display:column title="OS blink" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.lid_lblink}"/>
+			<c:out value="${marginMap.lid_lblink}"/>
 		</display:column>
 		<display:column title="OD cn7" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.lid_rcn7}"/>
+			<c:out value="${marginMap.lid_rcn7}"/>
 		</display:column>
 		<display:column title="OS cn7" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.lid_lcn7}"/>
+			<c:out value="${marginMap.lid_lcn7}"/>
 		</display:column>
 		<display:column title="OD bell" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.lid_rbell}"/>
+			<c:out value="${marginMap.lid_rbell}"/>
 		</display:column>
 		<display:column title="OS bell" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.lid_lbell}"/>
+			<c:out value="${marginMap.lid_lbell}"/>
 		</display:column>
 		<display:column title="OD schirm" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.lid_rschirm}"/>
+			<c:out value="${marginMap.lid_rschirm}"/>
 		</display:column>
 		<display:column title="OS schirm" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.lid_lschirm}"/>
+			<c:out value="${marginMap.lid_lschirm}"/>
 		</display:column>
 	</display:table>
 </td>
@@ -3350,43 +3528,43 @@ if(fieldList.contains("Cornea")){
 %>
 <tr>
 <td><h5>ANTERIOR SEGMENT</h5>
-	<display:table name="cornea" requestURI="/eyeform/ExaminationHistory.do" class="display" style="width:100%" id="map" pagesize="5">
+	<display:table name="cornea" requestURI="/eyeform/ExaminationHistory.do" class="display" id="corneaMap" pagesize="5">
 		<display:column title="Date" style="width:60px;white-space: nowrap;text-align:center" headerClass="centered">
-			<c:out value="${map.date}"/>
+			<c:out value="${corneaMap.date}"/>
 		</display:column>
 		<display:column title="OD cornea" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.a_rk}"/>
+			<c:out value="${corneaMap.a_rk}"/>
 		</display:column>
 		<display:column title="OS cornea" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.a_lk}"/>
+			<c:out value="${corneaMap.a_lk}"/>
 		</display:column>
 		<display:column title="OD conj" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.a_rconj}"/>
+			<c:out value="${corneaMap.a_rconj}"/>
 		</display:column>
 		<display:column title="OS conj" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.a_lconj}"/>
+			<c:out value="${corneaMap.a_lconj}"/>
 		</display:column>
 		<display:column title="OD ac" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.a_rac}"/>
+			<c:out value="${corneaMap.a_rac}"/>
 		</display:column>
 		<display:column title="OS ac" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.a_rac}"/>
+			<c:out value="${corneaMap.a_rac}"/>
 		</display:column>
 		<display:column title="OD" >
-			<table style="border:0px">
+			<table border="1">
 			<tr>
 			<td width="33%"></td>
-			<td class="inner" width="34%"><c:out value="${map.a_rangle_1}"/></td>
+			<td class="inner" width="34%"><c:out value="${corneaMap.a_rangle_1}"/></td>
 			<td width="33%"></td>
 			</tr>
 			<tr>
-			<td class="inner"><c:out value="${map.a_rangle_2}"/></td>
-			<td class="inner"><c:out value="${map.a_rangle_3}"/></td>
-			<td class="inner"><c:out value="${map.a_rangle_4}"/></td>
+			<td class="inner"><c:out value="${corneaMap.a_rangle_2}"/></td>
+			<td class="inner"><c:out value="${corneaMap.a_rangle_3}"/></td>
+			<td class="inner"><c:out value="${corneaMap.a_rangle_4}"/></td>
 			</tr>
 			<tr>
 			<td></td>
-			<td class="inner"><c:out value="${map.a_rangle_5}"/></td>
+			<td class="inner"><c:out value="${corneaMap.a_rangle_5}"/></td>
 			<td></td>
 			</tr>
 			</table>
@@ -3395,32 +3573,32 @@ if(fieldList.contains("Cornea")){
 			<table border="1">
 			<tr>
 			<td width="33%"></td>
-			<td class="inner" width="34%"><c:out value="${map.a_langle_1}"/></td>
+			<td class="inner" width="34%"><c:out value="${corneaMap.a_langle_1}"/></td>
 			<td width="33%"></td>
 			</tr>
 			<tr>
-			<td class="inner"><c:out value="${map.a_langle_2}"/></td>
-			<td class="inner"><c:out value="${map.a_langle_3}"/></td>
-			<td class="inner"><c:out value="${map.a_langle_4}"/></td>
+			<td class="inner"><c:out value="${corneaMap.a_langle_2}"/></td>
+			<td class="inner"><c:out value="${corneaMap.a_langle_3}"/></td>
+			<td class="inner"><c:out value="${corneaMap.a_langle_4}"/></td>
 			</tr>
 			<tr>
 			<td width="33%"></td>
-			<td class="inner" width="34%"><c:out value="${map.a_langle_5}"/></td>
+			<td class="inner" width="34%"><c:out value="${corneaMap.a_langle_5}"/></td>
 			<td width="33%"></td>
 			</tr>
 			</table>
 		</display:column>
 		<display:column title="OD iris" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.a_riris}"/>
+			<c:out value="${corneaMap.a_riris}"/>
 		</display:column>
 		<display:column title="OS iris" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.a_liris}"/>
+			<c:out value="${corneaMap.a_liris}"/>
 		</display:column>
 		<display:column title="OD lens" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.a_rlens}"/>
+			<c:out value="${corneaMap.a_rlens}"/>
 		</display:column>
 		<display:column title="OS lens" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.a_llens}"/>
+			<c:out value="${corneaMap.a_llens}"/>
 		</display:column>
 	</display:table>
 </td>
@@ -3431,39 +3609,39 @@ if(fieldList.contains("Optic disc")){
 %>
 <tr>
 <td><h5>POSTERIOR SEGMENT</h5>
-	<display:table name="optic" requestURI="/eyeform/ExaminationHistory.do" class="display" style="width:100%" id="map" pagesize="5">
+	<display:table name="optic" requestURI="/eyeform/ExaminationHistory.do" class="display" id="opticMap" pagesize="5">
 		<display:column title="Date" style="width:60px;white-space: nowrap;text-align:center" headerClass="centered">
-			<c:out value="${map.date}"/>
+			<c:out value="${opticMap.date}"/>
 		</display:column>
 		<display:column title="OD disc" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.p_rdisc}"/>
+			<c:out value="${opticMap.p_rdisc}"/>
 		</display:column>
 		<display:column title="OS disc" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.p_ldisc}"/>
+			<c:out value="${opticMap.p_ldisc}"/>
 		</display:column>
 		<display:column title="OD cd" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.p_rcd}"/>
+			<c:out value="${opticMap.p_rcd}"/>
 		</display:column>
 		<display:column title="OS cd" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.p_lcd}"/>
+			<c:out value="${opticMap.p_lcd}"/>
 		</display:column>
 		<display:column title="OD mac" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.p_rmac}"/>
+			<c:out value="${opticMap.p_rmac}"/>
 		</display:column>
 		<display:column title="OS mac" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.p_lmac}"/>
+			<c:out value="${opticMap.p_lmac}"/>
 		</display:column>
 		<display:column title="OD ret" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.p_rret}"/>
+			<c:out value="${opticMap.p_rret}"/>
 		</display:column>
 		<display:column title="OS ret" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.p_lret}"/>
+			<c:out value="${opticMap.p_lret}"/>
 		</display:column>
 		<display:column title="OD vit" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.p_rvit}"/>
+			<c:out value="${opticMap.p_rvit}"/>
 		</display:column>
 		<display:column title="OS vit" style="width:30px;white-space: nowrap;">
-			<c:out value="${map.p_lvit}"/>
+			<c:out value="${opticMap.p_lvit}"/>
 		</display:column>
 	</display:table>
 </td>

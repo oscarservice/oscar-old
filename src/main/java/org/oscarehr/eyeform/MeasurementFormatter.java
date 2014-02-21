@@ -2553,6 +2553,124 @@ public class MeasurementFormatter {
 			
 		}else{
 			if(num > 0){
+				sb.append("<table><tr><td>OD</td>");
+			}else{
+				sb.append("<table><tr><td></td>");
+			}
+			if(isPresent("duc_rur")) {
+				sb.append("<td>"+getValue("duc_rur")+"</td>");
+			}else{
+				sb.append("<td></td>");
+			}
+			if(isPresent("duc_rul")) {
+				sb.append("<td>" + getValue("duc_rul") + "</td>");
+			}else{
+				sb.append("<td></td>");
+			}
+			if(num1 > 0){
+				sb.append("<td>OS</td>");
+			}else{
+				sb.append("<td></td>");
+			}
+			if(isPresent("duc_lur")) {
+				sb.append("<td>" + getValue("duc_lur") + "</td>");
+			}else{
+				sb.append("<td></td>");
+			}
+			if(isPresent("duc_lul")) {
+				sb.append("<td>" +getValue("duc_lul") + "</td>");
+			}else{
+				sb.append("<td></td>");
+			}
+			if(num2 > 0){
+				sb.append("<td>OU</td>");
+			}else{
+				sb.append("<td></td>");
+			}
+			if(isPresent("dip_ur")) {
+				sb.append("<td>" + getValue("dip_ur") + "</td>");
+			}else{
+				sb.append("<td></td>");
+			}
+			if(isPresent("dip_u")) {
+				sb.append("<td>" +getValue("dip_u") + "</td>");
+			}else{
+				sb.append("<td></td>");
+			}
+			sb.append("</tr>");
+			
+			sb.append("<tr><td></td>");
+			if(isPresent("duc_rr")) {
+				sb.append("<td>" +getValue("duc_rr") + "</td>");
+			}else{
+				sb.append("<td></td>");
+			}
+			if(isPresent("duc_rl")) {
+				sb.append("<td>" +getValue("duc_rl") + "</td>");
+			}else{
+				sb.append("<td></td>");
+			}
+			sb.append("<td></td>");
+			if(isPresent("duc_lr")) {
+				sb.append("<td>" +getValue("duc_lr") + "</td>");
+			}else{
+				sb.append("<td></td>");
+			}
+			if(isPresent("duc_ll")) {
+				sb.append("<td>" +getValue("duc_ll") + "</td>");
+			}else{
+				sb.append("<td></td>");
+			}
+			sb.append("<td></td>");
+			if(isPresent("dip_r")) {
+				sb.append("<td>" +getValue("dip_r") + "</td>");
+			}else{
+				sb.append("<td></td>");
+			}
+			if(isPresent("dip_p")) {
+				sb.append("<td>" +getValue("dip_p") + "</td>");
+			}else{
+				sb.append("<td></td>");
+			}
+			sb.append("</tr>");
+			
+			sb.append("<tr><td></td>");
+			if(isPresent("duc_rdr")) {
+				sb.append("<td>" +getValue("duc_rdr") + "</td>");
+			}else{
+				sb.append("<tr><td></td>");
+			}
+			if(isPresent("duc_rdl")) {
+				sb.append("<td>" +getValue("duc_rdl") + "</td>");
+			}else{
+				sb.append("<td></td>");
+			}
+			sb.append("<td></td>");
+			if(isPresent("duc_ldr")) {
+				sb.append("<td>" +getValue("duc_ldr") + "</td>");
+			}else{
+				sb.append("<td></td>");
+			}
+			if(isPresent("duc_ldl")) {
+				sb.append("<td>" +getValue("duc_ldl") + "</td>");
+			}else{
+				sb.append("<td></td>");
+			}
+			sb.append("<td></td>");
+			if(isPresent("dip_dr")) {
+				sb.append("<td>" +getValue("dip_dr") + "</td>");
+			}else{
+				sb.append("<td></td>");
+			}
+			if(isPresent("dip_d")) {
+				sb.append("<td>" +getValue("dip_d") + "</td>");
+			}else{
+				sb.append("<td></td>");
+			}
+			sb.append("</tr></table>");
+		}
+			
+/*			if(num > 0){
 				sb.append("OD ");
 			}
 			if(isPresent("duc_rur")) {
@@ -2808,7 +2926,7 @@ public class MeasurementFormatter {
 			}
 			sb.append("\n");
 		}
-		
+*/		
 		/*if(isPresent("duc_rur")) {
 			sb.append(getValue("duc_rur"));
 		}

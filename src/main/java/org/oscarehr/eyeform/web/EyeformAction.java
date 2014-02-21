@@ -1384,6 +1384,12 @@ public class EyeformAction extends DispatchAction {
             if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
             	HttpSession session = request.getSession();
             	examination = (String)session.getAttribute("examination");
+            	examination = examination.replaceAll("<table>", "");
+            	examination = examination.replaceAll("</table>", "");
+            	examination = examination.replaceAll("<tr>", "");
+            	examination = examination.replaceAll("</tr>", "");
+            	examination = examination.replaceAll("<td>", " ");
+            	examination = examination.replaceAll("</td>", "");
             }
             cp.setExamination(examination);
             
@@ -1481,6 +1487,12 @@ public class EyeformAction extends DispatchAction {
             if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){
             	HttpSession session = request.getSession();
             	examination = (String)session.getAttribute("examination");
+            	examination = examination.replaceAll("<table>", "");
+            	examination = examination.replaceAll("</table>", "");
+            	examination = examination.replaceAll("<tr>", "");
+            	examination = examination.replaceAll("</tr>", "");
+            	examination = examination.replaceAll("<td>", " ");
+            	examination = examination.replaceAll("</td>", "");
             }
 			
 			Integer id = null;
