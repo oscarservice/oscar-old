@@ -282,14 +282,19 @@ public class BillingCorrectionPrep {
 		Vector<Object> elemToDel = new Vector<Object>();
 		elemToDel.add(null);
 		elemToDel.add("");
-		vecName.removeAll(elemToDel);
 		for (int i = 0; i < vecName.size(); i++) {
 			if (vecName.get(i) == null || ((String)vecName.get(i)).isEmpty()) {
 				continue;
 			}
 			String sName = (String) vecName.get(i);
 			String sUnit = (String) vecUnit.get(i);
+			if (sUnit == null || sUnit.trim().isEmpty()) {
+				sUnit = "1";
+			}
 			String sFee = (String) vecFee.get(i);
+			if (sFee == null || sFee.trim().isEmpty()) {
+				sFee = "0.00";
+			}
 			String sStatus = (String) vecStatus.get(i);
 			ret = addItem(ch1Obj, lItemObj, updateProviderNo, dx, serviceDate,
 					sName, sUnit, sFee, sStatus);

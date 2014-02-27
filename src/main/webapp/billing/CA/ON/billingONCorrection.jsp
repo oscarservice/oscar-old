@@ -331,8 +331,9 @@ function validateAmountNumberic(idx) {
 	var oldVal = document.getElementById("billingamounttmp" + idx).value;
 	var val = document.getElementById("billingamount" + idx).value;
 	if (val.length == 0) {
-		document.getElementById("billingamount" + idx).value = "0.00";
-		oldVal = "0.00";
+		if (document.getElementsByName("servicecode" + idx)[0].value.trim().length > 0) {
+			document.getElementById("billingamount" + idx).value = "0.00";
+		}
 		return;
 	}
 	//var regexNumberic = /^([1-9]\d*|0)(\.\d{1,2})?$/;
