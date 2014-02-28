@@ -3283,7 +3283,7 @@ if(fieldList.contains("DUCTION/DIPLOPIA TESTING")){
 			<c:out value="${ductlionMap.date}"/>
 		</display:column>
 		<display:column title="OD" headerClass="centered">
-			<table style="border:0px">
+			<table style="border:0px;font-size: 10pt">
 			<tr>
 			<td class="inner"><c:out value="${ductlionMap.duc_rur}"/></td>
 			<td class="inner"><c:out value="${ductlionMap.duc_rul}"/></td>
@@ -3299,7 +3299,7 @@ if(fieldList.contains("DUCTION/DIPLOPIA TESTING")){
 			</table>
 		</display:column>
 		<display:column title="OS" headerClass="centered">
-			<table style="border:0px">
+			<table style="border:0px;font-size: 10pt">
 			<tr>
 			<td class="inner"><c:out value="${ductlionMap.duc_lur}"/></td>
 			<td class="inner"><c:out value="${ductlionMap.duc_lul}"/></td>
@@ -3315,7 +3315,7 @@ if(fieldList.contains("DUCTION/DIPLOPIA TESTING")){
 			</table>
 		</display:column>
 		<display:column title="OU" headerClass="centered">
-			<table style="border:0px">
+			<table style="border:0px;font-size: 10pt">
 			<tr>
 			<td class="inner"><c:out value="${ductlionMap.dip_ur}"/></td>
 			<td class="inner"><c:out value="${ductlionMap.dip_u}"/></td>
@@ -3344,7 +3344,7 @@ if(fieldList.contains("Primary gaze")){
 			<c:out value="${primaryMap.date}"/>
 		</display:column>
 		<display:column style="width:60px;">
-			<table style="border:0px">
+			<table style="border:0px;font-size: 10pt">
 			<tr>
 			<td class="inner"></td>
 			<td class="inner"><c:out value="${primaryMap.dev_u}"/></td>
@@ -3551,7 +3551,7 @@ if(fieldList.contains("Cornea")){
 			<c:out value="${corneaMap.a_rac}"/>
 		</display:column>
 		<display:column title="OD" >
-			<table border="1">
+			<table border="1" style="font-size: 10pt">
 			<tr>
 			<td width="33%"></td>
 			<td class="inner" width="34%"><c:out value="${corneaMap.a_rangle_1}"/></td>
@@ -3570,7 +3570,7 @@ if(fieldList.contains("Cornea")){
 			</table>
 		</display:column>
 		<display:column title="OS" >
-			<table border="1">
+			<table border="1" style="font-size: 10pt">
 			<tr>
 			<td width="33%"></td>
 			<td class="inner" width="34%"><c:out value="${corneaMap.a_langle_1}"/></td>
