@@ -6,6 +6,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.util.MessageResources;
+import org.oscarehr.common.dao.DemographicDao;
+import org.oscarehr.common.model.Demographic;
 import org.oscarehr.util.SpringUtils;
 
 import oscar.util.StringUtils;
@@ -16,6 +18,7 @@ import com.oscar.middleware.ZeissOruBeanDao;
 public class EctDisplayMiddlewareAction extends EctDisplayAction {
 
 	private static final String cmd = "middleware";
+	private static DemographicDao demographicDao = (DemographicDao) SpringUtils.getBean("demographicDao");
 
 	public boolean getInfo(EctSessionBean bean, HttpServletRequest request,
 			NavBarDisplayDAO Dao, MessageResources messages) {
@@ -37,12 +40,23 @@ public class EctDisplayMiddlewareAction extends EctDisplayAction {
 			item.setLinkTitle(itemHeader);
 			item.setTitle(itemHeader);
 			item.setDate(zeissOruBeans.getStudy_date());
-			String url = "openzeisswin('"
-					+ bean.demographicNo
-					+ "','"
-					+ new SimpleDateFormat("yyyy-MM-dd").format(zeissOruBeans
-							.getStudy_date()) + "'); return false;";
-
+			
+			String url = "";
+			Demographic patient = demographicDao.getDemographic(bean.demographicNo);
+			if (patient != null && !patient.getHin().trim().isEmpty()) {
+				url = "openzeisswin('"
+						+ patient.getHin()
+						+ "','"
+						+ new SimpleDateFormat("yyyy-MM-dd").format(zeissOruBeans
+								.getStudy_date()) + "'); return false;";
+			} else {
+				url = "openzeisswin('"
+						+ bean.demographicNo
+						+ "','"
+						+ new SimpleDateFormat("yyyy-MM-dd").format(zeissOruBeans
+								.getStudy_date()) + "'); return false;";
+			}
+			
 			item.setURL(url);
 			Dao.addItem(item);
 		}
