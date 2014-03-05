@@ -36,6 +36,10 @@
 <%@page import="org.oscarehr.common.model.DemographicContact"%>
 <%@ page import="oscar.OscarProperties"%>
 
+<%@page import="org.oscarehr.util.SpringUtils" %>
+<%@page import="org.oscarehr.common.model.ProfessionalSpecialist" %>
+<%@page import="org.oscarehr.common.dao.ProfessionalSpecialistDao" %>
+
 <html:html>
 <head>
 <html:base />
@@ -589,11 +593,30 @@ jQuery(document).ready(function() {
 								String referralDocName = (String)request.getAttribute("referral_doc_name");
 								if(referralDocName==null)
 									referralDocName=new String();
+								
+								String specialty = "";								
+								if(("eyeform3".equals(eyeform)) || ("eyeform3.1".equals(eyeform)) || ("eyeform3.2".equals(eyeform))){	
+									ProfessionalSpecialistDao professionalSpecialistDao = (ProfessionalSpecialistDao) SpringUtils.getBean("professionalSpecialistDao");
+									List<ProfessionalSpecialist> professionalSpecialists = null;
+									
+									String re_na = referralDocName==null?"":referralDocName;
+									if(!re_na.equals("")){
+										String[] temp = re_na.split("\\,\\p{Space}*");
+										if (temp.length>1) {		
+											professionalSpecialists = professionalSpecialistDao.findByFullName(temp[0], temp[1]);
+										}else{		
+											professionalSpecialists = professionalSpecialistDao.findByLastName(temp[0]);
+										}
+									}
+									if(professionalSpecialists != null){
+										specialty = professionalSpecialists.get(0).getSpecialtyType();
+									}
+								}
 							%>
 							<td align="left" class="tite1"><input type="text"
 								name="referral_doc_name" value="<%=referralDocName%>"/><a
 								href="javascript:referralScriptAttach2('cp.referralNo','referral_doc_name')"><span
-								style="font-size: 10;">Search #</span></a></td>
+								style="font-size: 10;">Search #</span></a>&nbsp;&nbsp;&nbsp;<%=specialty%></td>
 					</table>
 					</td>
 					<td valign="top" cellspacing="1" class="tite4">
