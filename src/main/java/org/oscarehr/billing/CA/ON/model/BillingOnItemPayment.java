@@ -38,6 +38,9 @@ public class BillingOnItemPayment extends AbstractModel<Integer> implements Seri
 
 	@Column(precision=10, scale=2)
 	private BigDecimal paid = new BigDecimal("0.00");
+	
+	@Column(precision=10, scale=2)
+	private BigDecimal credit = new BigDecimal("0.00");
 
 	@Column(name="payment_timestamp", nullable=false)
 	private Timestamp paymentTimestamp;
@@ -112,5 +115,13 @@ public class BillingOnItemPayment extends AbstractModel<Integer> implements Seri
 	public Integer getId() {
 		// TODO Auto-generated method stub
 		return this.id;
+	}
+
+	public BigDecimal getCredit() {
+		return credit;
+	}
+
+	public void setCredit(BigDecimal credit) {
+		this.credit = credit;
 	}
 }

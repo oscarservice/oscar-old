@@ -49,7 +49,8 @@ BillingONPayment billPayment = (BillingONPayment)request.getAttribute("billPayme
 				<th>Service Code</th>
 				<th>Payment</th>
 				<th>Discount</th>
-				<th>Refund</th>
+				<th>Refund Credit / Overpayment</th>
+				<th>Refund / Write off</th>
 			</tr>
 			<logic:present name="itemDataList" scope="request">
 				<logic:iterate id="itemData" name="itemDataList" indexId="idx">
@@ -58,6 +59,7 @@ BillingONPayment billPayment = (BillingONPayment)request.getAttribute("billPayme
 					<td><bean:write name="itemData" property="service_code"/></td>
 					<td><bean:write name="itemData" property="paid"/></td>
 					<td><bean:write name="itemData" property="discount"/></td>
+					<td><bean:write name="itemData" property="credit"/></td>
 					<td><bean:write name="itemData" property="refund"/></td>
 				</tr>
 				</logic:iterate>
@@ -93,7 +95,11 @@ BillingONPayment billPayment = (BillingONPayment)request.getAttribute("billPayme
 			<td><%=billPayment.getTotal_discount() %></td>
 		</tr>
 		<tr align="right">
-			<td width="86%">Refund:</td>
+			<td width="86%">Refund Credit / Overpayment:</td>
+			<td><%=billPayment.getTotal_credit()%></td>
+		</tr>
+		<tr align="right">
+			<td width="86%">Refund / Write off:</td>
 			<td><%=billPayment.getTotal_refund() %></td>
 		</tr>
 	</table>

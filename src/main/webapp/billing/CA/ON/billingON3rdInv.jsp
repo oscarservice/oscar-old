@@ -206,7 +206,11 @@ bdBal = bdBal.subtract(bdPay).subtract(bdDis).subtract(bdRef);
 		<td><%=prop3rdPart.getProperty("discount","0.00") %></td>
 	</tr>
 	<tr align="right">
-		<td>Refunds:</td>
+		<td>Refund Credit / Overpayment:</td>
+		<td><%=prop3rdPart.getProperty("refund","0.00") %></td>
+	</tr>
+	<tr align="right">
+		<td>Refund / Write off:</td>
 		<td><%=prop3rdPart.getProperty("refund","0.00") %></td>
 	</tr>
 

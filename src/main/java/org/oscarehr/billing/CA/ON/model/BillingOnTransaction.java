@@ -123,6 +123,9 @@ public class BillingOnTransaction extends AbstractModel<Integer> implements Seri
 
 	@Column(name="service_code_refund", precision=10, scale=2)
 	private BigDecimal serviceCodeRefund = new BigDecimal("0.00");
+	
+	@Column(name="service_code_credit", precision=10, scale=2)
+	private BigDecimal serviceCodeCredit = new BigDecimal("0.00");
 
 	@Column(name="sli_code", length=10)
 	private String sliCode;
@@ -391,6 +394,14 @@ public class BillingOnTransaction extends AbstractModel<Integer> implements Seri
 
 	public void setVisittype(String visittype) {
 		this.visittype = visittype;
+	}
+	
+	public BigDecimal getServiceCodeCredit() {
+		return serviceCodeCredit;
+	}
+
+	public void setServiceCodeCredit(BigDecimal serviceCodeCredit) {
+		this.serviceCodeCredit = serviceCodeCredit;
 	}
 
 }

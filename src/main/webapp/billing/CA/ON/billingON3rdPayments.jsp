@@ -217,13 +217,10 @@ function checkInput() {
 }
 
 function setStatus(selIndex, idx){
-	switch (selIndex) {
-	case 0:
+	if (selIndex == 0) {
 		document.getElementById("discount" + idx).disabled=false;
-		break;
-	case 1:
+	} else {
 		document.getElementById("discount" + idx).disabled=true;
-		break;
 	}
 }
 
@@ -289,8 +286,8 @@ function validateDiscountNumberic(idx) {
 			BigDecimal itemTotal = new BigDecimal(billItemData.getFee()).setScale(2, BigDecimal.ROUND_HALF_UP);
 			BigDecimal itemPaid = new BigDecimal(billItemData.getPaid()).setScale(2, BigDecimal.ROUND_HALF_UP);
 			BigDecimal itemDiscount = new BigDecimal(billItemData.getDiscount()).setScale(2, BigDecimal.ROUND_HALF_UP);
-
-			BigDecimal itemBalance = itemTotal.subtract(itemPaid).subtract(itemDiscount);
+			BigDecimal itemCredit = new BigDecimal(billItemData.getCredit()).setScale(2, BigDecimal.ROUND_HALF_UP);
+			BigDecimal itemBalance = itemTotal.subtract(itemPaid).subtract(itemDiscount).subtract(itemCredit);
 			String sign = "";
 			if (itemBalance.compareTo(BigDecimal.ZERO) == -1) {
 				sign = "-";
@@ -301,7 +298,8 @@ function validateDiscountNumberic(idx) {
 					<div align="right">
 						<select id="sel<%=i%>" name="sel<%=i%>" onchange="setStatus(this.selectedIndex,<%=i %>);">
 							<option value="payment">Payment</option>
-	       		 			<option value="refund">Refund</option>
+	       		 			<option value="refund">Refund Credit / Overpayment</option>
+	       		 			<option value="credit">Refund / Write off</option>
 						</select>
 	        		</div>
 	      		</td>
@@ -365,13 +363,14 @@ function validateDiscountNumberic(idx) {
 		BigDecimal sumOfPay = BigDecimal.ZERO;
 		BigDecimal sumOfDiscount = BigDecimal.ZERO;
 		BigDecimal sumOfRefund = BigDecimal.ZERO;
+		BigDecimal sumOfCredit = BigDecimal.ZERO;
 		for(int i=0;i<paymentLists.size();i++){
 			balance = BigDecimal.ZERO;
 			sumOfPay = sumOfPay.add(paymentLists.get(i).getTotal_payment());
 			sumOfDiscount = sumOfDiscount.add(paymentLists.get(i).getTotal_discount());
 			sumOfRefund = sumOfRefund.add(paymentLists.get(i).getTotal_refund());
-		    //balance = total.subtract(sumOfPay).subtract(sumOfDiscount).subtract(sumOfRefund);
-		    balance = total.subtract(sumOfPay).subtract(sumOfDiscount);
+			sumOfCredit = sumOfCredit.add(paymentLists.get(i).getTotal_credit());
+		    balance = total.subtract(sumOfPay).subtract(sumOfDiscount).subtract(sumOfCredit);
 		    balances.add(balance);
 		}
 	}
@@ -391,7 +390,8 @@ function validateDiscountNumberic(idx) {
 					<th align="left">Payment</th>
 					<th align="left">Date</th>
 					<th align="left">Discount</th>
-					<th align="left">Refund</th>
+					<th align="left">Refund Credit / Overpayment</th>
+					<th align="left">Refund / Write off</th>
 					<th align="left">Balance</th>
 					<th></th>
 				</tr>
@@ -404,6 +404,7 @@ function validateDiscountNumberic(idx) {
 				    <td><bean:write name="displayPayment" property="total_payment" /> </td>
 				    <td><bean:write name="displayPayment" property="paymentDateFormatted" /> </td>
 				    <td><bean:write name="displayPayment" property="total_discount" /> </td>
+				    <td><bean:write name="displayPayment" property="total_credit" /> </td>
 				    <td><bean:write name="displayPayment" property="total_refund" /> </td>
 					<%if(((BigDecimal)balances.get(index)).compareTo(BigDecimal.ZERO) == -1){%>
 				    <td><%= "-" + currency.format(balances.get(index++)) %> </td>

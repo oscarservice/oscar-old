@@ -33,6 +33,7 @@ public class BillingItemData {
 	String dx2;
 	String paid;
 	String refund;
+	String credit;
 	String discount;
 	String status;
 	String timestamp;
@@ -63,6 +64,7 @@ public class BillingItemData {
             this.setDx2(copy.getDx2());
             this.setPaid(copy.getPaid());
             this.setRefund(copy.getRefund());
+            this.setCredit(copy.getCredit());
             this.setDiscount(copy.getDiscount());
             this.setStatus(copy.getStatus());
             this.setTimestamp(copy.getTimestamp());
@@ -138,6 +140,14 @@ public class BillingItemData {
 	public String getDx1() {
 		return dx1;
 	}
+	public String getCredit() {
+		return credit;
+	}
+
+	public void setCredit(String credit) {
+		this.credit = credit;
+	}
+
 	public void setDx1(String dx1) {
 		this.dx1 = dx1;
 	}
@@ -179,6 +189,4 @@ public class BillingItemData {
 	public void setDiscount(String discount) {
 		this.discount = discount;
 	}
-	
-
 }

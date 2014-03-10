@@ -497,6 +497,7 @@ function validateAmountNumberic(idx) {
 					BigDecimal total = BigDecimal.ZERO;
 					BigDecimal refund = BigDecimal.ZERO;
 					BigDecimal discount = BigDecimal.ZERO;
+					BigDecimal credit = BigDecimal.ZERO;
 					
 					BillingONExtDao billingOnExtDao = (BillingONExtDao)WebApplicationContextUtils.getWebApplicationContext(application).getBean("billingONExtDao");
 					BillingONExt paymentItem = billingOnExtDao.getClaimExtItem(Integer.parseInt(request.getParameter("billing_no").trim()), Integer.parseInt(DemoNo), BillingONExtDao.KEY_PAYMENT);
@@ -515,7 +516,11 @@ function validateAmountNumberic(idx) {
 					if (totalItem != null) {
 						total = new BigDecimal(totalItem.getValue());
 					}
-					balance = total.subtract(payment).subtract(discount);
+					BillingONExt creditItem = billingOnExtDao.getClaimExtItem(Integer.parseInt(request.getParameter("billing_no").trim()), Integer.parseInt(DemoNo), BillingONExtDao.KEY_CREDIT);
+					if (creditItem != null) {
+						credit = new BigDecimal(creditItem.getValue());
+					}
+					balance = total.subtract(payment).subtract(discount).subtract(credit);
 
                     htmlPaid = "<br/>&nbsp;&nbsp;<span style='font-size:large;font-weight:bold'>Paid:</span>&nbsp;&nbsp;&nbsp;<span id='payment' style='font-size:large;font-weight:bold'>"
 						+ currency.format(payment) + "</span>";

@@ -164,6 +164,7 @@ public class BillingCorrectionPrep {
 			setInactive(BillingONExtDao.KEY_DISCOUNT, requestData);
 			setInactive(BillingONExtDao.KEY_REFUND, requestData);
 			setInactive(BillingONExtDao.KEY_PAY_DATE, requestData);
+			setInactive(BillingONExtDao.KEY_CREDIT, requestData);
 			setInactive("billTo", requestData);
 		}
 
@@ -175,6 +176,7 @@ public class BillingCorrectionPrep {
 				ret = update3rdPartyItem(BillingONExtDao.KEY_PAYMENT, requestData);
 				ret = update3rdPartyItem(BillingONExtDao.KEY_REFUND, requestData);
 				ret = update3rdPartyItem(BillingONExtDao.KEY_PAY_DATE, requestData);
+				ret = update3rdPartyItem(BillingONExtDao.KEY_CREDIT, requestData);
 				ch1Obj.setPaid(requestData.getParameter("payment"));
 				ret = dbObj.updateBillingClaimHeader(ch1Obj);
 			}

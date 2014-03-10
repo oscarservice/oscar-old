@@ -48,13 +48,16 @@ public class BillingONPayment extends AbstractModel<Integer> implements Serializ
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 
-	private BigDecimal total_payment = new BigDecimal(0);
+	private BigDecimal total_payment = new BigDecimal("0.00");
 	@Column(nullable=false)
 	private Date paymentdate;
 	
-	private BigDecimal total_refund = new BigDecimal(0);
+	private BigDecimal total_refund = new BigDecimal("0.00");
 	
-	private BigDecimal total_discount = new BigDecimal(0);
+	private BigDecimal total_credit = new BigDecimal("0.00");
+	
+	private BigDecimal total_discount = new BigDecimal("0.00");
+	
 	private static final long serialVersionUID = 1L;
 
 	@ManyToOne(optional=false)
@@ -134,5 +137,13 @@ public class BillingONPayment extends AbstractModel<Integer> implements Serializ
 
 	public void setTotal_discount(BigDecimal total_discount) {
 		this.total_discount = total_discount;
+	}
+
+	public BigDecimal getTotal_credit() {
+		return total_credit;
+	}
+
+	public void setTotal_credit(BigDecimal total_credit) {
+		this.total_credit = total_credit;
 	}
 }
