@@ -848,8 +848,9 @@ if (bMultisites) { %>
 			if(cheader1s.get(i).getPayProgram().matches(BillingDataHlp.BILLINGMATCHSTRING_3RDPARTY)){ 
 				BigDecimal payment = billingOnExtDao.getAccountVal(cheader1s.get(i).getId(), billingOnExtDao.KEY_PAYMENT);
 				BigDecimal discount = billingOnExtDao.getAccountVal(cheader1s.get(i).getId(), billingOnExtDao.KEY_DISCOUNT);
+				BigDecimal credit =  billingOnExtDao.getAccountVal(cheader1s.get(i).getId(), billingOnExtDao.KEY_CREDIT);
 				BigDecimal total = cheader1s.get(i).getTotal();
-				BigDecimal balance = total.subtract(payment).subtract(discount);
+				BigDecimal balance = total.subtract(payment).subtract(discount).add(credit);
 				
             	if(balance.compareTo(BigDecimal.ZERO) != 0) { %>
 					<tr>

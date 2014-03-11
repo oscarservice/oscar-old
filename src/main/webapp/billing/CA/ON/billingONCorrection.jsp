@@ -520,7 +520,9 @@ function validateAmountNumberic(idx) {
 					if (creditItem != null) {
 						credit = new BigDecimal(creditItem.getValue());
 					}
-					balance = total.subtract(payment).subtract(discount).subtract(credit);
+					
+					balance = total.subtract(payment).subtract(discount).add(credit);
+					payment = payment.subtract(credit);
 
                     htmlPaid = "<br/>&nbsp;&nbsp;<span style='font-size:large;font-weight:bold'>Paid:</span>&nbsp;&nbsp;&nbsp;<span id='payment' style='font-size:large;font-weight:bold'>"
 						+ currency.format(payment) + "</span>";

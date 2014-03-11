@@ -187,8 +187,9 @@ BigDecimal bdBal = new BigDecimal(ch1Obj.getTotal()).setScale(2, BigDecimal.ROUN
 BigDecimal bdPay = new BigDecimal(prop3rdPart.getProperty("payment","0.00")).setScale(2, BigDecimal.ROUND_HALF_UP);
 BigDecimal bdDis = new BigDecimal(prop3rdPart.getProperty("discount","0.00")).setScale(2, BigDecimal.ROUND_HALF_UP);
 BigDecimal bdRef = new BigDecimal(prop3rdPart.getProperty("refund","0.00")).setScale(2, BigDecimal.ROUND_HALF_UP);
+BigDecimal bdCre = new BigDecimal(prop3rdPart.getProperty("credit","0.00")).setScale(2, BigDecimal.ROUND_HALF_UP);
 //bdBal = bdPay.subtract(bdBal);
-bdBal = bdBal.subtract(bdPay).subtract(bdDis).subtract(bdRef);
+bdBal = bdBal.subtract(bdPay).subtract(bdDis).add(bdCre);
 //BigDecimal bdGst = new BigDecimal(propGst.getProperty("gst", "")).setScale(2, BigDecimal.ROUND_HALF_UP);
 %>
 <table width="100%" border="0">
@@ -207,7 +208,7 @@ bdBal = bdBal.subtract(bdPay).subtract(bdDis).subtract(bdRef);
 	</tr>
 	<tr align="right">
 		<td>Refund Credit / Overpayment:</td>
-		<td><%=prop3rdPart.getProperty("refund","0.00") %></td>
+		<td><%=prop3rdPart.getProperty("credit","0.00") %></td>
 	</tr>
 	<tr align="right">
 		<td>Refund / Write off:</td>

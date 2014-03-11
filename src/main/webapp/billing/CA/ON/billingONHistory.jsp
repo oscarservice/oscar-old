@@ -112,7 +112,7 @@ for(int i=0; i<aL.size(); i=i+2) {
 		BigDecimal discount = billingOnExtDao.getAccountVal(billingNo, billingOnExtDao.KEY_DISCOUNT);
 		BigDecimal total = new BigDecimal(obj.getTotal()).setScale(2, BigDecimal.ROUND_HALF_UP);
 		BigDecimal credit = billingOnExtDao.getAccountVal(billingNo, billingOnExtDao.KEY_CREDIT);
-		balance = total.subtract(payment).subtract(discount).subtract(credit);
+		balance = total.subtract(payment).subtract(discount).add(credit);
 	}
 %>
 	<tr bgcolor="<%=i%2==0?"#CCFF99":"white"%>">

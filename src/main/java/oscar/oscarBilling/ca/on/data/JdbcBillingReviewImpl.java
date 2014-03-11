@@ -234,6 +234,7 @@ public class JdbcBillingReviewImpl {
 					if("PAT".equals(rs.getString("pay_program"))){
 						BigDecimal amountPaid = billOnItemPaymentDao.getAmountPaidByItemId(rs.getInt(18));
 						ch1Obj.setPaid(amountPaid.toString());
+						ch1Obj.setBilling_on_item_id(rs.getString("billing_on_item_id"));
 					}else{
 						if (!(ch1Obj.getId().equals(prevId) && rs.getString("paid")
 								.equals(prevPaid))) {

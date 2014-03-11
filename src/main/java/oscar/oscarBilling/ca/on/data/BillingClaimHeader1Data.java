@@ -61,6 +61,7 @@ public class BillingClaimHeader1Data {
 	String asstProvider_no;
 	String creator;
 	String update_datetime;
+	String billing_on_item_id; // just used for 3rd party bill invoice report
 
 	public String getClinic() {
 		return clinic;
@@ -379,5 +380,13 @@ public class BillingClaimHeader1Data {
     public void setSettle_date(String settle_date) {
         this.settle_date = settle_date;
     }
+
+	public String getBilling_on_item_id() {
+		return billing_on_item_id;
+	}
+
+	public void setBilling_on_item_id(String billing_on_item_id) {
+		this.billing_on_item_id = billing_on_item_id;
+	}
 
 }

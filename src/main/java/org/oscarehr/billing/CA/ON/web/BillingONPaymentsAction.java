@@ -144,7 +144,7 @@ public class BillingONPaymentsAction extends DispatchAction {
 		if (totalItem != null) {
 			total = new BigDecimal(totalItem.getValue());
 		}
-		balance = total.subtract(payment).subtract(discount).subtract(credit);
+		balance = total.subtract(payment).subtract(discount).add(credit);
 		
 		request.setAttribute("totalInvoiced", total);
 		request.setAttribute("balance", balance);
@@ -216,7 +216,8 @@ public class BillingONPaymentsAction extends DispatchAction {
 		JSONObject ret = new JSONObject();
 		if (sumPaid.compareTo(BigDecimal.ZERO) == 0
 				&& sumDiscount.compareTo(BigDecimal.ZERO) == 0
-				&& sumRefund.compareTo(BigDecimal.ZERO) == 0) {
+				&& sumRefund.compareTo(BigDecimal.ZERO) == 0
+				&& sumCredit.compareTo(BigDecimal.ZERO) == 0) {
 			ret.put("ret", 1);
 			ret.put("reason", "Payments, discounts and refunds can't be all zeros!!");
 			response.setCharacterEncoding("utf-8");
@@ -283,7 +284,7 @@ public class BillingONPaymentsAction extends DispatchAction {
 			}
 		}
 		
-		// 3.update billing_on_ext table: refund
+		// 3.update billing_on_ext table: credit
 		if (sumCredit.compareTo(BigDecimal.ZERO) == 1) {
 			BigDecimal extCredit = billingONExtDao.getAccountVal(billNo, BillingONExtDao.KEY_CREDIT);
 			BigDecimal sumCreditTmp = sumCredit.add(extCredit);

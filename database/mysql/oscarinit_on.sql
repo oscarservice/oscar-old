@@ -1460,43 +1460,6 @@ CREATE TABLE billing_on_cheader2 (
   KEY ch1_id (ch1_id)
 ) ;
 
-CREATE TABLE `billing_on_payment` (
-  `id` int(12) NOT NULL AUTO_INCREMENT,
-  `ch1_id` int(12) NOT NULL,
-  `creator` varchar(30) DEFAULT NULL,
-  `total_payment` decimal(10,2) NOT NULL,
-  `paymentTypeId` int(2) DEFAULT '1',
-  `paymentDate` date NOT NULL,
-  `total_refund` decimal(10,2) DEFAULT '0.00',
-  `total_discount` decimal(10,2) DEFAULT '0.00',
-  PRIMARY KEY (`id`),
-  KEY `ch1_id` (`ch1_id`)
-); 
-
-CREATE TABLE `billing_on_item` (
-  `id` int(12) NOT NULL AUTO_INCREMENT,
-  `ch1_id` int(12) NOT NULL,
-  `transc_id` char(2) DEFAULT 'HE',
-  `rec_id` char(1) DEFAULT 'T',
-  `service_code` char(20) DEFAULT NULL,
-  `fee` varchar(7) DEFAULT '',
-  `ser_num` char(2) DEFAULT '01',
-  `service_date` date DEFAULT NULL,
-  `dx` char(4) DEFAULT '',
-  `dx1` char(4) DEFAULT '',
-  `dx2` char(4) DEFAULT '',
-  `status` char(1) DEFAULT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `paid` decimal(10,2) DEFAULT '1.00',
-  `refund` decimal(10,2) DEFAULT '1.00',
-  `discount` decimal(10,2) DEFAULT '1.00',
-  `payment_typeID` int(2) DEFAULT '1',
-  PRIMARY KEY (`id`),
-  KEY `ch1_id` (`ch1_id`),
-  KEY `dx_idx` (`dx`),
-  KEY `dx1_idx` (`dx1`),
-  KEY `dx2_idx` (`dx2`)
-);
 
 CREATE TABLE billing_on_favourite (
   id int(12) NOT NULL auto_increment,
@@ -3082,6 +3045,7 @@ CREATE TABLE `billing_on_payment` (
   `paymentDate` date NOT NULL,
   `total_refund` decimal(10,2) DEFAULT '0.00',
   `total_discount` decimal(10,2) DEFAULT '0.00',
+  `total_credit` DECIMAL(10, 2) DEFAULT '0.00',
   PRIMARY KEY (`id`),
   KEY `ch1_id` (`ch1_id`)
 ) ;
@@ -3133,6 +3097,7 @@ CREATE TABLE `billing_on_item_payment`(
 	`paid` DECIMAL(10,2) NOT NULL,
 	`refund` DECIMAL(10,2) NOT NULL,
 	`discount` DECIMAL(10,2) NOT NULL,
+	`credit` DECIMAL(10, 2) NOT NULL,
 	KEY(`ch1_id`),
 	KEY(`billing_on_payment_id`),
 	KEY(`billing_on_item_id`)
@@ -3166,6 +3131,7 @@ CREATE TABLE `billing_on_transaction` (
   `service_code_paid` decimal(10,2),
   `service_code_refund` decimal(10,2),
   `service_code_discount` decimal(10,2),
+  `service_code_credit` DECIMAL(10, 2),
   `dx_code` varchar(3),
   `billing_notes` varchar(255),
   `action_type` char(1),

@@ -22,6 +22,10 @@
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+<%@page import="org.oscarehr.billing.CA.ON.model.BillingOnItemPayment" %>
+<%@page import="org.oscarehr.billing.CA.ON.dao.BillingOnItemPaymentDao" %>
+<%@page import="org.oscarehr.util.SpringUtils" %>
+
 <%--
 The taglib directive below imports the JSTL library. If you uncomment it,
 you must also add the JSTL library to the project. The Add Library... action
@@ -674,6 +678,7 @@ if(statusType.equals("_")) { %>
 	   java.util.Collections.sort(providerNos);
 	   
 //Generate invoice report in different billing group
+BillingOnItemPaymentDao billingOnItemPaymentDao = (BillingOnItemPaymentDao)SpringUtils.getBean(BillingOnItemPaymentDao.class); 
 for(int ii=0; ii<groups.size(); ii++) {
 	String group_display = groups.get(ii);   
 	
@@ -741,9 +746,16 @@ for(int ii=0; ii<groups.size(); ii++) {
 	    	   errorCode = raData.getErrorCodes(raList); 
 	       }
 	       // 3rd party billing
+	       BigDecimal credit = BigDecimal.ZERO;
 	       if(ch1Obj.getPay_program().matches("PAT|OCF|ODS|CPP|STD|IFH")) {
 	    	   amountPaid = ch1Obj.getPaid();
 	    	   amountPaid = (amountPaid==null||amountPaid.equals(""))? "0.00" : amountPaid;
+	    	   // substract overpayment
+	    	   List<BillingOnItemPayment> paymentList = billingOnItemPaymentDao.getAllByItemId(Integer.parseInt(ch1Obj.getBilling_on_item_id()));
+			   for (BillingOnItemPayment payIter : paymentList) {
+				  credit = credit.add(payIter.getCredit());
+			   }
+			   amountPaid = new BigDecimal(amountPaid).subtract(credit).toString();
 	       }
 	       BigDecimal bTemp = (new BigDecimal(amountPaid.trim())).setScale(2,BigDecimal.ROUND_HALF_UP);
 	       paidTotal = paidTotal.add(bTemp);

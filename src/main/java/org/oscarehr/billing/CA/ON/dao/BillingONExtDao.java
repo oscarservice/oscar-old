@@ -69,7 +69,7 @@ public class BillingONExtDao extends AbstractDao<BillingONExt>{
     
     public BigDecimal getAccountVal(int billingNo, String key) {
     	BigDecimal val = new BigDecimal("0.00").setScale(2, BigDecimal.ROUND_HALF_UP);
-    	if (!KEY_TOTAL.equals(key) && !KEY_PAYMENT.equals(key) && !KEY_DISCOUNT.equals(key) && !KEY_REFUND.equals(key)) {
+    	if (!KEY_TOTAL.equals(key) && !KEY_PAYMENT.equals(key) && !KEY_DISCOUNT.equals(key) && !KEY_REFUND.equals(key) && !KEY_CREDIT.equals(key)) {
     		return val;
     	}
     	

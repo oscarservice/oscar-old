@@ -287,7 +287,12 @@ function validateDiscountNumberic(idx) {
 			BigDecimal itemPaid = new BigDecimal(billItemData.getPaid()).setScale(2, BigDecimal.ROUND_HALF_UP);
 			BigDecimal itemDiscount = new BigDecimal(billItemData.getDiscount()).setScale(2, BigDecimal.ROUND_HALF_UP);
 			BigDecimal itemCredit = new BigDecimal(billItemData.getCredit()).setScale(2, BigDecimal.ROUND_HALF_UP);
-			BigDecimal itemBalance = itemTotal.subtract(itemPaid).subtract(itemDiscount).subtract(itemCredit);
+			BigDecimal itemBalance = itemTotal.subtract(itemPaid).subtract(itemDiscount).add(itemCredit);
+			BigDecimal realPaid = itemPaid.subtract(itemCredit);
+			String realPaidSign = "";
+			if (realPaid.compareTo(BigDecimal.ZERO) == -1) {
+				realPaidSign = "-";
+			}
 			String sign = "";
 			if (itemBalance.compareTo(BigDecimal.ZERO) == -1) {
 				sign = "-";
@@ -298,8 +303,8 @@ function validateDiscountNumberic(idx) {
 					<div align="right">
 						<select id="sel<%=i%>" name="sel<%=i%>" onchange="setStatus(this.selectedIndex,<%=i %>);">
 							<option value="payment">Payment</option>
-	       		 			<option value="refund">Refund Credit / Overpayment</option>
-	       		 			<option value="credit">Refund / Write off</option>
+	       		 			<option value="credit">Refund Credit / Overpayment</option>
+	       		 			<option value="refund">Refund / Write off</option>
 						</select>
 	        		</div>
 	      		</td>
@@ -313,7 +318,9 @@ function validateDiscountNumberic(idx) {
 					<div></div>
 				</td>
 				<td align="left">
-					Service Code:&nbsp;<b><%=billItemData.getService_code()%>&nbsp;$<%=billItemData.getFee() %>&nbsp;Balance:&nbsp;<%=sign %><%=currency.format(itemBalance) %></b>
+					Service Code:&nbsp;<b><%=billItemData.getService_code()%>&nbsp;$<%=billItemData.getFee() %>&nbsp;
+					Paid:&nbsp;<%=realPaidSign %><%=currency.format(realPaid) %>&nbsp;
+					Balance:&nbsp;<%=sign %><%=currency.format(itemBalance) %></b>
 					<input type="hidden" name="itemId<%=i %>" value="<%=billItemData.getId()%>"/>
 				</td>
 			</tr>
@@ -370,7 +377,7 @@ function validateDiscountNumberic(idx) {
 			sumOfDiscount = sumOfDiscount.add(paymentLists.get(i).getTotal_discount());
 			sumOfRefund = sumOfRefund.add(paymentLists.get(i).getTotal_refund());
 			sumOfCredit = sumOfCredit.add(paymentLists.get(i).getTotal_credit());
-		    balance = total.subtract(sumOfPay).subtract(sumOfDiscount).subtract(sumOfCredit);
+		    balance = total.subtract(sumOfPay).subtract(sumOfDiscount).add(sumOfCredit);
 		    balances.add(balance);
 		}
 	}
