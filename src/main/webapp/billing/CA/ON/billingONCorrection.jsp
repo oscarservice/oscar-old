@@ -525,7 +525,7 @@ function validateAmountNumberic(idx) {
 					payment = payment.subtract(credit);
 
                     htmlPaid = "<br/>&nbsp;&nbsp;<span style='font-size:large;font-weight:bold'>Paid:</span>&nbsp;&nbsp;&nbsp;<span id='payment' style='font-size:large;font-weight:bold'>"
-						+ currency.format(payment) + "</span>";
+                    	+ ((payment.compareTo(BigDecimal.ZERO) == -1) ? "-" : "") + currency.format(payment) + "</span>";
 					htmlPaid += "&nbsp;&nbsp;&nbsp;&nbsp;<span style='font-size:large;font-weight:bold'>Balance:</span>&nbsp;&nbsp;&nbsp;<span id='balance' style='font-size:large;font-weight:bold'>"
 						+ ((balance.compareTo(BigDecimal.ZERO) == -1) ? "-" : "") + currency.format(balance) + "</span>";
 					htmlPaid += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='javascript:display3rdPartyPayments()'>Payments List</a>";
@@ -942,8 +942,16 @@ function changeSite(sel) {
 			</select>
 	   </td>
 </table>
-
+<br />
 <table width="600" border="0" cellspacing="1" cellpadding="0">
+	<tr class="myLightBlue">
+		<td colspan="6">
+			<b style="color:red">Warning:</b>
+			For 3rd/Private billing, if you delete the service code which already paid,
+			<br>
+			please refund full amount from that code first, otherwise will cause balance issue.
+		</td>
+	</tr>
 	<tr class="myYellow">
 		<td width="30%" colspan=2><b><bean:message
 			key="billing.billingCorrection.formServiceCode" /></b></td>

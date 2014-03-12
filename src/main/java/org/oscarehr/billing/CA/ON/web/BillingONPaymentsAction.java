@@ -213,13 +213,31 @@ public class BillingONPaymentsAction extends DispatchAction {
 				}
 			}
 		}
+		
+		BillingClaimHeader1 cheader1 = billingClaimDAO.find(billNo);
+		if (cheader1 == null) {
+			return actionMapping.findForward("failure");
+		}
+		String status = request.getParameter("status");
+		boolean toUpdateChl = false;
+		if (status != null && !status.equals(cheader1.getStatus())) {
+			cheader1.setStatus(status);
+			toUpdateChl = true;
+		}
+		
 		JSONObject ret = new JSONObject();
 		if (sumPaid.compareTo(BigDecimal.ZERO) == 0
 				&& sumDiscount.compareTo(BigDecimal.ZERO) == 0
 				&& sumRefund.compareTo(BigDecimal.ZERO) == 0
 				&& sumCredit.compareTo(BigDecimal.ZERO) == 0) {
-			ret.put("ret", 1);
-			ret.put("reason", "Payments, discounts and refunds can't be all zeros!!");
+			
+			if (toUpdateChl) {
+				billingClaimDAO.merge(cheader1);
+				ret.put("ret", 0);
+			} else {
+				ret.put("ret", 1);
+				ret.put("reason", "Payments, discounts and refunds can't be all zeros!!");
+			}
 			response.setCharacterEncoding("utf-8");
 			response.setContentType("html/text");
 			try {
@@ -234,19 +252,9 @@ public class BillingONPaymentsAction extends DispatchAction {
 		}
 		
 		// count sum of paid,refund,discount
-		BillingClaimHeader1 cheader1 = billingClaimDAO.find(billNo);
-		if (cheader1 == null) {
-			return actionMapping.findForward("failure");
-		}
 		String demographicNo = cheader1.getDemographic_no().toString();
-	
-		// 1.update billing_on_cheader1 and billing_on_ext table: payment
-		boolean toUpdateChl = false;
-		String status = request.getParameter("status");
-		if (status != null && !status.equals(cheader1.getStatus())) {
-			cheader1.setStatus(status);
-			toUpdateChl = true;
-		}
+		
+		// 1.billing_on_ext table: payment		
 		JdbcBilling3rdPartImpl tExtObj = new JdbcBilling3rdPartImpl();
 		if (sumPaid.compareTo(BigDecimal.ZERO) == 1) {
 			toUpdateChl = true;

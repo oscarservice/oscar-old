@@ -555,53 +555,37 @@ function showHideLayers() { //v3.0
 
 function onNext() {
     var ret = true;
-    var regInt = /^-?\d+\.\d+$/;
+    
     if (!checkAllDates()) {
     	ret = false;
-    }else if(!regInt.test(document.getElementById('serviceAt0').value)&&document.getElementById('serviceAt0').value!=""){
+    }else if(!checkServicePercent()){
     	ret = false;
-    	alert("Please enter a decimal in the serviceAt textbox!");
-    }else if(!regInt.test(document.getElementById('serviceAt1').value)&&document.getElementById('serviceAt1').value!=""){
-    	ret = false;
-    	alert("Please enter a decimal in the serviceAt textbox!");
-    }else if(!regInt.test(document.getElementById('serviceAt2').value)&&document.getElementById('serviceAt2').value!=""){
-    	ret = false;
-    	alert("Please enter a decimal in the serviceAt textbox!");
-    }else if(!regInt.test(document.getElementById('serviceAt3').value)&&document.getElementById('serviceAt3').value!=""){
-    	ret = false;
-    	alert("Please enter a decimal in the serviceAt textbox!");
-    }else if(!regInt.test(document.getElementById('serviceAt4').value)&&document.getElementById('serviceAt4').value!=""){
-    	ret = false;
-    	alert("Please enter a decimal in the serviceAt textbox!");
-    }else if(!regInt.test(document.getElementById('serviceAt5').value)&&document.getElementById('serviceAt5').value!=""){
-    	ret = false;
-    	alert("Please enter a decimal in the serviceAt textbox!");
-    }else if(!regInt.test(document.getElementById('serviceAt6').value)&&document.getElementById('serviceAt6').value!=""){
-    	ret = false;
-    	alert("Please enter a decimal in the serviceAt textbox!");
-    }else if(!regInt.test(document.getElementById('serviceAt7').value)&&document.getElementById('serviceAt7').value!=""){
-    	ret = false;
-    	alert("Please enter a decimal in the serviceAt textbox!");
-    }else if(!regInt.test(document.getElementById('serviceAt8').value)&&document.getElementById('serviceAt8').value!=""){
-    	ret = false;
-    	alert("Please enter a decimal in the serviceAt textbox!");
-    }else if(!regInt.test(document.getElementById('serviceAt9').value)&&document.getElementById('serviceAt9').value!=""){
-    	ret = false;
-    	alert("Please enter a decimal in the serviceAt textbox!");
-    }
-    else if (!existServiceCode() && document.forms[0].services_checked.value<=0) {
+    	alert("Please enter a decimal number in the service code percent textbox!");
+    } else if (!existServiceCode() && document.forms[0].services_checked.value<=0) {
 	    ret = false;
 	    alert("You haven't selected any billing item yet!");
-	}
-	else if (!checkSli()) {
+	} else if (!checkSli()) {
 		ret = false;
 		alert("You have selected billing codes that require an SLI code but have not provided an SLI code.");
-	}
-	else if (document.forms[0].dxCode.value=="") {
+	} else if (document.forms[0].dxCode.value=="") {
 	    ret = confirm("You didn't enter a diagnostic code in the Dx box. Continue?");
 	    if (!ret) document.forms[0].dxCode.focus();
 	}
+   
     return ret;
+}
+
+function checkServicePercent() {
+	var ret = true;
+	var regInt = /^-?\d+\.\d+$/;
+	jQuery("input[id^='serviceAt'][value!='']").each(function() {
+		var val = this.value.trim();
+		if (val.length > 0 && !regInt.test(val)) {
+			ret = false;
+			return false;
+		}
+	});
+	return ret;
 }
 
 function checkSli() {
