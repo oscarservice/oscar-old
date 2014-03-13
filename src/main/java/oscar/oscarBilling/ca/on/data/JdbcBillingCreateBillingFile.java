@@ -300,7 +300,7 @@ public class JdbcBillingCreateBillingFile {
 					+ "</td><td class='" + styleClass + "'> &nbsp; &nbsp;" + referral + hcFlag + m_Flag + " </td></tr>";
 		} else {
 			ret = "\n<tr "+bgColorErrorStr+" "+(summaryView ? "style='display:none;' class='record"+providerNo+"'": "")+">"+ "<td class='" + styleClass + "'>&nbsp;</td>" + "<td class='" + styleClass + "'>&nbsp;</td> <td class='" + styleClass + "'>&nbsp;</td><td class='" + styleClass + "'>&nbsp;</td><td class='" + styleClass + "'>&nbsp;</td><td class='" + styleClass + "'>&nbsp;</td>"
-					+ "<td class='" + styleClass + "'>&nbsp;</td> " + "<td class='" + styleClass + "'>"
+					+ "<td class='" + styleClass + "'>&nbsp;</td> " + "<td class='" + styleClass + "'>&nbsp;</td>" + "<td class='" + styleClass + "'>"
 					+ itemObj.getService_code() + "</td><td align='right' class='" + styleClass + "'>" + itemObj.getFee()
 					+ "</td><td align='right' class='" + styleClass + "'>" + itemObj.getDx()
 					+ "</td><td class='" + styleClass + "'>&nbsp;</td></tr>";
