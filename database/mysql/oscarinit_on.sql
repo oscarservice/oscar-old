@@ -3064,28 +3064,11 @@ CREATE TABLE `billing_on_item` (
   `dx2` char(4) DEFAULT '',
   `status` char(1) DEFAULT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `paid` decimal(10,2) DEFAULT '1.00',
-  `refund` decimal(10,2) DEFAULT '1.00',
-  `discount` decimal(10,2) DEFAULT '1.00',
-  `payment_typeID` int(2) DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `ch1_id` (`ch1_id`),
   KEY `dx_idx` (`dx`),
   KEY `dx1_idx` (`dx1`),
   KEY `dx2_idx` (`dx2`)
-) ;
-
-CREATE TABLE `billing_on_ext` (
-  `id` int(12) NOT NULL AUTO_INCREMENT,
-  `billing_no` int(6) DEFAULT NULL,
-  `demographic_no` int(10) NOT NULL DEFAULT '0',
-  `key_val` varchar(50) DEFAULT NULL,
-  `value` varchar(255) DEFAULT NULL,
-  `date_time` datetime DEFAULT NULL,
-  `status` char(1) DEFAULT '1',
-  PRIMARY KEY (`id`),
-  KEY `key_val` (`key_val`),
-  KEY `billing_no` (`billing_no`)
 ) ;
 
 CREATE TABLE `billing_on_item_payment`(
