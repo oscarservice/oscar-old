@@ -14905,3 +14905,4 @@ UPDATE IGNORE billingservice SET sliFlag = TRUE where service_code = 'Y887B';
 UPDATE IGNORE billingservice SET sliFlag = TRUE where service_code = 'Y887C';
 UPDATE IGNORE billingservice SET sliFlag = TRUE where service_code = 'Y888B';
 UPDATE IGNORE billingservice SET sliFlag = TRUE where service_code = 'Y888C';
+UPDATE  billingservice SET percentage='';
