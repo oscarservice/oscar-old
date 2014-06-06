@@ -662,12 +662,26 @@ if(statusType.equals("_")) { %>
 		   Provider provider = providerDao.getProvider(provider_no);
 		   //<xml_p_specialty_code>60</xml_p_specialty_code><xml_p_billinggroup_no>6339</xml_p_billinggroup_no>
 		   String comments = provider.getComments()==null?"":provider.getComments();
+		/*
 		   if(comments.indexOf("<xml_p_billinggroup_no>") > 0) {
 			   String group_new = comments.length()>23?comments.substring(comments.indexOf("<xml_p_billinggroup_no>")+23, comments.indexOf("</xml_p_billinggroup_no>")):"";
 			   if(group_new.equals("") || groups.contains(group_new)) 
 			   	   continue;
 			   groups.add(group_new);	
 		   }
+		*/
+	   		if(comments!=null && comments.length()>23) {
+			   int startIndex = comments.indexOf("<xml_p_billinggroup_no>");
+			   int endIndex = comments.indexOf("</xml_p_billinggroup_no>");
+			   String group_new = "";
+			   if(comments.length()>(startIndex+23) && endIndex > (startIndex+23) )
+			   		group_new = comments.substring(startIndex+23, endIndex);			   
+		   
+		   		if(group_new.equals("") || groups.contains(group_new)) 
+		   	   		continue;
+		   		groups.add(group_new);	
+		   	}
+
 	   }	   
 	   
 	   java.util.Collections.sort(groups);
