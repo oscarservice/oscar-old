@@ -50,9 +50,23 @@
 <jsp:useBean id="providerBean" class="java.util.Properties" scope="session" />
 <%@page import="org.oscarehr.common.model.DemographicCust" %>
 <%@page import="org.oscarehr.common.dao.DemographicCustDao" %>
+<%@page import="org.oscarehr.common.model.Provider" %>
 <%
+    String mrpName="";
 	DemographicCustDao demographicCustDao = (DemographicCustDao)SpringUtils.getBean("demographicCustDao");  	
 	ProviderDao providerDao = (ProviderDao)SpringUtils.getBean("providerDao");
+	DemographicDao demographicDao=(DemographicDao)SpringUtils.getBean("demographicDao");
+	Demographic demographicTmp=demographicDao.getDemographic(request.getParameter("demographic_no"));
+	String proNoTmp = demographicTmp.getProviderNo();
+	if(demographicTmp!=null&&proNoTmp.length()>0&&proNoTmp!=null)
+	{
+		Provider providerTmp=providerDao.getProvider(demographicTmp.getProviderNo());
+		if(providerTmp!=null)
+		{
+			   mrpName=providerTmp.getFormattedName();
+		}
+
+	}
 
 %>
 <%
@@ -66,7 +80,6 @@
 
   Boolean isMobileOptimized = session.getAttribute("mobileOptimized") != null;
 
-  DemographicDao demographicDao = (DemographicDao)SpringUtils.getBean("demographicDao");
 %>
 <%@page import="org.oscarehr.common.dao.SiteDao"%>
 <%@page import="org.oscarehr.common.model.Site"%><html:html locale="true">
@@ -336,6 +349,7 @@ function setType(typeSel,reasonSel,locSel,durSel,notesSel,resSel) {
 <%
 	Map appt = null;
 	String demono="", chartno="", phone="", rosterstatus="", alert="", doctorNo="";
+    Provider provider=null;
 	String strApptDate = bFirstDisp?"":request.getParameter("appointment_date") ;
 
 
@@ -363,7 +377,7 @@ function setType(typeSel,reasonSel,locSel,durSel,notesSel,resSel) {
 	if (!demono.equals("0") && !demono.equals("")) {
    		List<Map<String,Object>> resultList = oscarSuperManager.find("appointmentDao", "search_detail", new Object [] {demono});
 		if (resultList.size() > 0) {
-			Map detail = resultList.get(0);
+			Map detail = resultList.get(0);                 
 			chartno = (String) detail.get("chart_no");
 			phone = (String) detail.get("phone");
 			rosterstatus = (String) detail.get("roster_status");
@@ -395,7 +409,7 @@ function setType(typeSel,reasonSel,locSel,durSel,notesSel,resSel) {
             if (bMultipleSameDayGroupAppt){
                 displayStyle="display:block";
             }
-%>
+                 %>
 <div id="tooManySameDayGroupApptWarning" style="<%=displayStyle%>">
     <table width="98%" BGCOLOR="red" border=1 align='center'>
         <tr>
@@ -785,7 +799,8 @@ if (bMultisites) { %>
 <table width="95%" align="center">
 	<tr>
 		<td><bean:message key="Appointment.msgTelephone" />: <%= phone%><br>
-		<bean:message key="Appointment.msgRosterStatus" />: <%=rosterstatus%>
+		<bean:message key="Appointment.msgRosterStatus" />: <%=rosterstatus%><br>
+		<bean:message key="oscarEncounter.Index.msgMRP"/>: <%=mrpName%>
 		</td>
 		<% if (alert!=null && !alert.equals("")) { %>
 		<td bgcolor='yellow'><font color='red'><b><%=alert%></b></font></td>
